@@ -1,5 +1,4 @@
-## escooters
-
+## 🛴 escooters
 ### Local development
 ```
 cp .env.example .env
@@ -10,7 +9,51 @@ make shell
 ```
 Application will be running under [localhost:8561](localhost:3851) and [http://escooters.blumilk.localhost/](http://escooters.blumilk.localhost/) in Blumilk traefik environment. If you don't have a Blumilk traefik environment set up, follow the instructions in this [repository](https://github.com/blumilksoftware/environment).
 
-#### Containers
+
+### Commands
+Before run every command from below list, you must run shell:
+```
+make shell
+```
+#### Command list
+Composer:
+```
+composer <command>
+```
+Run backend tests:
+```
+composer test
+```
+Lints backend files:
+```
+composer cs
+```
+Lints and fixes backend files:
+```
+composer csf
+```
+Artisan commands:
+```
+php artisan <command>
+```
+Compiles and hot-reloads frontend for development:
+```
+npm run dev
+```
+Compiles and minifies for production:
+```
+npm run build
+```
+Lints frontend files:
+```
+npm run lint
+```
+Lints and fixes frontend files:
+```
+npm run lintf
+```
+
+### Containers
 
 | service  | container name               | default host port             |
 |:---------|------------------------------|-------------------------------|
