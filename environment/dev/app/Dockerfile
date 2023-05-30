@@ -32,7 +32,7 @@ RUN ln --symbolic /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/
 RUN mv "${PHP_INI_DIR}/php.ini-development" "${PHP_INI_DIR}/php.ini"
 
 # For other versions check: http://nginx.org/packages/mainline/debian/pool/nginx/n/nginx/
-ARG NGINX_VERSION="1.23.4-1~bullseye"
+ARG NGINX_VERSION="1.25.0-1~bullseye"
 ARG PHPREDIS_VERSION=5.3.7
 
 RUN apt-get update \
