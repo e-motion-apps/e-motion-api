@@ -14,7 +14,7 @@
         "ext-pdo": "*"
     },
     "require-dev": {
-        "blumilksoftware/codestyle": "^2.2.0",
+        "blumilksoftware/codestyle": "^v2.2.0",
         "fakerphp/faker": "^1.22.0",
         "mockery/mockery": "^1.5.1",
         "nunomaduro/collision": "^7.5.2",
