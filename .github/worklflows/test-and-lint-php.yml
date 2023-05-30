@@ -16,17 +16,22 @@ jobs:
     name: Test & lint PHP codebase
     timeout-minutes: 10
     if: github.event.pull_request.draft == false
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     services:
-      mysql:
-        image: mysql:8.0
+      pgsql:
+        image: postgres:15.2-alpine3.17
         env:
-          MYSQL_DATABASE: escooters
-          MYSQL_USER: escooters
-          MYSQL_PASSWORD: password
-          MYSQL_ALLOW_EMPTY_PASSWORD: 1
+          POSTGRES_DB: escooters
+          POSTGRES_USER: escooters
+          POSTGRES_PASSWORD: password
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 3s
+          --health-timeout 3s
+          --health-retries 5
         ports:
-          - 3306:3306
+          - 5432:5432
 
     steps:
       - uses: actions/checkout@v2
@@ -45,7 +50,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.2
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, intl
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, intl
           coverage: none
 
       - name: Install Composer dependencies
