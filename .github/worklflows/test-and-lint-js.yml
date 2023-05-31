@@ -1,0 +1,39 @@
+name: Test & lint JS codebase
+
+on:
+  pull_request:
+    branches: [ "main" ]
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths:
+      - '**.js'
+      - '**.vue'
+      - 'package.json'
+      - 'package.lock'
+
+jobs:
+  test-and-lint-js:
+    name: Test & lint JS codebase
+    timeout-minutes: 10
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-npm-dependencies-${{ hashFiles('package.lock') }}
+          restore-keys: ${{ runner.os }}-npm-dependencies
+
+      - name: Set up node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Instal npm dependencies
+        run: npm clean-install
+
+      - name: Run JS linter
+        run: npm run lint

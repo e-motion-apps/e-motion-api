@@ -1,0 +1,106 @@
+version: "3.8"
+
+networks:
+    escooters-dev:
+        driver: bridge
+    traefik-proxy-blumilk-local:
+        external: true
+
+volumes:
+    escooters-postgres-data:
+        name: escooters-postgres-data
+    escooters-redis-data:
+        name: escooters-redis-data
+
+services:
+    app:
+        build:
+            context: ./environment/dev/app
+            dockerfile: Dockerfile
+            args:
+                - INSTALL_XDEBUG=${DOCKER_INSTALL_XDEBUG:-true}
+                - USER_ID=${DOCKER_HOST_USER_ID:-1000}
+        labels:
+            - "traefik.enable=true"
+            - "traefik.blumilk.environment=true"
+            # HTTP
+            - "traefik.http.routers.escooters-http-router.rule=Host(`escooters.blumilk.localhost`)"
+            - "traefik.http.routers.escooters-http-router.entrypoints=web"
+            # HTTP to HTTPS redirect
+            #      - "traefik.http.routers.escooters-http-router.middlewares=https-redirect@file"
+            # HTTPS
+            - "traefik.http.routers.escooters-https-router.rule=Host(`escooters.blumilk.localhost`)"
+            - "traefik.http.routers.escooters-https-router.entrypoints=websecure"
+            - "traefik.http.routers.escooters-https-router.tls=true"
+        container_name: escooters-app-dev
+        working_dir: /application
+        volumes:
+            - ./environment/dev/app/nginx.conf:/etc/nginx/nginx.conf:ro
+            - ./environment/dev/app/php.ini:/usr/local/etc/php/conf.d/zzz-overrides.ini:ro
+            - ./environment/dev/app/php-fpm.conf:/usr/local/etc/php-fpm.d/zzz-overrides.conf:ro
+            - ./environment/dev/app/supervisord.conf:/etc/supervisor/custom-supervisord.conf:ro
+            - .:/application
+        ports:
+            - ${DOCKER_APP_HOST_PORT:-3851}:80
+        networks:
+            - escooters-dev
+            - traefik-proxy-blumilk-local
+        restart: unless-stopped
+        depends_on:
+            database:
+                condition: service_healthy
+
+    database:
+        image: postgres:15.2-alpine3.17
+        container_name: escooters-db-dev
+        environment:
+            - POSTGRES_USER=${DB_USERNAME}
+            - POSTGRES_PASSWORD=${DB_PASSWORD}
+            - POSTGRES_DB=${DB_DATABASE}
+            - PGDATA=/var/lib/postgresql/data
+        healthcheck:
+            test: [ "CMD-SHELL", "pg_isready --dbname ${DB_DATABASE} --username ${DB_USERNAME}"]
+            interval: 3s
+            timeout: 3s
+            retries: 5
+        ports:
+            - ${DOCKER_DATABASE_HOST_PORT:-3853}:5432
+        volumes:
+            - escooters-postgres-data:/var/lib/postgresql/data
+        networks:
+            - escooters-dev
+        restart: unless-stopped
+
+    mailpit:
+        image: axllent/mailpit:v1.6.9
+        container_name: escooters-mailpit-dev
+        labels:
+            - "traefik.enable=true"
+            - "traefik.blumilk.environment=true"
+            # HTTP
+            - "traefik.http.routers.escooters-mailpit-http-router.rule=Host(`escooters-mailpit.blumilk.localhost`)"
+            - "traefik.http.routers.escooters-mailpit-http-router.entrypoints=web"
+            # HTTP to HTTPS redirect
+            #      - "traefik.http.routers.escooters-mailpit-http-router.middlewares=https-redirect@file"
+            # HTTPS
+            - "traefik.http.routers.escooters-mailpit-https-router.rule=Host(`escooters-mailpit.blumilk.localhost`)"
+            - "traefik.http.routers.escooters-mailpit-https-router.entrypoints=websecure"
+            - "traefik.http.routers.escooters-mailpit-https-router.tls=true"
+            # LOADBALANCER MAILPIT PORT
+            - "traefik.http.services.escooters-mailpit.loadbalancer.server.port=8025"
+        networks:
+            - escooters-dev
+            - traefik-proxy-blumilk-local
+        ports:
+            - ${DOCKER_MAILPIT_DASHBOARD_HOST_PORT:-3856}:8025
+
+    redis:
+        image: redis:7.0.11-alpine3.17
+        container_name: escooters-redis-dev
+        ports:
+            - ${DOCKER_REDIS_HOST_PORT:-3852}:6379
+        volumes:
+            - escooters-redis-data:/data
+        networks:
+            - escooters-dev
+        restart: unless-stopped

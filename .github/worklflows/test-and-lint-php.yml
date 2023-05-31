@@ -1,0 +1,63 @@
+name: Test & lint PHP codebase
+
+on:
+  pull_request:
+    branches: [ "main" ]
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths:
+      - '**.php'
+      - 'composer.json'
+      - 'composer.lock'
+      - 'phpunit.xml'
+      - 'env.ci'
+
+jobs:
+  test-and-lint-php:
+    name: Test & lint PHP codebase
+    timeout-minutes: 10
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-22.04
+    services:
+      pgsql:
+        image: postgres:15.2-alpine3.17
+        env:
+          POSTGRES_DB: escooters
+          POSTGRES_USER: escooters
+          POSTGRES_PASSWORD: password
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 3s
+          --health-timeout 3s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-dependencies-${{ hashFiles('composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-dependencies
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, pdo_pgsql, intl
+          coverage: none
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-interaction --no-suggest
+
+      - name: Run PHP linter
+        run: composer cs
+
+      - name: Execute tests
+        run: php artisan test --env=ci
