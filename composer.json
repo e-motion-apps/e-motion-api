@@ -8,13 +8,13 @@
         "php": "^8.2",
         "guzzlehttp/guzzle": "^7.7.0",
         "inertiajs/inertia-laravel": "^0.6.9",
-        "laravel/framework": "^10.12.0",
+        "laravel/framework": "^10.13.0",
         "laravel/sanctum": "^3.2.5",
         "laravel/tinker": "^2.8.1",
         "ext-pdo": "*"
     },
     "require-dev": {
-        "blumilksoftware/codestyle": "^v2.2.0",
+        "blumilksoftware/codestyle": "^2.3.0",
         "fakerphp/faker": "^1.22.0",
         "mockery/mockery": "^1.5.1",
         "nunomaduro/collision": "^7.5.2",
