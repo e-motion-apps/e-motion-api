@@ -22,7 +22,9 @@
         <env name="APP_KEY" value="base64:SKEJSy9oF9chQBCMbxqgj5zhtAvug9kwZ+cDiP1Y8A8="/>
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="CACHE_DRIVER" value="array"/>
-        <env name="DB_HOST" value="escooters-test"/>
+        <env name="DB_HOST" value="escooters-db-dev"/>
+        <env name="DB_DATABASE" value="escooters-test"/>
+        <env name="DB_USERNAME" value="escooters"/>
         <env name="MAIL_MAILER" value="array"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="SESSION_DRIVER" value="array"/>
