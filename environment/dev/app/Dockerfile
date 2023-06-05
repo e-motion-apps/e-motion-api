@@ -1,6 +1,6 @@
-FROM composer/composer:2.5.5-bin as composer-bin
+FROM composer/composer:2.5.7-bin as composer-bin
 
-FROM node:20.0.0-bullseye-slim as node
+FROM node:20.2.0-bullseye-slim as node
 
 FROM php:8.2.5-fpm-bullseye
 
