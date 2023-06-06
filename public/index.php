@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
-use Illuminate\support\Facades\Redis;
 
 define("LARAVEL_START", microtime(true));
 
