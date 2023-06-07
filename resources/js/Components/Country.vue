@@ -1,27 +1,26 @@
 <script setup>
 import { ref } from 'vue'
-import { useForm } from '@inertiajs/vue3'
+import { router, useForm } from '@inertiajs/vue3'
 
-const deleteCountryForm = useForm({})
 
 const props = defineProps({
   country: Object,
 })
 
 function destroyCountry(countryId) {
-  deleteCountryForm.delete('/countries/' + countryId)
+  router.delete(`/countries/${countryId}`)
 }
 
 function updateCountry(countryId) {
-  updateCountryForm.put('/countries/' + countryId)
+  updateCountryForm.patch(`/countries/${countryId}`)
   openEditWindow()
 }
 
 const updateCountryForm = useForm({
   name: props.country.name,
-  altName: props.country.altName,
-  lat: props.country.lat,
-  lon: props.country.lon,
+  alternativeName: props.country.alternativeName,
+  latitude: props.country.latitude,
+  longitude: props.country.longitude,
   iso: props.country.iso,
 })
 
@@ -43,9 +42,9 @@ function openEditWindow() {
     <div v-if="isEditWindowOpened" class="mt-2 w-full space-y-2">
       <form class="flex w-1/2 flex-col space-y-2" @submit.prevent="updateCountry(country.id)">
         <input v-model="updateCountryForm.name" class="border px-2 py-1" type="text" placeholder="Name" required>
-        <input v-model="updateCountryForm.altName" class="border px-2 py-1" type="text" placeholder="Alternative name">
-        <input v-model="updateCountryForm.lat" class="border px-2 py-1" type="text" placeholder="Latitude" required>
-        <input v-model="updateCountryForm.lon" class="border px-2 py-1" type="text" placeholder="Longitude" required>
+        <input v-model="updateCountryForm.alternativeName" class="border px-2 py-1" type="text" placeholder="Alternative name">
+        <input v-model="updateCountryForm.latitude" class="border px-2 py-1" type="text" placeholder="Latitude" required>
+        <input v-model="updateCountryForm.longitude" class="border px-2 py-1" type="text" placeholder="Longitude" required>
         <input v-model="updateCountryForm.iso" class="border px-2 py-1" type="text" placeholder="ISO 3166" required>
 
         <div class="flex justify-between">

@@ -16,25 +16,23 @@ class CountrySeeder extends Seeder
         $response = $client->get("https://restcountries.com/v3.1/all");
         $countriesFromApi = json_decode($response->getBody()->getContents(), true);
 
-        usort($countriesFromApi, fn($a, $b) => strcmp($a["name"]["common"], $b["name"]["common"]));
+        usort($countriesFromApi, fn($a, $b): int => strcmp($a["name"]["common"], $b["name"]["common"]));
 
         foreach ($countriesFromApi as $countryFromApi) {
-            $country = new Country();
-
-            $country->name = $countryFromApi["name"]["common"];
-            $country->lat = $countryFromApi["latlng"][0];
-            $country->lon = $countryFromApi["latlng"][1];
-            $country->iso = $countryFromApi["altSpellings"][0];
-
-            $country->iso = strtolower($country->iso);
-
-            if ($country->iso === "bes islands") {
-                $country->iso = "bq";
-            } else if ($country->iso === "saudi") {
-                $country->iso = "sa";
+            if ($countryFromApi["altSpellings"][0] === "BES islands") {
+                $countryFromApi["altSpellings"][0] = "bq";
+            } else if ($countryFromApi["altSpellings"][0] === "Saudi") {
+                $countryFromApi["altSpellings"][0] = "sa";
             }
 
-            $country->save();
+            Country::firstOrCreate(
+                ["iso" => strtolower($countryFromApi["altSpellings"][0])],
+                [
+                    "name" => $countryFromApi["name"]["common"],
+                    "latitude" => $countryFromApi["latlng"][0],
+                    "longitude" => $countryFromApi["latlng"][1],
+                ],
+            );
         }
     }
 }

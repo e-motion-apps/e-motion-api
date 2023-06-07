@@ -5,53 +5,40 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CountryRequest;
+use App\Http\Requests\UpdateCountryRequest;
 use App\Http\Resources\CountryResource;
 use App\Models\Country;
-use App\Services\CountryService;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class CountryController extends Controller
 {
-    public function index(CountryService $service): Response
+    public function index(): Response
     {
-        $countries = $service->indexCountry();
+        $countries = CountryResource::collection(Country::all()->sortBy("name"));
 
         return Inertia::render("Countries", [
             "countries" => $countries,
         ]);
     }
 
-    public function store(CountryRequest $request, CountryService $service): void
+    public function store(CountryRequest $request): void
     {
-        $service->storeCountry(
-            $request->name,
-            $request->altName,
-            $request->lat,
-            $request->lon,
-            $request->iso,
-        );
+        Country::query()->create($request->validated());
     }
 
-    public function show(Country $country, CountryService $service): CountryResource
+    public function show(Country $country): CountryResource
     {
-        return $service->showCountry($country);
+        return CountryResource::make($country);
     }
 
-    public function update(CountryService $service, Country $country, CountryRequest $request): void
+    public function update(UpdateCountryRequest $request): void
     {
-        $service->updateCountry(
-            $country,
-            $request->name,
-            $request->altName,
-            $request->lat,
-            $request->lon,
-            $request->iso,
-        );
+        Country::query()->update($request->validated());
     }
 
-    public function destroy(Country $country, CountryService $service): void
+    public function destroy(Country $country): void
     {
-        $service->destroyCountry($country);
+        $country->delete();
     }
 }
