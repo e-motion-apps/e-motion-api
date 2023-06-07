@@ -1,28 +1,33 @@
 <script setup>
 import Country from '../Components/Country.vue'
 import { useForm } from '@inertiajs/vue3'
+import { ref } from 'vue'
 
 function storeCountry() {
   storeCountryForm.post('/countries', {
     onSuccess: () => {
       storeCountryForm.reset()
+      error.value = ''
     },
   })
 }
 
 const storeCountryForm = useForm({
   name: '',
-  alternativeName: '',
+  alternative_name: '',
   latitude: '',
   longitude: '',
   iso: '',
 })
 
-storeCountryForm.post('/countries', {
-  onSuccess: () => {
-    storeCountryForm.reset()
-  },
-})
+const error = ref('')
+
+function preventCommaInput(event) {
+  if (event.key === ',') {
+    event.preventDefault()
+    error.value = 'Use \'.\' instead of \',\''
+  }
+}
 
 defineProps({
   countries: Object,
@@ -40,10 +45,11 @@ defineProps({
           </h1>
           <form class="flex w-1/2 flex-col space-y-2" @submit.prevent="storeCountry">
             <input v-model="storeCountryForm.name" class="border px-2 py-1" type="text" placeholder="Name" required>
-            <input v-model="storeCountryForm.alternativeName" class="border px-2 py-1" type="text" placeholder="Alternative name">
-            <input v-model="storeCountryForm.latitude" class="border px-2 py-1" type="text" placeholder="Latitude" required>
-            <input v-model="storeCountryForm.longitude" class="border px-2 py-1" type="text" placeholder="Longitude" required>
+            <input v-model="storeCountryForm.alternative_name" class="border px-2 py-1" type="text" placeholder="Alternative name">
+            <input v-model="storeCountryForm.latitude" class="border px-2 py-1" type="text" placeholder="Latitude" required @keydown="preventCommaInput">
+            <input v-model="storeCountryForm.longitude" class="border px-2 py-1" type="text" placeholder="Longitude" required @keydown="preventCommaInput">
             <input v-model="storeCountryForm.iso" class="border px-2 py-1" type="text" placeholder="ISO 3166" required>
+            <small class="text-rose-600">{{ error }}</small>
 
             <button type="submit" class="flex w-fit items-center rounded bg-green-600 px-5 py-2 text-white">
               <img width="18" src="https://img.icons8.com/ios/50/FFFFFF/save--v1.png" alt="save--v1">

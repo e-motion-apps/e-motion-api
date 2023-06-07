@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CountryRequest;
-use App\Http\Requests\UpdateCountryRequest;
 use App\Http\Resources\CountryResource;
 use App\Models\Country;
 use Inertia\Inertia;
@@ -32,9 +31,9 @@ class CountryController extends Controller
         return CountryResource::make($country);
     }
 
-    public function update(UpdateCountryRequest $request): void
+    public function update(CountryRequest $request, Country $country): void
     {
-        Country::query()->update($request->validated());
+        $country->update($request->validated());
     }
 
     public function destroy(Country $country): void
