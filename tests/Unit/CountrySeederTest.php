@@ -20,10 +20,11 @@ class CountrySeederTest extends TestCase
         (new DatabaseSeeder())->call(CountrySeeder::class);
 
         $file = storage_path("app/countries.json");
-        $countriesFromFile = json_decode(file_get_contents($file), true);
+        $countriesFromFile = json_decode(file_get_contents($file), associative: true);
 
         foreach ($countriesFromFile as $countryFromFile) {
-            $this->assertDatabaseHas("countries", $countryFromFile);
+            $this->assertDatabaseHas(table: "countries", data: $countryFromFile);
+            $this->assertDatabaseCount(table: "countries", count: 250);
         }
     }
 }
