@@ -17,7 +17,7 @@ const mobileMenuOpen = ref(false)
     <nav class="mx-auto flex max-w-full items-center justify-between p-6 lg:px-8" aria-label="Global">
       <a href="#" class="-m-1.5 flex items-center p-1.5">
         <img class="h-12 w-auto" src="@/assets/scooter.png" alt="">
-        <span class=" ml-1 text-3xl font-semibold ">Escooters</span>
+        <span class=" ml-5 hidden text-3xl font-semibold sm:flex ">escooters</span>
       </a>
       
       <div class="flex lg:hidden">
@@ -28,8 +28,8 @@ const mobileMenuOpen = ref(false)
       </div>
       
       <div class="hidden items-center lg:flex lg:gap-x-12">
-        <a v-for="item in navigation" :key="item.name" :href="item.href" class="text-sm font-semibold leading-6 text-gray-900">{{ item.name }}</a>
-        <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Log in <span aria-hidden="true">&rarr;</span></a>
+        <a v-for="item in navigation" :key="item.name" :href="item.href" class="text-sm font-semibold leading-6 text-gray-900 lg:text-xl">{{ item.name }}</a>
+        <a href="#" class="text-sm font-semibold leading-6 text-gray-900 lg:text-xl">Log in <span aria-hidden="true">&rarr;</span></a>
       </div>
     </nav>
     <Dialog as="div" class="lg:hidden" :open="mobileMenuOpen" @close="mobileMenuOpen = false">

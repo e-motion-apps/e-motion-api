@@ -1,23 +1,30 @@
 <script>
-import { onMounted } from 'vue'
+import { onMounted, ref, nextTick } from 'vue'
 import mapboxgl from 'mapbox-gl'
 
 export default {
   setup() {
-    onMounted(buildMap)
+    const mapContainer = ref(null)
+    const map = ref(null)
+
+    onMounted(async() => {
+      await nextTick()
+      buildMap()
+    })
 
     function buildMap() {
       mapboxgl.accessToken = import.meta.env.VITE_APP_MAPBOX_TOKEN
-      const map = new mapboxgl.Map({
-        container: 'map',
+      map.value = new mapboxgl.Map({
+        container: mapContainer.value,
         style: import.meta.env.VITE_APP_MAPBOX_STYLE_URL,
-        center: [	51.107883, 17.038538],
-        zoom: 10,
+        center: [51.107883, 17.038538],
+        zoom: 5,
       })
-      map.addControl(new mapboxgl.NavigationControl())
+      map.value.addControl(new mapboxgl.NavigationControl())
     }
 
     return {
+      mapContainer,
       buildMap,
     }
   },
@@ -25,7 +32,5 @@ export default {
 </script>
 
 <template>
-  <div>
-    <div id="map" class="absolute inset-0 h-full w-full" />
-  </div>
+  <div ref="mapContainer" class="h-full" />
 </template>

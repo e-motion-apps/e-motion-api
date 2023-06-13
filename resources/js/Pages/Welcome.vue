@@ -1,12 +1,12 @@
 <script setup>
 import Nav from '../Components/Nav.vue'
-import Test from '../Components/Test.vue'
+import Panel from '../Components/Panel.vue'
 
 
 </script>
 
 <template>
   <Nav />
-  <test />
+  <Panel />
 </template>
   
