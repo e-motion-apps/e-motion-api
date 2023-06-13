@@ -26,21 +26,31 @@ class CountryControllerTest extends TestCase
 
     public function testCountryStore(): void
     {
-        $data = Country::factory()->make()->toArray();
+        $country = [
+            "name" => "Poland",
+            "latitude" => 44.543,
+            "longitude" => -43.122,
+            "iso" => "pl",
+        ];
 
-        $this->post(route(name:"countries.store"), data: $data);
+        $this->post(route(name:"countries.store"), data: $country);
 
-        $this->assertDatabaseHas(table:"countries", data: $data);
+        $this->assertDatabaseHas(table:"countries", data: $country);
     }
 
     public function testCountryStoreIsRefusingDuplicate(): void
     {
-        $country = Country::factory()->make()->toArray();
+        $country = [
+            "name" => "Poland",
+            "latitude" => 44.543,
+            "longitude" => -43.122,
+            "iso" => "pl",
+        ];
 
         Country::query()->create([
             "name" => $country["name"],
-            "latitude" => "-55.54323",
-            "longitude" => "42.3721",
+            "latitude" => -55.54323,
+            "longitude" => 42.3721,
             "iso" => $country["iso"],
         ])->toArray();
 
@@ -51,21 +61,28 @@ class CountryControllerTest extends TestCase
 
     public function testCountryStoreIsRefusingInvalidData(): void
     {
-        $invalidCountry = Country::factory()->make([
-            "latitude" => "string",
-        ])->toArray();
+        $response = $this->post(route(name: "countries.store"), data: [
+            "name" => "Poland",
+            "latitude" => 44.543,
+            "longitude" => "12.345string",
+            "iso" => "pl",
+        ]);
 
-        $this->post(route(name: "countries.store"), data: $invalidCountry);
-        $this->assertDatabaseMissing(table: "countries", data: $invalidCountry);
+        $response->assertSessionHasErrors();
     }
 
     public function testCountryUpdate(): void
     {
-        $data = Country::factory()->make()->toArray();
+        $country = [
+            "name" => "Poland",
+            "latitude" => 44.543,
+            "longitude" => -43.122,
+            "iso" => "pl",
+        ];
 
-        $this->post(route(name: "countries.store"), data: $data);
+        $this->post(route(name: "countries.store"), data: $country);
 
-        $this->assertDatabaseHas(table:"countries", data: $data);
+        $this->assertDatabaseHas(table:"countries", data: $country);
     }
 
     public function testCountryUpdateIsRefusingInvalidData(): void
