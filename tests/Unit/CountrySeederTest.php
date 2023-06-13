@@ -24,7 +24,7 @@ class CountrySeederTest extends TestCase
 
         foreach ($countriesFromFile as $countryFromFile) {
             $this->assertDatabaseHas(table: "countries", data: $countryFromFile);
-            $this->assertDatabaseCount(table: "countries", count: 250);
         }
+        $this->assertDatabaseCount(table: "countries", count: 250);
     }
 }
