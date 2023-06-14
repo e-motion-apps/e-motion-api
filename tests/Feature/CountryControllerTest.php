@@ -6,15 +6,15 @@ namespace Tests\Feature;
 
 use App\Models\Country;
 use Generator;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
 class CountryControllerTest extends TestCase
 {
-    use RefreshDatabase;
+    use LazilyRefreshDatabase;
 
-    public function testCountryIndex(): void
+    public function testCountriesViewCanBeRendered(): void
     {
         Country::factory()->count(3)->create();
 
@@ -25,7 +25,7 @@ class CountryControllerTest extends TestCase
         );
     }
 
-    public function testCountryStore(): void
+    public function testCountryCanBeCreated(): void
     {
         $country = [
             "name" => "Poland",
@@ -39,7 +39,7 @@ class CountryControllerTest extends TestCase
         $this->assertDatabaseHas(table:"countries", data: $country);
     }
 
-    public function testCountryStoreIsRefusingDuplicate(): void
+    public function testCountryCannotBeCreatedBecauseFieldsAlreadyExist(): void
     {
         $country = [
             "name" => "Poland",
@@ -84,7 +84,7 @@ class CountryControllerTest extends TestCase
 
     public static function invalidCountryDataProvider(): Generator
     {
-        yield "country with empty credentials is invalid" => [
+        yield "country with empty credentials" => [
             "data" => [
                 "name" => null,
                 "longitude" => null,
@@ -94,7 +94,7 @@ class CountryControllerTest extends TestCase
             "expectedErrors" => ["name", "latitude", "longitude", "iso"],
         ];
 
-        yield "country with incorrect name is invalid" => [
+        yield "country with incorrect name" => [
             "data" => [
                 "name" => "poland",
                 "longitude" => 21.555,
@@ -104,7 +104,7 @@ class CountryControllerTest extends TestCase
             "expectedErrors" => ["name"],
         ];
 
-        yield "country with incorrect longitude is invalid" => [
+        yield "country with incorrect longitude" => [
             "data" => [
                 "name" => "Poland",
                 "longitude" => "21string",
@@ -114,7 +114,7 @@ class CountryControllerTest extends TestCase
             "expectedErrors" => ["longitude"],
         ];
 
-        yield "country with incorrect latitude is invalid" => [
+        yield "country with incorrect latitude" => [
             "data" => [
                 "name" => "Poland",
                 "longitude" => 21.555,
@@ -124,7 +124,7 @@ class CountryControllerTest extends TestCase
             "expectedErrors" => ["latitude"],
         ];
 
-        yield "country with incorrect iso is invalid" => [
+        yield "country with incorrect iso" => [
             "data" => [
                 "name" => "Poland",
                 "longitude" => 21.555,
@@ -135,7 +135,7 @@ class CountryControllerTest extends TestCase
         ];
     }
 
-    public function testCountryUpdate(): void
+    public function testCountryCanBeUpdated(): void
     {
         $data = [
             "name" => "Poland",
@@ -151,34 +151,47 @@ class CountryControllerTest extends TestCase
         $this->assertDatabaseHas(table:"countries", data: $data);
     }
 
-    public function testCountryUpdateIsRefusingDuplicateName(): void
+    public function testCountryCannotBeUpdatedBecauseIsoAlreadyExistInOtherCountry(): void
     {
-        $country = Country::query()->create([
-            "name" => "Romania",
-            "latitude" => -55.54323,
-            "longitude" => 42.3721,
-            "iso" => "rom",
-        ]);
-
-        $countryToCompare = Country::query()->create([
+        Country::factory()->create([
             "name" => "Poland",
-            "latitude" => 44.543,
-            "longitude" => -43.122,
             "iso" => "pl",
         ]);
 
-        $updateCountryToCompare = [
-            "name" => $countryToCompare["name"],
-            "latitude" => $countryToCompare["latitude"],
-            "longitude" => $countryToCompare["longitude"],
-            "iso" => $country["iso"],
-        ];
+        $countryToUpdate = Country::factory()->create([
+            "name" => "Romania",
+            "iso" => "rom",
+        ]);
 
-        $response = $this->patch(route(name:"countries.update", parameters: ["country" => $countryToCompare]), data: $updateCountryToCompare);
-        $response->assertSessionHasErrors(["iso"]);
+        $this->patch(route(name:"countries.update", parameters: ["country" => $countryToUpdate]), data: [
+            "name" => "Romania",
+            "latitude" => 32.444,
+            "longitude" => 44.222,
+            "iso" => "pl",
+        ])->assertSessionHasErrors(["iso"]);
     }
 
-    public function testCountryDestroy(): void
+    public function testCountryCannotBeUpdatedBecauseNameAlreadyExistInOtherCountry(): void
+    {
+        Country::factory()->create([
+            "name" => "Poland",
+            "iso" => "pl",
+        ]);
+
+        $countryToUpdate = Country::factory()->create([
+            "name" => "Romania",
+            "iso" => "rom",
+        ]);
+
+        $this->patch(route(name:"countries.update", parameters: ["country" => $countryToUpdate]), data: [
+            "name" => "Poland",
+            "latitude" => 32.444,
+            "longitude" => 44.222,
+            "iso" => "rom",
+        ])->assertSessionHasErrors(["name"]);
+    }
+
+    public function testCountryCanBeDeleted(): void
     {
         $country = Country::factory()->create();
 

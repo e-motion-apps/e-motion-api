@@ -7,12 +7,12 @@ namespace Tests\Unit;
 use Database\Seeders\CountrySeeder;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Tests\TestCase;
 
 class CountrySeederTest extends TestCase
 {
-    use RefreshDatabase;
+    use LazilyRefreshDatabase;
     use DatabaseMigrations;
 
     public function testCountrySeeder(): void
