@@ -18,9 +18,6 @@ class CountrySeeder extends Seeder
 
         usort($countriesFromApi, fn($a, $b): int => strcmp($a["name"]["common"], $b["name"]["common"]));
 
-        $file = storage_path("app/countries.json");
-        $countriesToFile = [];
-
         foreach ($countriesFromApi as $countryFromApi) {
             if ($countryFromApi["altSpellings"][0] === "BES islands") {
                 $countryFromApi["altSpellings"][0] = "bq";
@@ -36,15 +33,6 @@ class CountrySeeder extends Seeder
                     "longitude" => $countryFromApi["latlng"][1],
                 ],
             );
-
-            $countriesToFile[] = [
-                "name" => $countryFromApi["name"]["common"],
-                "latitude" => $countryFromApi["latlng"][0],
-                "longitude" => $countryFromApi["latlng"][1],
-                "iso" => strtolower($countryFromApi["altSpellings"][0]),
-            ];
         }
-
-        file_put_contents($file, json_encode($countriesToFile));
     }
 }
