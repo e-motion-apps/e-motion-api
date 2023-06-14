@@ -6,14 +6,11 @@ namespace Tests\Feature;
 
 use App\Models\Country;
 use Generator;
-use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
 class CountryControllerTest extends TestCase
 {
-    use LazilyRefreshDatabase;
-
     public function testCountriesViewCanBeRendered(): void
     {
         Country::factory()->count(3)->create();
