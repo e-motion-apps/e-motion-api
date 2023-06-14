@@ -12,9 +12,6 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        City::factory()->count(20)->create();
-        CityAlternativeName::factory()->count(10)->create();
-
         $this->call([
             CountrySeeder::class,
         ]);
