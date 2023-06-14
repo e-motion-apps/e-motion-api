@@ -1,3 +1,15 @@
+<script setup>
+import { defineEmits } from 'vue'
+    
+const emit = defineEmits(['try-it-out'])
+
+const tryItOut = () => {
+    
+  emit('try-it-out')
+  
+}
+</script>
+
 <template>
   <div class="mx-auto w-full ">
     <div>
@@ -11,7 +23,7 @@
         There are plenty of e-scooter providers, so sometimes you can be confused which app should you use during your trips. I know this problem. This little map can help you with planning your vacations or business trips.
       </p>
       <div class="mx-auto mt-16 flex justify-around">
-        <button type="button" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 lg:text-4xl">
+        <button type="button" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 lg:text-4xl" @click="tryItOut">
           Try it out
         </button>
         <button type="button" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-lg  font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 lg:text-4xl">
