@@ -18,8 +18,6 @@ class LogoutController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        Session::flash("success", "Logout Complite.");
-
-        return Inertia::location("/");
+        return redirect()->route("login");
     }
 }

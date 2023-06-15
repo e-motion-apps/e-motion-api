@@ -5,31 +5,11 @@ import { ref, watch } from 'vue'
 const form = useForm({
   email: '',
   password: '',
-  errors: {},
 })
 
-const alertMessage = ref('')
-
-const submit = async () => {
-  try {
-    const response = await form.post('/login', {
-      onError: () => {
-        alertMessage.value = 'Error'
-      },
-      onSuccess: () => {
-        console.log('You have successfully logged in')
-        window.location.href = '/'
-      },
-    })
-    console.log(response)
-  } catch (error) {
-    console.log('An error occured', error)
-  }
+function attemptLogin() {
+  form.post('/login')
 }
-
-watch(() => form.errors, (errors) => {
-  console.log(errors)
-})
 </script>
 
 <template>
@@ -43,7 +23,7 @@ watch(() => form.errors, (errors) => {
             Log In
           </h1>
 
-          <form @submit.prevent="submit">
+          <form @submit.prevent="attemptLogin">
             <div class="mb-4">
               <label class="mb-1 block text-xs font-bold uppercase text-gray-500" for="email">Email</label>
               <input id="email" v-model="form.email" class="w-full rounded-md bg-indigo-50 px-4 py-2 outline-none" type="email" name="email" :placeholder="form.errors.email || 'Email'">

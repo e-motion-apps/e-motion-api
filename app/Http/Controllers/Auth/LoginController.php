@@ -21,14 +21,14 @@ class LoginController extends Controller
     public function login(LoginRequest $request)
     {
         $credentials = $request->validated();
-
         $remember = $request->boolean("remember", false);
 
         if (Auth::attempt($credentials, $remember)) {
             return Inertia::location("/");
         }
-        throw ValidationException::withMessages([
-            "email" => "Failed login. Please check your email and password.",
-        ])->errorBag("login");
+        
+       return back()->withErrors([
+                "email" => "Error message"),
+            ]);
     }
 }
