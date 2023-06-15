@@ -4,7 +4,7 @@ import '../css/app.css'
 
 createInertiaApp({
   progress: {
-    delay: 50,
+    delay: 0,
     color: '#14b8a6',
   },
   title: (title) => title ? `${title} - Escooters` : 'Escooters',
