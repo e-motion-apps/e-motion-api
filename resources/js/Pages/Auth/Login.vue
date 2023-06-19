@@ -1,13 +1,27 @@
 <script setup>
 import { useForm } from '@inertiajs/vue3'
-
+import { onMounted, ref } from 'vue'
 const form = useForm({
   email: '',
   password: '',
 })
 
+const props = defineProps({ 
+  'errors': Object,
+})
+
+onMounted(() => {
+  console.log('test' + props.errors)
+})
+
+const error = ref('') 
+
 function attemptLogin() {
-  form.post('/login')
+  form.post('/login', {
+    onError: function(err) {
+      error.value=err
+    },
+  })
 }
 </script>
 
@@ -25,17 +39,17 @@ function attemptLogin() {
           <form @submit.prevent="attemptLogin">
             <div class="mb-4">
               <label class="mb-1 block text-xs font-bold uppercase text-gray-500" for="email">Email</label>
-              <input id="email" v-model="form.email" class="w-full rounded-md bg-indigo-50 px-4 py-2 outline-none" type="email" name="email" :placeholder="form.errors.email || 'Email'">
-              <div v-if="form.errors.login && form.errors.login.email" class="mt-1 text-xs text-red-500">
-                {{ form.errors.login.email }}
+              <input id="email" v-model="form.email" class="w-full rounded-md bg-indigo-50 px-4 py-2 outline-none" type="email" name="email">
+              <div class="mt-1 text-xs text-red-500">
+                {{ form.errors.email }}
               </div>
             </div>
 
             <div class="mb-4">
               <label class="mb-1 block text-xs font-bold uppercase text-gray-500" for="password">Password</label>
-              <input id="password" v-model="form.password" class="w-full rounded-md bg-indigo-50 px-4 py-2 outline-none" type="password" name="password" :placeholder="form.errors.password || 'Password'">
-              <div v-if="form.errors.login && form.errors.login.password" class="mt-1 text-xs text-red-500">
-                {{ form.errors.login.password }}
+              <input id="password" v-model="form.password" class="w-full rounded-md bg-indigo-50 px-4 py-2 outline-none" type="password" name="password">
+              <div class="mt-1 text-xs text-red-500">
+                {{ form.errors.password }}
               </div>
             </div>
 

@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response as InertiaResponse;
 
@@ -23,13 +22,12 @@ class LoginController extends Controller
     {
         $credentials = $request->validated();
         $remember = $request->boolean("remember", false);
-
         if (Auth::attempt($credentials, $remember)) {
             return redirect()->route("home");
         }
 
-        throw ValidationException::withMessages([
-            "email" => "Failed login. Please check your email and password.",
-        ])->errorBag("login");
+        return back()->withErrors([
+            "email" => "Please chceck your email address and password for errors",
+        ]);
     }
 }
