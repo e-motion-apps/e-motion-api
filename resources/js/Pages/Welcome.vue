@@ -51,12 +51,14 @@ export default {
       <header class="flex justify-between">
         <h1 class="text-3xl">
           <a href="/" class="text-blue-600 underline">Welcome</a>
-          <span class="px-2" />
+          <span class="px-4" />
           <a v-if="!loggedIn" href="/login" class="text-blue-600 underline">Login</a>
-          <span class="px-2" />
+          <span class="px-4" />
           <a v-if="!loggedIn" href="/signup" class="text-blue-600 underline">Sign Up</a>
           <span class="px-2" />
           <a v-if="loggedIn" href="/dashboard" class="text-blue-600 underline">Dashboard</a>
+          <span class="px-2" />
+          <a href="/countries" class="text-blue-600 underline">Countries</a>
           <span class="px-4" />
           <button v-if="loggedIn" class="text-blue-600 underline" @click="logout">
             Log Out
