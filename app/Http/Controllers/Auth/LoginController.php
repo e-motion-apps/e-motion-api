@@ -20,14 +20,16 @@ class LoginController extends Controller
 
     public function login(LoginRequest $request): RedirectResponse
     {
-        $credentials = $request->validated();
         $remember = $request->boolean("remember", false);
-        if (Auth::attempt($credentials, $remember)) {
+        if (Auth::attempt([
+            "email" => $request->email, 
+            "password" => $request->password,
+        ], $remember)) {
             return redirect()->route("home");
         }
 
         return back()->withErrors([
-            "email" => "Please chceck your email address and password for errors",
+            "field" => "Please chceck your email address and password for errors",
         ]);
     }
 }
