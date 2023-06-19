@@ -74,7 +74,7 @@ function openEditWindow() {
     </div>
 
     <div v-if="!isEditWindowOpened" class="mt-2 flex space-x-2">
-      <button class="flex w-fit rounded bg-blue-500 px-5 py-2 text-white" @click="openEditWindow">
+      <button class="flex w-fit rounded bg-[#527aba] px-5 py-2 text-white" @click="openEditWindow">
         <img width="18" src="https://img.icons8.com/ios-filled/50/FFFFFF/edit--v1.png" alt="">
       </button>
 
