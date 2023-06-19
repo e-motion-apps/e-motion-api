@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
@@ -18,17 +19,17 @@ class LoginController extends Controller
         return Inertia::render("Auth/Login");
     }
 
-    public function login(LoginRequest $request)
+    public function login(LoginRequest $request): RedirectResponse
     {
         $credentials = $request->validated();
         $remember = $request->boolean("remember", false);
 
         if (Auth::attempt($credentials, $remember)) {
-            return Inertia::location("/");
+            return redirect()->route("home");
         }
-        
-       return back()->withErrors([
-                "email" => "Error message"),
-            ]);
+
+        throw ValidationException::withMessages([
+            "email" => "Failed login. Please check your email and password.",
+        ])->errorBag("login");
     }
 }

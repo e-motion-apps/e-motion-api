@@ -1,6 +1,5 @@
 <script setup>
 import { useForm } from '@inertiajs/vue3'
-import { ref, watch } from 'vue'
 
 const form = useForm({
   email: '',

@@ -1,16 +1,14 @@
 <script>
-
 import UserStatus from './Auth/UserStatus.vue'
-import { Link } from '@inertiajs/vue3'
 
 export default {
   components: {
-    UserStatus, 
+    UserStatus,
   },
   data() {
     return {
       loggedIn: false,
-      key: 0, 
+      key: 0,
     }
   },
   computed: {
@@ -19,8 +17,8 @@ export default {
     },
   },
   watch: {
-    '$route': {
-      handler: function() {
+    $route: {
+      handler() {
         this.loggedIn = this.isAuthenticated
       },
       immediate: true,
@@ -46,7 +44,6 @@ export default {
 }
 </script>
 
-
 <template>
   <div>
     <user-status class="justify-end bg-gray-200 p-3" />
@@ -59,16 +56,13 @@ export default {
           <span class="px-2" />
           <a v-if="!loggedIn" href="/signup" class="text-blue-600 underline">Sign Up</a>
           <span class="px-2" />
+          <a v-if="loggedIn" href="/dashboard" class="text-blue-600 underline">Dashboard</a>
+          <span class="px-4" />
           <button v-if="loggedIn" class="text-blue-600 underline" @click="logout">
             Log Out
           </button>
         </h1>
       </header>
     </section>
-    <div class="flex items-center bg-gray-100 p-2">
-    <Link href="/countries" class="border bg-gray-50 p-4">
-      Countries
-    </Link>
-  </div>
   </div>
 </template>
