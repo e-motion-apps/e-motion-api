@@ -1,10 +1,12 @@
+
 <script setup>
 import { useForm } from '@inertiajs/vue3'
-
+import { watch } from 'vue'
 const form = useForm({
   name: '',
   email: '',
   password: '',
+  errors: {},
 })
 
 const submit = async () => {
@@ -14,9 +16,9 @@ const submit = async () => {
     console.log(error)
   }
 }
-
-
-
+watch(() => form.errors, (errors) => {
+  console.log(errors)
+})
 </script>
 
 <template>
