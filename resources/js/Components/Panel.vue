@@ -1,6 +1,6 @@
 <script setup>
 import Map from './Map.vue'
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import Info from './Info.vue'
 import SearchPanel from './SearchPanel.vue'
 import Nav from '../Components/Nav.vue'
@@ -38,10 +38,16 @@ onBeforeUnmount(() => {
         <Info v-if="showInfo" @try-it-out="switchPanel" />
         <SearchPanel v-else />
       </div>
-      <div class=" min-h-full lg:w-1/2" :class="{'hidden': isMobile && !showMapMobile}">
+
+
+      <div v-if="!(isMobile && !showMapMobile)" class="min-h-full lg:w-1/2">
         <Map />
       </div>
-      <button v-if="!showInfo && isMobile" class="fixed bottom-0 left-0 flex h-16 w-16 items-center justify-center bg-gray-500 text-white" @click="switchMap">
+
+
+
+
+      <button v-if="!showInfo && isMobile" class=" fixed bottom-0 left-0 z-10 flex h-16 w-16 items-center justify-center bg-gray-500 text-white" @click="switchMap">
         {{ showMapMobile ? 'Hide Map' : 'Show Map' }}
       </button>
     </div>

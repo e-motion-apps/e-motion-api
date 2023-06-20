@@ -1,6 +1,7 @@
 <script setup>
-import { onMounted, ref, nextTick } from 'vue'
-import mapboxgl from 'mapbox-gl'
+import { ref, onMounted, nextTick } from 'vue'
+import L from 'leaflet'
+import 'leaflet/dist/leaflet.css'
 
 const mapContainer = ref(null)
 const map = ref(null)
@@ -11,27 +12,25 @@ onMounted(async () => {
 })
 
 function buildMap() {
-  mapboxgl.accessToken = import.meta.env.VITE_APP_MAPBOX_TOKEN
-  map.value = new mapboxgl.Map({
-    container: mapContainer.value,
-    style: import.meta.env.VITE_APP_MAPBOX_STYLE_URL,
-    zoom: 10,
-    center: [51.107883, 17.038538],
-    
-  })
-  map.value.addControl(new mapboxgl.NavigationControl())
+  map.value = L.map(mapContainer.value).setView([51.107883, 17.038538], 10)
+  
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
+    maxZoom: 18,
+    center: [52.0693267, 19.4781225],
+  }).addTo(map.value)
+
+  
 }
 </script>
 
 <template>
-  <div id="mapCont" ref="mapContainer" />
+  <div id="mapContainer" ref="mapContainer" />
 </template>
 
-
 <style>
-#mapCont{
-  width:100%;
-  height: 100vh;
-
+#mapContainer {
+  width: 100%;
+  height: 100%;
 }
 </style>
