@@ -14,11 +14,15 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             CountrySeeder::class,
-            ProviderListSeeder::class,
-            ProviderSeeder::class,
         ]);
 
         City::factory()->count(20)->create();
         CityAlternativeName::factory()->count(10)->create();
+
+        $this->call([
+            ProviderListSeeder::class,
+            ProviderSeeder::class,
+        ]);
+
     }
 }

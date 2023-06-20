@@ -15,7 +15,7 @@ class CountryFactory extends Factory
             "alternative_name" => fake()->unique()->city(),
             "latitude" => fake()->latitude(),
             "longitude" => fake()->longitude(),
-            "iso" => fake()->unique()->languageCode(),
+            "iso" => fake()->unique()->languageCode() . "x"
         ];
     }
 }
