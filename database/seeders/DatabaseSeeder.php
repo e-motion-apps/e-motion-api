@@ -23,6 +23,5 @@ class DatabaseSeeder extends Seeder
             ProviderListSeeder::class,
             ProviderSeeder::class,
         ]);
-
     }
 }
