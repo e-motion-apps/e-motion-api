@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use App\Models\City;
+use App\Models\Country;
 use Generator;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
@@ -24,10 +25,13 @@ class CityControllerTest extends TestCase
 
     public function testCityCanBeCreated(): void
     {
+        $country = Country::factory()->create();
+
         $city = [
             "name" => "Legnica",
             "latitude" => 44.543,
             "longitude" => -43.122,
+            "country_id" => $country->id,
         ];
 
         $this->post(route(name:"cities.store"), data: $city);
@@ -37,16 +41,20 @@ class CityControllerTest extends TestCase
 
     public function testCityCannotBeCreatedBecauseFieldsAlreadyExist(): void
     {
+        $country = Country::factory()->create();
+
         $city = [
             "name" => "Legnica",
             "latitude" => 44.543,
             "longitude" => -43.122,
+            "country_id" => $country->id,
         ];
 
         City::query()->create([
             "name" => $city["name"],
             "latitude" => -55.54323,
             "longitude" => 42.3721,
+            "country_id" => $country->id,
         ])->toArray();
 
         $this->post(route(name:"cities.store"), data: $city);
@@ -117,10 +125,13 @@ class CityControllerTest extends TestCase
 
     public function testCityCanBeUpdated(): void
     {
+        $country = Country::factory()->create();
+
         $data = [
             "name" => "Legnica",
             "latitude" => 44.543,
             "longitude" => -43.122,
+            "country_id" => $country->id,
         ];
 
         $city = City::factory()->create();
@@ -144,6 +155,7 @@ class CityControllerTest extends TestCase
             "name" => "Legnica",
             "latitude" => 32.444,
             "longitude" => 44.222,
+            "country_id" => 1,
         ])->assertSessionHasErrors(["name"]);
     }
 
