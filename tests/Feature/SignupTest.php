@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use App\Models\User;
+use Str;
 use Tests\TestCase;
 
 class SignupTest extends TestCase
@@ -32,15 +33,13 @@ class SignupTest extends TestCase
     public function testUserCannotBeCreatedWithInvalidName(): Void
     {
         $response = $this->post("/register", [
-            "name" => "phasellus faucibus scelerisque eleifend donec pretium vulputate sapien nec sagittis aliquam malesuada bibendum arcu vitae elementum curabitur vitae nunc sed velit dignissim sodales ut eu sem integer vitae justo eget magna fermentum iaculis eu non diam phasellus vestibulum lorem sed risus ultricies tristique nulla aliquet enim tortor at auctor urna nunc id cursus metus aliquam eleifend mi in nulla posuere sollicitudin",
+            "name" => Str::random(256),
             "email" => "email@example.com",
             "password" => bcrypt("password@example"),
         ]);
 
         $response->assertStatus(302);
-        $this->assertDatabaseMissing("users", [
-            "email" => "email@example.com",
-        ]);
+        $response->assertSessionHasErrors(["name"]);
     }
 
     public function testGuestCannotEnterDashboardPage(): void
