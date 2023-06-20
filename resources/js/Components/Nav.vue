@@ -14,7 +14,7 @@ const mobileMenuOpen = ref(false)
 </script>
   
 <template>
-  <header class="bg-white">
+  <header class="h-26 bg-white ">
     <nav class="mx-auto flex max-w-full items-center justify-between border-b-2 p-6 lg:px-8" aria-label="Global">
       <a href="/" class="-m-1.5 flex items-center p-1.5">
         <img class="h-12 w-auto" src="@/assets/scooter.png" alt="">

@@ -1,10 +1,7 @@
 <script setup>
-import { ref, defineProps } from 'vue'
+import { ref } from 'vue'
 import ComboboxField from './ComboboxField.vue'
 
-const props = defineProps({
-  isMobile: Boolean,
-})
 
 const countries = [
   

@@ -15,21 +15,20 @@ function buildMap() {
   map.value = new mapboxgl.Map({
     container: mapContainer.value,
     style: import.meta.env.VITE_APP_MAPBOX_STYLE_URL,
+    zoom: 10,
     center: [51.107883, 17.038538],
-    zoom: 5,
+    
   })
   map.value.addControl(new mapboxgl.NavigationControl())
 }
 </script>
 
 <template>
-  <div ref="mapContainer" style="mapContainer" />
+  <div ref="mapContainer" />
 </template>
 
 
 <style>
-.mapContainer{
-  position:aboslute; width:100%; top:0; bottom:0;
-}
+
 
 </style>
