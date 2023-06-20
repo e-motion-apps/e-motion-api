@@ -23,13 +23,5 @@ function buildMap() {
 </script>
 
 <template>
-  <div ref="mapContainer" style="mapContainer" />
+  <div ref="mapContainer" class="h-full" />
 </template>
-
-
-<style>
-.mapContainer{
-  position:aboslute; width:100%; top:0; bottom:0;
-}
-
-</style>

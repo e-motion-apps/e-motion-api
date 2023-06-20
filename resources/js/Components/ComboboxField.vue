@@ -30,7 +30,7 @@ const updateQuery = (event) => {
 
 <template>
   <Combobox v-model="selectedItem" as="div">
-    <ComboboxLabel class="block text-lg font-medium leading-9 text-gray-900">
+    <ComboboxLabel class="block text-xl font-medium leading-9 text-gray-900">
       {{ label }}
     </ComboboxLabel>
     <div class="relative mt-5">
@@ -39,7 +39,7 @@ const updateQuery = (event) => {
         <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
       </ComboboxButton>
 
-      <ComboboxOptions v-if="filteredItems.length > 0" class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+      <ComboboxOptions v-if="filteredItems.length > 0" class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base  shadow-lg ring-1 ring-black focus:outline-none">
         <ComboboxOption v-for="item in filteredItems" :key="item.id" v-slot="{ active, selected }" :value="item" as="template">
           <li :class="['relative cursor-default select-none py-2 pl-3 pr-9 text-lg', active ? 'bg-indigo-600 text-white' : 'text-gray-900']">
             <span :class="['block truncate', selected && 'font-semibold']">
