@@ -56,11 +56,9 @@ class SignupTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $this->actingAs($user);
-
-        $response = $this->get("/dashboard");
-
-        $response->assertStatus(200);
-        $this->assertAuthenticated();
+        $this->actingAs($user)
+                 ->get("/dashboard");
+                 ->assertStatus(200);
+                 ->assertAuthenticated();
     }
 }
