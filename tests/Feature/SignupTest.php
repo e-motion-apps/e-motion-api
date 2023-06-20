@@ -11,14 +11,14 @@ class SignupTest extends TestCase
     /**
      * A basic feature test example.
      */
-    public function testOfSignupDisplay(): void
+    public function testShowSignupPage(): void
     {
         $response = $this->get("/signup");
 
         $response->assertStatus(200);
     }
 
-    public function testSuccesfullSignup(): void
+    public function testUserCanSignupWithProperCredentials(): void
     {
         $response = $this->post("/register", [
             "name" => "Test",

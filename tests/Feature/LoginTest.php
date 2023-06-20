@@ -12,23 +12,23 @@ class LoginTest extends TestCase
     /**
      * A basic feature test example.
      */
-    public function testOfLoginDisplay(): void
+    public function testShowLoginPage(): void
     {
         $response = $this->get("/login");
 
         $response->assertStatus(200);
     }
 
-    public function testOfLogin(): void
+    public function testUserCanLoginWithValidCredentials(): void
     {
         $response = $this->post("/login", [
-            "email" => "Email@example.com",
+            "email" => "email@example.com",
             "password" => "Password@example",
         ]);
         $response->assertStatus(302);
     }
 
-    public function testLogout(): void
+    public function testAuthenticatedUserCanLogout(): void
     {
         $user = User::factory()->create();
 
