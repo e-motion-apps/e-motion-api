@@ -28,13 +28,22 @@ function attemptLogin() {
 <template>
   <div class="bg-gradient-to-br from-blue-600 to-indigo-600">
     <head title="Log In" />
-
+  
     <main class="custom-main grid min-h-screen place-items-center">
       <div class="float-right mt-4 w-1/2">
         <section class="mx-auto max-w-md rounded-xl border bg-white p-4">
-          <h1 class="mb-4 text-2xl">
-            Log In
-          </h1>
+          <div class="flex items-center justify-between">
+            <h1 class="mb-4 text-2xl font-semibold text-gray-600">
+              Log In
+            </h1>
+            <button type="button" class="mr-2 inline-flex items-center rounded-lg bg-blue-700 p-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+              <a href="/">back</a>
+              <svg aria-hidden="true" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+              <span class="sr-only">Icon description</span>
+            </button>
+          </div>
           
           <form @submit.prevent="attemptLogin">
             <div class="mb-4">

@@ -25,7 +25,7 @@ class LoginController extends Controller
             "email" => $request->email, 
             "password" => $request->password,
         ], $remember)) {
-            return redirect()->route("home");
+            return redirect()->route("dashboard");
         }
 
         return back()->withErrors([
