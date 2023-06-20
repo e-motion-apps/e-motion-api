@@ -1,35 +1,49 @@
 <script setup>
 import Map from './Map.vue'
-import { ref } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import Info from './Info.vue'
 import SearchPanel from './SearchPanel.vue'
 import Nav from '../Components/Nav.vue'
 
 const showInfo = ref(true)
+const isMobile = ref(window.innerWidth <= 1000)
+const showMapMobile = ref(false)
 
 function switchPanel() {
   showInfo.value = !showInfo.value
 }
 
+function updateIsMobile() {
+  isMobile.value = window.innerWidth <= 1000
+}
 
+function switchMap() {
+  showMapMobile.value = !showMapMobile.value
+}
 
+onMounted(() => {
+  window.addEventListener('resize', updateIsMobile)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', updateIsMobile)
+})
 </script>
 
 <template>
-  <div class="mx-auto  h-screen bg-white">
+  <div class="mx-auto h-screen bg-white">
     <Nav />
-    <div class=" flex h-[calc(100%-6rem)] flex-col lg:flex-row">
-      <div class="min-h-full lg:basis-1/2 ">
-        <template v-if="showInfo">
-          <Info @try-it-out="switchPanel" />
-        </template>
-        <template v-else>
-          <SearchPanel />
-        </template>
+    <div class="relative flex h-[calc(100%-6rem)] flex-col lg:flex-row">
+      <div class="min-h-full lg:w-1/2" :class="{'hidden': showMapMobile}">
+        <Info v-if="showInfo" @try-it-out="switchPanel" />
+        <SearchPanel v-else />
       </div>
-      <div class=" min-h-full lg:basis-1/2">
-        <Map class="min-h-full" />
+      <div class=" min-h-full lg:w-1/2" :class="{'hidden': isMobile && !showMapMobile}">
+        <Map />
       </div>
+      <button v-if="!showInfo && isMobile" class="fixed bottom-0 left-0 flex h-16 w-16 items-center justify-center bg-gray-500 text-white" @click="switchMap">
+        {{ showMapMobile ? 'Hide Map' : 'Show Map' }}
+      </button>
     </div>
   </div>
 </template>

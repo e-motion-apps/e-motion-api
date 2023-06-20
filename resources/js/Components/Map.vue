@@ -24,11 +24,14 @@ function buildMap() {
 </script>
 
 <template>
-  <div ref="mapContainer" />
+  <div id="mapCont" ref="mapContainer" />
 </template>
 
 
 <style>
+#mapCont{
+  width:100%;
+  height: 100vh;
 
-
+}
 </style>
