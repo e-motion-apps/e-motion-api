@@ -28,8 +28,6 @@ class ProviderService
             ->whereNotIn("provider_id", $existingProviderIds)
             ->get();
 
-        $providersToDelete->each(function ($provider): void {
-            $provider->delete();
-        });
+        $providersToDelete->each(fn($provider) => $provider->delete());
     }
 }

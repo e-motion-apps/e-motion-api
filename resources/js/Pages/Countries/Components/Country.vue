@@ -7,11 +7,11 @@ const props = defineProps({
 })
 
 function destroyCountry(countryId) {
-  router.delete(`/countries/${countryId}`)
+  router.delete(`/admin/dashboard/countries/${countryId}`)
 }
 
 function updateCountry(countryId) {
-  updateCountryForm.patch(`/countries/${countryId}`, {
+  updateCountryForm.patch(`/admin/dashboard/countries/${countryId}`, {
     onSuccess: () => {
       openEditWindow()
     },

@@ -16,10 +16,10 @@ class CityControllerTest extends TestCase
     {
         City::factory()->count(3)->create();
 
-        $this->get("/cities")->assertInertia(
+        $this->get("/admin/dashboard/cities")->assertInertia(
             fn(Assert $page) => $page
-                ->component(value: "Cities")
-                ->has("cities.data", 3),
+                ->component(value: "Cities/Index")
+                ->has("cities", 3),
         );
     }
 
@@ -34,7 +34,7 @@ class CityControllerTest extends TestCase
             "country_id" => $country->id,
         ];
 
-        $this->post(route(name:"cities.store"), data: $city);
+        $this->post(uri:"/admin/dashboard/cities", data: $city);
 
         $this->assertDatabaseHas(table:"cities", data: $city);
     }
@@ -57,7 +57,7 @@ class CityControllerTest extends TestCase
             "country_id" => $country->id,
         ])->toArray();
 
-        $this->post(route(name:"cities.store"), data: $city);
+        $this->post(uri: "/admin/dashboard/cities", data: $city);
 
         $this->assertDatabaseMissing(table: "cities", data: $city);
     }
@@ -67,7 +67,7 @@ class CityControllerTest extends TestCase
      */
     public function testCityCannotBeCreatedWithInvalidData(array $data, array $expectedErrors): void
     {
-        $response = $this->post(route("cities.store"), $data);
+        $response = $this->post(uri: "/admin/dashboard/cities", data: $data);
 
         $response->assertSessionHasErrors($expectedErrors);
     }
@@ -79,7 +79,7 @@ class CityControllerTest extends TestCase
     {
         $city = City::factory()->create();
 
-        $response = $this->patch(route("cities.update", ["city" => $city]), $data);
+        $response = $this->patch(uri: "/admin/dashboard/cities/{$city->id}", data: $data);
 
         $response->assertSessionHasErrors($expectedErrors);
     }
@@ -136,7 +136,7 @@ class CityControllerTest extends TestCase
 
         $city = City::factory()->create();
 
-        $this->patch(route(name:"cities.update", parameters: ["city" => $city]), $data);
+        $this->patch(uri: "/admin/dashboard/cities/{$city->id}", data: $data);
 
         $this->assertDatabaseHas(table:"cities", data: $data);
     }
@@ -151,7 +151,7 @@ class CityControllerTest extends TestCase
             "name" => "Wrocław",
         ]);
 
-        $this->patch(route(name:"cities.update", parameters: ["city" => $cityToUpdate]), data: [
+        $this->patch(uri: "/admin/dashboard/cities/{$cityToUpdate->id}", data: [
             "name" => "Legnica",
             "latitude" => 32.444,
             "longitude" => 44.222,
@@ -163,7 +163,7 @@ class CityControllerTest extends TestCase
     {
         $city = City::factory()->create();
 
-        $this->delete(route(name:"cities.destroy", parameters: $city));
+        $this->delete(uri:"/admin/dashboard/cities/{$city->id}");
 
         $this->assertDatabaseMissing(table: "cities", data: $city->toArray());
     }

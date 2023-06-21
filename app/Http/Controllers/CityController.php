@@ -21,11 +21,13 @@ class CityController extends Controller
         $cities = CityResource::collection(City::with("cityAlternativeName", "provider", "country")->get()->sortBy("name"));
         $providers = ProviderResource::collection(ProviderList::all());
         $countries = CountryResource::collection(Country::all());
+        $providersCount = ProviderList::count();
 
-        return Inertia::render("Cities", [
+        return Inertia::render("Cities/Index", [
             "cities" => $cities,
             "providers" => $providers,
             "countries" => $countries,
+            "providersCount" => $providersCount,
         ]);
     }
 

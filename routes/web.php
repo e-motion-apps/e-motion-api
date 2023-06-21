@@ -11,9 +11,9 @@ use Inertia\Response;
 
 Route::get("/", fn(): Response => inertia("Welcome"));
 
-Route::resource("countries", CountryController::class);
-Route::resource("cities", CityController::class);
+Route::resource("/admin/dashboard/countries", CountryController::class);
+Route::resource("/admin/dashboard/cities", CityController::class);
 
-Route::resource("city-alternative-name", CityAlternativeNameController::class);
+Route::resource("/city-alternative-name", CityAlternativeNameController::class);
 
-Route::patch("update-city-providers/{city}", [ProviderController::class, "update"]);
+Route::patch("/update-city-providers/{city}", [ProviderController::class, "update"]);

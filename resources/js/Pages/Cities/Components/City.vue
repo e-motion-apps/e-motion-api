@@ -8,11 +8,11 @@ const props = defineProps({
 })
 
 function destroyCity(cityId) {
-  router.delete(`/cities/${cityId}`)
+  router.delete(`/admin/dashboard/cities/${cityId}`)
 }
 
 function updateCity(cityId) {
-  updateCityForm.patch(`/cities/${cityId}`, {
+  updateCityForm.patch(`/admin/dashboard/cities/${cityId}`, {
     onSuccess: () => {
       openEditWindow()
     },
@@ -124,13 +124,13 @@ function updateCityProviders(cityId) {
 
       <div v-if="!isEditWindowOpened" class="items-top ml-2 flex h-1/2 w-1/2 flex-row-reverse flex-wrap">
         <div
-          v-for="provider in props.providers.data"
+          v-for="provider in props.providers"
           :key="provider.id"
           :style="{'background-color': selectedProviders.includes(provider.id) ? provider.color : ''}"
           :class="selectedProviders.includes(provider.id) ? 'border-zinc-600 drop-shadow-lg' : 'hidden'"
           class="m-1 flex h-8 w-fit items-center justify-center rounded-lg border border-zinc-300 bg-zinc-300 p-1 "
         >
-          <img class="w-8" :src="'./providers/' + provider.name + '.png'" alt="">
+          <img class="w-8" :src="'/providers/' + provider.name + '.png'" alt="">
         </div>
       </div>
     </div>
@@ -188,7 +188,7 @@ function updateCityProviders(cityId) {
         </p>
         <div class="flex flex-wrap">
           <div
-            v-for="provider in props.providers.data"
+            v-for="provider in props.providers"
             :key="provider.id"
             :style="{'background-color': selectedProviders.includes(provider.id) ? provider.color : ''}"
             :class="selectedProviders.includes(provider.id) ? 'border-zinc-600 drop-shadow-lg' : ''"
@@ -201,7 +201,7 @@ function updateCityProviders(cityId) {
               type="checkbox"
             >
             <label class="cursor-pointer">
-              <img class="w-14" :src="'./providers/' + provider.name + '.png'" alt="">
+              <img class="w-14" :src="'/providers/' + provider.name + '.png'" alt="">
             </label>
           </div>
         </div>

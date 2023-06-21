@@ -1,16 +1,23 @@
 <script setup>
-import Country from '../Components/Country.vue'
-import { useForm } from '@inertiajs/vue3'
-import { ref } from 'vue'
+import Country from './Components/Country.vue'
+import { useForm, usePage } from '@inertiajs/vue3'
+import { computed, onMounted, ref } from 'vue'
 
 function storeCountry() {
-  storeCountryForm.post('/countries', {
+  storeCountryForm.post('/admin/dashboard/countries/', {
     onSuccess: () => {
       storeCountryForm.reset()
       error.value = ''
     },
   })
 }
+
+const page = usePage()
+
+const information = computed(() => page.props.countries)
+onMounted(() => {
+  console.log(information)
+})
 
 const storeCountryForm = useForm({
   name: '',
@@ -57,7 +64,7 @@ defineProps({
           </form>
         </div>
       </div>
-      <div v-for="country in countries.data" :key="country.id">
+      <div v-for="country in countries" :key="country.id">
         <Country :country="country" />
       </div>
     </div>

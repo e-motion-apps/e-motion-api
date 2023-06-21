@@ -1,5 +1,5 @@
 <script setup>
-import City from '../Components/City.vue'
+import City from './Components/City.vue'
 import { useForm } from '@inertiajs/vue3'
 import { computed, onMounted, ref } from 'vue'
 
@@ -8,6 +8,7 @@ const props = defineProps({
   providers: Object,
   countries: Object,
   errors: Object,
+  providersCount: Number,
 })
 
 const commaInputError = ref('')
@@ -39,7 +40,7 @@ function preventCommaInput(event) {
 const searchInput = ref('')
 
 const filteredCities = computed(() => {
-  return props.cities.data.filter(city => {
+  return props.cities.filter(city => {
     if (city.name.toLowerCase().includes(searchInput.value.toLowerCase()) || city.city_alternative_names.some(alternativeName =>
       alternativeName.name.toLowerCase().includes(searchInput.value.toLowerCase()))) {
       return true
@@ -56,6 +57,7 @@ function clearInput() {
 
 
 onMounted(() => {
+  console.log(props)
   storeCityForm.country_id = '176'
 })
 
@@ -83,7 +85,7 @@ onMounted(() => {
               {{ commaInputError }}
             </p>
             <select v-model="storeCityForm.country_id" class="border bg-zinc-100 px-2 py-1 shadow">
-              <option v-for="country in props.countries.data" :key="country.id" :value="country.id">
+              <option v-for="country in props.countries" :key="country.id" :value="country.id">
                 {{ country.name }}
               </option>
             </select>
