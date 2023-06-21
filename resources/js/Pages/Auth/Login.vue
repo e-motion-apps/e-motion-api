@@ -18,11 +18,12 @@ const error = ref('')
 
 function attemptLogin() {
   form.post('/login', {
-    onError: function(err) {
-      error.value=err
+    onError: (err) => {
+      error.value = err
     },
   })
 }
+
 </script>
 
 <template>
