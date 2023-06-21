@@ -7,25 +7,25 @@ export default {
   },
   data() {
     return {
-      loggedIn: false,
+      isAuth: false,
       key: 0,
     }
   },
   computed: {
     isAuthenticated() {
-      return this.$page.props.auth.loggedIn
+      return this.$page.props.auth.isAuth
     },
   },
   watch: {
     $route: {
       handler() {
-        this.loggedIn = this.isAuthenticated
+        this.isAuth = this.isAuthenticated
       },
       immediate: true,
     },
   },
   mounted() {
-    this.loggedIn = this.isAuthenticated
+    this.isAuth = this.isAuthenticated
   },
   methods: {
     logout() {
@@ -52,15 +52,15 @@ export default {
         <h1 class="text-3xl">
           <a href="/" class="text-blue-600 underline">Welcome</a>
           <span class="px-4" />
-          <a v-if="!loggedIn" href="/login" class="text-blue-600 underline">Login</a>
+          <a v-if="!isAuth" href="/login" class="text-blue-600 underline">Login</a>
           <span class="px-4" />
-          <a v-if="!loggedIn" href="/signup" class="text-blue-600 underline">Sign Up</a>
+          <a v-if="!isAuth" href="/signup" class="text-blue-600 underline">Sign Up</a>
           <span class="px-2" />
-          <a v-if="loggedIn" href="/dashboard" class="text-blue-600 underline">Dashboard</a>
+          <a v-if="isAuth" href="/dashboard" class="text-blue-600 underline">Dashboard</a>
           <span class="px-2" />
           <a href="/countries" class="text-blue-600 underline">Countries</a>
           <span class="px-4" />
-          <button v-if="loggedIn" class="text-blue-600 underline" @click="logout">
+          <button v-if="isAuth" class="text-blue-600 underline" @click="logout">
             Log Out
           </button>
         </h1>

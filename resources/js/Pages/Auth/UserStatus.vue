@@ -2,7 +2,7 @@
 export default {
   computed: {
     isAuthenticated() {
-      return this.$page.props.auth.loggedIn
+      return this.$page.props.auth.isAuth
     },
     user() {
       return this.$page.props.auth.user
@@ -22,4 +22,3 @@ export default {
     </div>
   </div>
 </template>
-  
