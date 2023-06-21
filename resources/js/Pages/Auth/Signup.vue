@@ -13,6 +13,7 @@ const submit = async () => {
   try { 
     form.post('/register') 
   } catch (error) {
+    console.log(error)
   }
 }
 
