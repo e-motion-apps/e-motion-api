@@ -6,6 +6,9 @@
     @vite('resources/js/app.js')
     @inertiaHead
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css' rel='stylesheet' />
+    
+
+
 </head>
 <body >
 @inertia

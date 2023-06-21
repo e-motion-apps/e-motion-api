@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import ComboboxField from './ComboboxField.vue'
-
+import SearchList from './SearchList.vue'
 
 const countries = [
   
@@ -35,9 +35,10 @@ const handleComboboxUpdate = (query, items) => {
   
 <template>
   <div class="mx-auto flex h-full w-full">
-    <div id="ComboWrapper" class="mx-auto w-8/12 flex-col justify-center">
+    <div id="ComboWrapper" class="mx-auto w-9/12 flex-col justify-center">
       <ComboboxField label="Select Country" :items="countries" :display-value="displayItem" @update="handleComboboxUpdate" />
       <ComboboxField label="Select Provider" :items="providers" :display-value="displayItem" @update="handleComboboxUpdate" />
+      <SearchList />
     </div>
   </div>
 </template>
