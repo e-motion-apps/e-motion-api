@@ -5,7 +5,6 @@ const form = useForm({
   name: '',
   email: '',
   password: '',
-  errors: {},
 })
 
 function registerUser() {
@@ -62,5 +61,3 @@ function registerUser() {
   </div>
 </template>
 
-<style src="resources/css/app.css" scoped>
-</style>

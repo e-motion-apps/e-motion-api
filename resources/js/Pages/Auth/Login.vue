@@ -29,7 +29,7 @@ function attemptLogin() {
 
 <template>
   <div class="bg-gradient-to-br from-blue-600 to-indigo-600">
-    <head title="Log In" />
+    <InertiaHead title="Log In" />
   
     <main class="custom-main grid min-h-screen place-items-center">
       <div class="float-right mt-4 w-1/2">
@@ -75,5 +75,3 @@ function attemptLogin() {
   </div>
 </template>
 
-<style src="resources/css/app.css" scoped>
-</style>

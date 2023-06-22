@@ -1,7 +1,3 @@
-<script setup>
-    
-</script>
-  
 <template>
   <div class="flex items-center bg-blue-100 p-2">
     <div>
