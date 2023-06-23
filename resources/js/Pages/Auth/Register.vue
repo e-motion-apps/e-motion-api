@@ -1,5 +1,6 @@
 <script setup>
 import { useForm } from '@inertiajs/vue3'
+import ErrorMessage from '@/Components/ErrorMessage.vue'
 
 const form = useForm({
   name: '',
@@ -31,17 +32,17 @@ function registerUser() {
           <div>
             <label for="name" class="mb-1 block font-semibold text-gray-600">Name</label>
             <input id="name" v-model="form.name" class="w-full rounded-md bg-indigo-50 px-4 py-2 outline-none" type="text" name="name" :placeholder="form.errors.name || 'Name is required'">
+            <error-message :message="form.errors.name" />
           </div>
           <div>
             <label for="email" class="mb-1 block font-semibold text-gray-600">Email</label>
             <input id="email" v-model="form.email" class="w-full rounded-md bg-indigo-50 px-4 py-2 outline-none" type="email" name="email" placeholder="Email is required">
+            <error-message :message="form.errors.email" />
           </div>
           <div>
             <label for="password" class="mb-1 block font-semibold text-gray-600">Password</label>
             <input id="password" v-model="form.password" class="w-full rounded-md bg-indigo-50 px-4 py-2 outline-none" type="password" name="password" :placeholder="form.errors.password || 'Password of at least 8 characters'">
-            <div v-if="form.errors" class="mt-1 text-xs text-red-500">
-              {{ form.errors.password }}
-            </div>
+            <error-message :message="form.errors.password" />
             <div v-if="form.errors.email && !form.errors.password" class="mt-1 text-xs text-red-500">
               Something went wrong
             </div>
@@ -54,4 +55,3 @@ function registerUser() {
     </form>
   </div>
 </template>
-

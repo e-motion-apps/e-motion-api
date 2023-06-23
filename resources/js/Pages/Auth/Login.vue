@@ -1,22 +1,21 @@
 <script setup>
 import { useForm } from '@inertiajs/vue3'
+import ErrorMessage from '@/Components/ErrorMessage.vue'
 
 const form = useForm({
   email: '',
   password: '',
 })
 
-
 function attemptLogin() {
   form.post('/login')
 }
-
 </script>
 
 <template>
   <div class="bg-gradient-to-br from-blue-600 to-indigo-600">
     <InertiaHead title="Log In" />
-  
+
     <main class="custom-main grid min-h-screen place-items-center">
       <div class="float-right mt-4 w-1/2">
         <section class="mx-auto max-w-md rounded-xl border bg-white p-4">
@@ -31,22 +30,18 @@ function attemptLogin() {
               <span>Back</span>
             </a>
           </div>
-          
+
           <form @submit.prevent="attemptLogin">
             <div class="mb-4">
               <label class="mb-1 block text-xs font-bold uppercase text-gray-500" for="email">Email</label>
               <input id="email" v-model="form.email" class="w-full rounded-md bg-indigo-50 px-4 py-2 outline-none" type="email" name="email" placeholder="Email is required">
-              <div class="mt-1 text-xs text-red-500">
-                {{ form.errors.email }}
-              </div>
+              <ErrorMessage :message="form.errors.email" />
             </div>
 
             <div class="mb-4">
               <label class="mb-1 block text-xs font-bold uppercase text-gray-500" for="password">Password</label>
               <input id="password" v-model="form.password" class="w-full rounded-md bg-indigo-50 px-4 py-2 outline-none" type="password" name="password" placeholder="Password is required">
-              <div class="mt-1 text-xs text-red-500">
-                {{ form.errors.password }}
-              </div>
+              <ErrorMessage :message="form.errors.password" />
             </div>
 
             <div>
@@ -60,4 +55,3 @@ function attemptLogin() {
     </main>
   </div>
 </template>
-
