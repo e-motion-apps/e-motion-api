@@ -1,14 +1,9 @@
-<script>
-export default {
-  computed: {
-    isAuthenticated() {
-      return this.$page.props.auth.isAuth
-    },
-    user() {
-      return this.$page.props.auth.user
-    },
-  },
-}
+<script setup>
+import { usePage } from '@inertiajs/vue3'
+import { computed } from 'vue'
+
+const isAuthenticated = computed(() => usePage().props.auth.isAuth)
+const user = computed(() => usePage().props.auth.user)
 </script>
 
 

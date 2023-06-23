@@ -10,10 +10,12 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
 
-Route::get("/signup", fn(): Response => inertia::render("Auth/Register"));
-Route::get("/login", [LoginController::class, "create"])->name("login");
-Route::post("/login", [LoginController::class, "login"])->name("login");
-Route::post("/register", [RegisterController::class, "store"])->name("register");
+Route::middleware("guest")->group(function (): void {
+    Route::get("/signup", fn(): Response => Inertia::render("Auth/Register"));
+    Route::get("/login", [LoginController::class, "create"])->name("login");
+    Route::post("/login", [LoginController::class, "login"])->name("login");
+    Route::post("/register", [RegisterController::class, "store"])->name("register");
+});
 Route::resource("countries", CountryController::class);
 
 Route::middleware("auth")->group(function (): void {

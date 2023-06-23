@@ -29,7 +29,7 @@ class LoginController extends Controller
         }
 
         return back()->withErrors([
-            "field" => "Please chceck your email address and password for errors",
+            "password" => "Please chceck your email address and password for errors",
         ]);
     }
 }
