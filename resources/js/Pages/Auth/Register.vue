@@ -6,11 +6,15 @@ const form = useForm({
   name: '',
   email: '',
   password: '',
+  password_confirmation: '',
 })
 
 function registerUser() {
   form.post('/register')
 }
+
+
+
 </script>
 
 <template>
@@ -43,9 +47,11 @@ function registerUser() {
             <label for="password" class="mb-1 block font-semibold text-gray-600">Password</label>
             <input id="password" v-model="form.password" class="w-full rounded-md bg-indigo-50 px-4 py-2 outline-none" type="password" name="password" :placeholder="form.errors.password || 'Password of at least 8 characters'">
             <error-message :message="form.errors.password" />
-            <div v-if="form.errors.email && !form.errors.password" class="mt-1 text-xs text-red-500">
-              Something went wrong
-            </div>
+          </div>
+          <div>
+            <label for="password_confirmation" class="mb-1 block font-semibold text-gray-600">Confirm Password</label>
+            <input id="password_confirmation" v-model="form.password_confirmation" class="w-full rounded-md bg-indigo-50 px-4 py-2 outline-none" type="password" name="password_confirmation" placeholder="Confirm your password">
+            <error-message :message="form.errors.password_confirmation" />
           </div>
         </div>
         <button type="submit" class="mt-4 w-full rounded-md bg-gradient-to-tr from-blue-600 to-indigo-600 py-2 text-lg tracking-wide text-indigo-100">
