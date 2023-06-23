@@ -8,13 +8,7 @@ const form = useForm({
 })
 
 function registerUser() {
-  form.post('/register', {
-    onSuccess: () => {
-      form.reset()
-    },
-    onError: () => {
-    },
-  })
+  form.post('/register')
 }
 </script>
 
