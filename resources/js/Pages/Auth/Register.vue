@@ -12,9 +12,6 @@ const form = useForm({
 function registerUser() {
   form.post('/register')
 }
-
-
-
 </script>
 
 <template>
