@@ -8,14 +8,13 @@ const props = defineProps({
   providers: Object,
   countries: Object,
   errors: Object,
-  providersCount: Number,
 })
 
 const commaInputError = ref('')
 
 function storeCity() {
   commaInputError.value = ''
-  storeCityForm.post('/cities', {
+  storeCityForm.post('/admin/dashboard/cities', {
     onSuccess: () => {
       storeCityForm.reset()
       storeCityForm.country_id = '176'
@@ -50,14 +49,12 @@ const filteredCities = computed(() => {
   })
 })
 
-
 function clearInput() {
   searchInput.value = ''
 }
 
 
 onMounted(() => {
-  console.log(props)
   storeCityForm.country_id = '176'
 })
 

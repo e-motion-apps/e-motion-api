@@ -16,7 +16,7 @@ class CityRequest extends FormRequest
             "name" => ["required", "string", "regex:/^[A-Z]/", "max:100", $this->uniqueRuleForCity("name")],
             "latitude" => ["required", "numeric"],
             "longitude" => ["required", "numeric"],
-            "country_id" => [],
+            "country_id" => ["exists:countries,id"],
         ];
     }
 

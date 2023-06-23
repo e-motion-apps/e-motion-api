@@ -11,7 +11,7 @@ class ProviderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "providers" => [],
+            "providers" => ["array"],
         ];
     }
 }

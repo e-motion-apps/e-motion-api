@@ -12,7 +12,7 @@ class CityAlternativeNameRequest extends FormRequest
     {
         return [
             "name" => ["required", "string", "regex:/^[A-Z]/", "max:100", "unique:city_alternative_names"],
-            "city_id" => [],
+            "city_id" => ["exists:cities,id"],
         ];
     }
 }
