@@ -8,6 +8,8 @@
         "lintf": "./node_modules/.bin/eslint resources/js --ext .js,.vue --fix"
     },
     "dependencies": {
+        "@inertiajs/inertia-vue3": "^0.6.0",
+        "@inertiajs/progress": "^0.2.7",
         "@inertiajs/vue3": "^1.0.7",
         "@tailwindcss/forms": "^0.5.3",
         "@tailwindcss/typography": "^0.5.9",
