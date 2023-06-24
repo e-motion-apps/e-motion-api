@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
 
-
 Route::middleware("guest")->group(function (): void {
     Route::get("/signup", fn(): Response => Inertia::render("Auth/Register"));
     Route::get("/login", [LoginController::class, "create"])->name("login");
@@ -24,7 +23,6 @@ Route::middleware("guest")->group(function (): void {
 Route::middleware("auth")->group(function (): void {
     Route::post("/logout", [LogoutController::class, "logout"])->name("logout");
     Route::get("/dashboard", fn(): Response => inertia("Dashboard"))->name("dashboard");
-  
     Route::resource("/admin/dashboard/countries", CountryController::class);
     Route::resource("/admin/dashboard/cities", CityController::class);
     Route::resource("/city-alternative-name", CityAlternativeNameController::class);
@@ -32,4 +30,3 @@ Route::middleware("auth")->group(function (): void {
 });
 
 Route::get("/", fn(): Response => inertia("Welcome"))->name("home");
-
