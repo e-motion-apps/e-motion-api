@@ -5,7 +5,10 @@ declare(strict_types=1);
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\CityAlternativeNameController;
+use App\Http\Controllers\CityController;
 use App\Http\Controllers\CountryController;
+use App\Http\Controllers\ProviderController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -16,11 +19,14 @@ Route::middleware("guest")->group(function (): void {
     Route::post("/login", [LoginController::class, "login"])->name("login");
     Route::post("/register", [RegisterController::class, "store"])->name("register");
 });
-Route::resource("countries", CountryController::class);
 
 Route::middleware("auth")->group(function (): void {
     Route::post("/logout", [LogoutController::class, "logout"])->name("logout");
     Route::get("/dashboard", fn(): Response => inertia("Dashboard"))->name("dashboard");
 });
 
+Route::resource("/admin/dashboard/countries", CountryController::class);
+Route::resource("/admin/dashboard/cities", CityController::class);
+Route::resource("/city-alternative-name", CityAlternativeNameController::class);
+Route::patch("/update-city-providers/{city}", [ProviderController::class, "update"]);
 Route::get("/", fn(): Response => inertia("Welcome"))->name("home");

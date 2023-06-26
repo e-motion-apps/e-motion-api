@@ -7,11 +7,11 @@ const props = defineProps({
 })
 
 function destroyCountry(countryId) {
-  router.delete(`/countries/${countryId}`)
+  router.delete(`/admin/dashboard/countries/${countryId}`)
 }
 
 function updateCountry(countryId) {
-  updateCountryForm.patch(`/countries/${countryId}`, {
+  updateCountryForm.patch(`/admin/dashboard/countries/${countryId}`, {
     onSuccess: () => {
       openEditWindow()
     },
@@ -26,12 +26,12 @@ const updateCountryForm = useForm({
   iso: props.country.iso,
 })
 
-const error = ref('')
+const commaInputError = ref('')
 
 function preventCommaInput(event) {
   if (event.key === ',') {
     event.preventDefault()
-    error.value = 'Use \'.\' instead of \',\''
+    commaInputError.value = 'Use \'.\' instead of \',\''
   }
 }
 
@@ -39,7 +39,7 @@ const isEditWindowOpened = ref(false)
 
 function openEditWindow() {
   isEditWindowOpened.value = !isEditWindowOpened.value
-  error.value = ''
+  commaInputError.value = ''
 }
 
 </script>
@@ -58,7 +58,7 @@ function openEditWindow() {
         <input v-model="updateCountryForm.latitude" class="border px-2 py-1" type="text" placeholder="Latitude" required @keydown="preventCommaInput">
         <input v-model="updateCountryForm.longitude" class="border px-2 py-1" type="text" placeholder="Longitude" required @keydown="preventCommaInput">
         <input v-model="updateCountryForm.iso" class="border px-2 py-1" type="text" placeholder="ISO 3166" required>
-        <small class="text-rose-600">{{ error }}</small>
+        <small class="text-rose-600">{{ commaInputError }}</small>
 
         <div class="flex justify-between">
           <button type="submit" class="flex w-fit rounded border border-blue-500 bg-white px-5 py-2 text-white">
@@ -74,7 +74,7 @@ function openEditWindow() {
     </div>
 
     <div v-if="!isEditWindowOpened" class="mt-2 flex space-x-2">
-      <button class="flex w-fit rounded bg-blue-500 px-5 py-2 text-white" @click="openEditWindow">
+      <button class="flex w-fit rounded bg-[#527aba] px-5 py-2 text-white" @click="openEditWindow">
         <img width="18" src="https://img.icons8.com/ios-filled/50/FFFFFF/edit--v1.png" alt="">
       </button>
 
