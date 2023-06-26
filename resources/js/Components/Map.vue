@@ -19,8 +19,6 @@ function buildMap() {
     maxZoom: 18,
     center: [52.0693267, 19.4781225],
   }).addTo(map.value)
-
-  
 }
 </script>
 

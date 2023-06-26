@@ -38,8 +38,6 @@ const data = [
   },
 ]
 
-
-
 </script>
   
 <template>
@@ -64,11 +62,3 @@ const data = [
     </ul>
   </div>
 </template>
-
-  
-  
-  
-  
-  
-
-

@@ -63,10 +63,3 @@ watch(() => window.innerWidth, updateIsMobile)
     </div>
   </div>
 </template>
-
-
-
-
-
-
-

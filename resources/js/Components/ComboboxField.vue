@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, defineProps, defineEmits } from 'vue'
+import { computed, ref, defineProps } from 'vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import { Combobox, ComboboxButton, ComboboxInput, ComboboxLabel, ComboboxOption, ComboboxOptions } from '@headlessui/vue'
 
@@ -10,7 +10,6 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['update'])
-
 const query = ref('')
 const selectedItem = ref(null)
 
