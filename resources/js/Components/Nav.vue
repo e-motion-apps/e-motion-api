@@ -5,7 +5,6 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 
 const navigation = [
   { name: 'Language', href: '#' },
-
 ]
 
 const mobileMenuOpen = ref(false)
@@ -18,17 +17,15 @@ const mobileMenuOpen = ref(false)
         <img class="h-12 w-auto" src="@/assets/scooter.png" alt="">
         <span class=" ml-5 hidden text-3xl font-semibold sm:flex ">escooters</span>
       </a>
-      
       <div class="flex lg:hidden">
         <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700" @click="mobileMenuOpen = true">
           <span class="sr-only">Open main menu</span>
           <Bars3Icon class="h-6 w-6" aria-hidden="true" />
         </button>
       </div>
-      
       <div class="hidden items-center lg:flex lg:gap-x-12">
         <a v-for="item in navigation" :key="item.name" :href="item.href" class="text-sm font-semibold uppercase leading-6 text-gray-900 lg:text-xl">{{ item.name }}</a>
-        <a href="#" class="text-sm font-semibold uppercase leading-6 text-gray-900 lg:text-xl ">Log in <span aria-hidden="true">&rarr;</span></a>
+        <a href="#" class="text-sm font-semibold uppercase leading-6 text-gray-900 lg:text-xl ">Log in </a>
       </div>
     </nav>
     <Dialog as="div" class="z-30 border-b-2 lg:hidden" :open="mobileMenuOpen" @close="mobileMenuOpen = false">

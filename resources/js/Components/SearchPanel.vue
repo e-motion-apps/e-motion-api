@@ -29,9 +29,9 @@ const handleComboboxUpdate = (query, items) => {
 <template>
   <div class="mx-auto flex h-full w-full">
     <div id="ComboWrapper" class="mx-auto w-9/12 flex-col justify-center">
-      <ComboboxField label="Select Country" :items="countries" :display-value="displayItem" @update="handleComboboxUpdate" />
-      <ComboboxField label="Select Provider" :items="providers" :display-value="displayItem" @update="handleComboboxUpdate" />
-      <SearchList />
+      <ComboboxField label="Country" :items="countries" :display-value="displayItem" @update="handleComboboxUpdate" />
+      <ComboboxField label="Provider" :items="providers" :display-value="displayItem" @update="handleComboboxUpdate" />
+      <SearchList class="mt-3" />
     </div>
   </div>
 </template>

@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, defineProps } from 'vue'
+import { computed, ref } from 'vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import { Combobox, ComboboxButton, ComboboxInput, ComboboxLabel, ComboboxOption, ComboboxOptions } from '@headlessui/vue'
 
@@ -29,10 +29,10 @@ const updateQuery = (event) => {
 
 <template>
   <Combobox v-model="selectedItem" as="div">
-    <ComboboxLabel class="block text-xl font-medium leading-9 text-gray-900">
+    <ComboboxLabel class="block text-lg font-medium leading-9 text-gray-900">
       {{ label }}
     </ComboboxLabel>
-    <div class="relative mt-5">
+    <div class="relative mt-2">
       <ComboboxInput class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-10 text-xl text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:leading-6" :display-value="displayValue" @change="updateQuery" />
       <ComboboxButton class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
         <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
