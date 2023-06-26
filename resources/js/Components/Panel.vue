@@ -3,7 +3,8 @@ import Map from './Map.vue'
 import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
 import Info from './Info.vue'
 import SearchPanel from './SearchPanel.vue'
-import Nav from '../Components/Nav.vue'
+import Nav from './../Layout/Nav.vue'
+import Footer from '../Layout/Footer.vue'
 
 const showInfo = ref(true)
 const isMobile = ref(window.innerWidth <= 1024)
@@ -38,8 +39,8 @@ watch(() => window.innerWidth, updateIsMobile)
 
 <template>
   <div class="mx-auto h-screen bg-white">
-    <Nav class="z-30" />
-    <div class="relative flex h-[calc(100%-98px)] flex-col lg:flex-row">
+    <Nav class="z-30 max-h-28" />
+    <div class="relative flex h-[calc(100%-118px)] flex-col lg:flex-row">
       <div class="min-h-full lg:w-1/2" :class="{'hidden': showMapMobile}">
         <Info v-if="showInfo" @try-it-out="switchPanel" />
         <SearchPanel v-else />
@@ -60,6 +61,9 @@ watch(() => window.innerWidth, updateIsMobile)
           </svg>
         </button>
       </div>
+    </div>
+    <div class="max-h-5 w-full flex-col">
+      <Footer />
     </div>
   </div>
 </template>
