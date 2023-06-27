@@ -25,6 +25,6 @@ Route::middleware("auth")->group(function (): void {
 
 Route::get("/", fn(): Response => inertia("Welcome"))->name("home");
 
-Route::middleware("auth")->group(function (): void {
+Route::middleware("admin")->group(function (): void {
     Route::get("/admin", [AdminController::class, "Dashboard"])->name("dashboard");
 });
