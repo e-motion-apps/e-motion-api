@@ -16,7 +16,6 @@ Route::middleware("guest")->group(function (): void {
     Route::post("/login", [LoginController::class, "login"])->name("login");
     Route::post("/register", [RegisterController::class, "store"])->name("register");
 });
-Route::resource("countries", CountryController::class);
 
 Route::middleware("auth")->group(function (): void {
     Route::post("/logout", [LogoutController::class, "logout"])->name("logout");
@@ -24,3 +23,8 @@ Route::middleware("auth")->group(function (): void {
 });
 
 Route::get("/", fn(): Response => inertia("Welcome"))->name("home");
+Route::resource("countries", CountryController::class);
+
+Route::middleware(["auth", "admin"])->group(function (): void {
+    Route::get("/dashboard", fn(): Response => inertia("Dashboard"))->name("dashboard");
+});
