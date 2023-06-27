@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controller\AdminController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -12,7 +13,7 @@ use Inertia\Response;
 
 Route::middleware("guest")->group(function (): void {
     Route::get("/signup", fn(): Response => Inertia::render("Auth/Register"));
-    Route::get("/login", [LoginController::class, "create"])->name("getLogin");
+    Route::get("/login", [LoginController::class, "create"])->name("getlogin");
     Route::post("/login", [LoginController::class, "login"])->name("login");
     Route::post("/register", [RegisterController::class, "store"])->name("register");
 });
