@@ -16,7 +16,7 @@ class CountryController extends Controller
     {
         $countries = CountryResource::collection(Country::all()->sortBy("name"));
 
-        return Inertia::render("Countries", [
+        return Inertia::render("Countries/Index", [
             "countries" => $countries,
         ]);
     }
