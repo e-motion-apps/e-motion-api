@@ -12,7 +12,7 @@ use Inertia\Response;
 
 Route::middleware("guest")->group(function (): void {
     Route::get("/signup", fn(): Response => Inertia::render("Auth/Register"));
-    Route::get("/login", [LoginController::class, "create"])->name("login");
+    Route::get("/login", [LoginController::class, "create"])->name("getLogin");
     Route::post("/login", [LoginController::class, "login"])->name("login");
     Route::post("/register", [RegisterController::class, "store"])->name("register");
 });
@@ -26,5 +26,5 @@ Route::middleware("auth")->group(function (): void {
 Route::get("/", fn(): Response => inertia("Welcome"))->name("home");
 
 Route::middleware("admin")->group(function (): void {
-    Route::get("/admin", [AdminController::class, "Dashboard"])->name("dashboard");
+    Route::get("/admin", [AdminController::class, "Dashboard"])->name("adminDashboard");
 });
