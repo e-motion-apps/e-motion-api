@@ -38,12 +38,12 @@ watch(() => window.innerWidth, updateIsMobile)
 </script>
 
 <template>
-  <div class="mx-auto h-screen bg-white">
+  <div class="mx-auto h-screen flex-col bg-white">
     <Nav class="z-30 max-h-28" />
-    <div class="relative flex h-[calc(100%-118px)] flex-col lg:flex-row">
+    <div class="relative flex h-[calc(100%-118px)] flex-col overflow-auto lg:flex-row">
       <div class="min-h-full lg:w-1/2" :class="{'hidden': showMapMobile}">
-        <Info v-if="showInfo" @try-it-out="switchPanel" />
-        <SearchPanel v-else />
+        <Info v-show="showInfo" @try-it-out="switchPanel" />
+        <SearchPanel v-show="!showInfo" />
       </div>
 
       <div v-if="!(isMobile && !showMapMobile)" class="min-h-full lg:w-1/2">

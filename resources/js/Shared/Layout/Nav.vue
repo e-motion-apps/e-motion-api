@@ -2,9 +2,11 @@
 import { ref } from 'vue'
 import { Dialog, DialogPanel } from '@headlessui/vue'
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
+import { Link } from '@inertiajs/vue3'
 
 const navigation = [
-  { name: 'Language', href: '#' },
+  { name: 'Cities', href: '/admin/dashboard/cities' },
+  { name: 'Countries', href: '/admin/dashboard/cities' },
 ]
 
 const mobileMenuOpen = ref(false)
@@ -13,10 +15,10 @@ const mobileMenuOpen = ref(false)
 <template>
   <header class="w-full bg-white ">
     <nav class="mx-auto flex h-24 max-w-full items-center justify-between border-b-2 p-6 lg:px-8" aria-label="Global">
-      <a href="/" class="-m-1.5 flex items-center p-1.5">
+      <Link href="/" class="-m-1.5 flex items-center p-1.5">
         <img class="h-12 w-auto" src="@/assets/scooter.png" alt="">
         <span class=" ml-5 hidden text-3xl font-semibold sm:flex ">escooters</span>
-      </a>
+      </Link>
       <div class="flex lg:hidden">
         <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700" @click="mobileMenuOpen = true">
           <span class="sr-only">Open main menu</span>
@@ -24,7 +26,9 @@ const mobileMenuOpen = ref(false)
         </button>
       </div>
       <div class="hidden items-center lg:flex lg:gap-x-12">
-        <a v-for="item in navigation" :key="item.name" :href="item.href" class="text-sm font-semibold  leading-6 text-gray-900 lg:text-xl">{{ item.name }}</a>
+        <Link v-for="item in navigation" :key="item.name" :href="item.href" class="text-sm font-semibold  leading-6 text-gray-900 lg:text-xl">
+          {{ item.name }}
+        </Link>
         <a href="#" class="text-sm font-semibold  leading-6 text-gray-900 lg:text-xl ">Log in </a>
       </div>
     </nav>

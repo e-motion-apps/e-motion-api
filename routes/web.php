@@ -29,4 +29,4 @@ Route::resource("/admin/dashboard/countries", CountryController::class);
 Route::resource("/admin/dashboard/cities", CityController::class);
 Route::resource("/city-alternative-name", CityAlternativeNameController::class);
 Route::patch("/update-city-providers/{city}", [ProviderController::class, "update"]);
-Route::get("/", fn(): Response => inertia("Welcome"))->name("home");
+Route::get("/", fn(): Response => inertia("Landing"))->name("home");
