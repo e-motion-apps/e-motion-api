@@ -1,12 +1,7 @@
-<<<<<<< HEAD
 <script setup>
-import Panel from '../Components/Panel.vue'
+import Panel from '../Shared/Components/Panel.vue'
 </script>
 
 <template>
   <Panel />
-=======
-<template>
-  <div />
->>>>>>> main
 </template>
