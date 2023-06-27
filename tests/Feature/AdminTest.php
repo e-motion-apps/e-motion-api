@@ -14,7 +14,7 @@ class AdminTest extends TestCase
 
     public function testAdminCanAccessDashboard(): void
     {
-        $this->seed(); 
+        $this->seed();
 
         $admin = User::whereHas("roles", function ($query): void {
             $query->where("name", "admin");
@@ -36,5 +36,21 @@ class AdminTest extends TestCase
         $response = $this->actingAs($admin)->get("/countries");
 
         $response->assertStatus(200);
+    }
+
+    public function testAdminCanLoginWithValidCredentials(): void
+    {
+        $admin = User::factory()->create([
+            "email" => "admin@example.com",
+            "password" => bcrypt("password@example"),
+        ]);
+
+        $response = $this->post("/login", [
+            "email" => "admin@example.com",
+            "password" => "password@example",
+        ]);
+
+        $response->assertStatus(302);
+        $this->assertAuthenticatedAs($admin);
     }
 }
