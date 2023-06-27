@@ -29,7 +29,7 @@ const updateQuery = (event) => {
 
 <template>
   <Combobox v-model="selectedItem" as="div">
-    <ComboboxLabel class="block text-lg font-medium leading-9 text-gray-900">
+    <ComboboxLabel class="block text-sm font-medium leading-6 text-gray-900">
       {{ label }}
     </ComboboxLabel>
     <div class="relative mt-2">

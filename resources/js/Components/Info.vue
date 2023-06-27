@@ -16,14 +16,16 @@ const tryItOut = () => {
     <h1 class=" text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
       Looking for an e-scooter?
     </h1>
-    <p class="mx-auto  pt-8  text-sm leading-7 text-gray-600">
+    <p class="mx-auto  pt-6  text-xs leading-7 text-gray-600 sm:text-sm lg:text-lg">
       There are plenty of e-scooter providers, so sometimes you can be confused about which app you should use during your trips. I understand this problem. This little map can help you with planning your vacations or business trips.
     </p>
-    <div class=" flex w-full justify-around pt-4 lg:pt-14">
-      <PrimaryButton @click="tryItOut">
-        try it out
+    <div class=" flex w-full justify-around pt-4 lg:h-auto lg:pt-14">
+      <PrimaryButton class="px-1.5 py-2 sm:px-3.5 sm:py-4 lg:px-7 lg:py-8" @click="tryItOut">
+        Try it out
       </PrimaryButton>
-      <SecondaryButton>register</SecondaryButton>
+      <SecondaryButton class="px-1.5 py-2 sm:px-3.5 sm:py-4 lg:px-7 lg:py-8 ">
+        Register
+      </SecondaryButton>
     </div>
   </div>
 </template>

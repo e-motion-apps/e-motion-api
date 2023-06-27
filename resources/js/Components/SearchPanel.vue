@@ -30,7 +30,7 @@ const handleComboboxUpdate = (query, items) => {
   <div class="mx-auto flex h-full w-full">
     <div id="ComboWrapper" class="mx-auto w-9/12 flex-col justify-center">
       <ComboboxField label="Country" :items="countries" :display-value="displayItem" @update="handleComboboxUpdate" />
-      <ComboboxField label="Provider" :items="providers" :display-value="displayItem" @update="handleComboboxUpdate" />
+      <ComboboxField label="Provider" :items="providers" class="mt-3" :display-value="displayItem" @update="handleComboboxUpdate" />
       <SearchList class="mt-5 lg:mt-10" />
     </div>
   </div>
