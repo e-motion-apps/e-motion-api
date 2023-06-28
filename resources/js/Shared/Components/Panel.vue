@@ -40,13 +40,13 @@ watch(() => isMobile, updateIsMobile)
 <template>
   <div class="mx-auto h-screen flex-col bg-white">
     <Nav class="z-30 max-h-24" />
-    <div class="relative flex  min-h-[calc(100%-116px)]  flex-col overflow-auto lg:flex-row">
-      <div class="lg:w-1/2" :class="{'hidden': showMapMobile}">
+    <div class="relative flex h-[calc(100%-116px)]  flex-col overflow-auto lg:flex-row">
+      <div class="h-full lg:w-1/2" :class="{'hidden': showMapMobile}">
         <Info v-show="showInfo" @try-it-out="switchPanel" />
         <SearchPanel v-show="!showInfo" />
       </div>
 
-      <div v-if="!(isMobile && !showMapMobile)" class=" lg:w-1/2">
+      <div v-if="!(isMobile && !showMapMobile)" class="h-full lg:w-1/2">
         <Map class="z-10" />
       </div>
 
