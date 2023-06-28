@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Http\Controller\AdminController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -26,6 +26,6 @@ Route::middleware("auth")->group(function (): void {
 
 Route::get("/", fn(): Response => inertia("Welcome"))->name("home");
 
-Route::middleware("admin")->group(function (): void {
-    Route::get("/admin", [AdminController::class, "Dashboard"])->name("adminDashboard");
+Route::group(["middleware" => ["auth", "admin"]], function (): void {
+    Route::get("/admin", [AdminController::class, "admin"])->name("adminDashboard");
 });

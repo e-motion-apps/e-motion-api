@@ -6,6 +6,7 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class AdminTest extends TestCase
@@ -14,9 +15,11 @@ class AdminTest extends TestCase
 
     public function testAdminCanLoginWithValidCredentials(): void
     {
-        $admin = User::factory()->create([
+        $admin = User::create([
+            "name" => "Admin User",
             "email" => "admin@example.com",
-            "password" => bcrypt("password@example"),
+            "password" => Hash::make("password@example"),
+            "role" => "admin",
         ]);
 
         $response = $this->post("/login", [
@@ -25,6 +28,38 @@ class AdminTest extends TestCase
         ]);
 
         $response->assertStatus(302);
+        $this->assertAuthenticatedAs($admin);
+    }
+
+    public function testAdminCanAccessDashboard(): void
+    {
+        $admin = User::create([
+            "name" => "Admin User",
+            "email" => "admin@example.com",
+            "password" => Hash::make("password@example"),
+            "role" => "admin",
+        ]);
+
+        $this->actingAs($admin);
+
+        $response = $this->get("/dashboard");
+        $response->assertStatus(200);
+        $this->assertAuthenticatedAs($admin);
+    }
+
+    public function testAdminCanAccessCountry(): void
+    {
+        $admin = User::create([
+            "name" => "adminUser",
+            "email" => "admin@example.com",
+            "password" => Hash::make("password@example"),
+            "role" => "admin",
+        ]);
+
+        $this->actingAs($admin);
+
+        $response = $this->get("/countries");
+        $response->assertStatus(200);
         $this->assertAuthenticatedAs($admin);
     }
 }

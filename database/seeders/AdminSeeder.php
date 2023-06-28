@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class AdminSeeder extends Seeder
@@ -15,13 +16,15 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
+        $password = Str::random(10);
+
         User::create([
             "name" => "admin5",
             "email" => "admin5@example.com",
             "email_verified_at" => now(),
-            "password" => "1",
+            "password" => Hash::make($password),
             "remember_token" => Str::random(10),
             "role" => "admin",
-        ])->assignRole("admin");
+        ]);
     }
 }

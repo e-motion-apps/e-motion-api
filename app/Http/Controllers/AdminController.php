@@ -9,8 +9,8 @@ use Inertia\Response;
 
 class AdminController extends Controller
 {
-    public function index(): Response
+    public function admin(): Response
     {
-        return Inertia::render("dashboard");
+        return inertia::render("Admin");
     }
 }
