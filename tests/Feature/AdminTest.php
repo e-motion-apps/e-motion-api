@@ -58,7 +58,7 @@ class AdminTest extends TestCase
 
         $this->actingAs($admin);
 
-        $response = $this->get("/countries");
+        $response = $this->get("/admin/dashboard/countries");
         $response->assertStatus(200);
         $this->assertAuthenticatedAs($admin);
     }
@@ -75,7 +75,7 @@ class AdminTest extends TestCase
         $this->actingAs($admin);
 
         $response = $this->get("/admin");
-        $response->assertStatus(302);
+        $response->assertStatus(200);
         $this->assertAuthenticatedAs($admin);
     }
 }
