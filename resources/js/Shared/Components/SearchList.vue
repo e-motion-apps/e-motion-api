@@ -37,7 +37,6 @@ const data = [
     provider: 'Neuron',
   },
 ]
-
 </script>
   
 <template>
@@ -50,7 +49,7 @@ const data = [
             <p class="mr-2 font-bold text-gray-900">
               {{ dataItem.city }}   
             </p>
-            <p class="font-semibold text-[#527ABA]">
+            <p class="font-semibold text-blumilk-500">
               {{ dataItem.country }}
             </p>
           </div>

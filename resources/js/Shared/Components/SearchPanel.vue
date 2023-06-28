@@ -22,16 +22,15 @@ const selectedValue = ref(null)
 
 const handleComboboxUpdate = (query, items) => {
   selectedValue.value = items.find((item) => item.name.toLowerCase() === query.toLowerCase())
-  console.log('Selected item:', selectedValue.value)
 }
 </script>
   
 <template>
   <div class="mx-auto flex h-full w-full">
     <div id="ComboWrapper" class="mx-auto w-9/12 flex-col justify-center">
-      <ComboboxField label="Country" :items="countries" :display-value="displayItem" @update="handleComboboxUpdate" />
-      <ComboboxField label="Provider" :items="providers" class="mt-3" :display-value="displayItem" @update="handleComboboxUpdate" />
-      <SearchList class="mt-5 lg:mt-10" />
+      <ComboboxField label="Country" :items="countries" :display-value="displayItem" class="pt-3" @update="handleComboboxUpdate" />
+      <ComboboxField label="Provider" :items="providers" class="pb-3" :display-value="displayItem" @update="handleComboboxUpdate" />
+      <SearchList class="pt-5 lg:pt-10" />
     </div>
   </div>
 </template>
