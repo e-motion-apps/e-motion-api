@@ -62,4 +62,20 @@ class AdminTest extends TestCase
         $response->assertStatus(200);
         $this->assertAuthenticatedAs($admin);
     }
+
+    public function testAdminCanEnterAdminPanel(): void
+    {
+        $admin = User::create([
+            "name" => "adminUser123",
+            "email" => "admin123@example.com",
+            "password" => Hash::make("password@example"),
+            "role" => "admin",
+        ]);
+
+        $this->actingAs($admin);
+
+        $response = $this->get("/admin");
+        $response->assertStatus(302);
+        $this->assertAuthenticatedAs($admin);
+    }
 }

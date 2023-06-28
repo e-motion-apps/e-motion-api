@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -22,10 +21,7 @@ Route::resource("countries", CountryController::class);
 Route::middleware("auth")->group(function (): void {
     Route::post("/logout", [LogoutController::class, "logout"])->name("logout");
     Route::get("/dashboard", fn(): Response => inertia("Dashboard"))->name("dashboard");
+    Route::get("/admin", fn(): Response => inertia("Admin"))->name("admin");
 });
 
 Route::get("/", fn(): Response => inertia("Welcome"))->name("home");
-
-Route::group(["middleware" => ["auth", "admin"]], function (): void {
-    Route::get("/admin", [AdminController::class, "admin"])->name("adminDashboard");
-});

@@ -4,13 +4,18 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use Inertia\Inertia;
+use Illuminate\http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Response;
 
 class AdminController extends Controller
 {
-    public function admin(): Response
+    public function admin(): RedirectResponse|Response
     {
-        return inertia::render("Admin");
+        if (Auth::check() && Auth::user()->admin()) {
+            return inertia()->render("Admin");
+        }
+
+        return redirect()->route("login");
     }
 }
