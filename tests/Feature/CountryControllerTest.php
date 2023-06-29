@@ -5,12 +5,27 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use App\Models\Country;
+use App\Models\User;
 use Generator;
 use Inertia\Testing\AssertableInertia as Assert;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 class CountryControllerTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $adminRole = Role::create(["name" => "admin"]);
+        $adminPermission = Permission::create(["name" => "admin"]);
+        $adminRole->givePermissionTo($adminPermission);
+        $adminUser = User::factory()->create();
+        $adminUser->assignRole($adminRole);
+        $this->actingAs($adminUser);
+    }
+
     public function testCountriesViewCanBeRendered(): void
     {
         Country::factory()->count(3)->create();

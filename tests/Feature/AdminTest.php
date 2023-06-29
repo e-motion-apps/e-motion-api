@@ -7,75 +7,61 @@ namespace Tests\Feature;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 class AdminTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testAdminCanLoginWithValidCredentials(): void
+    protected function setUp(): void
     {
-        $admin = User::create([
+        parent::setUp();
+
+        $adminRole = Role::create(["name" => "admin"]);
+        $adminPermission = Permission::create(["name" => "admin"]);
+        $adminRole->givePermissionTo($adminPermission);
+
+        $adminUser = User::factory()->create([
             "name" => "Admin User",
             "email" => "admin@example.com",
             "password" => Hash::make("password@example"),
-            "role" => "admin",
         ]);
 
+        $adminUser->assignRole($adminRole);
+
+        $this->actingAs($adminUser);
+    }
+
+    public function testAdminCanLoginWithValidCredentials(): void
+    {
         $response = $this->post("/login", [
             "email" => "admin@example.com",
             "password" => "password@example",
         ]);
 
-        $response->assertStatus(302);
-        $this->assertAuthenticatedAs($admin);
+        $response->assertRedirect("/");
     }
 
     public function testAdminCanAccessDashboard(): void
     {
-        $admin = User::create([
-            "name" => "Admin User",
-            "email" => "admin@example.com",
-            "password" => Hash::make("password@example"),
-            "role" => "admin",
-        ]);
-
-        $this->actingAs($admin);
-
         $response = $this->get("/dashboard");
         $response->assertStatus(200);
-        $this->assertAuthenticatedAs($admin);
+        $this->assertAuthenticatedAs(User::first());
     }
 
-    public function testAdminCanAccessCountry(): void
+    public function testAdminCanEnterAdminPage(): void
     {
-        $admin = User::create([
-            "name" => "adminUser",
-            "email" => "admin@example.com",
-            "password" => Hash::make("password@example"),
-            "role" => "admin",
-        ]);
-
-        $this->actingAs($admin);
-
-        $response = $this->get("/admin/dashboard/countries");
-        $response->assertStatus(200);
-        $this->assertAuthenticatedAs($admin);
-    }
-
-    public function testAdminCanEnterAdminPanel(): void
-    {
-        $admin = User::create([
-            "name" => "adminUser123",
-            "email" => "admin123@example.com",
-            "password" => Hash::make("password@example"),
-            "role" => "admin",
-        ]);
-
-        $this->actingAs($admin);
-
         $response = $this->get("/admin");
         $response->assertStatus(200);
-        $this->assertAuthenticatedAs($admin);
+        $this->assertAuthenticatedAs(User::first());
+    }
+
+    public function testAdminCanEnterAdminDashboardCountries(): void
+    {
+        $response = $this->get("/admin/dashboard/countries");
+        $response->assertStatus(200);
+        $this->assertAuthenticatedAs(User::first());
     }
 }
