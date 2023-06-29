@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * @property int $id
@@ -26,4 +27,9 @@ class Country extends Model
         "longitude",
         "iso",
     ];
+
+    public function city(): HasOne
+    {
+        return $this->hasOne(City::class);
+    }
 }
