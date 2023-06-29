@@ -19,12 +19,11 @@ class AdminSeeder extends Seeder
         $password = Str::random(10);
 
         User::create([
-            "name" => "admin5",
-            "email" => "admin5@example.com",
+            "name" => "admin",
+            "email" => "admin@example.com",
             "email_verified_at" => now(),
             "password" => Hash::make($password),
             "remember_token" => Str::random(10),
-            "role" => "admin",
-        ]);
+        ])->assignRole("admin");
     }
 }
