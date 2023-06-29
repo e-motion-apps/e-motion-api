@@ -7,7 +7,6 @@ namespace Tests\Feature;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
@@ -20,9 +19,6 @@ class AdminTest extends TestCase
         parent::setUp();
 
         $adminRole = Role::create(["name" => "admin"]);
-        $adminPermission = Permission::create(["name" => "admin"]);
-        $adminRole->givePermissionTo($adminPermission);
-
         $adminUser = User::factory()->create([
             "name" => "Admin User",
             "email" => "admin@example.com",
