@@ -5582,16 +5582,16 @@
     "packages-dev": [
         {
             "name": "blumilksoftware/codestyle",
-            "version": "v2.3.0",
+            "version": "v2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/blumilksoftware/codestyle.git",
-                "reference": "f8586205badb27f047e487d375e0963ba30dd641"
+                "reference": "00187855922427ac572f511801f610bc5296bb55"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/blumilksoftware/codestyle/zipball/f8586205badb27f047e487d375e0963ba30dd641",
-                "reference": "f8586205badb27f047e487d375e0963ba30dd641",
+                "url": "https://api.github.com/repos/blumilksoftware/codestyle/zipball/00187855922427ac572f511801f610bc5296bb55",
+                "reference": "00187855922427ac572f511801f610bc5296bb55",
                 "shasum": ""
             },
             "require": {
@@ -5626,9 +5626,9 @@
             "description": "Blumilk codestyle configurator",
             "support": {
                 "issues": "https://github.com/blumilksoftware/codestyle/issues",
-                "source": "https://github.com/blumilksoftware/codestyle/tree/v2.3.0"
+                "source": "https://github.com/blumilksoftware/codestyle/tree/v2.4.0"
             },
-            "time": "2023-05-30T13:36:52+00:00"
+            "time": "2023-06-20T12:09:53+00:00"
         },
         {
             "name": "composer/pcre",
@@ -6065,16 +6065,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.17.0",
+            "version": "v3.20.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "3f0ed862f22386c55a767461ef5083bddceeed79"
+                "reference": "0e8249e0b15e2bc022fbbd1090ce29d071481e69"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/3f0ed862f22386c55a767461ef5083bddceeed79",
-                "reference": "3f0ed862f22386c55a767461ef5083bddceeed79",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/0e8249e0b15e2bc022fbbd1090ce29d071481e69",
+                "reference": "0e8249e0b15e2bc022fbbd1090ce29d071481e69",
                 "shasum": ""
             },
             "require": {
@@ -6149,7 +6149,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.17.0"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.20.0"
             },
             "funding": [
                 {
@@ -6157,7 +6157,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-05-22T19:59:32+00:00"
+            "time": "2023-06-27T20:22:39+00:00"
         },
         {
             "name": "hamcrest/hamcrest-php",
@@ -6212,22 +6212,22 @@
         },
         {
             "name": "kubawerlos/php-cs-fixer-custom-fixers",
-            "version": "v3.14.0",
+            "version": "v3.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kubawerlos/php-cs-fixer-custom-fixers.git",
-                "reference": "0414fbeada4360510df515b613ccc4055921a3c7"
+                "reference": "82c08eed3cc42dab45241cfd70e99b94cd54ca7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kubawerlos/php-cs-fixer-custom-fixers/zipball/0414fbeada4360510df515b613ccc4055921a3c7",
-                "reference": "0414fbeada4360510df515b613ccc4055921a3c7",
+                "url": "https://api.github.com/repos/kubawerlos/php-cs-fixer-custom-fixers/zipball/82c08eed3cc42dab45241cfd70e99b94cd54ca7e",
+                "reference": "82c08eed3cc42dab45241cfd70e99b94cd54ca7e",
                 "shasum": ""
             },
             "require": {
                 "ext-filter": "*",
                 "ext-tokenizer": "*",
-                "friendsofphp/php-cs-fixer": "^3.16.0",
+                "friendsofphp/php-cs-fixer": "^3.19",
                 "php": "^7.4 || ^8.0"
             },
             "require-dev": {
@@ -6252,9 +6252,9 @@
             "description": "A set of custom fixers for PHP CS Fixer",
             "support": {
                 "issues": "https://github.com/kubawerlos/php-cs-fixer-custom-fixers/issues",
-                "source": "https://github.com/kubawerlos/php-cs-fixer-custom-fixers/tree/v3.14.0"
+                "source": "https://github.com/kubawerlos/php-cs-fixer-custom-fixers/tree/v3.15.0"
             },
-            "time": "2023-04-03T20:47:19+00:00"
+            "time": "2023-06-26T21:00:04+00:00"
         },
         {
             "name": "laravel/telescope",
@@ -8359,16 +8359,16 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v6.3.0",
+            "version": "v6.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "97b698e1d77d356304def77a8d0cd73090b359ea"
+                "reference": "edd36776956f2a6fcf577edb5b05eb0e3bdc52ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/97b698e1d77d356304def77a8d0cd73090b359ea",
-                "reference": "97b698e1d77d356304def77a8d0cd73090b359ea",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/edd36776956f2a6fcf577edb5b05eb0e3bdc52ae",
+                "reference": "edd36776956f2a6fcf577edb5b05eb0e3bdc52ae",
                 "shasum": ""
             },
             "require": {
@@ -8402,7 +8402,7 @@
             "description": "Provides basic utilities for the filesystem",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/filesystem/tree/v6.3.0"
+                "source": "https://github.com/symfony/filesystem/tree/v6.3.1"
             },
             "funding": [
                 {
@@ -8418,7 +8418,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-05-30T17:12:32+00:00"
+            "time": "2023-06-01T08:30:39+00:00"
         },
         {
             "name": "symfony/options-resolver",
