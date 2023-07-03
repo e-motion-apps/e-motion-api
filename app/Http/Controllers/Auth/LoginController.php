@@ -21,6 +21,7 @@ class LoginController extends Controller
     public function login(LoginRequest $request): RedirectResponse
     {
         $remember = $request->boolean("remember", false);
+
         if (Auth::attempt([
             "email" => $request->email, 
             "password" => $request->password,
