@@ -49,7 +49,7 @@ class User extends Authenticatable
         "password" => "hashed",
     ];
 
-    public function Admin()
+    public function isAdmin()
     {
         return $this->role === "admin";
     }
