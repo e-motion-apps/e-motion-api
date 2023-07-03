@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
-import ComboboxField from './ComboboxField.vue'
-import SearchList from './SearchList.vue'
+import ComboboxField from '@/Shared/Components/ComboboxField.vue'
+import SearchList from '@/Shared/Components/SearchList.vue'
 
 const countries = [
   { id: 1, name: 'Polska' },

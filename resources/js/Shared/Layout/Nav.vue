@@ -16,8 +16,8 @@ const mobileMenuOpen = ref(false)
   <header class="w-full bg-white ">
     <nav class="mx-auto flex h-24 max-w-full items-center justify-between border-b-2 p-6 lg:px-8" aria-label="Global">
       <Link href="/" class="-m-1.5 flex items-center p-1.5">
-        <img class="h-12 w-auto" src="@/assets/scooter.png" alt="">
-        <span class=" ml-5 hidden text-3xl font-semibold sm:flex ">escooters</span>
+        <img class="h-12 w-auto" src="./../../assets/scooter.png" alt="escooter logo">
+        <span class=" ml-5 hidden text-3xl font-semibold sm:flex">escooters</span>
       </Link>
       <div class="flex lg:hidden">
         <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700" @click="mobileMenuOpen = true">
@@ -37,7 +37,7 @@ const mobileMenuOpen = ref(false)
       <DialogPanel class="fixed inset-y-0 right-0 z-30 w-full overflow-y-auto border-b-2 bg-white p-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
         <div class="flex items-center justify-between">
           <a href="#" class="-m-1.5 flex items-center p-1.5">
-            <img class="h-12 w-auto" src="@/assets/scooter.png" alt="">
+            <img class="h-12 w-auto" src="./../../assets/scooter.png" alt="escooter logo">
             <span class=" ml-5 hidden text-3xl font-semibold sm:flex ">escooters</span>
           </a>
           <button type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700" @click="mobileMenuOpen = false">

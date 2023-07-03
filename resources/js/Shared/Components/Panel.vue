@@ -1,10 +1,10 @@
 <script setup>
-import Map from './Map.vue'
+import Map from '@/Shared/Components/Map.vue'
 import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
-import Info from './Info.vue'
-import SearchPanel from './SearchPanel.vue'
-import Nav from './../Layout/Nav.vue'
-import Footer from '../Layout/Footer.vue'
+import Info from '@/Shared/Components/Info.vue'
+import SearchPanel from '@/Shared/Components/SearchPanel.vue'
+import Nav from '@/Shared/Layout/Nav.vue'
+import Footer from '@/Shared/Layout/Footer.vue'
 import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 import { XMarkIcon, MapIcon } from '@heroicons/vue/24/outline'
 

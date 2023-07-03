@@ -1,6 +1,6 @@
 <script setup>
-import PrimaryButton from './PrimaryButton.vue'
-import SecondaryButton from './SecondaryButton.vue'
+import PrimaryButton from '@/Shared/Components/PrimaryButton.vue'
+import SecondaryButton from '@/Shared/Components/SecondaryButton.vue'
 const emit = defineEmits(['try-it-out'])
 </script>
 
