@@ -7,5 +7,3 @@
     <span class="px-4" />
   </div>
 </template>
-    
-  
