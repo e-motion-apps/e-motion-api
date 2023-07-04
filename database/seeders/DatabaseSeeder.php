@@ -16,8 +16,8 @@ class DatabaseSeeder extends Seeder
             CitiesAndCountriesSeeder::class,
         ]);
 
-//        City::factory()->count(20)->create();
-//        CityAlternativeName::factory()->count(10)->create();
+        City::factory()->count(20)->create();
+        CityAlternativeName::factory()->count(10)->create();
 
         $this->call([
             ProviderListSeeder::class,

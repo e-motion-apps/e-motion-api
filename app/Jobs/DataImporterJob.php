@@ -12,7 +12,10 @@ use Illuminate\Queue\SerializesModels;
 
 class DataImporterJob implements ShouldQueue
 {
-    use Dispatchable; use InteractsWithQueue; use Queueable; use SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     public function __construct(
         protected int $importInfoId,
