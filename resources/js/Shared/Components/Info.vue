@@ -8,7 +8,7 @@ const emit = defineEmits(['try-it-out'])
 
 <template>
   <div class="flex h-full flex-col items-start justify-evenly bg-blumilk-25 px-6 md:px-10 lg:px-14">
-    <div class="hidden md:flex md:w-7/12 lg:w-full xl:w-7/12">
+    <div class="hidden md:flex md:w-7/12 lg:w-3/4 xl:w-7/12">
       <img class="h-auto max-w-full" src="@/assets/undraw_scooter.svg" alt="Man riding an e-scooter">
     </div>
 
