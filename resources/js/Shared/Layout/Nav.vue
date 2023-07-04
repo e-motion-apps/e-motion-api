@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { Dialog, DialogPanel } from '@headlessui/vue'
-import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
+import { Bars3Icon, XMarkIcon, UserCircleIcon } from '@heroicons/vue/24/outline'
 import { Link } from '@inertiajs/vue3'
 
 const navigation = [
@@ -11,13 +11,13 @@ const navigation = [
 
 const mobileMenuOpen = ref(false)
 </script>
-  
+
 <template>
-  <header class="w-full bg-white ">
-    <nav class="mx-auto flex h-24 max-w-full items-center justify-between border-b-2 p-6 lg:px-8" aria-label="Global">
-      <Link href="/" class="-m-1.5 flex items-center p-1.5">
-        <img class="h-12 w-auto" src="./../../assets/scooter.png" alt="escooter logo">
-        <span class=" ml-5 hidden text-3xl font-semibold sm:flex">escooters</span>
+  <header class="w-full bg-white">
+    <nav class="mx-auto flex items-center justify-between shadow-lg shadow-gray-50 py-3 px-6" aria-label="Global">
+      <Link href="/" class="flex justify-center items-center">
+        <img class="h-10" src="@/assets/scooter.png" alt="escooter logo">
+        <span class="ml-3 hidden text-2xl font-semibold sm:flex">e-scooters</span>
       </Link>
       <div class="flex lg:hidden">
         <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700" @click="mobileMenuOpen = true">
@@ -29,17 +29,17 @@ const mobileMenuOpen = ref(false)
         <Link v-for="item in navigation" :key="item.name" :href="item.href" class="text-sm font-semibold  leading-6 text-gray-900 lg:text-xl">
           {{ item.name }}
         </Link>
-        <a href="#" class="text-sm font-semibold  leading-6 text-gray-900 lg:text-xl ">Log in </a>
+          <Link href="/login">
+              <UserCircleIcon class="h-6 w-6"/>
+          </Link>
       </div>
     </nav>
-    <Dialog as="div" class="z-30 border-b-2 lg:hidden" :open="mobileMenuOpen" @close="mobileMenuOpen = false">
-      <div class="fixed inset-0 z-30 " />
-      <DialogPanel class="fixed inset-y-0 right-0 z-30 w-full overflow-y-auto border-b-2 bg-white p-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-        <div class="flex items-center justify-between">
-          <a href="#" class="-m-1.5 flex items-center p-1.5">
-            <img class="h-12 w-auto" src="./../../assets/scooter.png" alt="escooter logo">
-            <span class=" ml-5 hidden text-3xl font-semibold sm:flex ">escooters</span>
-          </a>
+
+    <Dialog v-if="mobileMenuOpen" as="div" class="z-30 lg:hidden" :open="mobileMenuOpen" @close="mobileMenuOpen = false">
+      <div class="fixed inset-0 z-30 " />sdf
+      <DialogPanel class="fixed inset-y-0 right-0 z-30 w-full overflow-y-auto border-b-2 bg-white py-3 px-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+        <div class="flex items-center justify-between sm:justify-end">
+            <img class="h-10 sm:hidden" src="@/assets/scooter.png" alt="escooter logo">
           <button type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700" @click="mobileMenuOpen = false">
             <span class="sr-only">Close menu</span>
             <XMarkIcon class="h-6 w-6" aria-hidden="true" />
@@ -48,10 +48,10 @@ const mobileMenuOpen = ref(false)
         <div class="mt-6 flow-root">
           <div class="-my-6 divide-y divide-gray-500/10">
             <div class="space-y-2 py-6">
-              <a v-for="item in navigation" :key="item.name" :href="item.href" class=" -mx-3 block rounded-lg px-3 py-2 text-base font-semibold  leading-7 text-gray-900 hover:bg-gray-100">{{ item.name }}</a>
+              <a v-for="item in navigation" :key="item.name" :href="item.href" class=" -mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-blumilk-25">{{ item.name }}</a>
             </div>
             <div class="py-6">
-              <a href="#" class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold  leading-7 text-gray-900 hover:bg-gray-100">Log in</a>
+              <a href="#" class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold  leading-7 text-gray-900 hover:bg-blumilk-25">Log in</a>
             </div>
           </div>
         </div>

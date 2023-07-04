@@ -10,7 +10,7 @@ import { XMarkIcon, MapIcon } from '@heroicons/vue/24/outline'
 
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const showInfo = ref(true)
-const isMobile = ref(breakpoints.smallerOrEqual('lg'))
+const isMobile = ref(breakpoints.smaller('lg'))
 const showMapMobile = ref(false)
 
 function switchPanel() {
@@ -38,27 +38,27 @@ watch(() => isMobile, updateIsMobile)
 </script>
 
 <template>
-  <div class="mx-auto h-screen flex-col bg-white">
-    <Nav class="z-30 max-h-24" />
-    <div class="relative flex h-[calc(100%-116px)]  flex-col overflow-auto lg:flex-row">
-      <div class="h-full lg:w-1/2" :class="{'hidden': showMapMobile}">
+
+<div class="h-screen flex flex-col">
+    <Nav class="z-30" />
+
+    <div class="flex flex-col lg:flex-row flex-grow">
+      <div v-if="!showMapMobile" class="flex-grow lg:w-1/2">
         <Info v-show="showInfo" @try-it-out="switchPanel" />
         <SearchPanel v-show="!showInfo" />
       </div>
 
-      <div v-if="!(isMobile && !showMapMobile)" class="h-full lg:w-1/2">
-        <Map class="z-10" />
+      <div v-if="!(isMobile && !showMapMobile)" class="relative lg:w-1/2">
+          <Map class="z-10" />
       </div>
 
-      <div class="flex justify-center">
-        <button v-if="!showInfo && isMobile" class="fixed bottom-5 z-20 flex items-center justify-center rounded-full bg-blumilk-500 px-2 py-1.5 text-sm font-semibold text-white shadow-sm hover:brightness-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" @click="switchMap">
+      <div v-if="!showInfo && isMobile" class="flex justify-center">
+        <button class="fixed bottom-5 z-20 flex items-center justify-center rounded-full bg-blumilk-500 px-2 py-1.5 text-sm font-semibold text-white shadow-sm hover:brightness-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" @click="switchMap">
           <XMarkIcon v-if="showMapMobile" class="h-6 w-6" />
           <MapIcon v-else class="h-6 w-6" />
         </button>
       </div>
     </div>
-    <div class="max-h-5 w-full flex-col">
-      <Footer />
-    </div>
-  </div>
+</div>
+
 </template>
