@@ -6,7 +6,7 @@ const emit = defineEmits(['try-it-out'])
 </script>
 
 <template>
-  <div class="flex h-full flex-col items-start justify-around bg-blumilk-25 px-6 pb-16 sm:px-12 lg:px-14">
+  <div class="flex h-full flex-col items-start justify-around bg-blumilk-25 px-6 pb-16 sm:justify-center sm:space-y-24 sm:px-12 md:justify-around md:space-y-0 lg:px-14">
     <div class="hidden md:flex md:h-1/2 lg:h-1/3">
       <img class="max-h-full" src="@/assets/undraw_scooter.svg" alt="Man riding an e-scooter">
     </div>
@@ -23,7 +23,7 @@ const emit = defineEmits(['try-it-out'])
       </p>
     </div>
 
-    <div class="flex w-full flex-wrap items-center justify-center space-y-5 pt-3 sm:justify-between sm:space-y-0">
+    <div class="flex w-full flex-wrap items-center justify-center space-y-5 pt-3 sm:hidden sm:justify-between sm:space-y-0 md:flex">
       <PrimaryButton class="h-fit w-11/12 py-5 sm:w-5/12" @click="emit('try-it-out')">
         Try it out
       </PrimaryButton>
@@ -31,6 +31,21 @@ const emit = defineEmits(['try-it-out'])
       <SecondaryButton class="h-fit w-11/12 py-5 sm:w-5/12">
         Create account
       </SecondaryButton>
+    </div>
+    <div class="hidden w-full items-center space-x-12 sm:flex md:hidden sm:pb-36 md:pb-0">
+      <div class="flex w-1/2 md:h-1/2 lg:h-1/3">
+        <img class="max-h-full" src="@/assets/undraw_scooter.svg" alt="Man riding an e-scooter">
+      </div>
+
+      <div class="flex w-1/2 flex-col items-end justify-end space-y-12 pt-3">
+        <PrimaryButton class="h-fit w-full py-5" @click="emit('try-it-out')">
+          Try it out
+        </PrimaryButton>
+
+        <SecondaryButton class="h-fit w-full py-5">
+          Create account
+        </SecondaryButton>
+      </div>
     </div>
   </div>
 </template>
