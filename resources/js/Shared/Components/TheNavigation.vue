@@ -10,5 +10,8 @@ import { Link } from '@inertiajs/vue3'
     <Link href="/admin/dashboard/cities" class="border bg-gray-50 p-4">
       Cities
     </Link>
+    <Link href="/run-importers" class="rounded-lg border bg-cyan-700 p-4 font-bold text-white">
+      Run importers
+    </Link>
   </div>
 </template>

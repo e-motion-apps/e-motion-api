@@ -13,15 +13,16 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            CountrySeeder::class,
+            CitiesAndCountriesSeeder::class,
         ]);
 
-        City::factory()->count(20)->create();
-        CityAlternativeName::factory()->count(10)->create();
+//        City::factory()->count(20)->create();
+//        CityAlternativeName::factory()->count(10)->create();
 
         $this->call([
             ProviderListSeeder::class,
-            ProviderSeeder::class,
+//            ProviderSeeder::class,
+            CodeSeeder::class
         ]);
     }
 }

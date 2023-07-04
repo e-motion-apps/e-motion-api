@@ -14,18 +14,27 @@ class ProviderService
         $existingProviderIds = [];
 
         foreach ($providers as $providerId) {
-            Provider::query()
+            $provider = Provider::query()
                 ->updateOrCreate([
-                    "provider_id" => $providerId,
                     "city_id" => $city->id,
-                ])
-                ->toArray();
+                    "provider_list_id" => $providerId,
+                ]);
+
+            if ($provider->created_by !== "scrapper") {
+                Provider::query()->where([
+                    "city_id" => $city->id,
+                    "provider_list_id" => $providerId,
+                ])->update([
+                    "created_by" => "admin",
+                ]);
+            }
+
             $existingProviderIds[] = $providerId;
         }
 
         $providersToDelete = Provider::query()
             ->where("city_id", $city->id)
-            ->whereNotIn("provider_id", $existingProviderIds)
+            ->whereNotIn("provider_list_id", $existingProviderIds)
             ->get();
 
         $providersToDelete->each(fn($provider) => $provider->delete());

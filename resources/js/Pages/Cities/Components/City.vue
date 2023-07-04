@@ -64,7 +64,7 @@ const selectedProviders = reactive([])
 
 onMounted(() => {
   props.city.providers.forEach(provider => {
-    selectedProviders.push(provider.provider_id)
+    selectedProviders.push(provider.provider_list_id)
   })
 })
 

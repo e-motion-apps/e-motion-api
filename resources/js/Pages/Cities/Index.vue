@@ -17,7 +17,7 @@ function storeCity() {
   storeCityForm.post('/admin/dashboard/cities', {
     onSuccess: () => {
       storeCityForm.reset()
-      storeCityForm.country_id = '176'
+      storeCityForm.country_id = '167'
     },
   })
 }
@@ -55,7 +55,7 @@ function clearInput() {
 
 
 onMounted(() => {
-  storeCityForm.country_id = '176'
+  storeCityForm.country_id = '167'
 })
 
 </script>
