@@ -4,7 +4,6 @@ import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
 import Info from '@/Shared/Components/Info.vue'
 import SearchPanel from '@/Shared/Components/SearchPanel.vue'
 import Nav from '@/Shared/Layout/Nav.vue'
-import Footer from '@/Shared/Layout/Footer.vue'
 import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 import { XMarkIcon, MapIcon } from '@heroicons/vue/24/outline'
 
@@ -38,18 +37,17 @@ watch(() => isMobile, updateIsMobile)
 </script>
 
 <template>
-
-<div class="h-screen flex flex-col">
+  <div class="flex h-screen flex-col">
     <Nav class="z-30" />
 
-    <div class="flex flex-col lg:flex-row flex-grow">
-      <div v-if="!showMapMobile" class="flex-grow lg:w-1/2">
+    <div class="flex grow flex-col lg:flex-row">
+      <div v-if="!showMapMobile" class="grow lg:w-1/2">
         <Info v-show="showInfo" @try-it-out="switchPanel" />
         <SearchPanel v-show="!showInfo" />
       </div>
 
       <div v-if="!(isMobile && !showMapMobile)" class="relative lg:w-1/2">
-          <Map class="z-10" />
+        <Map class="z-10" />
       </div>
 
       <div v-if="!showInfo && isMobile" class="flex justify-center">
@@ -59,6 +57,5 @@ watch(() => isMobile, updateIsMobile)
         </button>
       </div>
     </div>
-</div>
-
+  </div>
 </template>

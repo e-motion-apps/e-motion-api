@@ -14,8 +14,8 @@ const mobileMenuOpen = ref(false)
 
 <template>
   <header class="w-full bg-white">
-    <nav class="mx-auto flex items-center justify-between shadow-lg shadow-gray-50 py-3 px-6" aria-label="Global">
-      <Link href="/" class="flex justify-center items-center">
+    <nav class="mx-auto flex items-center justify-between px-6 py-3 shadow-lg shadow-gray-50" aria-label="Global">
+      <Link href="/" class="flex items-center justify-center">
         <img class="h-10" src="@/assets/scooter.png" alt="escooter logo">
         <span class="ml-3 hidden text-2xl font-semibold sm:flex">e-scooters</span>
       </Link>
@@ -29,17 +29,17 @@ const mobileMenuOpen = ref(false)
         <Link v-for="item in navigation" :key="item.name" :href="item.href" class="text-sm font-semibold  leading-6 text-gray-900 lg:text-xl">
           {{ item.name }}
         </Link>
-          <Link href="/login">
-              <UserCircleIcon class="h-6 w-6"/>
-          </Link>
+        <Link href="/login">
+          <UserCircleIcon class="h-6 w-6" />
+        </Link>
       </div>
     </nav>
 
     <Dialog v-if="mobileMenuOpen" as="div" class="z-30 lg:hidden" :open="mobileMenuOpen" @close="mobileMenuOpen = false">
       <div class="fixed inset-0 z-30 " />sdf
-      <DialogPanel class="fixed inset-y-0 right-0 z-30 w-full overflow-y-auto border-b-2 bg-white py-3 px-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+      <DialogPanel class="fixed inset-y-0 right-0 z-30 w-full overflow-y-auto border-b-2 bg-white px-6 py-3 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
         <div class="flex items-center justify-between sm:justify-end">
-            <img class="h-10 sm:hidden" src="@/assets/scooter.png" alt="escooter logo">
+          <img class="h-10 sm:hidden" src="@/assets/scooter.png" alt="escooter logo">
           <button type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700" @click="mobileMenuOpen = false">
             <span class="sr-only">Close menu</span>
             <XMarkIcon class="h-6 w-6" aria-hidden="true" />

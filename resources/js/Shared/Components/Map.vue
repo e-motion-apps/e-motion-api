@@ -25,8 +25,7 @@ function buildMap() {
 </script>
 
 <template>
-  <div id="mapContainer" ref="mapContainer">
-  </div>
+  <div id="mapContainer" ref="mapContainer" />
 </template>
 
 <style>
