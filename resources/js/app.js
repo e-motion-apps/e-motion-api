@@ -7,7 +7,7 @@ createInertiaApp({
     delay: 0,
     color: '#14b8a6',
   },
-  title: (title) => title ? `${title} - escooters` : 'escooters',
+  title: (title) => title ? `${title} - e-scooters` : 'e-scooters',
   resolve: name => {
     const pages = import.meta.glob('./Pages/**/*.vue', { eager: true })
 

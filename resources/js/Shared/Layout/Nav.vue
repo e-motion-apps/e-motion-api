@@ -14,7 +14,7 @@ const mobileMenuOpen = ref(false)
 
 <template>
   <header class="w-full bg-white">
-    <nav class="mx-auto flex items-center justify-between px-6 py-3 shadow-lg shadow-gray-50" aria-label="Global">
+    <nav class="mx-auto flex items-center justify-between px-6 py-3 shadow-md shadow-gray-50" aria-label="Global">
       <Link href="/" class="flex items-center justify-center">
         <img class="h-10" src="@/assets/scooter.png" alt="escooter logo">
         <span class="ml-3 hidden text-2xl font-semibold sm:flex">e-scooters</span>

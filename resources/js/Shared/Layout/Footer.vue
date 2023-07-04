@@ -1,10 +1,17 @@
+<script setup>
+import { ref } from 'vue'
+
+const getCurrentYear = () => {
+  return ref(new Date().getFullYear())
+}
+</script>
+
+
 <template>
   <footer>
-    <div class="mx-auto max-h-5  md:justify-center">
-      <div>
-        <p class="text-center text-sm text-gray-400">
-          2023 &copy; website designed in Blumilk
-        </p>
+    <div class="flex justify-center">
+      <div class="fixed bottom-0 text-xs font-thin text-blumilk-600">
+        {{ getCurrentYear() }} &copy; Blumilk
       </div>
     </div>
   </footer>

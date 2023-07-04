@@ -38,18 +38,18 @@ const data = [
   },
 ]
 </script>
-  
+
 <template>
-  <div class="text-md no-scrollbar h-3/5 overflow-y-auto lg:h-4/6 lg:text-lg"> 
+  <div class="no-scrollbar h-3/5 overflow-y-auto lg:h-4/6">
     <ul role="list" class="divide-y divide-gray-300">
       <li v-for="dataItem in data" :key="dataItem.city" class=" flex justify-between gap-x-6 py-5">
         <div class="flex flex-auto items-center">
-          <i :class="dataItem.iso" class="flat flag huge" />
+          <i :class="dataItem.iso" class="flat flag huge shrink-0" />
           <div class="ml-4 flex flex-col justify-start">
             <p class="mr-2 font-bold text-gray-900">
-              {{ dataItem.city }}   
+              {{ dataItem.city }}
             </p>
-            <p class="font-semibold text-blumilk-500">
+            <p class="text-xs font-semibold text-blumilk-500">
               {{ dataItem.country }}
             </p>
           </div>

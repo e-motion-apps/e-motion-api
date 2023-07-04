@@ -24,10 +24,10 @@ const handleComboboxUpdate = (query, items) => {
   selectedValue.value = items.find((item) => item.name.toLowerCase() === query.toLowerCase())
 }
 </script>
-  
+
 <template>
   <div class="mx-auto flex h-full w-full">
-    <div id="ComboWrapper" class="mx-auto w-9/12 flex-col justify-center">
+    <div id="ComboWrapper" class="mx-auto w-3/4 flex-col justify-center space-y-4 pt-2">
       <ComboboxField label="Country" :items="countries" :display-value="displayItem" class="pt-3" @update="handleComboboxUpdate" />
       <ComboboxField label="Provider" :items="providers" class="pb-3" :display-value="displayItem" @update="handleComboboxUpdate" />
       <SearchList class="pt-5 lg:pt-10" />
