@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Importers;
 
 use App\Models\City;
@@ -12,6 +14,7 @@ use GuzzleHttp\Exception\GuzzleException;
 class BoltDataImporter extends DataImporter
 {
     private const PROVIDER_LIST_ID = 3;
+
     protected array $fetchedCities = [];
     protected array $fetchedCityDictionary = [];
     protected array $fetchedCountriesDictionary = [];

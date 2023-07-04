@@ -15,6 +15,7 @@ class BitMobilityDataImporter extends DataImporter
 {
     private const PROVIDER_LIST_ID = 2;
     private const COUNTRY_NAME = "Italy";
+
     protected Crawler $sections;
 
     public function extract(): static

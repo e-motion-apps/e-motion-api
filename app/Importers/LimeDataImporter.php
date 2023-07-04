@@ -14,6 +14,7 @@ use Throwable;
 class LimeDataImporter extends DataImporter
 {
     private const PROVIDER_LIST_ID = 7;
+
     protected Crawler $sections;
 
     public function extract(): static

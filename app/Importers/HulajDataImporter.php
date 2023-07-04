@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Importers;
 
 use App\Models\City;
@@ -13,8 +15,8 @@ class HulajDataImporter extends DataImporter
 {
     private const PROVIDER_LIST_ID = 6;
     private const COUNTRY_NAME = "Poland";
-    protected Crawler $sections;
 
+    protected Crawler $sections;
 
     public function extract(): static
     {

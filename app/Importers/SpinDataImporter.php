@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Importers;
 
 use App\Models\City;
@@ -37,7 +39,6 @@ class SpinDataImporter extends DataImporter
 
         return $this;
     }
-
 
     public function transform(): void
     {

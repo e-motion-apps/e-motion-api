@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;
@@ -10,13 +12,9 @@ use Illuminate\Queue\SerializesModels;
 
 class DataImporterJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable; use InteractsWithQueue; use Queueable; use SerializesModels;
 
-    protected int $importInfoId;
-
-    public function __construct(int $importInfoId)
-    {
-        $this->importInfoId = $importInfoId;
-    }
-
+    public function __construct(
+        protected int $importInfoId,
+    ) {}
 }

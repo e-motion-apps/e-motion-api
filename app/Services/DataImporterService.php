@@ -22,18 +22,18 @@ class DataImporterService
         HulajDataImporterJob::class,
         LimeDataImporterJob::class,
         SpinDataImporterJob::class,
-        QuickDataImporterJob::class
+        QuickDataImporterJob::class,
     ];
 
     public function run(string $whoRunsIt = "admin"): void
     {
         $importInfo = ImportInfo::query()->create([
             "who_runs_it" => $whoRunsIt,
-            "status" => "started"
+            "status" => "started",
         ]);
 
         foreach ($this->importerJobs as $importerJob) {
-            dispatch(new $importerJob($importInfo->id))->onQueue('importers');
+            dispatch(new $importerJob($importInfo->id))->onQueue("importers");
         }
     }
 }

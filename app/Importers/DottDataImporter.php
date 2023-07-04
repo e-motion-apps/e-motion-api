@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Importers;
 
 use App\Models\City;
@@ -12,6 +14,7 @@ use Throwable;
 class DottDataImporter extends DataImporter
 {
     private const PROVIDER_LIST_ID = 4;
+
     protected Crawler $sections;
 
     public function extract(): static
@@ -49,7 +52,6 @@ class DottDataImporter extends DataImporter
         foreach ($this->sections as $section) {
             $cityName = trim($section->nodeValue);
             $countryName = trim($section->parentNode->previousSibling->previousSibling->nodeValue);
-
 
             $city = City::query()->where("name", $cityName)->first();
             $alternativeCityName = CityAlternativeName::query()->where("name", $cityName)->first();

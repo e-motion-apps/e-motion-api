@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Importers;
 
 use App\Models\CityWithoutAssignedCountry;
@@ -9,23 +11,25 @@ use App\Models\Provider;
 abstract class DataImporter
 {
     protected bool $stopExecution = false;
-    protected int $importInfoId;
 
-    public function __construct(int $importInfoId)
-    {
-        $this->importInfoId = $importInfoId;
-    }
+    public function __construct(
+        protected int $importInfoId,
+    ) {}
+
+    abstract public function extract(): static;
+
+    abstract public function transform(): void;
 
     protected function countryNotFound(string $cityName, string $countryName): void {
         CityWithoutAssignedCountry::query()->updateOrCreate(
             [
-                'city_name' => $cityName,
-                'country_name' => $countryName,
+                "city_name" => $cityName,
+                "country_name" => $countryName,
             ],
             [
-                'city_name' => $cityName,
-                'country_name' => $countryName,
-            ]
+                "city_name" => $cityName,
+                "country_name" => $countryName,
+            ],
         );
     }
 
@@ -38,7 +42,7 @@ abstract class DataImporter
         ]);
     }
 
-    protected function deleteMissingProviders(int $providerListId, array $existingProviders) {
+    protected function deleteMissingProviders(int $providerListId, array $existingProviders): void {
         $providersToDelete = Provider::query()
             ->where("provider_list_id", $providerListId)
             ->whereNotIn("city_id", $existingProviders)
@@ -47,22 +51,18 @@ abstract class DataImporter
         $providersToDelete->each(fn($provider) => $provider->delete());
     }
 
-    protected function createImportInfoDetails(string $code, int $providerListId) {
+    protected function createImportInfoDetails(string $code, int $providerListId): void {
         ImportInfoDetail::query()->updateOrCreate(
             [
                 "provider_id" => $providerListId,
                 "import_id" => $this->importInfoId,
-                "code" => $code
+                "code" => $code,
             ],
             [
                 "provider_id" => $providerListId,
                 "import_id" => $this->importInfoId,
-                "code" => $code
-            ]
+                "code" => $code,
+            ],
         );
     }
-
-    abstract public function extract(): static;
-
-    abstract public function transform(): void;
 }
