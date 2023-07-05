@@ -23,10 +23,14 @@ Route::middleware("guest")->group(function (): void {
 Route::middleware("auth")->group(function (): void {
     Route::post("/logout", [LogoutController::class, "logout"])->name("logout");
     Route::get("/dashboard", fn(): Response => inertia("Dashboard"))->name("dashboard");
+
+    Route::middleware(["role:admin"])->group(function (): void {
+        Route::resource("/admin/dashboard/countries", CountryController::class);
+        Route::resource("/admin/dashboard/cities", CityController::class);
+        Route::resource("/city-alternative-name", CityAlternativeNameController::class);
+        Route::get("/admin", fn(): Response => inertia("Admin"))->name("admin");
+        Route::patch("/update-city-providers/{city}", [ProviderController::class, "update"]);
+    });
 });
 
-Route::resource("/admin/dashboard/countries", CountryController::class);
-Route::resource("/admin/dashboard/cities", CityController::class);
-Route::resource("/city-alternative-name", CityAlternativeNameController::class);
-Route::patch("/update-city-providers/{city}", [ProviderController::class, "update"]);
-Route::get("/", fn(): Response => inertia("Landing"))->name("home");
+Route::get("/", fn(): Response => inertia("Welcome"))->name("home");

@@ -6,12 +6,24 @@ namespace Tests\Feature;
 
 use App\Models\City;
 use App\Models\Country;
+use App\Models\User;
 use Generator;
 use Inertia\Testing\AssertableInertia as Assert;
+use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 class CityControllerTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $adminRole = Role::create(["name" => "admin"]);
+        $adminUser = User::factory()->create();
+        $adminUser->assignRole($adminRole);
+        $this->actingAs($adminUser);
+    }
+
     public function testCitiesViewCanBeRendered(): void
     {
         City::factory()->count(3)->create();
