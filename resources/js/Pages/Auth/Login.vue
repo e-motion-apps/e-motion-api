@@ -1,6 +1,6 @@
 <script setup>
 import { useForm } from '@inertiajs/vue3'
-import ErrorMessage from '@/Components/ErrorMessage.vue'
+import ErrorMessage from '@/Shared/Components/ErrorMessage.vue'
 
 const form = useForm({
   email: '',

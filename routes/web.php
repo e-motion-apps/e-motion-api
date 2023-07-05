@@ -33,4 +33,4 @@ Route::middleware("auth")->group(function (): void {
     });
 });
 
-Route::get("/", fn(): Response => inertia("Welcome"))->name("home");
+Route::get("/", fn(): Response => inertia("Landing"))->name("home");
