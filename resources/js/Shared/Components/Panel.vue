@@ -1,6 +1,6 @@
 <script setup>
 import Map from '@/Shared/Components/Map.vue'
-import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
+import { ref, onMounted, watch, onUnmounted } from 'vue'
 import Info from '@/Shared/Components/Info.vue'
 import SearchPanel from '@/Shared/Components/SearchPanel.vue'
 import Nav from '@/Shared/Layout/Nav.vue'
@@ -23,7 +23,7 @@ function switchMap() {
 onMounted(() => {
   window.addEventListener('resize', updateIsMobile)
 })
-onBeforeUnmount(() => {
+onUnmounted(() => {
   window.removeEventListener('resize', updateIsMobile)
 })
 
