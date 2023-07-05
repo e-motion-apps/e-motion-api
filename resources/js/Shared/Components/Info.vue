@@ -13,7 +13,7 @@ const emit = defineEmits(['try-it-out'])
     </div>
 
     <div class="lg:pb-16">
-      <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+      <h1 class="text-4xl font-bold tracking-tight text-gray-800 sm:text-5xl">
         Looking for an e&#8209;scooter?
       </h1>
       <p class="mx-0 w-full items-start pt-10 text-sm leading-7 text-gray-600 sm:w-2/3 sm:text-base lg:mx-auto lg:w-full lg:text-lg">
@@ -54,9 +54,3 @@ const emit = defineEmits(['try-it-out'])
   </div>
   <Footer />
 </template>
-
-<!--<style scoped>-->
-<!--* {-->
-<!--    border: 1px solid red;-->
-<!--}-->
-<!--</style>-->

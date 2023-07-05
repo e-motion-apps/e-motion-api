@@ -59,9 +59,3 @@ watch(() => isMobile, updateIsMobile)
     </div>
   </div>
 </template>
-
-<!--<style scoped>-->
-<!--* {-->
-<!--    border: 1px solid red;-->
-<!--}-->
-<!--</style>-->
