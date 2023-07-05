@@ -17,7 +17,7 @@ const mobileMenuOpen = ref(false)
     <nav class="mx-auto flex items-center justify-between px-6 py-3" aria-label="Global">
       <Link href="/" class="flex items-center justify-center">
         <img class="h-10" src="@/assets/scooter.png" alt="escooter logo">
-        <span class="ml-3 hidden text-2xl font-semibold sm:flex text-gray-800">e-scooters</span>
+        <span class="ml-3 hidden text-2xl font-semibold text-gray-800 sm:flex">e-scooters</span>
       </Link>
       <div class="flex lg:hidden">
         <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700" @click="mobileMenuOpen = true">
