@@ -18,6 +18,7 @@ class CreatePermissionTables extends Migration
         if (empty($tableNames)) {
             throw new \Exception("Error: config/permission.php not loaded. Run [php artisan config:clear] and try again.");
         }
+
         if ($teams && empty($columnNames["team_foreign_key"] ?? null)) {
             throw new \Exception("Error: team_foreign_key on config/permission.php not loaded. Run [php artisan config:clear] and try again.");
         }
@@ -32,7 +33,8 @@ class CreatePermissionTables extends Migration
         });
 
         Schema::create($tableNames["roles"], function (Blueprint $table) use ($teams, $columnNames): void {
-            $table->bigIncrements("id"); 
+            $table->bigIncrements("id");
+ 
             if ($teams || config("permission.testing")) {
                 $table->unsignedBigInteger($columnNames["team_foreign_key"])->nullable();
                 $table->index($columnNames["team_foreign_key"], "roles_team_foreign_key_index");
@@ -40,6 +42,7 @@ class CreatePermissionTables extends Migration
             $table->string("name");       
             $table->string("guard_name"); 
             $table->timestamps();
+
             if ($teams || config("permission.testing")) {
                 $table->unique([$columnNames["team_foreign_key"], "name", "guard_name"]);
             } else {
@@ -58,6 +61,7 @@ class CreatePermissionTables extends Migration
                 ->references("id") 
                 ->on($tableNames["permissions"])
                 ->onDelete("cascade");
+
             if ($teams) {
                 $table->unsignedBigInteger($columnNames["team_foreign_key"]);
                 $table->index($columnNames["team_foreign_key"], "model_has_permissions_team_foreign_key_index");
@@ -85,6 +89,7 @@ class CreatePermissionTables extends Migration
                 ->references("id") 
                 ->on($tableNames["roles"])
                 ->onDelete("cascade");
+
             if ($teams) {
                 $table->unsignedBigInteger($columnNames["team_foreign_key"]);
                 $table->index($columnNames["team_foreign_key"], "model_has_roles_team_foreign_key_index");
