@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ProviderListSeeder::class,
             CodeSeeder::class,
+            ProviderSeeder::class,
         ]);
     }
 }
