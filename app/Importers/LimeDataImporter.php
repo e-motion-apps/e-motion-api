@@ -25,6 +25,7 @@ class LimeDataImporter extends DataImporter
             $this->createImportInfoDetails("400", self::PROVIDER_LIST_ID);
 
             $this->stopExecution = true;
+
             return $this;
         }
 
@@ -66,9 +67,11 @@ class LimeDataImporter extends DataImporter
                 switch ($countryName) {
                     case str_contains($countryName, "US"):
                         $country = Country::query()->where("name", "United States")->first();
+
                         break;
                     default:
                         $country = Country::query()->where("name", $countryName)->orWhere("alternative_name", $countryName)->first();
+
                         break;
                 }
 
@@ -76,6 +79,7 @@ class LimeDataImporter extends DataImporter
                     $coordinates = $mapboxService->getCoordinatesFromApi($cityName, $countryName);
 
                     $countCoordinates = count($coordinates);
+
                     if (!$countCoordinates) {
                         $this->createImportInfoDetails("419", self::PROVIDER_LIST_ID);
                     }

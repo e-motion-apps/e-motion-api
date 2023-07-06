@@ -6,7 +6,7 @@ import { Link } from '@inertiajs/vue3'
 
 const navigation = [
   { name: 'Cities', href: '/admin/dashboard/cities' },
-  { name: 'Countries', href: '/admin/dashboard/cities' },
+  { name: 'Countries', href: '/admin/dashboard/countries' },
 ]
 
 const mobileMenuOpen = ref(false)
@@ -36,7 +36,7 @@ const mobileMenuOpen = ref(false)
     </nav>
 
     <Dialog v-if="mobileMenuOpen" as="div" class="z-30 lg:hidden" :open="mobileMenuOpen" @close="mobileMenuOpen = false">
-      <div class="fixed inset-0 z-30 " />sdf
+      <div class="fixed inset-0 z-30 " />
       <DialogPanel class="fixed inset-y-0 right-0 z-30 w-full overflow-y-auto border-b-2 bg-white px-6 py-3 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
         <div class="flex items-center justify-between sm:justify-end">
           <img class="h-10 sm:hidden" src="@/assets/scooter.png" alt="escooter logo">

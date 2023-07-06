@@ -25,6 +25,7 @@ class DottDataImporter extends DataImporter
             $this->createImportInfoDetails("400", self::PROVIDER_LIST_ID);
 
             $this->stopExecution = true;
+
             return $this;
         }
 
@@ -69,6 +70,7 @@ class DottDataImporter extends DataImporter
                     $coordinates = $mapboxService->getCoordinatesFromApi($cityName, $countryName);
 
                     $countCoordinates = count($coordinates);
+
                     if (!$countCoordinates) {
                         $this->createImportInfoDetails("419", self::PROVIDER_LIST_ID);
                     }

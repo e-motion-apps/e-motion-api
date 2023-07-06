@@ -26,6 +26,7 @@ class BitMobilityDataImporter extends DataImporter
             $this->createImportInfoDetails("400", self::PROVIDER_LIST_ID);
 
             $this->stopExecution = true;
+
             return $this;
         }
 
@@ -69,6 +70,7 @@ class BitMobilityDataImporter extends DataImporter
                     $coordinates = $mapboxService->getCoordinatesFromApi($cityName, self::COUNTRY_NAME);
 
                     $countCoordinates = count($coordinates);
+
                     if (!$countCoordinates) {
                         $this->createImportInfoDetails("419", self::PROVIDER_LIST_ID);
                     }

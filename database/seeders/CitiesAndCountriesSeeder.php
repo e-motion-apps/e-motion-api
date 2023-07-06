@@ -28,6 +28,7 @@ class CitiesAndCountriesSeeder extends Seeder
             ]);
 
             $coordinates = [];
+
             if ($item["capital"]) {
                 $coordinates = $mapboxService->getCoordinatesFromApi(cityName: $item["capital"], countryName: $item["name"]);
             }

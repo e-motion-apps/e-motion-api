@@ -49,6 +49,7 @@ class BoltDataImporter extends DataImporter
         }
 
         $fetchedCityDictionary = [];
+
         foreach ($this->fetchedCityDictionary as $city) {
             $fetchedCityDictionary[$city["slug"]] = $city;
         }
@@ -84,6 +85,7 @@ class BoltDataImporter extends DataImporter
                     $coordinates = $mapboxService->getCoordinatesFromApi($cityName, $countryName);
 
                     $countCoordinates = count($coordinates);
+
                     if (!$countCoordinates) {
                         $this->createImportInfoDetails("419", self::PROVIDER_LIST_ID);
                     }
