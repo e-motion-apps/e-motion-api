@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, reactive, ref } from 'vue'
 import { router, useForm } from '@inertiajs/vue3'
+import { FolderOpenIcon, PencilIcon, TrashIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 
 const props = defineProps({
   city: Object,
@@ -77,7 +78,6 @@ function toggleProviderSelection(provider) {
   }
 }
 
-
 function updateCityProviders(cityId) {
   router.patch(`/update-city-providers/${cityId}`, {
     providers: selectedProviders,
@@ -91,10 +91,10 @@ function updateCityProviders(cityId) {
 </script>
 
 <template>
-  <div class="m-2 flex flex-col rounded border bg-gray-50 p-2">
+  <div class="my-2 flex flex-col rounded border border-blumilk-50 bg-blumilk-25 p-4">
     <div class="flex w-full justify-between">
       <div class="flex w-1/2 flex-col">
-        <p class="flex flex-col items-start break-all text-lg font-bold">
+        <p class="flex flex-col items-start break-all text-lg font-bold text-gray-800">
           <i :class="city.country.iso" class="flat large flag mb-1 shrink-0" />
           {{ city.name }}
         </p>
@@ -108,16 +108,16 @@ function updateCityProviders(cityId) {
         </div>
 
         <div v-if="!isEditWindowOpened" class="flex flex-wrap">
-          <button class="my-1 mr-1 flex w-fit shrink-0 rounded bg-[#527aba] px-5 py-2 text-white"
+          <button class="my-1 mr-1 flex w-fit shrink-0 rounded bg-blumilk-500 px-5 py-2 text-white"
                   @click="openEditWindow"
           >
-            <img width="18" src="https://img.icons8.com/ios-filled/50/FFFFFF/edit--v1.png" alt="">
+            <PencilIcon class="h-5 w-5" />
           </button>
 
           <button class="my-1 mr-1 flex w-fit shrink-0 items-center rounded bg-rose-500 px-5 py-2 text-white"
                   @click="destroyCity(city.id)"
           >
-            <img width="18" src="https://img.icons8.com/ios/50/FFFFFF/trash--v1.png" alt="">
+            <TrashIcon class="h-5 w-5" />
           </button>
         </div>
       </div>
@@ -136,54 +136,52 @@ function updateCityProviders(cityId) {
     </div>
 
     <div v-if="isEditWindowOpened" class="mt-2 flex w-full flex-col space-y-4">
-      <form class="flex flex-col space-y-2 rounded border border-zinc-200 p-3 shadow-md md:w-2/3 lg:w-1/2"
+      <form class="flex flex-col space-y-2 rounded border-blumilk-100 shadow-blumilk-50 lg:w-3/4 lg:border lg:p-6 lg:shadow xl:w-1/2"
             @submit.prevent="updateCity(city.id)"
       >
-        <label class="my-3 text-xs font-bold">Update city</label>
-        <input v-model="updateCityForm.name" class="border px-2 py-1 shadow" type="text" placeholder="Name"
+        <label class="my-3 text-sm font-bold text-gray-800">Update city</label>
+        <input v-model="updateCityForm.name" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text" placeholder="Name"
                required
         >
-        <input v-model="updateCityForm.latitude" class="border px-2 py-1 shadow" type="text"
+        <input v-model="updateCityForm.latitude" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text"
                placeholder="Latitude" required @keydown="preventCommaInput"
         >
-        <input v-model="updateCityForm.longitude" class="border px-2 py-1 shadow" type="text"
+        <input v-model="updateCityForm.longitude" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text"
                placeholder="Longitude" required @keydown="preventCommaInput"
         >
         <small class="text-rose-600">{{ commaInputError }}</small>
 
         <div class="flex w-full justify-end">
-          <button type="submit" class="mt-6 flex w-full shrink-0 rounded border border-blue-500 bg-white px-5 py-3 text-[#3382f6] hover:bg-blue-100 md:w-fit md:py-2">
-            <span class="flex justify-end space-x-2">
-              <span class="text-[#3382f6]">Save</span>
-              <img width="18" src="https://img.icons8.com/ios/50/3382f6/save--v1.png" alt="">
+          <button type="submit" class="mt-3 flex w-full shrink-0 rounded border border-blumilk-500 bg-white px-5 py-3 text-blumilk-500 hover:bg-blumilk-50 md:w-fit md:py-2">
+            <span class="flex items-center justify-end space-x-2">
+              <span class="font-bold">Save</span>
+              <FolderOpenIcon class="h-5 w-5" />
             </span>
           </button>
         </div>
       </form>
 
-      <form class="flex flex-col rounded border border-zinc-200 p-3 pt-6 shadow-md md:w-2/3 lg:w-1/2"
+      <form class="flex flex-col rounded border-blumilk-100 py-14 shadow-blumilk-50 lg:w-3/4 lg:border lg:p-6 lg:shadow xl:w-1/2"
             @submit.prevent="storeAlternativeCityName(city.id)"
       >
-        <label class="mb-3 text-xs font-bold">Add alternative city name</label>
+        <label class="mb-3 text-sm font-bold text-gray-800">Add alternative city name</label>
         <div class="flex flex-col">
-          <input v-model="storeCityAlternativeNameForm.name" class="rounded border px-4 py-2 shadow"
+          <input v-model="storeCityAlternativeNameForm.name" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3"
                  type="text" required
           >
           <div class="flex w-full justify-end">
-            <button type="submit"
-                    class="mt-6 flex w-full shrink-0 rounded border border-blue-500 bg-white px-5 py-3 text-[#3382f6] hover:bg-blue-100 md:w-fit md:py-2"
-            >
-              <span class="flex justify-end space-x-2">
-                <span class="text-[#3382f6]">Save</span>
-                <img width="18" src="https://img.icons8.com/ios/50/3382f6/save--v1.png" alt="">
+            <button type="submit" class="mt-6 flex w-full shrink-0 rounded border border-blumilk-500 bg-white px-5 py-3 text-blumilk-500 hover:bg-blumilk-50 md:w-fit md:py-2">
+              <span class="flex items-center justify-end space-x-2">
+                <span class="font-bold">Save</span>
+                <FolderOpenIcon class="h-5 w-5" />
               </span>
             </button>
           </div>
         </div>
       </form>
 
-      <div class="flex flex-col rounded border border-zinc-200 p-3 shadow-md md:w-2/3 lg:w-1/2">
-        <p class="my-3 flex text-xs font-bold">
+      <div class="flex flex-col rounded border-blumilk-100 shadow-blumilk-50 lg:w-3/4 lg:border lg:p-6 lg:shadow xl:w-1/2">
+        <p class="my-3 flex text-sm font-bold text-gray-800">
           Providers
         </p>
         <div class="flex flex-wrap">
@@ -206,22 +204,22 @@ function updateCityProviders(cityId) {
           </div>
         </div>
         <div class="flex w-full justify-end">
-          <button type="submit" class="mt-6 flex w-full shrink-0 rounded border border-blue-500 bg-white px-5 py-3 text-[#3382f6] hover:bg-blue-100 md:w-fit md:py-2"
+          <button type="submit" class="mt-6 flex w-full shrink-0 rounded border border-blumilk-500 bg-white px-5 py-3 text-blumilk-500  hover:bg-blumilk-100 md:w-fit md:py-2"
                   @click="updateCityProviders(city.id)"
           >
-            <span class="flex justify-end space-x-2">
-              <span class="text-[#3382f6]">Save</span>
-              <img width="18" src="https://img.icons8.com/ios/50/3382f6/save--v1.png" alt="">
+            <span class="flex items-center justify-end space-x-2">
+              <span class="font-bold">Save</span>
+              <FolderOpenIcon class="h-5 w-5" />
             </span>
           </button>
         </div>
       </div>
       <div class="flex justify-end">
         <button
-          class="my-1 flex w-fit shrink-0 items-center rounded-full border border-zinc-300 bg-white p-3 shadow-xl"
+          class="my-1 flex w-fit shrink-0 items-center rounded-full border border-zinc-300 bg-white p-2 shadow-xl"
           @click="openEditWindow"
         >
-          <img width="16" src="https://img.icons8.com/ios/50/delete-sign--v1.png" alt="">
+          <XMarkIcon class="h-5 w-5" />
         </button>
       </div>
     </div>

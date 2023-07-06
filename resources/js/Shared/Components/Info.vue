@@ -27,11 +27,11 @@ const emit = defineEmits(['try-it-out'])
     <div
       class="flex w-full flex-wrap items-center justify-center space-y-5 sm:hidden sm:justify-between sm:space-y-0 md:flex"
     >
-      <PrimaryButton class="h-fit w-11/12 py-5 sm:w-5/12" @click="emit('try-it-out')">
+      <PrimaryButton class="h-fit w-11/12 px-2 py-5 sm:w-5/12" @click="emit('try-it-out')">
         Try it out
       </PrimaryButton>
 
-      <SecondaryButton class="h-fit w-11/12 py-5 sm:w-5/12">
+      <SecondaryButton class="h-fit w-11/12 px-2 py-5 sm:w-5/12">
         Create account
       </SecondaryButton>
     </div>
@@ -42,11 +42,11 @@ const emit = defineEmits(['try-it-out'])
       </div>
 
       <div class="flex w-1/3 flex-col space-y-8">
-        <PrimaryButton class="h-fit w-full py-5" @click="emit('try-it-out')">
+        <PrimaryButton class="h-fit w-full px-2 py-5" @click="emit('try-it-out')">
           Try it out
         </PrimaryButton>
 
-        <SecondaryButton class="h-fit w-full py-5">
+        <SecondaryButton class="h-fit w-full px-2 py-5">
           Create account
         </SecondaryButton>
       </div>
