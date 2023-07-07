@@ -1,11 +1,12 @@
 <script setup>
 import Map from '@/Shared/Components/Map.vue'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import Info from '@/Shared/Components/Info.vue'
 import SearchPanel from '@/Shared/Components/SearchPanel.vue'
 import Nav from '@/Shared/Layout/Nav.vue'
 import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 import { XMarkIcon, MapIcon } from '@heroicons/vue/24/outline'
+import { usePage } from '@inertiajs/vue3'
 
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const showInfo = ref(true)
@@ -23,6 +24,9 @@ function switchMap() {
 
 const nav = ref(null)
 
+const page = usePage()
+const isAuthenticated = computed(() => page.props.auth.isAuth)
+
 </script>
 
 <template>
@@ -31,7 +35,7 @@ const nav = ref(null)
 
     <div class="relative flex grow flex-col lg:flex-row">
       <div v-if="!showMap || (showMap && isDesktop)" class="grow lg:w-1/2">
-        <Info v-if="showInfo" @create-account="nav.toggleCreateAccountOption()" @try-it-out="switchPanel" />
+        <Info v-if="showInfo && !isAuthenticated" @create-account="nav.toggleCreateAccountOption()" @try-it-out="switchPanel" />
         <SearchPanel v-else />
       </div>
 
