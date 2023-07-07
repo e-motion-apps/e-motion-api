@@ -1,13 +1,20 @@
 <script setup>
-import { ref } from 'vue'
+import {onMounted, ref} from 'vue'
 import { Dialog, DialogPanel } from '@headlessui/vue'
-import { Bars3Icon, XMarkIcon, UserCircleIcon } from '@heroicons/vue/24/outline'
-import { Link } from '@inertiajs/vue3'
+import { Bars3Icon, XMarkIcon, UserCircleIcon, ArrowRightOnRectangleIcon } from '@heroicons/vue/24/outline'
+import {Link, usePage} from '@inertiajs/vue3'
 import {onClickOutside} from "@vueuse/core";
 
+const page = usePage();
+
+onMounted(() => {
+    console.log(page.props.auth.isAuth)
+})
+
 const navigation = [
-  { name: 'Cities', href: '/admin/dashboard/cities' },
-  { name: 'Countries', href: '/admin/dashboard/countries' },
+    { name: 'Prices', href: '#' },
+    { name: 'Find a ride', href: '#' },
+    { name: 'Rules', href: '#' },
 ]
 
 const mobileMenuOpen = ref(false)
@@ -26,6 +33,15 @@ function toggleAuthOption() {
     isLoginForm.value = !isLoginForm.value;
 }
 
+function toggleCreateAccountOption() {
+    toggleAuthDialog()
+    isLoginForm.value = false;
+}
+
+defineExpose({
+    toggleCreateAccountOption
+});
+
 </script>
 
 <template>
@@ -35,60 +51,66 @@ function toggleAuthOption() {
         <img class="h-10" src="@/assets/scooter.png" alt="escooter logo">
         <span class="ml-3 hidden text-2xl font-semibold text-gray-800 sm:flex">e-scooters</span>
       </Link>
-      <div class="flex lg:hidden">
+      <div class="flex md:hidden">
         <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700" @click="mobileMenuOpen = true">
           <span class="sr-only">Open main menu</span>
           <Bars3Icon class="h-6 w-6" aria-hidden="true" />
         </button>
       </div>
-      <div class="hidden items-center lg:flex lg:gap-x-12">
-        <Link v-for="item in navigation" :key="item.name" :href="item.href" class="text-sm font-semibold  leading-6 text-gray-900 lg:text-xl">
+      <div class="hidden items-center md:flex md:gap-x-12">
+        <Link v-for="item in navigation" :key="item.name" :href="item.href" class="text-sm font-semibold leading-6 text-gray-800 lg:text-base">
           {{ item.name }}
         </Link>
           <button @click="toggleAuthDialog">
-              <UserCircleIcon class="h-6 w-6" />
+              <UserCircleIcon v-if="page.props.auth.isAuth" class="h-6 w-6" />
+              <ArrowRightOnRectangleIcon v-else class="h-6 w-6"/>
           </button>
       </div>
     </nav>
 
       <div v-if="isAuthDialogOpened" class="fixed inset-0 flex items-center z-50 bg-black bg-opacity-50">
           <div ref="authDialog" class="w-11/12 sm:w-3/4 md:w-2/3 lg:w-1/2 xl:w-1/3 mx-auto bg-white rounded-lg shadow-lg">
-              <div class="px-6 py-10 rounded-lg" v-if="isLoginForm">
-                  <form>
-                      <div class="mb-4">
-                          <label for="email" class="block text-gray-700 font-semibold">E-mail</label>
-                          <input type="email" class="w-full border-gray-300 rounded-lg p-2">
+              <div class="flex w-full justify-end">
+                  <button @click="toggleAuthDialog" class="p-2">
+                      <XMarkIcon class="h-6 w-6"/>
+                  </button>
+              </div>
+              <div class="px-6 pb-8 rounded-lg" v-if="isLoginForm">
+                  <form class="space-y-5">
+                      <div>
+                          <label class="block text-sm text-gray-800 font-semibold">E-mail</label>
+                          <input type="email" class="w-full border-blumilk-200 rounded-lg py-3 md:p-2">
                       </div>
-                      <div class="mb-4">
-                          <label for="password" class="block text-gray-700 font-semibold">Password</label>
-                          <input type="password" class="w-full border-gray-300 rounded-lg p-2">
+                      <div>
+                          <label class="block text-sm text-gray-800 font-semibold">Password</label>
+                          <input type="password" class="w-full border-blumilk-200 rounded-lg py-3 md:p-2">
                       </div>
                       <div class="flex w-full md:w-fit">
-                          <button type="submit" class="px-4 w-full font-semibold py-2 text-white bg-blumilk-500 rounded-lg hover:bg-blumilk-600">Log in</button>
+                          <button type="submit" class="px-4 w-full font-semibold py-4 md:py-2 text-white bg-blumilk-500 rounded-lg hover:bg-blumilk-600">Log in</button>
                       </div>
                   </form>
-                  <button class="pt-6" @click="toggleAuthOption">I want to sign up</button>
+                  <button class="mt-6 text-xs font-light" @click="toggleAuthOption">Don't have an account? <span class="font-normal">Sign up</span></button>
               </div>
 
-              <div class="px-6 py-10 rounded-lg" v-else>
-              <form>
-                  <div class="mb-4">
-                      <label for="email" class="block text-gray-700 font-semibold">E-mail</label>
-                      <input type="email" class="w-full border-gray-300 rounded-lg p-2">
+              <div class="px-6 pb-8 rounded-lg" v-else>
+              <form class="space-y-5">
+                  <div>
+                      <label class="block text-sm text-gray-800 font-semibold">E-mail</label>
+                      <input type="email" class="w-full border-blumilk-200 rounded-lg py-3 md:p-2">
                   </div>
-                  <div class="mb-4">
-                      <label for="password" class="block text-gray-700 font-semibold">Password</label>
-                      <input type="password" class="w-full border-gray-300 rounded-lg p-2">
+                  <div>
+                      <label class="block text-sm text-gray-800 font-semibold">Password</label>
+                      <input type="password" class="w-full border-blumilk-200 rounded-lg py-3 md:p-2">
                   </div>
-                  <div class="mb-4">
-                      <label for="password_confirmaiton" class="block text-gray-700 font-semibold">Confirm password</label>
-                      <input type="password" class="w-full border-gray-300 rounded-lg p-2">
+                  <div>
+                      <label class="block text-sm text-gray-800 font-semibold">Confirm password</label>
+                      <input type="password" class="w-full border-blumilk-200 rounded-lg py-3 md:p-2">
                   </div>
                   <div class="flex w-full md:w-fit">
-                      <button type="submit" class="px-4 w-full font-semibold py-2 text-white bg-blumilk-500 rounded-lg hover:bg-blumilk-600">Sign up</button>
+                      <button type="submit" class="px-4 w-full font-semibold py-4 md:py-2 text-white bg-blumilk-500 rounded-lg hover:bg-blumilk-600">Sign up</button>
                   </div>
               </form>
-                  <button @click="toggleAuthOption">I want to log in</button>
+                  <button class="mt-6 text-xs font-light" @click="toggleAuthOption">Already have an account? <span class="font-normal">Log in</span></button>
               </div>
           </div>
       </div>

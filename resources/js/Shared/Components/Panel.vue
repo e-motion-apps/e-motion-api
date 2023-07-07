@@ -21,15 +21,17 @@ function switchMap() {
   showMap.value = !showMap.value
 }
 
+const nav = ref(null)
+
 </script>
 
 <template>
   <div class="flex h-screen flex-col">
-    <Nav class="z-30" />
+    <Nav ref="nav" class="z-30" />
 
     <div class="relative flex grow flex-col lg:flex-row">
       <div v-if="!showMap || (showMap && isDesktop)" class="grow lg:w-1/2">
-        <Info v-if="showInfo" @try-it-out="switchPanel" />
+        <Info v-if="showInfo" @create-account="nav.toggleCreateAccountOption()" @try-it-out="switchPanel" />
         <SearchPanel v-else />
       </div>
 
