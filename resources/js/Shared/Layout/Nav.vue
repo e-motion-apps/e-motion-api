@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { Dialog, DialogPanel } from '@headlessui/vue'
 import { Bars3Icon, XMarkIcon, UserCircleIcon } from '@heroicons/vue/24/outline'
 import { Link } from '@inertiajs/vue3'
+import {onClickOutside} from "@vueuse/core";
 
 const navigation = [
   { name: 'Cities', href: '/admin/dashboard/cities' },
@@ -10,6 +11,21 @@ const navigation = [
 ]
 
 const mobileMenuOpen = ref(false)
+
+const isAuthDialogOpened = ref(false)
+const authDialog = ref(null)
+onClickOutside(authDialog, () => (isAuthDialogOpened.value = false))
+
+function toggleAuthDialog() {
+    isAuthDialogOpened.value = !isAuthDialogOpened.value;
+}
+
+const isLoginForm = ref(true)
+
+function toggleAuthOption() {
+    isLoginForm.value = !isLoginForm.value;
+}
+
 </script>
 
 <template>
@@ -29,11 +45,54 @@ const mobileMenuOpen = ref(false)
         <Link v-for="item in navigation" :key="item.name" :href="item.href" class="text-sm font-semibold  leading-6 text-gray-900 lg:text-xl">
           {{ item.name }}
         </Link>
-        <Link href="/login">
-          <UserCircleIcon class="h-6 w-6" />
-        </Link>
+          <button @click="toggleAuthDialog">
+              <UserCircleIcon class="h-6 w-6" />
+          </button>
       </div>
     </nav>
+
+      <div v-if="isAuthDialogOpened" class="fixed inset-0 flex items-center z-50 bg-black bg-opacity-50">
+          <div ref="authDialog" class="w-11/12 sm:w-3/4 md:w-2/3 lg:w-1/2 xl:w-1/3 mx-auto bg-white rounded-lg shadow-lg">
+              <div class="px-6 py-10 rounded-lg" v-if="isLoginForm">
+                  <form>
+                      <div class="mb-4">
+                          <label for="email" class="block text-gray-700 font-semibold">E-mail</label>
+                          <input type="email" class="w-full border-gray-300 rounded-lg p-2">
+                      </div>
+                      <div class="mb-4">
+                          <label for="password" class="block text-gray-700 font-semibold">Password</label>
+                          <input type="password" class="w-full border-gray-300 rounded-lg p-2">
+                      </div>
+                      <div class="flex w-full md:w-fit">
+                          <button type="submit" class="px-4 w-full font-semibold py-2 text-white bg-blumilk-500 rounded-lg hover:bg-blumilk-600">Log in</button>
+                      </div>
+                  </form>
+                  <button class="pt-6" @click="toggleAuthOption">I want to sign up</button>
+              </div>
+
+              <div class="px-6 py-10 rounded-lg" v-else>
+              <form>
+                  <div class="mb-4">
+                      <label for="email" class="block text-gray-700 font-semibold">E-mail</label>
+                      <input type="email" class="w-full border-gray-300 rounded-lg p-2">
+                  </div>
+                  <div class="mb-4">
+                      <label for="password" class="block text-gray-700 font-semibold">Password</label>
+                      <input type="password" class="w-full border-gray-300 rounded-lg p-2">
+                  </div>
+                  <div class="mb-4">
+                      <label for="password_confirmaiton" class="block text-gray-700 font-semibold">Confirm password</label>
+                      <input type="password" class="w-full border-gray-300 rounded-lg p-2">
+                  </div>
+                  <div class="flex w-full md:w-fit">
+                      <button type="submit" class="px-4 w-full font-semibold py-2 text-white bg-blumilk-500 rounded-lg hover:bg-blumilk-600">Sign up</button>
+                  </div>
+              </form>
+                  <button @click="toggleAuthOption">I want to log in</button>
+              </div>
+          </div>
+      </div>
+
 
     <Dialog v-if="mobileMenuOpen" as="div" class="z-30 lg:hidden" :open="mobileMenuOpen" @close="mobileMenuOpen = false">
       <div class="fixed inset-0 z-30 " />
