@@ -1,15 +1,43 @@
 <script setup>
-import {onMounted, ref} from 'vue'
+import {onMounted, onUpdated, ref} from 'vue'
 import { Dialog, DialogPanel } from '@headlessui/vue'
 import { Bars3Icon, XMarkIcon, UserCircleIcon, ArrowRightOnRectangleIcon } from '@heroicons/vue/24/outline'
 import {Link, usePage} from '@inertiajs/vue3'
 import {onClickOutside} from "@vueuse/core";
+import { useForm } from '@inertiajs/vue3'
+import ErrorMessage from '@/Shared/Components/ErrorMessage.vue'
 
-const page = usePage();
 
 onMounted(() => {
-    console.log(page.props.auth.isAuth)
+    console.log(page.props)
 })
+
+onUpdated(() => {
+    console.log(page.props)
+})
+
+const loginForm = useForm({
+    email: '',
+    password: '',
+})
+
+function login() {
+    loginForm.post('/login')
+}
+
+const registerForm = useForm({
+    name: '',
+    email: '',
+    password: '',
+    password_confirmation: '',
+})
+
+function register() {
+    registerForm.post('/register')
+}
+
+
+const page = usePage();
 
 const navigation = [
     { name: 'Prices', href: '#' },
@@ -31,6 +59,12 @@ const isLoginForm = ref(true)
 
 function toggleAuthOption() {
     isLoginForm.value = !isLoginForm.value;
+    loginForm.reset()
+    loginForm.errors = []
+
+    registerForm.reset()
+    registerForm.errors = []
+
 }
 
 function toggleCreateAccountOption() {
@@ -76,41 +110,50 @@ defineExpose({
                   </button>
               </div>
               <div class="px-6 pb-8 rounded-lg" v-if="isLoginForm">
-                  <form class="space-y-5">
+                  <form @submit.prevent="login" class="space-y-5">
                       <div>
                           <label class="block text-sm text-gray-800 font-semibold">E-mail</label>
-                          <input type="email" class="w-full border-blumilk-200 rounded-lg py-3 md:p-2">
+                          <input v-model="loginForm.email" type="email" class="w-full border-blumilk-200 rounded-lg py-3 md:p-2" required>
                       </div>
                       <div>
                           <label class="block text-sm text-gray-800 font-semibold">Password</label>
-                          <input type="password" class="w-full border-blumilk-200 rounded-lg py-3 md:p-2">
+                          <input v-model="loginForm.password" type="password" class="w-full border-blumilk-200 rounded-lg py-3 md:p-2" required>
+                          <ErrorMessage :message="loginForm.errors.loginError" />
                       </div>
                       <div class="flex w-full md:w-fit">
                           <button type="submit" class="px-4 w-full font-semibold py-4 md:py-2 text-white bg-blumilk-500 rounded-lg hover:bg-blumilk-600">Log in</button>
                       </div>
                   </form>
-                  <button class="mt-6 text-xs font-light" @click="toggleAuthOption">Don't have an account? <span class="font-normal">Sign up</span></button>
+                  <button :disabled="loginForm.processing" class="mt-6 text-xs font-light" @click="toggleAuthOption">Don't have an account? <span class="font-normal">Sign up</span></button>
               </div>
 
               <div class="px-6 pb-8 rounded-lg" v-else>
-              <form class="space-y-5">
+              <form @submit.prevent="register" class="space-y-5">
+                  <div>
+                      <label class="block text-sm text-gray-800 font-semibold">Name</label>
+                      <input v-model="registerForm.name" type="text" class="w-full border-blumilk-200 rounded-lg py-3 md:p-2" required>
+                      <ErrorMessage :message="registerForm.errors.name" />
+                  </div>
+
                   <div>
                       <label class="block text-sm text-gray-800 font-semibold">E-mail</label>
-                      <input type="email" class="w-full border-blumilk-200 rounded-lg py-3 md:p-2">
+                      <input v-model="registerForm.email" type="email" class="w-full border-blumilk-200 rounded-lg py-3 md:p-2" required>
+                      <ErrorMessage :message="registerForm.errors.email" />
                   </div>
                   <div>
                       <label class="block text-sm text-gray-800 font-semibold">Password</label>
-                      <input type="password" class="w-full border-blumilk-200 rounded-lg py-3 md:p-2">
+                      <input v-model="registerForm.password" type="password" class="w-full border-blumilk-200 rounded-lg py-3 md:p-2" required>
                   </div>
                   <div>
                       <label class="block text-sm text-gray-800 font-semibold">Confirm password</label>
-                      <input type="password" class="w-full border-blumilk-200 rounded-lg py-3 md:p-2">
+                      <input v-model="registerForm.password_confirmation" type="password" class="w-full border-blumilk-200 rounded-lg py-3 md:p-2" required>
+                      <ErrorMessage :message="registerForm.errors.password" />
                   </div>
                   <div class="flex w-full md:w-fit">
                       <button type="submit" class="px-4 w-full font-semibold py-4 md:py-2 text-white bg-blumilk-500 rounded-lg hover:bg-blumilk-600">Sign up</button>
                   </div>
               </form>
-                  <button class="mt-6 text-xs font-light" @click="toggleAuthOption">Already have an account? <span class="font-normal">Log in</span></button>
+                  <button :disabled="registerForm.processing"  class="mt-6 text-xs font-light" @click="toggleAuthOption">Already have an account? <span class="font-normal">Log in</span></button>
               </div>
           </div>
       </div>
