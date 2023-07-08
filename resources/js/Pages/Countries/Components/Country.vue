@@ -65,7 +65,7 @@ function openEditWindow() {
 
         <div class="flex items-center justify-between">
           <button type="submit" class="flex w-fit items-center rounded border border-blumilk-500 bg-white px-5 py-2 text-blumilk-500">
-            <span class="flex items-center justify-end space-x-2">
+            <span class="flex flex-wrap items-center justify-end space-x-2">
               <span class="font-bold">Save</span>
               <FolderOpenIcon class="h-5 w-5" />
             </span>

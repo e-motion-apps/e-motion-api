@@ -41,10 +41,10 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="flex h-full min-h-screen">
+  <div class="flex h-full min-h-screen flex-col md:flex-row">
     <AdminNavigation :url="page.url" />
 
-    <div class="h-full w-full md:w-2/3 lg:w-3/4 xl:w-5/6">
+    <div class="mx-auto mt-16 h-full w-full md:mt-0 md:w-2/3 lg:w-3/4 xl:w-5/6">
       <div class="m-4 flex flex-col lg:mx-8">
         <div class="flex flex-col">
           <div v-for="(error, index) in props.errors" :key="index">
@@ -56,7 +56,7 @@ const props = defineProps({
           <div class="mb-6 rounded border border-blumilk-50 bg-blumilk-25 p-3 shadow-lg lg:w-1/2 xl:w-2/5">
             <div class="w-full space-y-2">
               <h1 class="mb-3 text-lg font-bold text-gray-800">
-                Store city
+                Store country
               </h1>
 
               <form class="flex flex-col space-y-2" @submit.prevent="storeCountry">
@@ -69,7 +69,7 @@ const props = defineProps({
 
                 <div class="flex w-full justify-end">
                   <button type="submit" class="mt-2 flex w-full shrink-0 rounded bg-emerald-500 px-5 py-3 text-white hover:bg-emerald-600 md:w-fit md:py-2">
-                    <span class="flex items-center justify-center space-x-2">
+                    <span class="flex flex-wrap items-center justify-center space-x-2">
                       <span class="font-bold">Save</span>
                       <FolderOpenIcon class="h-5 w-5" />
                     </span>

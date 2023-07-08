@@ -153,7 +153,7 @@ function updateCityProviders(cityId) {
 
         <div class="flex w-full justify-end">
           <button type="submit" class="mt-3 flex w-full shrink-0 rounded border border-blumilk-500 bg-white px-5 py-3 text-blumilk-500 hover:bg-blumilk-50 md:w-fit md:py-2">
-            <span class="flex items-center justify-end space-x-2">
+            <span class="flex flex-wrap items-center justify-end space-x-2">
               <span class="font-bold">Save</span>
               <FolderOpenIcon class="h-5 w-5" />
             </span>
@@ -171,7 +171,7 @@ function updateCityProviders(cityId) {
           >
           <div class="flex w-full justify-end">
             <button type="submit" class="mt-6 flex w-full shrink-0 rounded border border-blumilk-500 bg-white px-5 py-3 text-blumilk-500 hover:bg-blumilk-50 md:w-fit md:py-2">
-              <span class="flex items-center justify-end space-x-2">
+              <span class="flex flex-wrap items-center justify-end space-x-2">
                 <span class="font-bold">Save</span>
                 <FolderOpenIcon class="h-5 w-5" />
               </span>
@@ -207,7 +207,7 @@ function updateCityProviders(cityId) {
           <button type="submit" class="mt-6 flex w-full shrink-0 rounded border border-blumilk-500 bg-white px-5 py-3 text-blumilk-500  hover:bg-blumilk-100 md:w-fit md:py-2"
                   @click="updateCityProviders(city.id)"
           >
-            <span class="flex items-center justify-end space-x-2">
+            <span class="flex flex-wrap items-center justify-end space-x-2">
               <span class="font-bold">Save</span>
               <FolderOpenIcon class="h-5 w-5" />
             </span>

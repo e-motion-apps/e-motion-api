@@ -44,6 +44,7 @@ function login() {
 
 function logout() {
   router.post('/logout')
+  mobileMenuOpen.value = false
 }
 
 const navigation = [
@@ -60,6 +61,7 @@ onClickOutside(authDialog, () => (isAuthDialogOpened.value = false))
 
 function toggleAuthDialog() {
   isAuthDialogOpened.value = !isAuthDialogOpened.value
+  mobileMenuOpen.value = false
 }
 
 const isLoginFormSelected = ref(true)
@@ -180,7 +182,7 @@ defineExpose({
       <DialogPanel class="fixed inset-y-0 right-0 z-30 w-full overflow-y-auto border-b-2 bg-white px-6 py-3 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
         <div class="flex items-center justify-between sm:justify-end">
           <img class="h-10 sm:hidden" src="@/assets/scooter.png" alt="escooter logo">
-          <button type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700" @click="mobileMenuOpen = false">
+          <button type="button" class="-m-2.5 rounded-md px-2.5 pt-4 text-gray-700" @click="mobileMenuOpen = false">
             <span class="sr-only">Close menu</span>
             <XMarkIcon class="h-6 w-6" aria-hidden="true" />
           </button>
@@ -188,10 +190,26 @@ defineExpose({
         <div class="mt-6 flow-root">
           <div class="-my-6 divide-y divide-gray-500/10">
             <div class="space-y-2 py-6">
-              <a v-for="item in navigation" :key="item.name" :href="item.href" class=" -mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-blumilk-25">{{ item.name }}</a>
+              <a v-for="item in navigation" :key="item.name" :href="item.href" class=" -mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-800 hover:bg-blumilk-25">{{ item.name }}</a>
             </div>
             <div class="py-6">
-              <a href="#" class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold  leading-7 text-gray-900 hover:bg-blumilk-25">Log in</a>
+              <button v-if="isAdmin" class="-mx-3 mb-4 flex w-full font-semibold text-gray-800">
+                <Link v-if="isAdmin" class="flex w-full items-center rounded px-3 py-2.5 hover:bg-blumilk-25" href="/admin/dashboard/cities">
+                  <ComputerDesktopIcon class="h-6 w-6" />
+                  <span class="ml-2">Admin panel</span>
+                </Link>
+              </button>
+              <button class="-mx-3 flex w-full font-semibold text-gray-800">
+                <span v-if="isAuth" class="flex w-full items-center rounded px-3 py-2.5 hover:bg-blumilk-25" @click="logout">
+                  <ArrowRightOnRectangleIcon class="h-6 w-6" />
+                  <span class="ml-2">Log out </span>
+                </span>
+
+                <span v-if="!isAuth" class="flex w-full items-center rounded px-3 py-2.5 hover:bg-blumilk-25" @click="toggleAuthDialog">
+                  <UserCircleIcon class="h-6 w-6" />
+                  <span class="ml-2">Log in </span>
+                </span>
+              </button>
             </div>
           </div>
         </div>
