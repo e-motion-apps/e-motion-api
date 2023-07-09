@@ -43,7 +43,7 @@ const isAuthenticated = computed(() => page.props.auth.isAuth)
         <Map class="z-10" />
       </div>
 
-      <div v-if="!showInfo && isMobile" class="flex justify-center">
+      <div v-if="(!showInfo && isMobile) || (isAuthenticated && isMobile)" class="flex justify-center">
         <button class="hover:blumilk-600 fixed bottom-5 z-20 flex items-center justify-center rounded-full bg-blumilk-500 px-2 py-1.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" @click="switchMap">
           <XMarkIcon v-if="showMap" class="h-6 w-6" />
           <MapIcon v-else class="h-6 w-6" />
