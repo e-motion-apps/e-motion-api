@@ -60,6 +60,7 @@ const authDialog = ref(null)
 onClickOutside(authDialog, () => (isAuthDialogOpened.value = false))
 
 function toggleAuthDialog() {
+  isLoginFormSelected.value = true
   isAuthDialogOpened.value = !isAuthDialogOpened.value
   mobileMenuOpen.value = false
 }

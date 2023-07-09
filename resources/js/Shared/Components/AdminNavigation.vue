@@ -9,7 +9,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="fixed z-10 flex w-full border-blumilk-50 bg-blumilk-25 shadow md:static md:w-1/3 md:border-r lg:w-1/4 xl:w-1/6">
+  <div class="fixed z-10 flex w-full border-blumilk-50 bg-blumilk-25 shadow md:h-full md:w-1/3 md:border-r lg:w-1/4 xl:w-1/6">
     <div class="flex w-full justify-between md:flex-col md:justify-normal">
       <Link href="/" class="flex shrink-0 items-center pl-6 pr-2 md:mt-3">
         <img class="h-10" src="@/assets/scooter.png" alt="escooter logo">

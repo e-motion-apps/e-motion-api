@@ -190,7 +190,7 @@ function updateCityProviders(cityId) {
             :key="provider.id"
             :style="{'background-color': selectedProviders.includes(provider.id) ? provider.color : ''}"
             :class="selectedProviders.includes(provider.id) ? 'border-zinc-600 drop-shadow-lg' : ''"
-            class="mx-1 my-2 flex w-fit cursor-pointer items-center justify-center rounded-lg border border-zinc-300 bg-zinc-300 p-1 "
+            class="mx-1 my-2 flex h-12 w-fit cursor-pointer items-center justify-center rounded-lg border border-zinc-300 bg-zinc-300 p-1 "
             @click="toggleProviderSelection(provider.id)"
           >
             <input
@@ -204,7 +204,7 @@ function updateCityProviders(cityId) {
           </div>
         </div>
         <div class="flex w-full justify-end">
-          <button type="submit" class="mt-6 flex w-full shrink-0 rounded border border-blumilk-500 bg-white px-5 py-3 text-blumilk-500  hover:bg-blumilk-100 md:w-fit md:py-2"
+          <button type="submit" class="mt-6 flex w-full shrink-0 rounded border border-blumilk-500 bg-white px-5 py-3 text-blumilk-500 hover:bg-blumilk-100 md:w-fit md:py-2"
                   @click="updateCityProviders(city.id)"
           >
             <span class="flex flex-wrap items-center justify-end space-x-2">
