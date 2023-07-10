@@ -51,6 +51,7 @@ const navigation = [
   { name: 'Prices', href: '#' },
   { name: 'Find a ride', href: '#' },
   { name: 'Rules', href: '#' },
+  { name: 'Run importers', href: '/run-importers' },
 ]
 
 const mobileMenuOpen = ref(false)
