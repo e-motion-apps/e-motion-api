@@ -9,23 +9,22 @@ use Illuminate\Support\Facades\Schema;
 return new class() extends Migration {
     public function up(): void
     {
-        Schema::create("cities", function (Blueprint $table): void {
+        Schema::create("import_info_details", function (Blueprint $table): void {
             $table->id();
-            $table->unsignedBigInteger("country_id");
-            $table->foreign("country_id")
+            $table->unsignedBigInteger("provider_id");
+            $table->unsignedBigInteger("import_id");
+            $table->foreign("import_id")
                 ->references("id")
-                ->on("countries")
+                ->on("import_infos")
                 ->onDelete("cascade");
 
-            $table->string("name")->unique();
-            $table->string("latitude")->nullable();
-            $table->string("longitude")->nullable();
+            $table->string("code");
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists("cities");
+        Schema::dropIfExists("import_info_details");
     }
 };

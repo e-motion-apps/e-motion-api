@@ -12,7 +12,8 @@
         "laravel/framework": "^10.13.0",
         "laravel/sanctum": "^3.2.5",
         "laravel/tinker": "^2.8.1",
-        "spatie/laravel-permission": "^5.10"
+        "spatie/laravel-permission": "^5.10",
+        "symfony/dom-crawler": "^6.3"
     },
     "require-dev": {
         "blumilksoftware/codestyle": "^2.3.0",

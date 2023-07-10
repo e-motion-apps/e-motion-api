@@ -15,13 +15,14 @@ class ProviderSeeder extends Seeder
     {
         $cities = City::all();
 
-        $providers = ProviderList::all();
+        $providerList = ProviderList::all();
 
         foreach ($cities as $city) {
-            foreach ($providers as $provider) {
+            foreach ($providerList as $provider) {
                 Provider::query()->create([
-                    "provider_id" => $provider->id,
+                    "provider_list_id" => $provider->id,
                     "city_id" => $city->id,
+                    "created_by" => "admin",
                 ]);
             }
         }

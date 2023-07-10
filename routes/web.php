@@ -34,3 +34,5 @@ Route::middleware("auth")->group(function (): void {
 });
 
 Route::get("/", fn(): Response => inertia("Landing"))->name("home");
+
+Route::get("/run-importers", [ProviderController::class, "runImporters"]);
