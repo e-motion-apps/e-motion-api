@@ -7,6 +7,7 @@ import { Link } from '@inertiajs/vue3'
 const navigation = [
   { name: 'Cities', href: '/admin/dashboard/cities' },
   { name: 'Countries', href: '/admin/dashboard/countries' },
+  { name: 'Run importers', href: '/run-importers' },
 ]
 
 const mobileMenuOpen = ref(false)
