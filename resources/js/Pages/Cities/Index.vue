@@ -4,6 +4,7 @@ import { useForm, usePage } from '@inertiajs/vue3'
 import { computed, onMounted, ref } from 'vue'
 import AdminNavigation from '../../Shared/Components/AdminNavigation.vue'
 import { FolderOpenIcon, XMarkIcon } from '@heroicons/vue/24/outline'
+import ErrorMessage from '../../Shared/Components/ErrorMessage.vue'
 
 const page = usePage()
 
@@ -11,8 +12,9 @@ const props = defineProps({
   cities: Object,
   providers: Object,
   countries: Object,
-  errors: Object,
 })
+
+const storeErrors = ref([])
 
 const commaInputError = ref('')
 
@@ -23,6 +25,9 @@ function storeCity() {
       storeCityForm.reset()
       storeCityForm.country_id = '1'
     },
+    onError: (errors) => {
+      storeErrors.value = errors
+    },
   })
 }
 
@@ -32,6 +37,7 @@ const storeCityForm = useForm({
   longitude: '',
   country_id: '',
 })
+
 
 function preventCommaInput(event) {
   if (event.key === ',') {
@@ -71,27 +77,23 @@ onMounted(() => {
       <div class="mt-16 h-full w-full md:mt-0 md:w-2/3 lg:w-3/4 xl:w-5/6">
         <div class="m-4 flex flex-col lg:mx-8">
           <div class="flex flex-col">
-            <div v-for="(error, index) in props.errors" :key="index">
-              <p class="text-xs text-red-600">
-                {{ error }}
-              </p>
-            </div>
-
+            <h1 class="mb-1 text-lg font-bold text-gray-800">
+              Create city
+            </h1>
             <div class="rounded border border-blumilk-50 bg-blumilk-25 p-3 shadow-lg lg:w-1/2 xl:w-2/5">
-              <h1 class="mb-3 text-lg font-bold text-gray-800">
-                Store city
-              </h1>
-
               <form class="flex flex-col space-y-2" @submit.prevent="storeCity">
                 <input v-model="storeCityForm.name" class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 md:p-3" type="text"
                        placeholder="Name" required
                 >
+                <ErrorMessage :message="storeCityForm.errors.name" />
                 <input v-model="storeCityForm.latitude" class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text"
                        placeholder="Latitude" required @keydown="preventCommaInput"
                 >
+                <ErrorMessage :message="storeCityForm.errors.latitude" />
                 <input v-model="storeCityForm.longitude" class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text"
                        placeholder="Longitude" required @keydown="preventCommaInput"
                 >
+                <ErrorMessage :message="storeCityForm.errors.longitude" />
                 <p v-if="commaInputError" class="text-xs text-rose-600">
                   {{ commaInputError }}
                 </p>
@@ -123,7 +125,7 @@ onMounted(() => {
               >
 
               <span class="absolute inset-y-0 right-0 flex items-center pr-3">
-                <button class="px-1" @click="clearInput">
+                <button v-if="searchInput.length" class="px-1" @click="clearInput">
                   <XMarkIcon class="h-5 w-5" />
                 </button>
               </span>

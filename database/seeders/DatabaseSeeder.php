@@ -14,9 +14,6 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             AdminSeeder::class,
             CitiesAndCountriesSeeder::class,
-        ]);
-
-        $this->call([
             ProviderListSeeder::class,
             CodeSeeder::class,
         ]);

@@ -2,6 +2,7 @@
 import { onMounted, reactive, ref } from 'vue'
 import { router, useForm } from '@inertiajs/vue3'
 import { FolderOpenIcon, PencilIcon, TrashIcon, XMarkIcon } from '@heroicons/vue/24/outline'
+import ErrorMessage from '../../../Shared/Components/ErrorMessage.vue'
 
 const props = defineProps({
   city: Object,
@@ -26,6 +27,9 @@ const updateCityForm = useForm({
   longitude: props.city.longitude,
 })
 
+
+const storeAlternativeCityNameErrors = ref([])
+
 function storeAlternativeCityName(cityId) {
   router.post('/city-alternative-name', {
     name: storeCityAlternativeNameForm.name,
@@ -33,6 +37,11 @@ function storeAlternativeCityName(cityId) {
   }, {
     onSuccess: () => {
       storeCityAlternativeNameForm.name = ''
+      storeAlternativeCityNameErrors.value = []
+      openEditWindow()
+    },
+    onError: (errors) => {
+      storeAlternativeCityNameErrors.value = errors
     },
   })
 }
@@ -143,12 +152,15 @@ function updateCityProviders(cityId) {
         <input v-model="updateCityForm.name" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text" placeholder="Name"
                required
         >
+        <ErrorMessage :message="updateCityForm.errors.name" />
         <input v-model="updateCityForm.latitude" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text"
                placeholder="Latitude" required @keydown="preventCommaInput"
         >
+        <ErrorMessage :message="updateCityForm.errors.latitude" />
         <input v-model="updateCityForm.longitude" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text"
                placeholder="Longitude" required @keydown="preventCommaInput"
         >
+        <ErrorMessage :message="updateCityForm.errors.longitude" />
         <small class="text-rose-600">{{ commaInputError }}</small>
 
         <div class="flex w-full justify-end">
@@ -169,6 +181,7 @@ function updateCityProviders(cityId) {
           <input v-model="storeCityAlternativeNameForm.name" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3"
                  type="text" required
           >
+          <ErrorMessage :message="storeAlternativeCityNameErrors.name" />
           <div class="flex w-full justify-end">
             <button type="submit" class="mt-6 flex w-full shrink-0 rounded border border-blumilk-500 bg-white px-5 py-3 text-blumilk-500 hover:bg-blumilk-50 md:w-fit md:py-2">
               <span class="flex flex-wrap items-center justify-end space-x-2">

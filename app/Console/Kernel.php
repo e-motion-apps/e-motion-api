@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
         $schedule->call(function (): void {
             $service = new DataImporterService();
             $service->run("server");
-        })->everyMinute();
+        })->monthly();
     }
 
     protected function commands(): void

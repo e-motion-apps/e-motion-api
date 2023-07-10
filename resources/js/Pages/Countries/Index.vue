@@ -4,6 +4,7 @@ import { useForm, usePage } from '@inertiajs/vue3'
 import { ref } from 'vue'
 import AdminNavigation from '../../Shared/Components/AdminNavigation.vue'
 import { FolderOpenIcon } from '@heroicons/vue/24/outline'
+import ErrorMessage from '../../Shared/Components/ErrorMessage.vue'
 
 const page = usePage()
 
@@ -33,7 +34,7 @@ function preventCommaInput(event) {
   }
 }
 
-const props = defineProps({
+defineProps({
   countries: Object,
   errors: Object,
 })
@@ -48,24 +49,22 @@ const props = defineProps({
       <div class="mt-16 h-full w-full md:mt-0 md:w-2/3 lg:w-3/4 xl:w-5/6">
         <div class="m-4 flex flex-col lg:mx-8">
           <div class="flex flex-col">
-            <div v-for="(error, index) in props.errors" :key="index">
-              <p class="text-xs text-red-600">
-                {{ error }}
-              </p>
-            </div>
-
+            <h1 class="mb-1 text-lg font-bold text-gray-800">
+              Create country
+            </h1>
             <div class="mb-6 rounded border border-blumilk-50 bg-blumilk-25 p-3 shadow-lg lg:w-1/2 xl:w-2/5">
               <div class="w-full space-y-2">
-                <h1 class="mb-3 text-lg font-bold text-gray-800">
-                  Store country
-                </h1>
-
                 <form class="flex flex-col space-y-2" @submit.prevent="storeCountry">
                   <input v-model="storeCountryForm.name" class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 md:p-3" type="text" placeholder="Name" required>
+                  <ErrorMessage :message="storeCountryForm.errors.name" />
                   <input v-model="storeCountryForm.alternative_name" class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 md:p-3" type="text" placeholder="Alternative name">
+                  <ErrorMessage :message="storeCountryForm.errors.alternative_name" />
                   <input v-model="storeCountryForm.latitude" class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 md:p-3" type="text" placeholder="Latitude" required @keydown="preventCommaInput">
+                  <ErrorMessage :message="storeCountryForm.errors.latitude" />
                   <input v-model="storeCountryForm.longitude" class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 md:p-3" type="text" placeholder="Longitude" required @keydown="preventCommaInput">
+                  <ErrorMessage :message="storeCountryForm.errors.longitude" />
                   <input v-model="storeCountryForm.iso" class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 md:p-3" type="text" placeholder="ISO 3166" required>
+                  <ErrorMessage :message="storeCountryForm.errors.iso" />
                   <small class="text-rose-600">{{ commaInputError }}</small>
 
                   <div class="flex w-full justify-end">

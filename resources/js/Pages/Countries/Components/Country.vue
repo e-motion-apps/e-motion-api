@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { router, useForm } from '@inertiajs/vue3'
 import { FolderOpenIcon, PencilIcon, TrashIcon, XMarkIcon } from '@heroicons/vue/24/outline'
+import ErrorMessage from '../../../Shared/Components/ErrorMessage.vue'
 
 const props = defineProps({
   country: Object,
@@ -57,10 +58,15 @@ function openEditWindow() {
     <div v-if="isEditWindowOpened" class="mt-2 w-full space-y-2">
       <form class="flex flex-col space-y-2 lg:w-3/4 xl:w-1/2" @submit.prevent="updateCountry(country.id)">
         <input v-model="updateCountryForm.name" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text" placeholder="Name" required>
+        <ErrorMessage :message="updateCountryForm.errors.name" />
         <input v-model="updateCountryForm.alternative_name" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text" placeholder="Alternative name">
+        <ErrorMessage :message="updateCountryForm.errors.alternative_name" />
         <input v-model="updateCountryForm.latitude" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text" placeholder="Latitude" required @keydown="preventCommaInput">
+        <ErrorMessage :message="updateCountryForm.errors.latitude" />
         <input v-model="updateCountryForm.longitude" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text" placeholder="Longitude" required @keydown="preventCommaInput">
+        <ErrorMessage :message="updateCountryForm.errors.longitude" />
         <input v-model="updateCountryForm.iso" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text" placeholder="ISO 3166" required>
+        <ErrorMessage :message="updateCountryForm.errors.iso" />
         <small class="text-rose-600">{{ commaInputError }}</small>
 
         <div class="flex items-center justify-between">
