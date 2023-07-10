@@ -28,6 +28,7 @@ Route::middleware("auth")->group(function (): void {
     Route::post("/notes", [NoteController::class, "store"])->name("notes.store");
     Route::delete("/notes/{note}", [NoteController::class, "destroy"])->name("notes.destroy");
     
+
     Route::middleware(["role:admin"])->group(function (): void {
         Route::resource("/admin/dashboard/countries", CountryController::class);
         Route::resource("/admin/dashboard/cities", CityController::class);

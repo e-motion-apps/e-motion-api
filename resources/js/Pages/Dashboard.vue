@@ -1,5 +1,5 @@
 <script setup>
-import CreateNotes from '../Components/create-notes.vue'
+
 </script>
 
 <template>
@@ -15,7 +15,5 @@ import CreateNotes from '../Components/create-notes.vue'
     </a>
   </div>
 
-  <div class="p-4">
-    <create-notes />
-  </div>
+  <div class="p-4" />
 </template>

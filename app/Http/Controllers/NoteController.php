@@ -15,7 +15,7 @@ class NoteController extends Controller
     {
         $user = Auth::user();
         $notes = Note::where("user_id", $user->id)->orderBy("created_at", "desc")->pluck("text");
-        
+
         return Inertia::render("Notes/Index", [
             "notes" => $notes,
         ]);
@@ -25,11 +25,14 @@ class NoteController extends Controller
     {
         $user = Auth::user();
         $notes = $request->input("noteText", []);
-
+    
         foreach ($notes as $note) {
-            $user->notes()->create(["text" => $note]);
+            if ($note !== null) {
+                $user->notes()->create(["text" => $note]);
+            }
         }
-
+    
         return redirect()->back();
     }
+    
 }
