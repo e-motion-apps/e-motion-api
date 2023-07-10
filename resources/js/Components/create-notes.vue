@@ -73,7 +73,7 @@ const deleteNote = (index) => {
         </button>
       </li>
       <button class="note-display rounded bg-blue-500 px-2 py-3 font-semibold text-white" @click="fetchUserNotes">
-        FETHUSERNOTES
+        note-display
       </button>
     </ul>
   </div>

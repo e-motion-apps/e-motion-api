@@ -15,8 +15,8 @@ class NoteController extends Controller
     {
         $user = Auth::user();
         $notes = Note::where("user_id", $user->id)->orderBy("created_at", "desc")->pluck("text");
-
-        return Inertia::render("Notes/index", [
+        
+        return Inertia::render("Notes/Index", [
             "notes" => $notes,
         ]);
     }    
