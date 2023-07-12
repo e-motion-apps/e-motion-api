@@ -13,8 +13,8 @@ class CountryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => ["required", "string", "alpha", "regex:/^[A-Z]/", "max:100", $this->uniqueRuleForCountry("name")],
-            "alternative_name" => ["string", "alpha", "regex:/^[A-Z]/", "nullable", "max:100"],
+            "name" => ["required", "string", "regex:/^[A-Z\s]/", "max:100", $this->uniqueRuleForCountry("name")],
+            "alternative_name" => ["string", "regex:/^[A-Z\s]/", "nullable", "max:100"],
             "latitude" => ["required", "numeric"],
             "longitude" => ["required", "numeric"],
             "iso" => ["required", "string", "lowercase", "alpha", "max:20", $this->uniqueRuleForCountry("iso")],

@@ -89,11 +89,11 @@ defineExpose({
 </script>
 
 <template>
-  <header class="w-full bg-white">
+  <header class="fixed w-full bg-white">
     <nav class="mx-auto flex items-center justify-between px-6 py-3" aria-label="Global">
       <Link href="/" class="flex items-center justify-center">
         <img class="h-10" src="@/assets/scooter.png" alt="escooter logo">
-        <span class="ml-3 hidden text-2xl font-semibold text-gray-800 sm:flex">e-scooters</span>
+        <span class="ml-3 hidden text-2xl font-semibold text-gray-800 sm:flex">e&#8209;scooters</span>
       </Link>
       <div class="flex md:hidden">
         <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700" @click="mobileMenuOpen = true">
@@ -118,14 +118,14 @@ defineExpose({
     <div v-if="isAuthDialogOpened" class="fixed inset-0 z-50 flex items-center bg-black/50">
       <div ref="authDialog" class="mx-auto w-11/12 rounded-lg bg-white shadow-lg sm:w-3/4 md:w-2/3 lg:w-1/2 xl:w-1/3">
         <div class="flex w-full justify-end">
-          <button class="p-2" @click="toggleAuthDialog">
+          <button class="p-4" @click="toggleAuthDialog">
             <XMarkIcon class="h-6 w-6" />
           </button>
         </div>
         <div v-if="isLoginFormSelected" class="rounded-lg px-6 pb-8">
           <form class="space-y-5" @submit.prevent="login">
             <div>
-              <label class="mb-1 block text-sm font-semibold text-gray-800">E-mail</label>
+              <label class="mb-1 block text-sm font-semibold text-gray-800">Email</label>
               <input v-model="loginForm.email" type="email" class="w-full rounded-lg border-blumilk-200 py-3 md:p-2" required>
             </div>
             <div>
@@ -153,7 +153,7 @@ defineExpose({
             </div>
 
             <div>
-              <label class="mb-1 block text-sm font-semibold text-gray-800">E-mail</label>
+              <label class="mb-1 block text-sm font-semibold text-gray-800">Email</label>
               <input v-model="registerForm.email" type="email" class="w-full rounded-lg border-blumilk-200 py-3 md:p-2" required>
               <ErrorMessage :message="registerForm.errors.email" />
             </div>
@@ -184,7 +184,7 @@ defineExpose({
       <DialogPanel class="fixed inset-y-0 right-0 z-30 w-full overflow-y-auto border-b-2 bg-white px-6 py-3 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
         <div class="flex items-center justify-between sm:justify-end">
           <img class="h-10 sm:hidden" src="@/assets/scooter.png" alt="escooter logo">
-          <button type="button" class="-m-2.5 rounded-md px-2.5 pt-4 text-gray-700" @click="mobileMenuOpen = false">
+          <button type="button" class="-m-2.5 rounded-md px-2.5 text-gray-700 sm:pt-4" @click="mobileMenuOpen = false">
             <span class="sr-only">Close menu</span>
             <XMarkIcon class="h-6 w-6" aria-hidden="true" />
           </button>

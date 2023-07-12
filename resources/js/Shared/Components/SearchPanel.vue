@@ -1,36 +1,49 @@
 <script setup>
-import { ref } from 'vue'
-import ComboboxField from '@/Shared/Components/ComboboxField.vue'
-import SearchList from '@/Shared/Components/SearchList.vue'
 
-const countries = [
-  { id: 1, name: 'Polska' },
-  { id: 2, name: 'Szwecja' },
-  { id: 3, name: 'Niemcy' },
-  { id: 4, name: 'Hiszpania' },
-]
+import { useMapMarkerStore } from '../Stores/MapMarkerStore'
 
-const providers = [
-  { id: 1, name: 'Bolt' },
-  { id: 2, name: 'Lime' },
-  { id: 3, name: 'Tier' },
-  { id: 4, name: 'Zip' },
-]
+const mapMarkerStore = useMapMarkerStore()
 
-const displayItem = (item) => item?.name ?? ''
-const selectedValue = ref(null)
+const props = defineProps({
+  cities: Object,
+  providers: Object,
+})
 
-const handleComboboxUpdate = (query, items) => {
-  selectedValue.value = items.find((item) => item.name.toLowerCase() === query.toLowerCase())
+function showCity(city) {
+  mapMarkerStore.changeMarker(city)
 }
+
 </script>
 
 <template>
-  <div class="mx-auto flex h-full w-full">
-    <div id="ComboWrapper" class="mx-auto w-3/4 flex-col justify-center space-y-4 pt-2">
-      <ComboboxField label="Country" :items="countries" :display-value="displayItem" class="pt-3" @update="handleComboboxUpdate" />
-      <ComboboxField label="Provider" :items="providers" class="pb-3" :display-value="displayItem" @update="handleComboboxUpdate" />
-      <SearchList class="pt-5 lg:pt-10" />
-    </div>
+  <div class="mx-auto mt-12 flex w-11/12 lg:w-5/6">
+    <ul role="list" class="divide-y divide-gray-300 ">
+      <li v-for="city in props.cities" :key="city.id" class="group flex cursor-pointer flex-col items-start justify-between gap-x-6 py-5 md:flex-row" @click="showCity(city)">
+        <div class="flex w-1/2 items-center">
+          <i :class="city.country.iso" class="flat flag huge shrink-0" />
+          <div class="ml-4 flex flex-col justify-start">
+            <p class="mr-2 break-all font-bold text-gray-900 group-hover:text-gray-500">
+              {{ city.name }}
+            </p>
+            <p class="break-all text-xs font-semibold text-blumilk-500">
+              {{ city.country.name }}
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-4 flex w-full flex-wrap items-center sm:flex-row-reverse md:mt-0 md:w-1/2">
+          <div v-for="provider in props.providers" :key="provider.id">
+            <div v-for="cityProvider in city.providers" :key="cityProvider.provider_list_id">
+              <div
+                v-if="provider.id === cityProvider.provider_list_id"
+                :style="{'background-color': provider.id === cityProvider.provider_list_id ? provider.color : ''}" class="m-1 flex h-8 w-fit shrink-0 items-center justify-center rounded-md border border-zinc-300 bg-zinc-300 p-1 "
+              >
+                <img class="w-8" :src="'/providers/' + provider.name + '.png'" alt="">
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
   </div>
 </template>
