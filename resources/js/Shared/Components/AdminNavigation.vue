@@ -36,7 +36,7 @@ const props = defineProps({
         </Link>
 
         <Link class="flex h-full md:h-fit" href="/admin/dashboard/countries">
-          <li :class="props.url === '/admin/dashboard/countries' ? 'bg-blumilk-50' : ''"
+          <li :class="$page.url.startsWith('/admin/dashboard/countries')? 'bg-blumilk-50' : ''"
               class="mx-auto flex w-11/12 items-center bg-blumilk-25 px-6 hover:bg-blumilk-50 md:rounded-lg md:px-2 md:py-3"
           >
             <FlagIcon class="h-7 w-7" />
@@ -44,7 +44,7 @@ const props = defineProps({
           </li>
         </Link>
         <Link class="flex h-full md:h-fit" href="/admin/dashboard/cities">
-          <li :class="props.url === '/admin/dashboard/cities' ? 'bg-blumilk-50' : ''"
+          <li :class="$page.url.startsWith('/admin/dashboard/cities') ? 'bg-blumilk-50' : ''"
               class="mx-auto flex w-11/12 items-center bg-blumilk-25 px-6 hover:bg-blumilk-50 md:rounded-lg md:px-2 md:py-3"
           >
             <MapPinIcon class="h-7 w-7" />

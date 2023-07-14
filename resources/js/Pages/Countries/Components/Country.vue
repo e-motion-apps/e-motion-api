@@ -79,7 +79,7 @@ function toggleEditDialog() {
     {{ country.iso }}
   </td>
 
-  <td class="relative border-t border-transparent py-3.5 text-right text-xs font-medium sm:pl-3 md:pr-2 xl:pr-0">
+  <td class="relative flex justify-end border-t border-transparent py-3.5 text-right text-xs font-medium sm:pl-3 md:pr-2 xl:pr-0">
     <span class="flex flex-wrap">
       <button class="mx-0.5 mb-1 flex w-fit shrink-0 items-center rounded py-1 pr-2 text-blumilk-500 hover:bg-blumilk-25" @click="toggleEditDialog">
         <PencilIcon class="h-5 w-8 text-blumilk-500" />
@@ -105,7 +105,7 @@ function toggleEditDialog() {
         </div>
 
         <form class="flex flex-col rounded px-6 text-xs font-bold text-gray-600" @submit.prevent="updateCountry(country.id)">
-          <label class="mb-1 mt-4">Name</label>
+          <label class="mb-1">Name</label>
           <input v-model="updateCountryForm.name" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text" required>
           <ErrorMessage :message="updateCountryForm.errors.name" />
           <label class="mb-1 mt-4">Alternative name</label>

@@ -18,14 +18,18 @@ class CityController extends Controller
 {
     public function index(): Response
     {
-        $cities = CityResource::collection(City::with("cityAlternativeName", "cityProvider", "country")->get()->sortBy("country_id"));
-        $providers = ProviderResource::collection(Provider::all());
-        $countries = CountryResource::collection(Country::all());
+        $cities = City::query()->with("cityAlternativeName", "cityProvider", "country")
+            ->orderBy("country_id")
+            ->paginate(15);
+
+        $providers = Provider::all();
+        $countries = Country::all();
 
         return Inertia::render("Cities/Index", [
-            "cities" => $cities,
-            "providers" => $providers,
-            "countries" => $countries,
+            "cities" => CityResource::collection($cities),
+            "providers" => ProviderResource::collection($providers),
+            "countries" => CountryResource::collection($countries),
+            "pagination" => $cities->links(),
         ]);
     }
 

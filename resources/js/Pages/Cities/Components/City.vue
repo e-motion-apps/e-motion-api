@@ -163,9 +163,14 @@ function toggleProvidersForm() {
 
   <td class="border-t border-gray-200 py-3.5 text-sm text-gray-500 lg:table-cell">
     <div class="flex lg:hidden">
-      <div v-if="selectedCityProviders.length" class="m-1 flex h-5 w-fit items-center justify-center rounded border border-zinc-300 bg-zinc-300 p-1">
+      <div v-if="selectedCityProviders.length > 0" class="m-1 flex h-5 w-fit items-center justify-center rounded border border-zinc-300 bg-zinc-300 p-1">
         <div class="flex h-5 w-5 items-center justify-center text-xs text-gray-500">
           {{ selectedCityProviders.length }}
+        </div>
+      </div>
+      <div v-else class="m-1 flex h-5 w-fit items-center justify-center p-1">
+        <div class="flex h-5 w-5 items-center justify-center text-xs text-gray-500">
+          -
         </div>
       </div>
     </div>
@@ -189,11 +194,19 @@ function toggleProvidersForm() {
             +{{ selectedCityProviders.length - 4 }}
           </div>
         </div>
+        <div
+          v-else-if="selectedCityProviders.length === 0"
+          class="m-1 flex h-5 w-fit items-center justify-center p-1"
+        >
+          <div class="flex h-5 w-5 items-center justify-center text-xs text-gray-500">
+            -
+          </div>
+        </div>
       </div>
     </div>
   </td>
 
-  <td class="relative border-t border-transparent py-3.5 text-right text-xs font-medium sm:pl-3 md:pr-2 xl:pr-0">
+  <td class="relative flex justify-end border-t border-transparent py-3.5 text-right text-xs font-medium sm:pl-3 md:pr-2">
     <span class="flex flex-wrap">
       <button class="mx-0.5 mb-1 flex w-fit shrink-0 items-center rounded py-1 pr-2 text-blumilk-500 hover:bg-blumilk-25"
               @click="toggleEditDialog()"

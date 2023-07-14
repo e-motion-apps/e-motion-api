@@ -35,10 +35,8 @@ const filteredProviders = computed(() => {
   const selectedCountryId = mapMarkerStore.selectedCountryId
 
   if (selectedCountryId === null) {
-    // If no country is selected, return all providers
     return props.providers
   } else {
-    // Filter providers based on the selected country
     return props.providers.filter(provider =>
       props.cities.some(city =>
         city.country.id === selectedCountryId &&
@@ -55,14 +53,12 @@ const filteredCountries = computed(() => {
   const selectedCountryId = mapMarkerStore.selectedCountryId
 
   if (selectedProviderId === null) {
-    // If no provider is selected, return all countries with `hasProvider` and `isSelected` set to `true`
     return props.countries.map(country => ({
       ...country,
       hasProvider: true,
       isSelected: country.id === selectedCountryId,
     }))
   } else {
-    // Filter countries based on the selected provider
     return props.countries.map(country => {
       const hasProvider = props.cities.some(city =>
         city.country.id === country.id &&
@@ -108,7 +104,6 @@ function showCity(city) {
 }
 </script>
 
-
 <template>
   <div class="mx-auto mt-12 flex w-11/12 flex-col lg:w-5/6 ">
     <h1 class="mb-2 text-[11px] font-medium text-gray-600">
@@ -118,17 +113,20 @@ function showCity(city) {
       <li
         v-for="country in filteredCountries"
         :key="country.id"
-        class="col-span-1 mb-2 flex cursor-pointer rounded-md"
-        :class="{
-          'opacity-25': !country.hasProvider,
-          'animate-bounce shadow-md shadow-gray-400': country.isSelected,
-        }"
+        class="col-span-1 flex cursor-pointer rounded-md"
+        :class="{'opacity-25': !country.hasProvider}"
         @click="filterCountry(country.id)"
       >
-        <i :class="country.iso" class="flat flag large shrink-0" />
+        <div class="flex w-12 shrink-0 items-center justify-center rounded-l-md bg-gray-100 py-3">
+          <i class="large flat flag" :class="[country.iso, country.isSelected ? 'animate-bounce pb-0' : 'pb-3']" />
+        </div>
+        <div class="flex flex-1 items-center justify-between truncate rounded-r-md border-y border-r border-gray-100 bg-white">
+          <div class="flex-1 truncate px-3 text-sm">
+            <span class="text-xs font-medium text-gray-600">{{ country.name }}</span>
+          </div>
+        </div>
       </li>
     </ul>
-
 
     <h1 class="mb-2 mt-4 text-[11px] font-medium text-gray-600">
       Providers
