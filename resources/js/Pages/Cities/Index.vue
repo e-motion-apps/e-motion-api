@@ -2,9 +2,9 @@
 import City from './Components/City.vue'
 import { useForm, usePage } from '@inertiajs/vue3'
 import { computed, ref } from 'vue'
-import AdminNavigation from '../../Shared/Components/AdminNavigation.vue'
+import AdminNavigation from '@/Shared/Components/AdminNavigation.vue'
 import { FolderOpenIcon, XMarkIcon,  MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
-import ErrorMessage from '../../Shared/Components/ErrorMessage.vue'
+import ErrorMessage from '@/Shared/Components/ErrorMessage.vue'
 import { onClickOutside } from '@vueuse/core'
 
 const page = usePage()
@@ -114,7 +114,7 @@ function clearInput() {
                     {{ commaInputError }}
                   </p>
                   <label class="mb-1 mt-4">Country</label>
-                  <select v-model="storeCityForm.country_id" class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3">
+                  <select v-model="storeCityForm.country_id" required class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3">
                     <option v-for="country in props.countries" :key="country.id" class="m-6 p-6 " :value="country.id">
                       {{ country.name }}
                     </option>
@@ -178,8 +178,8 @@ function clearInput() {
           </div>
 
           <div v-else>
-            <p class="mt-6 text-2xl font-bold">
-              No result :(
+            <p class="mt-6 text-lg font-medium text-gray-500">
+              Sorry, we couldn't find any cities.
             </p>
           </div>
         </div>

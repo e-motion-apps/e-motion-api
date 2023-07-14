@@ -10,6 +10,8 @@ import { usePage } from '@inertiajs/vue3'
 import axios from 'axios'
 import SearchPanelSkeleton from '../Shared/Components/SearchPanelSkeleton.vue'
 
+import { useMapMarkerStore } from '../Shared/Stores/MapMarkerStore'
+const mapMarkerStore = useMapMarkerStore()
 
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const showInfo = ref(true)
@@ -28,19 +30,21 @@ function switchMap() {
 const nav = ref(null)
 
 const page = usePage()
-const isAuthenticated = computed(() => page.props.auth.isAuth)
+const isAuth = computed(() => page.props.auth.isAuth)
 
 
-const providersData = reactive({
+const data = reactive({
   cities: [],
   providers: [],
+  countries: [],
 })
 
 
 async function fetchProviders() {
   await axios.get('/api/providers').then(response => {
-    providersData.cities = response.data.cities
-    providersData.providers = response.data.providers
+    data.cities = response.data.cities
+    data.providers = response.data.providers
+    data.countries = response.data.countries
   })
 }
 
@@ -56,16 +60,16 @@ onMounted(async () => {
 
     <div class="relative mt-16 flex grow flex-col lg:flex-row">
       <div v-if="!showMap || (showMap && isDesktop)" class="grow lg:w-1/2">
-        <Info v-if="showInfo && !isAuthenticated" @create-account="nav.toggleCreateAccountOption()" @try-it-out="switchPanel" />
+        <Info v-if="showInfo && !isAuth" @create-account="nav.toggleCreateAccountOption()" @try-it-out="switchPanel" />
 
-        <div v-else>
-          <SearchPanel v-if="providersData.providers.length" :cities="providersData.cities" :providers="providersData.providers" />
+        <div v-else class="w-full">
+          <SearchPanel v-if="data.providers.length" :cities="data.cities" :providers="data.providers" :countries="data.countries" />
           <SearchPanelSkeleton v-else />
         </div>
       </div>
 
       <div v-show="isDesktop || (showMap && isMobile)" class="relative h-full lg:w-1/2">
-        <Map v-if="providersData.providers.length" :cities="providersData.cities" class="z-10" />
+        <Map v-if="data.providers.length" :key="`${mapMarkerStore.selectedCountryId}-${mapMarkerStore.selectedProviderId}`" :cities="data.cities" class="z-10" />
         <div v-else class="flex h-full flex-col items-center justify-center bg-blumilk-25" aria-label="Loading..." role="status">
           <svg class="h-24 w-24 animate-spin" viewBox="3 3 18 18">
             <path
@@ -83,7 +87,8 @@ onMounted(async () => {
         </div>
       </div>
 
-      <div v-if="(!showInfo && isMobile) || (isAuthenticated && isMobile)" class="flex justify-center">
+
+      <div v-if="(!showInfo && isMobile) || (isAuth && isMobile)" class="flex justify-center">
         <button class="hover:blumilk-600 fixed bottom-5 z-20 flex items-center justify-center rounded-full bg-blumilk-500 px-2 py-1.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" @click="switchMap">
           <XMarkIcon v-if="showMap" class="h-6 w-6" />
           <MapIcon v-else class="h-6 w-6" />

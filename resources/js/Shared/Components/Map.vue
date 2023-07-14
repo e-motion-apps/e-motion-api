@@ -1,28 +1,31 @@
 <script setup>
-import { ref, onMounted, nextTick, watch } from 'vue'
+import { ref, onMounted, nextTick, watch, defineProps } from 'vue'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import { useMapMarkerStore } from '../Stores/MapMarkerStore'
 
-const mapMarkerStore = useMapMarkerStore()
-
-watch(() => mapMarkerStore.marker, () => {
-  map.value.setView([mapMarkerStore.marker.latitude, mapMarkerStore.marker.longitude], 18)
-  L.latLng(mapMarkerStore.marker.latitude, mapMarkerStore.marker.longitude)
+const props = defineProps({
+  cities: Array,
 })
+
+const mapMarkerStore = useMapMarkerStore()
 
 const mapContainer = ref(null)
 const map = ref(null)
+const markers = ref(null)
 
-defineOptions({
-  inheritAttrs: false,
+watch(() => mapMarkerStore.selectedCity, () => {
+  if (mapMarkerStore.selectedCity) {
+    map.value.setView(
+      [mapMarkerStore.selectedCity.latitude, mapMarkerStore.selectedCity.longitude],
+      12,
+    )
+  }
 })
 
-const props = defineProps({
-  cities: Object,
+watch(() => props.cities, () => {
+  fillMap()
 })
-
-const userLocation = ref(null)
 
 onMounted(async () => {
   await nextTick()
@@ -43,6 +46,8 @@ function buildMap() {
   map.value.invalidateSize()
 }
 
+const userLocation = ref(null)
+
 function getUserLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
@@ -53,16 +58,35 @@ function getUserLocation() {
       },
       () => {
         console.error('Error getting user location.')
-      })
+      },
+    )
   } else {
     console.error('Geolocation is not supported by this browser.')
   }
 }
 
 function fillMap() {
-  const markers = L.featureGroup()
+  markers.value = L.featureGroup()
 
-  props.cities.forEach(city => {
+  const selectedCountryId = mapMarkerStore.selectedCountryId
+  const selectedProviderId = mapMarkerStore.selectedProviderId
+
+  const filteredCities = props.cities.filter(city => {
+    if (selectedCountryId !== null && selectedProviderId === null) {
+      return city.country.id === selectedCountryId
+    } else if (selectedCountryId === null && selectedProviderId !== null) {
+      return city.cityProviders.some(cityProvider => cityProvider.provider_id === selectedProviderId)
+    } else if (selectedCountryId !== null && selectedProviderId !== null) {
+      return (
+        city.country.id === selectedCountryId &&
+                city.cityProviders.some(cityProvider => cityProvider.provider_id === selectedProviderId)
+      )
+    } else {
+      return true
+    }
+  })
+
+  filteredCities.forEach(city => {
     const marker = L.circleMarker([city.latitude, city.longitude], {
       radius: 5,
       weight: 1,
@@ -71,12 +95,12 @@ function fillMap() {
       fillOpacity: 1,
     })
     marker
-      .addTo(markers)
+      .addTo(markers.value)
       .on('click', () => window)
       .bindTooltip(`${city.name} - ${city.country.name} <i class="${city.country.iso} flag flat"/>`)
   })
 
-  markers.addTo(map.value)
+  markers.value.addTo(map.value)
 }
 </script>
 
@@ -84,7 +108,7 @@ function fillMap() {
   <div id="mapContainer" ref="mapContainer" />
 </template>
 
-<style>
+<style scoped>
 #mapContainer {
     position: fixed;
     width: 100%;

@@ -2,7 +2,7 @@
 import { computed, onMounted, reactive, ref } from 'vue'
 import { router, useForm } from '@inertiajs/vue3'
 import { FolderOpenIcon, PencilIcon, TrashIcon, XMarkIcon } from '@heroicons/vue/24/outline'
-import ErrorMessage from '../../../Shared/Components/ErrorMessage.vue'
+import ErrorMessage from '@/Shared/Components/ErrorMessage.vue'
 import { onClickOutside } from '@vueuse/core'
 
 const props = defineProps({
@@ -75,26 +75,26 @@ function toggleEditDialog() {
   isAlternativeCityNameFormOpened.value = false
 }
 
-const selectedProviders = reactive([])
+const selectedCityProviders = reactive([])
 
 onMounted(() => {
-  props.city.providers.forEach(provider => {
-    selectedProviders.push(provider.provider_list_id)
+  props.city.cityProviders.forEach(provider => {
+    selectedCityProviders.push(provider.provider_id)
   })
 })
 
 function toggleProviderSelection(provider) {
-  if (selectedProviders.includes(provider)) {
-    const index = selectedProviders.indexOf(provider)
-    selectedProviders.splice(index, 1)
+  if (selectedCityProviders.includes(provider)) {
+    const index = selectedCityProviders.indexOf(provider)
+    selectedCityProviders.splice(index, 1)
   } else {
-    selectedProviders.push(provider)
+    selectedCityProviders.push(provider)
   }
 }
 
 function updateCityProviders(cityId) {
   router.patch(`/update-city-providers/${cityId}`, {
-    providers: selectedProviders,
+    providerIds: selectedCityProviders,
   }, {
     onSuccess: () => {
       toggleEditDialog()
@@ -102,8 +102,8 @@ function updateCityProviders(cityId) {
   })
 }
 
-const filteredSelectedProviders = computed(() => {
-  return props.providers.filter(provider => selectedProviders.includes(provider.id))
+const filteredSelectedCityProviders = computed(() => {
+  return props.providers.filter(provider => selectedCityProviders.includes(provider.id))
 })
 
 function goToGoogleMaps(latitude, longitude) {
@@ -163,30 +163,30 @@ function toggleProvidersForm() {
 
   <td class="border-t border-gray-200 py-3.5 text-sm text-gray-500 lg:table-cell">
     <div class="flex lg:hidden">
-      <div v-if="selectedProviders.length" class="m-1 flex h-5 w-fit items-center justify-center rounded border border-zinc-300 bg-zinc-300 p-1">
+      <div v-if="selectedCityProviders.length" class="m-1 flex h-5 w-fit items-center justify-center rounded border border-zinc-300 bg-zinc-300 p-1">
         <div class="flex h-5 w-5 items-center justify-center text-xs text-gray-500">
-          {{ selectedProviders.length }}
+          {{ selectedCityProviders.length }}
         </div>
       </div>
     </div>
     <div class="hidden items-center lg:flex">
       <div class="items-top flex h-1/2 flex-wrap items-center">
         <div
-          v-for="provider in filteredSelectedProviders.slice(0, 4)"
+          v-for="provider in filteredSelectedCityProviders.slice(0, 4)"
           :key="provider.id"
-          :style="{'background-color': selectedProviders.includes(provider.id) ? provider.color : ''}"
-          :class="selectedProviders.includes(provider.id) ? 'border-zinc-600 drop-shadow-lg' : 'hidden'"
+          :style="{'background-color': selectedCityProviders.includes(provider.id) ? provider.color : ''}"
+          :class="selectedCityProviders.includes(provider.id) ? 'border-zinc-600 drop-shadow-lg' : 'hidden'"
           class="m-1 flex h-5 w-fit items-center justify-center rounded border border-zinc-300 bg-zinc-300 p-1 "
         >
           <img class="w-5" :src="'/providers/' + provider.name + '.png'" alt="">
         </div>
 
         <div
-          v-if="selectedProviders.length > 4 "
+          v-if="selectedCityProviders.length > 4 "
           class="m-1 flex h-5 w-fit items-center justify-center rounded border border-zinc-300 bg-zinc-300 p-1"
         >
           <div class="flex h-5 w-5 items-center justify-center text-xs text-gray-500">
-            +{{ selectedProviders.length - 4 }}
+            +{{ selectedCityProviders.length - 4 }}
           </div>
         </div>
       </div>
@@ -228,18 +228,18 @@ function toggleProvidersForm() {
               @submit.prevent="updateCity(city.id)"
         >
           <label class="mb-1 mt-4">Name</label>
-          <input v-model="updateCityForm.name" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text" placeholder="Name"
+          <input v-model="updateCityForm.name" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text"
                  required
           >
           <ErrorMessage :message="updateCityForm.errors.name" />
           <label class="mb-1 mt-4">Latitude</label>
           <input v-model="updateCityForm.latitude" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text"
-                 placeholder="Latitude" required @keydown="preventCommaInput"
+                 required @keydown="preventCommaInput"
           >
           <ErrorMessage :message="updateCityForm.errors.latitude" />
           <label class="mb-1 mt-4">Longitude</label>
           <input v-model="updateCityForm.longitude" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text"
-                 placeholder="Longitude" required @keydown="preventCommaInput"
+                 required @keydown="preventCommaInput"
           >
           <ErrorMessage :message="updateCityForm.errors.longitude" />
           <small class="text-rose-600">{{ commaInputError }}</small>
@@ -305,13 +305,13 @@ function toggleProvidersForm() {
             <div
               v-for="provider in props.providers"
               :key="provider.id"
-              :style="{'background-color': selectedProviders.includes(provider.id) ? provider.color : ''}"
-              :class="selectedProviders.includes(provider.id) ? 'border-zinc-600 drop-shadow-lg' : ''"
+              :style="{'background-color': selectedCityProviders.includes(provider.id) ? provider.color : ''}"
+              :class="selectedCityProviders.includes(provider.id) ? 'border-zinc-600 drop-shadow-lg' : ''"
               class="mx-1 my-2 flex h-10 w-fit cursor-pointer items-center justify-center rounded-lg border border-zinc-300 bg-zinc-300 p-1 "
               @click="toggleProviderSelection(provider.id)"
             >
               <input
-                v-model="selectedProviders"
+                v-model="selectedCityProviders"
                 class="hidden"
                 type="checkbox"
               >

@@ -44,7 +44,7 @@ function login() {
 
 function logout() {
   router.post('/logout')
-  mobileMenuOpen.value = false
+  isMobileMenuOpened.value = false
 }
 
 const navigation = [
@@ -54,7 +54,11 @@ const navigation = [
   { name: 'Run importers', href: '/run-importers' },
 ]
 
-const mobileMenuOpen = ref(false)
+const isMobileMenuOpened = ref(false)
+
+function toggleMobileMenu() {
+  isMobileMenuOpened.value = !isMobileMenuOpened.value
+}
 
 const isAuthDialogOpened = ref(false)
 const authDialog = ref(null)
@@ -63,7 +67,7 @@ onClickOutside(authDialog, () => (isAuthDialogOpened.value = false))
 function toggleAuthDialog() {
   isLoginFormSelected.value = true
   isAuthDialogOpened.value = !isAuthDialogOpened.value
-  mobileMenuOpen.value = false
+  isMobileMenuOpened.value = false
 }
 
 const isLoginFormSelected = ref(true)
@@ -96,13 +100,13 @@ defineExpose({
         <span class="ml-3 hidden text-2xl font-semibold text-gray-800 sm:flex">e&#8209;scooters</span>
       </Link>
       <div class="flex md:hidden">
-        <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700" @click="mobileMenuOpen = true">
+        <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700" @click="toggleMobileMenu">
           <span class="sr-only">Open main menu</span>
           <Bars3Icon class="h-6 w-6" aria-hidden="true" />
         </button>
       </div>
       <div class="hidden items-center md:flex md:gap-x-12">
-        <Link v-for="item in navigation" :key="item.name" :href="item.href" class="text-sm font-semibold leading-6 text-gray-800 lg:text-base">
+        <Link v-for="item in navigation" :key="item.name" :href="item.href" class="text-sm font-medium leading-6 text-gray-800 lg:text-base">
           {{ item.name }}
         </Link>
         <Link v-if="isAdmin" href="/admin/dashboard/cities">
@@ -179,12 +183,12 @@ defineExpose({
       </div>
     </div>
 
-    <Dialog v-if="mobileMenuOpen" as="div" class="z-30 lg:hidden" :open="mobileMenuOpen" @close="mobileMenuOpen = false">
+    <Dialog v-if="isMobileMenuOpened" as="div" class="z-30 lg:hidden" :open="isMobileMenuOpened" @close="toggleMobileMenu">
       <div class="fixed inset-0 z-30 " />
       <DialogPanel class="fixed inset-y-0 right-0 z-30 w-full overflow-y-auto border-b-2 bg-white px-6 py-3 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
         <div class="flex items-center justify-between sm:justify-end">
           <img class="h-10 sm:hidden" src="@/assets/scooter.png" alt="escooter logo">
-          <button type="button" class="-m-2.5 rounded-md px-2.5 text-gray-700 sm:pt-4" @click="mobileMenuOpen = false">
+          <button type="button" class="-m-2.5 rounded-md px-2.5 text-gray-700 sm:pt-4" @click="toggleMobileMenu">
             <span class="sr-only">Close menu</span>
             <XMarkIcon class="h-6 w-6" aria-hidden="true" />
           </button>
