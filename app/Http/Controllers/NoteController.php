@@ -9,10 +9,11 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class NoteController extends Controller
 {
-    public function index()
+    public function index(): Response
     {
         $user = Auth::user();
         $notes = Note::where("user_id", $user->id)->orderBy("created_at", "desc")->get();

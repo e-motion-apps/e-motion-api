@@ -9,12 +9,15 @@ const props = defineProps({
 const noteText = ref('')
 
 const saveNotes = () => {
-  const noteValues = props.notes.map((note) => note.text)
-  Inertia.post('/notes', { noteText: noteValues })
+  const NewNote = props.notes[props.notes.length - 1]
+  const noteText = NewNote ? [NewNote.text] : []
+
+  Inertia.post('/notes', { noteText })
 }
 
 const addNote = () => {
   if (noteText.value) {
+    // eslint-disable-next-line vue/no-mutating-props
     props.notes.push({ text: noteText.value })
     noteText.value = ''
     saveNotes()
