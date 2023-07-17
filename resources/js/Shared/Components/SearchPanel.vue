@@ -1,9 +1,9 @@
 <script setup>
-import { useMapMarkerStore } from '../Stores/MapMarkerStore'
+import { useFilterStore } from '../Stores/FilterStore'
 import { computed } from 'vue'
 import { TrashIcon } from '@heroicons/vue/24/outline'
 
-const mapMarkerStore = useMapMarkerStore()
+const filterStore = useFilterStore()
 
 const props = defineProps({
   cities: Array,
@@ -12,8 +12,8 @@ const props = defineProps({
 })
 
 const filteredCities = computed(() => {
-  const selectedCountryId = mapMarkerStore.selectedCountryId
-  const selectedProviderId = mapMarkerStore.selectedProviderId
+  const selectedCountryId = filterStore.selectedCountryId
+  const selectedProviderId = filterStore.selectedProviderId
 
   if (selectedCountryId === null && selectedProviderId === null) {
     return props.cities
@@ -32,7 +32,7 @@ const filteredCities = computed(() => {
 })
 
 const filteredProviders = computed(() => {
-  const selectedCountryId = mapMarkerStore.selectedCountryId
+  const selectedCountryId = filterStore.selectedCountryId
 
   if (selectedCountryId === null) {
     return props.providers
@@ -49,8 +49,8 @@ const filteredProviders = computed(() => {
 })
 
 const filteredCountries = computed(() => {
-  const selectedProviderId = mapMarkerStore.selectedProviderId
-  const selectedCountryId = mapMarkerStore.selectedCountryId
+  const selectedProviderId = filterStore.selectedProviderId
+  const selectedCountryId = filterStore.selectedCountryId
 
   if (selectedProviderId === null) {
     return props.countries.map(country => ({
@@ -77,30 +77,30 @@ const filteredCountries = computed(() => {
 })
 
 function filterCountry(countryId) {
-  mapMarkerStore.changeSelectedProvider(null)
+  filterStore.changeSelectedProvider(null)
 
-  if (mapMarkerStore.selectedCountryId === countryId) {
-    mapMarkerStore.changeSelectedCountry(null)
+  if (filterStore.selectedCountryId === countryId) {
+    filterStore.changeSelectedCountry(null)
   } else {
-    mapMarkerStore.changeSelectedCountry(countryId)
+    filterStore.changeSelectedCountry(countryId)
   }
 }
 
 function filterProvider(providerId) {
-  if (mapMarkerStore.selectedProviderId === providerId) {
-    mapMarkerStore.changeSelectedProvider(null)
+  if (filterStore.selectedProviderId === providerId) {
+    filterStore.changeSelectedProvider(null)
   } else {
-    mapMarkerStore.changeSelectedProvider(providerId)
+    filterStore.changeSelectedProvider(providerId)
   }
 }
 
 function clearFilters() {
-  mapMarkerStore.changeSelectedProvider(null)
-  mapMarkerStore.changeSelectedCountry(null)
+  filterStore.changeSelectedProvider(null)
+  filterStore.changeSelectedCountry(null)
 }
 
 function showCity(city) {
-  mapMarkerStore.changeMarker(city)
+  filterStore.changeSelectedCity(city)
 }
 </script>
 
@@ -137,14 +137,14 @@ function showCity(city) {
         :key="provider.id"
         class="mb-2 flex h-8 w-fit shrink-0 cursor-pointer items-center justify-center rounded-md border border-zinc-300 p-1"
         :style="{'background-color': provider.color}"
-        :class="{'opacity-25': mapMarkerStore.selectedProviderId !== null && mapMarkerStore.selectedProviderId !== provider.id}"
+        :class="{'opacity-25': filterStore.selectedProviderId !== null && filterStore.selectedProviderId !== provider.id}"
         @click="filterProvider(provider.id)"
       >
         <img class="w-8" :src="'/providers/' + provider.name + '.png'" alt="">
       </li>
     </ul>
 
-    <div v-if="mapMarkerStore.selectedCountryId !== null || mapMarkerStore.selectedProviderId !== null" class="flex justify-end sm:justify-start">
+    <div v-if="filterStore.selectedCountryId !== null || filterStore.selectedProviderId !== null" class="flex justify-end sm:justify-start">
       <button class="mt-3 flex w-fit items-center rounded-lg bg-gray-50 px-3 py-1 text-[10px] font-medium text-gray-500 hover:bg-gray-100" @click="clearFilters">
         <TrashIcon class="mr-1 h-4 w-4" />
         Clear filters

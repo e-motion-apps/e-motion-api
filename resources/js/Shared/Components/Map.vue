@@ -2,22 +2,22 @@
 import { ref, onMounted, nextTick, watch, defineProps } from 'vue'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
-import { useMapMarkerStore } from '../Stores/MapMarkerStore'
+import { useFilterStore } from '../Stores/FilterStore'
 
 const props = defineProps({
   cities: Array,
 })
 
-const mapMarkerStore = useMapMarkerStore()
+const filterStore = useFilterStore()
 
 const mapContainer = ref(null)
 const map = ref(null)
 const markers = ref(null)
 
-watch(() => mapMarkerStore.selectedCity, () => {
-  if (mapMarkerStore.selectedCity) {
+watch(() => filterStore.selectedCity, () => {
+  if (filterStore.selectedCity) {
     map.value.setView(
-      [mapMarkerStore.selectedCity.latitude, mapMarkerStore.selectedCity.longitude],
+      [filterStore.selectedCity.latitude, filterStore.selectedCity.longitude],
       12,
     )
   }
@@ -68,8 +68,8 @@ function getUserLocation() {
 function fillMap() {
   markers.value = L.featureGroup()
 
-  const selectedCountryId = mapMarkerStore.selectedCountryId
-  const selectedProviderId = mapMarkerStore.selectedProviderId
+  const selectedCountryId = filterStore.selectedCountryId
+  const selectedProviderId = filterStore.selectedProviderId
 
   const filteredCities = props.cities.filter(city => {
     if (selectedCountryId !== null && selectedProviderId === null) {

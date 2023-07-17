@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 
-export const useMapMarkerStore = defineStore('MapMarkerStore', {
+export const useFilterStore = defineStore('useFilterStore', {
   state: () => ({
     selectedCity: null,
 
@@ -8,7 +8,7 @@ export const useMapMarkerStore = defineStore('MapMarkerStore', {
     selectedProviderId: null,
   }),
   actions: {
-    changeMarker(city) {
+    changeSelectedCity(city) {
       this.selectedCity = city
     },
     changeSelectedCountry(countryId) {

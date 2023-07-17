@@ -1,7 +1,7 @@
 <script setup>
 import City from './Components/City.vue'
-import { Link, useForm, usePage } from '@inertiajs/vue3'
-import { computed, ref } from 'vue'
+import { Link, useForm, usePage, router, useRemember } from '@inertiajs/vue3'
+import { ref } from 'vue'
 import AdminNavigation from '@/Shared/Components/AdminNavigation.vue'
 import { FolderOpenIcon, XMarkIcon,  MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
 import ErrorMessage from '@/Shared/Components/ErrorMessage.vue'
@@ -55,21 +55,12 @@ function preventCommaInput(event) {
   }
 }
 
-const searchInput = ref('')
-
-const filteredCities = computed(() => {
-  return props.cities.data.filter(city => {
-    if (city.name.toLowerCase().includes(searchInput.value.toLowerCase()) || city.city_alternative_names.some(alternativeName =>
-      alternativeName.name.toLowerCase().includes(searchInput.value.toLowerCase()))) {
-      return true
-    }
-
-    return false
-  })
+const searchInput = useRemember({
+  data: null,
 })
 
-function clearInput() {
-  searchInput.value = ''
+function searchCity() {
+  router.visit(`?search=${searchInput.value.data}`)
 }
 
 </script>
@@ -144,9 +135,9 @@ function clearInput() {
                 <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                   <MagnifyingGlassIcon class="h-5 w-5 text-gray-800" />
                 </div>
-                <input id="email" v-model.trim="searchInput" type="email" name="email" class="block w-full rounded border-0 py-3 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blumilk-300 sm:text-sm sm:leading-6 md:py-1.5" placeholder="Search city">
+                <input v-model.trim="searchInput.data" type="text" class="block w-full rounded border-0 py-3 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blumilk-300 sm:text-sm sm:leading-6 md:py-1.5" placeholder="Search city" @keyup="searchCity">
               </div>
-              <button v-if="searchInput.length" type="button" class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-800 ring-1 ring-inset ring-gray-300 hover:bg-blumilk-25" @click="clearInput">
+              <button type="button" class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-800 ring-1 ring-inset ring-gray-300 hover:bg-blumilk-25" @click="searchCity">
                 <XMarkIcon class="h-5 w-5" />
               </button>
             </div>
@@ -169,34 +160,9 @@ function clearInput() {
                   results
                 </p>
               </div>
-              <div>
-                <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
-                  <Link v-if="cities.links.prev" :href="cities.links.prev" class="relative inline-flex items-center rounded-l-md p-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
-                    <span class="sr-only">Previous</span>
-                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                      <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
-                    </svg>
-                  </Link>
-
-                  <Link v-for="(link, index) in cities.meta.links.slice(1, -1)" :key="index"
-                        :href="link.url ? link.url : cities.links.first"
-                        :class="{'bg-blumilk-50': link.active}"
-                        class="relative hidden items-center px-4 py-2 text-sm font-semibold text-gray-600 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex"
-                  >
-                    {{ link.label }}
-                  </Link>
-
-                  <Link v-if="cities.links.next" :href="cities.links.next" class="relative inline-flex items-center rounded-r-md p-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:bg-gray-200">
-                    <span class="sr-only">Next</span>
-                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                      <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
-                    </svg>
-                  </Link>
-                </nav>
-              </div>
             </div>
           </div>
-          <div v-if="filteredCities.length" class="rounded-lg ring-gray-300 sm:ring-1">
+          <div v-if="props.cities.data.length" class="rounded-lg ring-gray-300 sm:ring-1">
             <table class="min-w-full">
               <thead>
                 <tr>
@@ -215,17 +181,45 @@ function clearInput() {
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="city in filteredCities" :key="city.id">
+                <tr v-for="city in props.cities.data" :key="city.id">
                   <City :providers="providers" :city="city" />
                 </tr>
               </tbody>
             </table>
           </div>
 
+
           <div v-else>
             <p class="mt-6 text-lg font-medium text-gray-500">
               Sorry, we couldn't find any cities.
             </p>
+          </div>
+
+          <div class="mt-4 flex justify-end">
+            <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+              <Link v-if="cities.links.prev" :href="cities.links.prev" class="relative inline-flex items-center rounded-l-md p-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                <span class="sr-only">Previous</span>
+                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
+                </svg>
+              </Link>
+
+              <Link v-for="(link, index) in cities.meta.links.slice(1, -1)" :key="index"
+                    :href="link.url ? link.url : ''"
+                    :class="{'bg-blumilk-50': link.active, 'disabled cursor-default hover:bg-white': !link.url}"
+
+                    class="disabled relative hidden items-center px-4 py-2 text-sm font-semibold text-gray-600 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex"
+              >
+                {{ link.label }}
+              </Link>
+
+              <Link v-if="cities.links.next" :href="cities.links.next" class="relative inline-flex items-center rounded-r-md p-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:bg-gray-200">
+                <span class="sr-only">Next</span>
+                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+                </svg>
+              </Link>
+            </nav>
           </div>
         </div>
       </div>
