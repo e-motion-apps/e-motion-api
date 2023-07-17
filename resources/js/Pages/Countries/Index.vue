@@ -1,11 +1,12 @@
 <script setup>
 import Country from './Components/Country.vue'
-import { Link, useForm, usePage } from '@inertiajs/vue3'
-import { computed, ref } from 'vue'
+import { Link, router, useForm, usePage } from '@inertiajs/vue3'
+import { ref, watch } from 'vue'
 import AdminNavigation from '@/Shared/Components/AdminNavigation.vue'
 import { FolderOpenIcon, MagnifyingGlassIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 import ErrorMessage from '@/Shared/Components/ErrorMessage.vue'
 import { onClickOutside } from '@vueuse/core'
+import { debounce } from 'lodash/function'
 
 const page = usePage()
 
@@ -50,11 +51,14 @@ function toggleStoreDialog() {
 
 const searchInput = ref('')
 
-const filteredCountries = computed(() => {
-  return props.countries.data.filter(countries => {
-    return countries.name.toLowerCase().includes(searchInput.value.toLowerCase())
+watch(searchInput, debounce(() => {
+  router.get(`/admin/dashboard/countries?search=${searchInput.value}`, {}, {
+    preserveState: true,
+    replace: true,
   })
-})
+}, 300), { deep: true })
+
+
 
 function clearInput() {
   searchInput.value = ''
@@ -122,7 +126,7 @@ function clearInput() {
                 <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                   <MagnifyingGlassIcon class="h-5 w-5 text-gray-800" />
                 </div>
-                <input id="email" v-model.trim="searchInput" type="email" name="email" class="block w-full rounded border-0 py-3 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blumilk-300 sm:text-sm sm:leading-6 md:py-1.5" placeholder="Search country">
+                <input v-model.trim="searchInput" type="text" class="block w-full rounded border-0 py-3 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blumilk-300 sm:text-sm sm:leading-6 md:py-1.5" placeholder="Search country">
               </div>
               <button v-if="searchInput.length" type="button" class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-800 ring-1 ring-inset ring-gray-300 hover:bg-blumilk-25" @click="clearInput">
                 <XMarkIcon class="h-5 w-5" />
@@ -130,11 +134,7 @@ function clearInput() {
             </div>
           </div>
 
-          <div class="flex items-center justify-between border-t border-gray-200 bg-white py-3 ">
-            <div class="flex flex-1 justify-between sm:hidden">
-              <a href="#" class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Previous</a>
-              <a href="#" class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Next</a>
-            </div>
+          <div v-if="props.countries.data.length" class="flex items-center justify-between border-t border-gray-200 bg-white py-3 ">
             <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
               <div>
                 <p class="text-sm text-gray-700">
@@ -147,35 +147,10 @@ function clearInput() {
                   results
                 </p>
               </div>
-              <div>
-                <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
-                  <Link v-if="countries.links.prev" :href="countries.links.prev" class="relative inline-flex items-center rounded-l-md p-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
-                    <span class="sr-only">Previous</span>
-                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                      <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
-                    </svg>
-                  </Link>
-
-                  <Link v-for="(link, index) in countries.meta.links.slice(1, -1)" :key="index"
-                        :href="link.url ? link.url : countries.links.first"
-                        :class="{'bg-blumilk-50': link.active}"
-                        class="relative hidden items-center px-4 py-2 text-sm font-semibold text-gray-600 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex"
-                  >
-                    {{ link.label }}
-                  </Link>
-
-                  <Link v-if="countries.links.next" :href="countries.links.next" class="relative inline-flex items-center rounded-r-md p-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:bg-gray-200">
-                    <span class="sr-only">Next</span>
-                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                      <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
-                    </svg>
-                  </Link>
-                </nav>
-              </div>
             </div>
           </div>
 
-          <div v-if="filteredCountries.length" class="rounded-lg ring-gray-300 sm:ring-1">
+          <div v-if="props.countries.data.length" class="rounded-lg ring-gray-300 sm:ring-1">
             <table class="min-w-full">
               <thead>
                 <tr>
@@ -197,7 +172,7 @@ function clearInput() {
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="country in filteredCountries" :key="country.id">
+                <tr v-for="country in props.countries.data" :key="country.id">
                   <Country :country="country" />
                 </tr>
               </tbody>
@@ -207,6 +182,32 @@ function clearInput() {
             <p class="mt-6 text-lg font-medium text-gray-500">
               Sorry, we couldn't find any countries.
             </p>
+          </div>
+
+          <div v-if="countries.meta.last_page !== 1" class="mt-4 flex justify-end">
+            <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+              <Link v-if="countries.links.prev" :href="countries.links.prev" class="relative inline-flex items-center rounded-l-md p-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                <span class="sr-only">Previous</span>
+                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
+                </svg>
+              </Link>
+
+              <Link v-for="(link, index) in countries.meta.links.slice(1, -1)" :key="index"
+                    :href="link.url ? link.url : countries.links.first"
+                    :class="{'bg-blumilk-50': link.active}"
+                    class="relative hidden items-center px-4 py-2 text-sm font-semibold text-gray-600 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 lg:inline-flex"
+              >
+                {{ link.label }}
+              </Link>
+
+              <Link v-if="countries.links.next" :href="countries.links.next" class="relative inline-flex items-center rounded-r-md p-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:bg-gray-200">
+                <span class="sr-only">Next</span>
+                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+                </svg>
+              </Link>
+            </nav>
           </div>
         </div>
       </div>

@@ -1,11 +1,12 @@
 <script setup>
 import City from './Components/City.vue'
-import { Link, useForm, usePage, router, useRemember } from '@inertiajs/vue3'
-import { ref } from 'vue'
+import { Link, useForm, usePage, router } from '@inertiajs/vue3'
+import { ref, watch } from 'vue'
 import AdminNavigation from '@/Shared/Components/AdminNavigation.vue'
 import { FolderOpenIcon, XMarkIcon,  MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
 import ErrorMessage from '@/Shared/Components/ErrorMessage.vue'
 import { onClickOutside } from '@vueuse/core'
+import { debounce } from 'lodash/function'
 
 const page = usePage()
 
@@ -55,12 +56,19 @@ function preventCommaInput(event) {
   }
 }
 
-const searchInput = useRemember({
-  data: null,
-})
+const searchInput = ref('')
 
-function searchCity() {
-  router.visit(`?search=${searchInput.value.data}`)
+
+watch(searchInput, debounce(() => {
+  router.get(`/admin/dashboard/cities?search=${searchInput.value}`, {}, {
+    preserveState: true,
+    replace: true,
+  })
+}, 300), { deep: true })
+
+
+function clearInput() {
+  searchInput.value = ''
 }
 
 </script>
@@ -135,20 +143,16 @@ function searchCity() {
                 <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                   <MagnifyingGlassIcon class="h-5 w-5 text-gray-800" />
                 </div>
-                <input v-model.trim="searchInput.data" type="text" class="block w-full rounded border-0 py-3 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blumilk-300 sm:text-sm sm:leading-6 md:py-1.5" placeholder="Search city" @keyup="searchCity">
+                <input v-model.trim="searchInput" type="text" class="block w-full rounded border-0 py-3 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blumilk-300 sm:text-sm sm:leading-6 md:py-1.5" placeholder="Search city">
               </div>
-              <button type="button" class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-800 ring-1 ring-inset ring-gray-300 hover:bg-blumilk-25" @click="searchCity">
+              <button v-if="searchInput.length" type="button" class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-800 ring-1 ring-inset ring-gray-300 hover:bg-blumilk-25" @click="clearInput">
                 <XMarkIcon class="h-5 w-5" />
               </button>
             </div>
           </div>
 
-          <div class="flex items-center justify-between border-t border-gray-200 bg-white py-3 ">
-            <div class="flex flex-1 justify-between sm:hidden">
-              <a href="#" class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Previous</a>
-              <a href="#" class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Next</a>
-            </div>
-            <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+          <div v-if="props.cities.data.length" class="flex items-center justify-between border-t border-gray-200 bg-white py-3 ">
+            <div class="flex sm:flex-1 sm:items-center">
               <div>
                 <p class="text-sm text-gray-700">
                   Showing
@@ -188,14 +192,13 @@ function searchCity() {
             </table>
           </div>
 
-
           <div v-else>
             <p class="mt-6 text-lg font-medium text-gray-500">
               Sorry, we couldn't find any cities.
             </p>
           </div>
 
-          <div class="mt-4 flex justify-end">
+          <div v-if="cities.meta.last_page !== 1" class="mt-4 flex justify-end">
             <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
               <Link v-if="cities.links.prev" :href="cities.links.prev" class="relative inline-flex items-center rounded-l-md p-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
                 <span class="sr-only">Previous</span>
@@ -208,7 +211,7 @@ function searchCity() {
                     :href="link.url ? link.url : ''"
                     :class="{'bg-blumilk-50': link.active, 'disabled cursor-default hover:bg-white': !link.url}"
 
-                    class="disabled relative hidden items-center px-4 py-2 text-sm font-semibold text-gray-600 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex"
+                    class="disabled relative hidden items-center px-4 py-2 text-sm font-semibold text-gray-600 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 lg:inline-flex"
               >
                 {{ link.label }}
               </Link>

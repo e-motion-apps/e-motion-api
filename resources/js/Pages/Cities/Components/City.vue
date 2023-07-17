@@ -142,11 +142,11 @@ function toggleProvidersForm() {
   <td class="relative py-4 pl-4 text-sm sm:pl-6 sm:pr-3">
     <div class="flex items-center font-medium text-gray-800">
       <i :class="city.country.iso" class="flat flag large mr-2 shrink-0" />
-      <p class="cursor-pointer break-all" @click="goToGoogleMaps(city.latitude, city.longitude)">
+      <p class="cursor-pointer break-all rounded hover:bg-blumilk-25" @click="goToGoogleMaps(city.latitude, city.longitude)">
         {{ city.name }}
       </p>
     </div>
-    <div class="mt-1 flex flex-col break-all text-gray-500 hover:bg-blumilk-25 hover:font-medium sm:block lg:hidden">
+    <div class="mt-1 flex flex-col break-all text-gray-500 sm:block lg:hidden">
       <span>{{ city.latitude }}</span>
       <span class="hidden sm:inline">, </span>
       <br class="hidden sm:inline">

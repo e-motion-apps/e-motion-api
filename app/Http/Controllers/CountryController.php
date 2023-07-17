@@ -14,7 +14,10 @@ class CountryController extends Controller
 {
     public function index(): Response
     {
-        $countries = Country::query()->orderBy("name")->paginate(15);
+        $countries = Country::query()->orderBy("name")
+            ->search()
+            ->paginate(15)
+            ->withQueryString();
 
         return Inertia::render("Countries/Index", [
             "countries" => CountryResource::collection($countries),
