@@ -184,7 +184,7 @@ function clearInput() {
                 </tr>
               </thead>
               <tbody>
-                <tr class="border" v-for="city in props.cities.data" :key="city.id">
+                <tr v-for="city in props.cities.data" :key="city.id" class="border">
                   <City :providers="providers" :city="city" />
                 </tr>
               </tbody>
