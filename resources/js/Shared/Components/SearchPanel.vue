@@ -106,10 +106,10 @@ function showCity(city) {
 
 <template>
   <div class="mx-auto mt-12 flex w-11/12 flex-col lg:w-5/6 ">
-    <h1 class="mb-2 text-[11px] font-medium text-gray-600">
+    <h1 class="mb-1 text-[11px] font-medium text-gray-600">
       Countries
     </h1>
-    <ul role="list" class="scrollbar flex space-x-2 overflow-x-auto py-2">
+    <ul role="list" class="scrollbar flex space-x-2 overflow-x-auto pb-2">
       <li
         v-for="country in filteredCountries"
         :key="country.id"
@@ -128,7 +128,7 @@ function showCity(city) {
       </li>
     </ul>
 
-    <h1 class="mb-2 mt-4 text-[11px] font-medium text-gray-600">
+    <h1 class="mb-1 mt-4 text-[11px] font-medium text-gray-600">
       Providers
     </h1>
     <ul role="list" class="scrollbar flex space-x-2 overflow-x-auto">
