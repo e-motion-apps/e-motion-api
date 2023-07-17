@@ -48,7 +48,6 @@ function toggleStoreDialog() {
   isStoreDialogOpened.value = !isStoreDialogOpened.value
 }
 
-
 function preventCommaInput(event) {
   if (event.key === ',') {
     event.preventDefault()
@@ -185,7 +184,7 @@ function clearInput() {
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="city in props.cities.data" :key="city.id">
+                <tr class="border" v-for="city in props.cities.data" :key="city.id">
                   <City :providers="providers" :city="city" />
                 </tr>
               </tbody>

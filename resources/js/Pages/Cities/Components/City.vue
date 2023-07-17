@@ -152,16 +152,15 @@ function toggleProvidersForm() {
       <br class="hidden sm:inline">
       <span>{{ city.longitude }}</span>
     </div>
-    <div class="absolute -top-px left-6 right-0 h-px bg-gray-200" />
   </td>
-  <td class="hidden break-all border-t border-gray-200 py-3.5 text-sm text-gray-500 lg:table-cell">
+  <td class="hidden break-all py-3.5 text-sm text-gray-500 lg:table-cell">
     {{ city.latitude }}
   </td>
-  <td class="hidden break-all border-t border-gray-200 py-3.5 pl-1 text-sm text-gray-500 lg:table-cell">
+  <td class="hidden break-all py-3.5 pl-1 text-sm text-gray-500 lg:table-cell">
     {{ city.longitude }}
   </td>
 
-  <td class="border-t border-gray-200 py-3.5 text-sm text-gray-500 lg:table-cell">
+  <td class="py-3.5 text-sm text-gray-500 lg:table-cell">
     <div class="flex lg:hidden">
       <div v-if="selectedCityProviders.length > 0" class="m-1 flex h-5 w-fit items-center justify-center rounded border border-zinc-300 bg-zinc-300 p-1">
         <div class="flex h-5 w-5 items-center justify-center text-xs text-gray-500">
@@ -222,7 +221,6 @@ function toggleProvidersForm() {
         Delete
       </button>
     </span>
-    <div class="absolute -top-px left-0 right-6 h-px bg-gray-200" />
   </td>
 
   <div v-if="isEditDialogOpened" class="flex flex-col overflow-y-auto">

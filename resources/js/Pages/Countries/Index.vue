@@ -172,7 +172,7 @@ function clearInput() {
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="country in props.countries.data" :key="country.id">
+                <tr class="border" v-for="country in props.countries.data" :key="country.id">
                   <Country :country="country" />
                 </tr>
               </tbody>

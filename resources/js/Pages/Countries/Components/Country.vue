@@ -62,20 +62,19 @@ function toggleEditDialog() {
       <span>{{ country.latitude }},</span>
       <span>{{ country.longitude }}</span>
     </div>
-    <div class="absolute -top-px left-6 right-0 h-px bg-gray-200" />
   </td>
-  <td class="table-cell break-all border-t border-gray-200 py-3.5 text-sm text-gray-500">
+  <td class="table-cell break-all py-3.5 text-sm text-gray-500">
     {{ country.alternative_name }}
   </td>
-  <td class="hidden break-all border-t border-gray-200 py-3.5 pl-1 text-sm text-gray-500 xl:table-cell">
+  <td class="hidden break-all py-3.5 pl-1 text-sm text-gray-500 xl:table-cell">
     {{ country.latitude }}
   </td>
 
-  <td class="hidden break-all border-t border-gray-200 py-3.5 pl-1 text-sm text-gray-500 xl:table-cell">
+  <td class="hidden break-all py-3.5 pl-1 text-sm text-gray-500 xl:table-cell">
     {{ country.longitude }}
   </td>
 
-  <td class="hidden break-all border-t border-gray-200 py-3.5 pl-1 text-sm text-gray-500 xl:table-cell">
+  <td class="hidden break-all py-3.5 pl-1 text-sm text-gray-500 xl:table-cell">
     {{ country.iso }}
   </td>
 
@@ -91,7 +90,6 @@ function toggleEditDialog() {
         Delete
       </button>
     </span>
-    <div class="absolute -top-px left-0 right-6 h-px bg-gray-200" />
   </td>
 
 

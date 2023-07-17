@@ -31,7 +31,6 @@ class CityController extends Controller
             "cities" => CityResource::collection($cities),
             "providers" => ProviderResource::collection($providers),
             "countries" => CountryResource::collection($countries),
-            "pagination" => $cities->links(),
         ]);
     }
 
