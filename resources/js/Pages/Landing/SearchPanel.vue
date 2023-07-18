@@ -1,5 +1,5 @@
 <script setup>
-import { useFilterStore } from '../Stores/FilterStore'
+import { useFilterStore } from '@/Shared/Stores/FilterStore'
 import { computed } from 'vue'
 import { TrashIcon } from '@heroicons/vue/24/outline'
 

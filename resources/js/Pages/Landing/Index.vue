@@ -2,7 +2,7 @@
 import Map from '@/Shared/Layout/Map.vue'
 import { computed, onMounted, reactive, ref } from 'vue'
 import Info from '@/Shared/Layout/Info.vue'
-import SearchPanel from '@/Shared/Layout/SearchPanel.vue'
+import SearchPanel from './SearchPanel.vue'
 import Nav from '@/Shared/Layout/Nav.vue'
 import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 import { XMarkIcon, MapIcon } from '@heroicons/vue/24/outline'

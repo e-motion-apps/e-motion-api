@@ -29,6 +29,6 @@ Route::middleware("auth")->group(function (): void {
     });
 });
 
-Route::inertia("/", "Landing")->name("home");
+Route::inertia("/", "Landing/Index")->name("home");
 
 Route::get("/run-importers", [CityProviderController::class, "runImporters"]);
