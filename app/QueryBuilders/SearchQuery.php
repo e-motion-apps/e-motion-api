@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Builder;
 
 class SearchQuery extends Builder
 {
-    public function search(): self
+    public function search(string $column): self
     {
         if (request()->has("search")) {
-            return $this->where("name", "ilike", request("search") . "%");
+            return $this->where($column, "ilike", request("search") . "%");
         }
 
         return $this;

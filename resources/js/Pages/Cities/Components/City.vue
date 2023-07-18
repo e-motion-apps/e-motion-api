@@ -1,9 +1,10 @@
 <script setup>
 import { computed, onMounted, reactive, ref } from 'vue'
 import { router, useForm } from '@inertiajs/vue3'
-import { FolderOpenIcon, PencilIcon, TrashIcon, XMarkIcon } from '@heroicons/vue/24/outline'
+import { PencilIcon, TrashIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 import ErrorMessage from '@/Shared/Components/ErrorMessage.vue'
 import { onClickOutside } from '@vueuse/core'
+import SecondarySaveButton from '@/Shared/Components/SecondarySaveButton.vue'
 
 const props = defineProps({
   city: Object,
@@ -27,7 +28,6 @@ const updateCityForm = useForm({
   latitude: props.city.latitude,
   longitude: props.city.longitude,
 })
-
 
 const storeAlternativeCityNameErrors = ref([])
 
@@ -208,7 +208,7 @@ function toggleProvidersForm() {
   <td class="relative flex justify-end border-t border-transparent py-3.5 text-right text-xs font-medium sm:pl-3 md:pr-2">
     <span class="flex flex-wrap">
       <button class="mx-0.5 mb-1 flex w-fit shrink-0 items-center rounded py-1 pr-2 text-blumilk-500 hover:bg-blumilk-25"
-              @click="toggleEditDialog()"
+              @click="toggleEditDialog"
       >
         <PencilIcon class="h-5 w-8 text-blumilk-500" />
         Edit
@@ -227,7 +227,7 @@ function toggleProvidersForm() {
     <div class="fixed inset-0 z-10 flex items-center overflow-y-auto bg-black/50">
       <div ref="editDialog" class="mx-auto w-11/12 rounded-lg bg-white pb-6 sm:w-5/6 md:w-3/4 lg:w-1/2 xl:w-1/3">
         <div class="flex w-full justify-end">
-          <button class="px-4 pt-4" @click="toggleEditDialog()">
+          <button class="px-4 pt-4" @click="toggleEditDialog">
             <XMarkIcon class="h-6 w-6" />
           </button>
         </div>
@@ -256,12 +256,9 @@ function toggleProvidersForm() {
           <small class="text-rose-600">{{ commaInputError }}</small>
 
           <div class="flex w-full justify-end">
-            <button type="submit" class="mt-3 flex w-full shrink-0 justify-center rounded border border-blumilk-500 bg-white px-5 py-3 text-blumilk-500 hover:bg-blumilk-50 md:w-fit md:py-2">
-              <span class="flex flex-wrap items-center justify-center space-x-2">
-                <span class="font-bold">Save</span>
-                <FolderOpenIcon class="h-5 w-5" />
-              </span>
-            </button>
+            <SecondarySaveButton>
+              Save
+            </SecondarySaveButton>
           </div>
         </form>
 
@@ -272,19 +269,16 @@ function toggleProvidersForm() {
         <form v-if="isAlternativeCityNameFormOpened" class="flex flex-col rounded p-6"
               @submit.prevent="storeAlternativeCityName(city.id)"
         >
-          <div class="flex flex-col">
+          <div class="flex flex-col text-xs">
             <label class="mb-1 mt-4 text-xs font-bold text-gray-600">Alternative name</label>
             <input v-model="storeCityAlternativeNameForm.name" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3"
                    type="text" required
             >
             <ErrorMessage :message="storeAlternativeCityNameErrors.name" />
             <div class="flex w-full justify-end">
-              <button type="submit" class="mt-6 flex w-full shrink-0 justify-center rounded border border-blumilk-500 bg-white px-5 py-3 text-blumilk-500 hover:bg-blumilk-50 md:w-fit md:py-2">
-                <span class="flex flex-wrap items-center justify-center space-x-2">
-                  <span class="text-xs font-bold">Save</span>
-                  <FolderOpenIcon class="h-5 w-5" />
-                </span>
-              </button>
+              <SecondarySaveButton>
+                Save
+              </SecondarySaveButton>
             </div>
           </div>
         </form>
@@ -331,15 +325,10 @@ function toggleProvidersForm() {
               </label>
             </div>
           </div>
-          <div class="flex w-full justify-end">
-            <button type="submit" class="mt-6 flex w-full shrink-0 justify-center rounded border border-blumilk-500 bg-white px-5 py-3 text-blumilk-500 hover:bg-blumilk-100 md:w-fit md:py-2"
-                    @click="updateCityProviders(city.id)"
-            >
-              <span class="flex flex-wrap items-center justify-center space-x-2">
-                <span class="text-xs font-bold">Save</span>
-                <FolderOpenIcon class="h-5 w-5" />
-              </span>
-            </button>
+          <div class="flex w-full justify-end text-xs">
+            <SecondarySaveButton @click="updateCityProviders(city.id)">
+              Save
+            </SecondarySaveButton>
           </div>
         </div>
       </div>

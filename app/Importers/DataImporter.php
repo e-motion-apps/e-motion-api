@@ -55,12 +55,12 @@ abstract class DataImporter
         ImportInfoDetail::query()->updateOrCreate(
             [
                 "provider_id" => $providerId,
-                "import_id" => $this->importInfoId,
+                "import_info_id" => $this->importInfoId,
                 "code" => $code,
             ],
             [
                 "provider_id" => $providerId,
-                "import_id" => $this->importInfoId,
+                "import_info_id" => $this->importInfoId,
                 "code" => $code,
             ],
         );

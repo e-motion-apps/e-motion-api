@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, nextTick, watch, defineProps } from 'vue'
+import { ref, onMounted, nextTick, watch } from 'vue'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import { useFilterStore } from '../Stores/FilterStore'

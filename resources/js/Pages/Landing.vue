@@ -1,16 +1,16 @@
 <script setup>
-import Map from '@/Shared/Components/Map.vue'
+import Map from '@/Shared/Layout/Map.vue'
 import { computed, onMounted, reactive, ref } from 'vue'
-import Info from '@/Shared/Components/Info.vue'
-import SearchPanel from '@/Shared/Components/SearchPanel.vue'
+import Info from '@/Shared/Layout/Info.vue'
+import SearchPanel from '@/Shared/Layout/SearchPanel.vue'
 import Nav from '@/Shared/Layout/Nav.vue'
 import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 import { XMarkIcon, MapIcon } from '@heroicons/vue/24/outline'
 import { usePage } from '@inertiajs/vue3'
 import axios from 'axios'
-import SearchPanelSkeleton from '../Shared/Components/SearchPanelSkeleton.vue'
+import SearchPanelSkeleton from '@/Shared/Layout/SearchPanelSkeleton.vue'
 
-import { useFilterStore } from '../Shared/Stores/FilterStore'
+import { useFilterStore } from '@/Shared/Stores/FilterStore'
 const filterStore = useFilterStore()
 
 const breakpoints = useBreakpoints(breakpointsTailwind)

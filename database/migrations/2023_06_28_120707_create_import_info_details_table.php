@@ -12,8 +12,8 @@ return new class() extends Migration {
         Schema::create("import_info_details", function (Blueprint $table): void {
             $table->id();
             $table->unsignedBigInteger("provider_id");
-            $table->unsignedBigInteger("import_id");
-            $table->foreign("import_id")
+            $table->unsignedBigInteger("import_info_id");
+            $table->foreign("import_info_id")
                 ->references("id")
                 ->on("import_infos")
                 ->onDelete("cascade");

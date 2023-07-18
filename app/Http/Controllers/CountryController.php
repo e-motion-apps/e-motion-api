@@ -15,7 +15,7 @@ class CountryController extends Controller
     public function index(): Response
     {
         $countries = Country::query()->orderBy("name")
-            ->search()
+            ->search("name")
             ->paginate(15)
             ->withQueryString();
 

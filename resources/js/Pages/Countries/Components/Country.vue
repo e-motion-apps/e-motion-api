@@ -1,9 +1,10 @@
 <script setup>
 import { ref } from 'vue'
 import { router, useForm } from '@inertiajs/vue3'
-import { FolderOpenIcon, PencilIcon, TrashIcon, XMarkIcon } from '@heroicons/vue/24/outline'
+import { PencilIcon, TrashIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 import ErrorMessage from '@/Shared/Components/ErrorMessage.vue'
 import { onClickOutside } from '@vueuse/core'
+import SecondarySaveButton from '@/Shared/Components/SecondarySaveButton.vue'
 
 const props = defineProps({
   country: Object,
@@ -123,12 +124,9 @@ function toggleEditDialog() {
           <small class="text-rose-600">{{ commaInputError }}</small>
 
           <div class="flex w-full justify-end">
-            <button type="submit" class="mt-3 flex w-full shrink-0 justify-center rounded border border-blumilk-500 bg-white px-5 py-3 text-blumilk-500 hover:bg-blumilk-50 md:w-fit md:py-2">
-              <span class="flex flex-wrap items-center justify-center space-x-2">
-                <span class="font-bold">Save</span>
-                <FolderOpenIcon class="h-5 w-5" />
-              </span>
-            </button>
+            <SecondarySaveButton>
+              Save
+            </SecondarySaveButton>
           </div>
         </form>
       </div>

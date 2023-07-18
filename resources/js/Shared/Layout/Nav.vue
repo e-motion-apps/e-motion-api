@@ -7,6 +7,14 @@ import { onClickOutside } from '@vueuse/core'
 import { useForm } from '@inertiajs/vue3'
 import ErrorMessage from '@/Shared/Components/ErrorMessage.vue'
 
+import { useFilterStore } from '../Stores/FilterStore'
+
+const filterStore = useFilterStore()
+
+function clearFilters() {
+  filterStore.changeSelectedProvider(null)
+  filterStore.changeSelectedCountry(null)
+}
 
 const page = usePage()
 const isAuth= computed(() => page.props.auth.isAuth)
@@ -45,6 +53,8 @@ function login() {
 function logout() {
   router.post('/logout')
   isMobileMenuOpened.value = false
+
+  clearFilters()
 }
 
 const navigation = [
@@ -95,7 +105,7 @@ defineExpose({
 <template>
   <header class="fixed w-full bg-white">
     <nav class="mx-auto flex items-center justify-between px-6 py-3" aria-label="Global">
-      <Link href="/" class="flex items-center justify-center">
+      <Link href="/" class="flex items-center justify-center" @click="clearFilters">
         <img class="h-10" src="@/assets/scooter.png" alt="escooter logo">
         <span class="ml-3 hidden text-2xl font-semibold text-gray-800 sm:flex">e&#8209;scooters</span>
       </Link>
@@ -106,10 +116,10 @@ defineExpose({
         </button>
       </div>
       <div class="hidden items-center md:flex md:gap-x-12">
-        <Link v-for="item in navigation" :key="item.name" :href="item.href" class="text-sm font-medium leading-6 text-gray-800 lg:text-base">
+        <Link v-for="item in navigation" :key="item.name" :href="item.href" class="text-sm font-medium leading-6 text-gray-800 lg:text-base" @click="clearFilters">
           {{ item.name }}
         </Link>
-        <Link v-if="isAdmin" href="/admin/dashboard/cities">
+        <Link v-if="isAdmin" href="/admin/dashboard/cities" @click="clearFilters">
           <ComputerDesktopIcon class="h-6 w-6" />
         </Link>
         <button>
@@ -196,11 +206,13 @@ defineExpose({
         <div class="mt-6 flow-root">
           <div class="-my-6 divide-y divide-gray-500/10">
             <div class="space-y-2 py-6">
-              <a v-for="item in navigation" :key="item.name" :href="item.href" class=" -mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-800 hover:bg-blumilk-25">{{ item.name }}</a>
+              <Link v-for="item in navigation" :key="item.name" :href="item.href" class=" -mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-800 hover:bg-blumilk-25" @click="clearFilters">
+                {{ item.name }}
+              </Link>
             </div>
             <div class="py-6">
               <button v-if="isAdmin" class="-mx-3 mb-4 flex w-full font-semibold text-gray-800">
-                <Link v-if="isAdmin" class="flex w-full items-center rounded px-3 py-2.5 hover:bg-blumilk-25" href="/admin/dashboard/cities">
+                <Link v-if="isAdmin" class="flex w-full items-center rounded px-3 py-2.5 hover:bg-blumilk-25" href="/admin/dashboard/cities" @click="clearFilters">
                   <ComputerDesktopIcon class="h-6 w-6" />
                   <span class="ml-2">Admin panel</span>
                 </Link>

@@ -7,6 +7,7 @@ use App\Http\Controllers\CityAlternativeNameController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\CityProviderController;
 use App\Http\Controllers\CountryController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Response;
 
@@ -17,9 +18,9 @@ Route::middleware("guest")->group(function (): void {
 
 Route::middleware("auth")->group(function (): void {
     Route::post("/logout", [AuthController::class, "logout"])->name("logout");
-    Route::get("/dashboard", fn(): Response => inertia("Dashboard"))->name("dashboard");
 
     Route::middleware(["role:admin"])->group(function (): void {
+        Route::get("/admin/dashboard", [DashboardController::class, "index"]);
         Route::resource("/admin/dashboard/countries", CountryController::class);
         Route::resource("/admin/dashboard/cities", CityController::class);
         Route::resource("/city-alternative-name", CityAlternativeNameController::class);

@@ -1,12 +1,15 @@
 <script setup>
 import City from './Components/City.vue'
-import { Link, useForm, usePage, router } from '@inertiajs/vue3'
+import { useForm, usePage, router } from '@inertiajs/vue3'
 import { ref, watch } from 'vue'
-import AdminNavigation from '@/Shared/Components/AdminNavigation.vue'
-import { FolderOpenIcon, XMarkIcon,  MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
+import AdminNavigation from '@/Shared/Layout/AdminNavigation.vue'
+import { XMarkIcon,  MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
 import ErrorMessage from '@/Shared/Components/ErrorMessage.vue'
 import { onClickOutside } from '@vueuse/core'
 import { debounce } from 'lodash/function'
+import Pagination from '@/Shared/Components/Pagination.vue'
+import PaginationInfo from '@/Shared/Components/PaginationInfo.vue'
+import PrimarySaveButton from '@/Shared/Components/PrimarySaveButton.vue'
 
 const page = usePage()
 
@@ -119,12 +122,9 @@ function clearInput() {
                   </select>
 
                   <div class="flex w-full justify-end">
-                    <button type="submit" class="mt-4 flex w-full shrink-0 justify-center rounded bg-emerald-500 px-5 py-3 text-white hover:bg-emerald-600 md:w-fit md:justify-start md:py-2">
-                      <span class="flex flex-wrap items-center justify-center space-x-2">
-                        <span class="font-bold">Save</span>
-                        <FolderOpenIcon class="h-5 w-5" />
-                      </span>
-                    </button>
+                    <PrimarySaveButton>
+                      Save
+                    </PrimarySaveButton>
                   </div>
                 </form>
               </div>
@@ -150,21 +150,10 @@ function clearInput() {
             </div>
           </div>
 
-          <div v-if="props.cities.data.length" class="flex items-center justify-between border-t border-gray-200 bg-white py-3 ">
-            <div class="flex sm:flex-1 sm:items-center">
-              <div>
-                <p class="text-sm text-gray-700">
-                  Showing
-                  <span class="font-medium">{{ cities.meta.from }}</span>
-                  to
-                  <span class="font-medium"> {{ cities.meta.to }}</span>
-                  of
-                  <span class="font-medium">{{ cities.meta.total }}</span>
-                  results
-                </p>
-              </div>
-            </div>
+          <div v-if="props.cities.data.length">
+            <PaginationInfo :meta="props.cities.meta" />
           </div>
+
           <div v-if="props.cities.data.length" class="rounded-lg ring-gray-300 sm:ring-1">
             <table class="min-w-full">
               <thead>
@@ -184,7 +173,7 @@ function clearInput() {
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="city in props.cities.data" :key="city.id" class="border">
+                <tr v-for="city in props.cities.data" :key="city.id" class="border-t">
                   <City :providers="providers" :city="city" />
                 </tr>
               </tbody>
@@ -197,32 +186,7 @@ function clearInput() {
             </p>
           </div>
 
-          <div v-if="cities.meta.last_page !== 1" class="mt-4 flex justify-end">
-            <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
-              <Link v-if="cities.links.prev" :href="cities.links.prev" class="relative inline-flex items-center rounded-l-md p-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
-                <span class="sr-only">Previous</span>
-                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
-                </svg>
-              </Link>
-
-              <Link v-for="(link, index) in cities.meta.links.slice(1, -1)" :key="index"
-                    :href="link.url ? link.url : ''"
-                    :class="{'bg-blumilk-50': link.active, 'disabled cursor-default hover:bg-white': !link.url}"
-
-                    class="disabled relative hidden items-center px-4 py-2 text-sm font-semibold text-gray-600 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 lg:inline-flex"
-              >
-                {{ link.label }}
-              </Link>
-
-              <Link v-if="cities.links.next" :href="cities.links.next" class="relative inline-flex items-center rounded-r-md p-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:bg-gray-200">
-                <span class="sr-only">Next</span>
-                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
-                </svg>
-              </Link>
-            </nav>
-          </div>
+          <Pagination :meta="props.cities.meta" :links="props.cities.links" />
         </div>
       </div>
     </div>

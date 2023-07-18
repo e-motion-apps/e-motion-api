@@ -25,7 +25,7 @@ const props = defineProps({
       </div>
 
       <ul class="hidden h-full items-center text-sm font-medium text-gray-800 sm:flex md:mt-12 md:flex-col md:items-stretch md:space-y-2">
-        <Link class="flex h-full md:h-fit" href="#">
+        <Link class="flex h-full md:h-fit" href="/admin/dashboard">
           <li
             :class="props.url === '/admin/dashboard' ? 'bg-blumilk-50' : ''"
             class="mx-auto flex w-11/12 items-center bg-blumilk-25 px-6 hover:bg-blumilk-50 md:rounded-lg md:px-2 md:py-3"
