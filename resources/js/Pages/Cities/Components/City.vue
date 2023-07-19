@@ -12,11 +12,11 @@ const props = defineProps({
 })
 
 function destroyCity(cityId) {
-  router.delete(`/admin/dashboard/cities/${cityId}`)
+  router.delete(`/admin/cities/${cityId}`)
 }
 
 function updateCity(cityId) {
-  updateCityForm.patch(`/admin/dashboard/cities/${cityId}`, {
+  updateCityForm.patch(`/admin/cities/${cityId}`, {
     onSuccess: () => {
       toggleEditDialog()
     },

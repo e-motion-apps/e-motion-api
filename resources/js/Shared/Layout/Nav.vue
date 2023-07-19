@@ -61,7 +61,6 @@ const navigation = [
   { name: 'Prices', href: '#' },
   { name: 'Find a ride', href: '#' },
   { name: 'Rules', href: '#' },
-  { name: 'Run importers', href: '/run-importers' },
 ]
 
 const isMobileMenuOpened = ref(false)
@@ -119,7 +118,7 @@ defineExpose({
         <Link v-for="item in navigation" :key="item.name" :href="item.href" class="text-sm font-medium leading-6 text-gray-800 lg:text-base" @click="clearFilters">
           {{ item.name }}
         </Link>
-        <Link v-if="isAdmin" href="/admin/dashboard/cities" @click="clearFilters">
+        <Link v-if="isAdmin" href="/admin/cities" @click="clearFilters">
           <ComputerDesktopIcon class="h-6 w-6" />
         </Link>
         <button>
@@ -212,7 +211,7 @@ defineExpose({
             </div>
             <div class="py-6">
               <button v-if="isAdmin" class="-mx-3 mb-4 flex w-full font-semibold text-gray-800">
-                <Link v-if="isAdmin" class="flex w-full items-center rounded px-3 py-2.5 hover:bg-blumilk-25" href="/admin/dashboard/cities" @click="clearFilters">
+                <Link v-if="isAdmin" class="flex w-full items-center rounded px-3 py-2.5 hover:bg-blumilk-25" href="/admin/cities" @click="clearFilters">
                   <ComputerDesktopIcon class="h-6 w-6" />
                   <span class="ml-2">Admin panel</span>
                 </Link>

@@ -1,11 +1,18 @@
 <script setup>
 import { Link } from '@inertiajs/vue3'
-import { ChartBarIcon, ClipboardIcon, FlagIcon, MapPinIcon } from '@heroicons/vue/24/solid'
+import { ChartBarIcon, ClipboardIcon, FlagIcon, MapPinIcon, PlayCircleIcon } from '@heroicons/vue/24/solid'
 import { Bars3Icon } from '@heroicons/vue/24/outline'
 
 const props = defineProps({
   url: String,
 })
+const navigation = [
+    { name: 'Dashboard', href: '/admin/dashboard', icon:ClipboardIcon },
+    { name: 'Countries', href: '/admin/countries', icon:FlagIcon },
+    { name: 'Cities', href: '/admin/cities', icon:MapPinIcon },
+    { name: 'Statistics', href: '/admin/statistics', icon:ChartBarIcon },
+    { name: 'Run importers', href: '/run-importers', icon:PlayCircleIcon },
+]
 
 </script>
 
@@ -25,42 +32,14 @@ const props = defineProps({
       </div>
 
       <ul class="hidden h-full items-center text-sm font-medium text-gray-800 sm:flex md:mt-12 md:flex-col md:items-stretch md:space-y-2">
-        <Link class="flex h-full md:h-fit" href="/admin/dashboard">
-          <li
-            :class="props.url === '/admin/dashboard' ? 'bg-blumilk-50' : ''"
-            class="mx-auto flex w-11/12 items-center bg-blumilk-25 px-6 hover:bg-blumilk-50 md:rounded-lg md:px-2 md:py-3"
-          >
-            <ClipboardIcon class="h-7 w-7" />
-            <span class="ml-3 hidden md:flex">Dashboard</span>
-          </li>
-        </Link>
-
-        <Link class="flex h-full md:h-fit" href="/admin/dashboard/countries">
-          <li :class="$page.url.startsWith('/admin/dashboard/countries')? 'bg-blumilk-50' : ''"
-              class="mx-auto flex w-11/12 items-center bg-blumilk-25 px-6 hover:bg-blumilk-50 md:rounded-lg md:px-2 md:py-3"
-          >
-            <FlagIcon class="h-7 w-7" />
-            <span class="ml-3 hidden md:flex">Countries</span>
-          </li>
-        </Link>
-        <Link class="flex h-full md:h-fit" href="/admin/dashboard/cities">
-          <li :class="$page.url.startsWith('/admin/dashboard/cities') ? 'bg-blumilk-50' : ''"
-              class="mx-auto flex w-11/12 items-center bg-blumilk-25 px-6 hover:bg-blumilk-50 md:rounded-lg md:px-2 md:py-3"
-          >
-            <MapPinIcon class="h-7 w-7" />
-            <span class="ml-3 hidden md:flex">Cities</span>
-          </li>
-        </Link>
-
-        <Link class="flex h-full md:h-fit" href="#">
-          <li
-            :class="props.url === '/admin/dashboard/statistics' ? 'bg-blumilk-50' : ''"
-            class="mx-auto flex w-11/12 items-center bg-blumilk-25 px-6 hover:bg-blumilk-50 md:rounded-lg md:px-2 md:py-3"
-          >
-            <ChartBarIcon class="h-7 w-7" />
-            <span class="ml-3 hidden md:flex">Statistics</span>
-          </li>
-        </Link>
+          <Link v-for="item in navigation" :key="item.name" :href="item.href" class="flex h-full md:h-fit" >
+              <div :class="$page.url.startsWith(item.href)? 'bg-blumilk-50' : ''"
+                  class="mx-auto flex w-11/12 items-center bg-blumilk-25 px-6 hover:bg-blumilk-50 md:rounded-lg md:px-2 md:py-3"
+              >
+                  <component :is="item.icon" class="h-7 w-7" />
+              <span class="ml-3 hidden md:flex">{{ item.name }}</span>
+              </div>
+          </Link>
       </ul>
     </div>
   </div>

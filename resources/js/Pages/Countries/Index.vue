@@ -14,7 +14,7 @@ import PrimarySaveButton from '@/Shared/Components/PrimarySaveButton.vue'
 const page = usePage()
 
 function storeCountry() {
-  storeCountryForm.post('/admin/dashboard/countries/', {
+  storeCountryForm.post('/admin/countries/', {
     onSuccess: () => {
       storeCountryForm.reset()
       commaInputError.value = ''
@@ -55,7 +55,7 @@ function toggleStoreDialog() {
 const searchInput = ref('')
 
 watch(searchInput, debounce(() => {
-  router.get(`/admin/dashboard/countries?search=${searchInput.value}`, {}, {
+  router.get(`/admin/countries?search=${searchInput.value}`, {}, {
     preserveState: true,
     replace: true,
   })
