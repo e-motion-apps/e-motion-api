@@ -10,7 +10,7 @@ class ImportInfoDetail extends Model
 {
     protected $fillable = [
         "provider_id",
-        "import_id",
+        "import_info_id",
         "code",
     ];
 

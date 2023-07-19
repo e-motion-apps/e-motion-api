@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\QueryBuilders\SearchQuery;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -32,13 +34,23 @@ class City extends Model
         return $this->hasMany(CityAlternativeName::class);
     }
 
-    public function provider(): HasMany
+    public function cityProvider(): HasMany
     {
-        return $this->hasMany(Provider::class);
+        return $this->hasMany(CityProvider::class);
     }
 
     public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class);
+    }
+
+    public static function query(): Builder
+    {
+        return parent::query();
+    }
+
+    public function newEloquentBuilder($query): SearchQuery
+    {
+        return new SearchQuery($query);
     }
 }
