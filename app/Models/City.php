@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\QueryBuilders\SearchQuery;
+use App\QueryBuilders\FilterQuery;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -49,8 +49,8 @@ class City extends Model
         return parent::query();
     }
 
-    public function newEloquentBuilder($query): SearchQuery
+    public function newEloquentBuilder($query): FilterQuery
     {
-        return new SearchQuery($query);
+        return new FilterQuery($query);
     }
 }
