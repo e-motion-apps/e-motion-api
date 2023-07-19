@@ -13,8 +13,8 @@ return new class() extends Migration {
             $table->id();
             $table->string("name")->unique();
             $table->string("alternative_name")->nullable();
-            $table->string("latitude");
-            $table->string("longitude");
+            $table->string("latitude")->nullable();
+            $table->string("longitude")->nullable();
             $table->string("iso")->unique();
             $table->timestamps();
         });

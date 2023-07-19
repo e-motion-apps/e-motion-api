@@ -5,27 +5,17 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int $id
- * @property int $provider_id
- * @property int $city_id
+ * @property string $name
+ * @property string $url
+ * @property string $color
  */
 class Provider extends Model
 {
-    protected $fillable = [
-        "provider_id",
-        "city_id",
-    ];
-
-    public function city(): BelongsTo
+    public function cityProvider()
     {
-        return $this->belongsTo(City::class);
-    }
-
-    public function providerList()
-    {
-        return $this->hasMany(ProviderList::class);
+        return $this->belongsTo(CityProvider::class);
     }
 }

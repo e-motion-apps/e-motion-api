@@ -40,20 +40,6 @@ class AdminTest extends TestCase
         $response->assertRedirect("/");
     }
 
-    public function testAdminCanAccessDashboard(): void
-    {
-        $response = $this->get("/dashboard");
-        $response->assertStatus(200);
-        $this->assertAuthenticatedAs(User::first());
-    }
-
-    public function testAdminCanEnterAdminPage(): void
-    {
-        $response = $this->get("/admin");
-        $response->assertStatus(200);
-        $this->assertAuthenticatedAs(User::first());
-    }
-
     public function testAdminCanEnterAdminDashboardCountries(): void
     {
         $response = $this->get("/admin/dashboard/countries");

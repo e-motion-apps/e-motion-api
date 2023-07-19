@@ -18,8 +18,8 @@ return new class() extends Migration {
                 ->onDelete("cascade");
 
             $table->string("name")->unique();
-            $table->string("latitude");
-            $table->string("longitude");
+            $table->string("latitude")->nullable();
+            $table->string("longitude")->nullable();
             $table->timestamps();
         });
     }
