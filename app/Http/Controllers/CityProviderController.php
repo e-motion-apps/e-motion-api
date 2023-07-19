@@ -22,16 +22,13 @@ class CityProviderController extends Controller
             City::with("cityAlternativeName", "cityProvider", "country")
                 ->has("cityProvider")
                 ->get()
-                ->sortByDesc(fn($city): int => $city->cityProvider->count()),
+                ->sortByDesc(fn(City $city): int => $city->cityProvider->count()),
         );
 
         $providers = ProviderResource::collection(Provider::all());
 
-        $countries = Country::query()->whereHas("city.cityProvider")
-            ->with(["city" => function ($query): void {
-                $query->whereHas("cityProvider")
-                    ->with("cityAlternativeName", "cityProvider");
-            }])
+        $countries = Country::whereHas("city.cityProvider")
+            ->with(["city.cityAlternativeName", "city.cityProvider"])
             ->get();
 
         $countries = CountryResource::collection($countries);
