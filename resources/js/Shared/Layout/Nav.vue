@@ -196,7 +196,9 @@ defineExpose({
       <div class="fixed inset-0 z-30 " />
       <DialogPanel class="fixed inset-y-0 right-0 z-30 w-full overflow-y-auto border-b-2 bg-white px-6 py-3 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
         <div class="flex items-center justify-between sm:justify-end">
-          <img class="h-10 sm:hidden" src="@/assets/scooter.png" alt="escooter logo">
+            <Link href="/">
+            <img class="h-10 sm:hidden" src="@/assets/scooter.png" alt="escooter logo">
+            </Link>
           <button type="button" class="-m-2.5 rounded-md px-2.5 text-gray-700 sm:pt-4" @click="toggleMobileMenu">
             <span class="sr-only">Close menu</span>
             <XMarkIcon class="h-6 w-6" aria-hidden="true" />
