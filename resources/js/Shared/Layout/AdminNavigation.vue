@@ -9,7 +9,6 @@ const navigation = [
   { name: 'Countries', href: '/admin/countries', icon: FlagIcon },
   { name: 'Cities', href: '/admin/cities', icon: MapPinIcon },
   { name: 'Statistics', href: '/admin/statistics', icon: ChartBarIcon },
-  { name: 'Run importers', href: '/run-importers', icon: PlayCircleIcon },
 ]
 
 const isMobileMenuOpened = ref(false)
@@ -57,12 +56,17 @@ function toggleMobileMenu() {
           </div>
           <div class="mt-6 flow-root">
             <div class="-my-6 divide-y divide-gray-500/10">
-              <div class="space-y-2 py-6">
+              <div class="py-6">
                 <InertiaLink v-for="item in navigation" :key="item.name"
                              :class="{'bg-blumilk-50': $page.url.startsWith(item.href)}" :href="item.href"
-                             class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-800 hover:bg-blumilk-25"
+                             class="-mx-3 my-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-800 hover:bg-blumilk-25"
                 >
                   {{ item.name }}
+                </InertiaLink>
+                <InertiaLink href="/run-importers">
+                  <div class="-mx-3 my-3 block rounded-lg bg-blumilk-500 px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-blumilk-400">
+                    Run importers
+                  </div>
                 </InertiaLink>
               </div>
             </div>
@@ -77,6 +81,12 @@ function toggleMobileMenu() {
           >
             <component :is="item.icon" class="h-7 w-7" />
             <span class="ml-3 hidden md:flex"> {{ item.name }} </span>
+          </div>
+        </InertiaLink>
+        <InertiaLink href="/run-importers" class="flex h-full md:h-fit">
+          <div class="mx-auto flex w-11/12 items-center px-6 hover:bg-blumilk-400 hover:text-white md:rounded-lg md:bg-blumilk-500 md:px-2 md:py-3 md:text-white lg:hover:text-white">
+            <PlayCircleIcon class="h-7 w-7" />
+            <span class="ml-3 hidden md:flex"> Run importers </span>
           </div>
         </InertiaLink>
       </ul>
