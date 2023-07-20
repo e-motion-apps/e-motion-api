@@ -60,8 +60,8 @@ function toggleMobileMenu() {
             <div class="-my-6 divide-y divide-gray-500/10">
               <div class="space-y-2 py-6">
                 <InertiaLink v-for="item in navigation" :key="item.name"
-                      :class="{'bg-blumilk-50': $page.url.startsWith(item.href)}" :href="item.href"
-                      class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-800 hover:bg-blumilk-25"
+                             :class="{'bg-blumilk-50': $page.url.startsWith(item.href)}" :href="item.href"
+                             class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-800 hover:bg-blumilk-25"
                 >
                   {{ item.name }}
                 </InertiaLink>
