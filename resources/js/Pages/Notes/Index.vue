@@ -23,12 +23,9 @@ const addNote = () => {
     saveNotes()
   }
 }
-
 </script>
 
-
 <template>
-  <div>
     <div class="note-container mb-4 flex">
       <div class="relative w-3/4">
         <textarea v-model="noteText" class="note-input h-24 w-full px-2 py-1" placeholder="Write your note here" />
@@ -57,5 +54,4 @@ const addNote = () => {
         </div>
       </li>
     </ul>
-  </div>
 </template>
