@@ -20,8 +20,8 @@ Route::middleware("auth")->group(function (): void {
 
     Route::middleware(["role:admin"])->group(function (): void {
         Route::get("/admin/dashboard", [DashboardController::class, "index"]);
-        Route::resource("/admin/dashboard/countries", CountryController::class);
-        Route::resource("/admin/dashboard/cities", CityController::class);
+        Route::resource("/admin/countries", CountryController::class);
+        Route::resource("/admin/cities", CityController::class);
         Route::resource("/city-alternative-name", CityAlternativeNameController::class);
         Route::patch("/update-city-providers/{city}", [CityProviderController::class, "update"]);
     });

@@ -25,7 +25,7 @@ const commaInputError = ref('')
 
 function storeCity() {
   commaInputError.value = ''
-  storeCityForm.post('/admin/dashboard/cities', {
+  storeCityForm.post('/admin/cities', {
     onSuccess: () => {
       storeCityForm.reset()
       toggleStoreDialog()
@@ -62,7 +62,7 @@ const searchInput = ref('')
 
 
 watch(searchInput, debounce(() => {
-  router.get(`/admin/dashboard/cities?search=${searchInput.value}`, {}, {
+  router.get(`/admin/cities?search=${searchInput.value}`, {}, {
     preserveState: true,
     replace: true,
   })
