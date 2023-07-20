@@ -18,7 +18,6 @@ const isMobileMenuOpened = ref(false)
 function toggleMobileMenu() {
   isMobileMenuOpened.value = !isMobileMenuOpened.value
 }
-
 </script>
 
 <template>
@@ -36,7 +35,7 @@ function toggleMobileMenu() {
         </button>
       </div>
       <Dialog v-if="isMobileMenuOpened" as="div" class="z-30 lg:hidden" :open="isMobileMenuOpened" @close="toggleMobileMenu">
-        <div class="fixed inset-0 z-30 " />
+        <div class="fixed inset-0 z-30" />
         <DialogPanel class="fixed inset-y-0 right-0 z-30 w-full overflow-y-auto border-b-2 bg-white px-6 py-3 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div class="flex items-center justify-between sm:justify-end">
             <Link href="/">
@@ -50,7 +49,7 @@ function toggleMobileMenu() {
           <div class="mt-6 flow-root">
             <div class="-my-6 divide-y divide-gray-500/10">
               <div class="space-y-2 py-6">
-                <Link v-for="item in navigation" :key="item.name" :class="$page.url.startsWith(item.href)? 'bg-blumilk-50' : ''" :href="item.href" class=" -mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-800 hover:bg-blumilk-25 " @click="clearFilters">
+                <Link v-for="item in navigation" :key="item.name" :class="$page.url.startsWith(item.href)? 'bg-blumilk-50' : ''" :href="item.href" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-800 hover:bg-blumilk-25" @click="clearFilters">
                   {{ item.name }}
                 </Link>
               </div>

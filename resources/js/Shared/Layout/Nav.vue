@@ -221,12 +221,12 @@ defineExpose({
               <button class="-mx-3 flex w-full font-semibold text-gray-800">
                 <span v-if="isAuth" class="flex w-full items-center rounded px-3 py-2.5 hover:bg-blumilk-25" @click="logout">
                   <ArrowRightOnRectangleIcon class="h-6 w-6" />
-                  <span class="ml-2">Log out </span>
+                  <span class="ml-2">Log out</span>
                 </span>
 
                 <span v-if="!isAuth" class="flex w-full items-center rounded px-3 py-2.5 hover:bg-blumilk-25" @click="toggleAuthDialog">
                   <UserCircleIcon class="h-6 w-6" />
-                  <span class="ml-2">Log in </span>
+                  <span class="ml-2">Log in</span>
                 </span>
               </button>
             </div>
