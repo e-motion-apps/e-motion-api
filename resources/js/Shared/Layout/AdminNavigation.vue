@@ -1,6 +1,5 @@
 <script setup>
 import { Dialog, DialogPanel } from '@headlessui/vue'
-import { InertiaLink } from '@inertiajs/vue3'
 import { ChartBarIcon, ClipboardIcon, FlagIcon, MapPinIcon, PlayCircleIcon } from '@heroicons/vue/24/solid'
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 import { ref } from 'vue'
