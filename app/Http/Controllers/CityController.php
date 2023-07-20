@@ -22,9 +22,9 @@ class CityController extends Controller
             ->with("cityAlternativeName", "cityProvider", "country")
             ->orderByProvidersCount()
             ->search("name")
+            ->orderByName()
             ->orderByCountry()
             ->orderByTimeRange()
-            ->orderByName()
             ->paginate(15)
             ->withQueryString();
 

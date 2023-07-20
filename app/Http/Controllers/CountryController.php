@@ -16,8 +16,8 @@ class CountryController extends Controller
     {
         $countries = Country::query()
             ->search("name")
-            ->orderByTimeRange()
             ->orderByName()
+            ->orderByTimeRange()
             ->paginate(15)
             ->withQueryString();
 

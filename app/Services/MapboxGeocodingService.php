@@ -22,7 +22,9 @@ class MapboxGeocodingService
             $coordinates = json_decode($response->getBody()->getContents(), true)["features"][0]["center"];
 
             return [$coordinates[1], $coordinates[0]];
-        } catch (Throwable) {
+        } catch (Throwable $exception) {
+            echo $exception->getMessage();
+
             return [];
         }
     }

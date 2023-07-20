@@ -6,7 +6,7 @@ namespace App\QueryBuilders;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class FilterQuery extends Builder
+class SortQuery extends Builder
 {
     public function search(string $column): self
     {
@@ -20,10 +20,10 @@ class FilterQuery extends Builder
     public function orderByTimeRange(): self
     {
         if (request()->input("order") === "oldest") {
-            return $this->orderByDesc("created_at");
+            return $this->orderBy("created_at");
         }
 
-        return $this->orderBy("created_at");
+        return $this->orderByDesc("created_at");
     }
 
     public function orderByName(): self
