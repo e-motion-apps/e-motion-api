@@ -14,7 +14,7 @@ class CreateNotesTable extends Migration
             $table->id();
             $table->text("text");
             $table->unsignedBigInteger("user_id");
-            $table->foreign("user_id")->references("id")->on("users")->onDelete("cascade");
+            $table->foreign("user_id")->references("id")->on("users");
             $table->timestamps();
         });
     }
