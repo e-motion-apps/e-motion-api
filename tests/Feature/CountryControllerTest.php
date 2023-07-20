@@ -27,7 +27,7 @@ class CountryControllerTest extends TestCase
     {
         Country::factory()->count(3)->create();
 
-        $this->get("/admin/dashboard/countries")->assertInertia(
+        $this->get("/admin/countries")->assertInertia(
             fn(Assert $page) => $page
                 ->component(value: "Countries/Index")
                 ->has("countries", 3),
@@ -43,7 +43,7 @@ class CountryControllerTest extends TestCase
             "iso" => "pl",
         ];
 
-        $this->post(uri:"/admin/dashboard/countries", data: $country);
+        $this->post(uri:"/admin/countries", data: $country);
 
         $this->assertDatabaseHas(table:"countries", data: $country);
     }
@@ -64,7 +64,7 @@ class CountryControllerTest extends TestCase
             "iso" => $country["iso"],
         ])->toArray();
 
-        $this->post(uri:"/admin/dashboard/countries", data: $country);
+        $this->post(uri:"/admin/countries", data: $country);
 
         $this->assertDatabaseMissing(table: "countries", data: $country);
     }
@@ -74,7 +74,7 @@ class CountryControllerTest extends TestCase
      */
     public function testCountryCannotBeCreatedWithInvalidData(array $data, array $expectedErrors): void
     {
-        $response = $this->post(uri:"/admin/dashboard/countries", data: $data);
+        $response = $this->post(uri:"/admin/countries", data: $data);
 
         $response->assertSessionHasErrors($expectedErrors);
     }
@@ -86,7 +86,7 @@ class CountryControllerTest extends TestCase
     {
         $country = Country::factory()->create();
 
-        $response = $this->patch(uri:"/admin/dashboard/countries/{$country->id}", data: $data);
+        $response = $this->patch(uri:"/admin/countries/{$country->id}", data: $data);
 
         $response->assertSessionHasErrors($expectedErrors);
     }
@@ -155,7 +155,7 @@ class CountryControllerTest extends TestCase
 
         $country = Country::factory()->create();
 
-        $this->patch(uri:"/admin/dashboard/countries/{$country->id}", data: $data);
+        $this->patch(uri:"/admin/countries/{$country->id}", data: $data);
 
         $this->assertDatabaseHas(table:"countries", data: $data);
     }
@@ -172,7 +172,7 @@ class CountryControllerTest extends TestCase
             "iso" => "rom",
         ]);
 
-        $this->patch(uri: "/admin/dashboard/countries/{$countryToUpdate->id}", data: [
+        $this->patch(uri: "/admin/countries/{$countryToUpdate->id}", data: [
             "name" => "Romania",
             "latitude" => 32.444,
             "longitude" => 44.222,
@@ -192,7 +192,7 @@ class CountryControllerTest extends TestCase
             "iso" => "rom",
         ]);
 
-        $this->patch(uri: "/admin/dashboard/countries/{$countryToUpdate->id}", data: [
+        $this->patch(uri: "/admin/countries/{$countryToUpdate->id}", data: [
             "name" => "Poland",
             "latitude" => 32.444,
             "longitude" => 44.222,
@@ -204,7 +204,7 @@ class CountryControllerTest extends TestCase
     {
         $country = Country::factory()->create();
 
-        $this->delete(uri: "/admin/dashboard/countries/{$country->id}");
+        $this->delete(uri: "/admin/countries/{$country->id}");
 
         $this->assertDatabaseMissing(table: "countries", data: $country->toArray());
     }

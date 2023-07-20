@@ -11,11 +11,11 @@ const props = defineProps({
 })
 
 function destroyCountry(countryId) {
-  router.delete(`/admin/dashboard/countries/${countryId}`)
+  router.delete(`/admin/countries/${countryId}`)
 }
 
 function updateCountry(countryId) {
-  updateCountryForm.patch(`/admin/dashboard/countries/${countryId}`, {
+  updateCountryForm.patch(`/admin/countries/${countryId}`, {
     onSuccess: () => {
       toggleEditDialog()
     },
