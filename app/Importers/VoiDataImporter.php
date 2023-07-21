@@ -44,7 +44,6 @@ class VoiDataImporter extends DataImporter
 
     public function transform(): void
     {
-
         if ($this->stopExecution) {
             return;
         }
@@ -75,6 +74,7 @@ class VoiDataImporter extends DataImporter
                                 $existingCityProviders[] = $cityId;
                             } else {
                                 $country = Country::query()->where("name", $this->countryName)->orWhere("alternative_name", $this->countryName)->first();
+
                                 if ($country) {
                                     $coordinates = $mapboxService->getCoordinatesFromApi($cityName, $this->countryName);
                                     $countCoordinates = count($coordinates);
