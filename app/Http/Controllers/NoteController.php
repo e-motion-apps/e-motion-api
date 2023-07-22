@@ -28,10 +28,6 @@ class NoteController extends Controller
         $user = Auth::user();
         $notes = $request->input("noteText", []);
 
-        if (!is_array($notes)) {
-            $notes = [$notes];
-        }
-
         foreach ($notes as $note) {
             if ($note !== null) {
                 $user->notes()->create(["text" => $note]);
@@ -39,7 +35,7 @@ class NoteController extends Controller
         }
 
         return redirect()->back();
-    }
+    }    
 
     public function destroy(Note $note): RedirectResponse
     {
