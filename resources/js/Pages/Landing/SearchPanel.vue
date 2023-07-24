@@ -2,6 +2,7 @@
 import { useFilterStore } from '@/Shared/Stores/FilterStore'
 import { computed } from 'vue'
 import { TrashIcon } from '@heroicons/vue/24/outline'
+import FavoriteButton from '@/Shared/Components/FavoriteButton.vue'
 
 const filterStore = useFilterStore()
 
@@ -162,6 +163,7 @@ function showCity(city) {
             <p class="break-all text-xs font-semibold text-blumilk-500">
               {{ city.country.name }}
             </p>
+            <FavoriteButton :cityid="city.id" />
           </div>
         </div>
 

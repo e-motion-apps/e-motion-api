@@ -8,6 +8,7 @@ use App\Http\Controllers\CityController;
 use App\Http\Controllers\CityProviderController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FavoritesController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware("guest")->group(function (): void {
@@ -17,6 +18,8 @@ Route::middleware("guest")->group(function (): void {
 
 Route::middleware("auth")->group(function (): void {
     Route::post("/logout", [AuthController::class, "logout"])->name("logout");
+    Route::post('/favorites', [FavoritesController::class, 'store']);
+    Route::get("/favorites/{city_id}", [FavoritesController::class, "check"]);
 
     Route::middleware(["role:admin"])->group(function (): void {
         Route::get("/admin/dashboard", [DashboardController::class, "index"]);
