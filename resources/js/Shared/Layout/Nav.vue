@@ -46,6 +46,7 @@ function login() {
     onSuccess: () => {
       toggleAuthDialog()
       loginForm.reset()
+      window.location.reload();
     },
   })
 }

@@ -60,13 +60,12 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="authenticated" ref="intersectionTarget" style="float: right;">
+  <div ref="intersectionTarget" style="float: right;">
     <button @click="toggleFavorite">
-      <component :is="result ? SolidHeartIcon : OutlineHeartIcon" v-if="result !== null" class="h-6 w-6 text-red-500" />
+      <component :is="result ? SolidHeartIcon : OutlineHeartIcon" v-if="result !== null"
+                 class="h-6 w-6 text-red-500"
+      />
       <span v-else>Loading...</span>
     </button>
-  </div>
-  <div v-else>
-    <a href="/login">Login to add to favorites</a>
   </div>
 </template>
