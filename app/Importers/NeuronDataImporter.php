@@ -31,12 +31,11 @@ class NeuronDataImporter extends DataImporter
         }
 
         $crawler = new Crawler($html);
-        $this->sections = $crawler->filter("nav.navbar > div > ul > li.nav-city > div > div > ul > li > button > img");
-        // /html/body/div[1]/div[1]/nav/div/ul/li[1]/div/div/ul/li[1]/button/img
-        // //*[@id="region-0-city-0"]/button/img
-        // #region-0-city-0 > button > img
-        // #region-0-city-0 > button
-        // #app > div.scootsafe-pagecontent > nav > div > ul > li.nav-item.nav-city > div > button
+        $this->sections = $crawler->filter("nav.navbar > div > ul > li.nav-city > div > div > ul > li > button");
+        // nav.navbar > div > ul > li.nav-city > div > div > ul > li > button
+        // #search-199-element > li
+        // html body div#app.scootsafe-app div.scootsafe-pagecontent nav.navbar.container div.row ul.navbar-nav li.nav-item.nav-city div.dropdown.dropdown-region div.dropdown-menu.dropdown-menu-end ul#search-199-element.dropdown-result li
+
         if (count($this->sections) === 0) {
             $this->createImportInfoDetails("204", self::PROVIDER_ID);
 
@@ -57,7 +56,7 @@ class NeuronDataImporter extends DataImporter
 
         foreach ($this->sections as $section) {
             $cityName = trim($section->nodeValue);
-            $iso = $section->getAttribute('alt');
+            $iso = $section->getElementsByTagName('img')->getAttribute('alt');
 
             $city = City::query()->where("name", $cityName)->first();
             $alternativeCityName = CityAlternativeName::query()->where("name", $cityName)->first();
