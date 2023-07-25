@@ -9,6 +9,7 @@ use App\Jobs\BoltDataImporterJob;
 use App\Jobs\DottDataImporterJob;
 use App\Jobs\HulajDataImporterJob;
 use App\Jobs\LimeDataImporterJob;
+use App\Jobs\NeuronDataImporterJob;
 use App\Jobs\QuickDataImporterJob;
 use App\Jobs\SpinDataImporterJob;
 use App\Jobs\VoiDataImporterJob;
@@ -25,6 +26,7 @@ class DataImporterService
         SpinDataImporterJob::class,
         QuickDataImporterJob::class,
         VoiDataImporterJob::class,
+        NeuronDataImporterJob::class,
     ];
 
     public function run(string $whoRunsIt = "admin"): void
