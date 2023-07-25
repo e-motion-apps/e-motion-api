@@ -35,7 +35,7 @@ class NeuronDataImporter extends DataImporter
             $this->regionsData = json_decode($jsonString, true);
         }
 
-        if (isset($this->regionsData["list"])) {
+        if (!isset($this->regionsData["list"])) {
             $this->createImportInfoDetails("204", self::PROVIDER_ID);
 
             $this->stopExecution = true;
