@@ -3,42 +3,39 @@
 declare(strict_types=1);
 
 namespace App\Importers;
-require_once 'vendor/autoload.php';
+
+require_once "vendor/autoload.php";
 
 use App\Models\City;
 use App\Models\CityAlternativeName;
 use App\Models\Country;
 use App\Services\MapboxGeocodingService;
-use Symfony\Component\DomCrawler\Crawler;
 use Throwable;
 
 class NeuronDataImporter extends DataImporter
 {
     private const PROVIDER_ID = 9;
 
-    protected Crawler $sections;
-    protected string $iso;
-    protected $jsonData;
+    protected array $regionsData;
 
     public function extract(): static
     {
-        $this->stopExecution = false;
         try {
             $html = file_get_contents("https://www.scootsafe.com/");
         } catch (Throwable) {
             $this->createImportInfoDetails("400", self::PROVIDER_ID);
-
             $this->stopExecution = true;
 
             return $this;
         }
+        $pattern = '/regions\s*=\s*({.*?})\s*;/s';
 
-        $pattern = '/{"list":\[.*?};/';
-        preg_match($pattern, $html, $matches);
+        if (preg_match($pattern, $html, $matches)) {
+            $jsonString = $matches[1];
+            $this->regionsData = json_decode($jsonString, true);
+        }
 
-        $this->jsonData = json_decode($matches[0], true);
-
-        if (!$this->jsonData) {
+        if (isset($this->regionsData["list"])) {
             $this->createImportInfoDetails("204", self::PROVIDER_ID);
 
             $this->stopExecution = true;
@@ -56,18 +53,19 @@ class NeuronDataImporter extends DataImporter
         $mapboxService = new MapboxGeocodingService();
         $existingCityProviders = [];
 
-        $countries=$this->jsonData["list"];
-        foreach ($countries as $country) {
-            $countryName = $country["name"];
-            $cities = $country["cities"];
-            foreach ($cities as $city){
+        $regionsList = $this->regionsData["list"];
+
+        foreach ($regionsList as $region) {
+            $countryName = $region["name"];
+
+            foreach ($region["cities"] as $city) {
                 $cityName = $city["name"];
 
-                $city = City::query()->where("name", $cityName)->first();
-                $alternativeCityName = CityAlternativeName::query()->where("name", $cityName)->first();
+                $cityDB = City::query()->where("name", $cityName)->first();
+                $alternativeCityNameDB = CityAlternativeName::query()->where("name", $cityName)->first();
 
-                if ($city || $alternativeCityName) {
-                    $cityId = $city ? $city->id : $alternativeCityName->city_id;
+                if ($cityDB || $alternativeCityNameDB) {
+                    $cityId = $cityDB ? $cityDB->id : $alternativeCityNameDB->city_id;
 
                     $this->createProvider($cityId, self::PROVIDER_ID);
                     $existingCityProviders[] = $cityId;
