@@ -3,7 +3,7 @@ import City from './Components/City.vue'
 import { useForm, usePage, router } from '@inertiajs/vue3'
 import { ref, watch } from 'vue'
 import AdminNavigation from '@/Shared/Layout/AdminNavigation.vue'
-import { XMarkIcon,  MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
+import { XMarkIcon, MagnifyingGlassIcon, ChevronDownIcon } from '@heroicons/vue/24/outline'
 import ErrorMessage from '@/Shared/Components/ErrorMessage.vue'
 import { onClickOutside } from '@vueuse/core'
 import { debounce } from 'lodash/function'
@@ -68,7 +68,6 @@ watch(searchInput, debounce(() => {
   })
 }, 300), { deep: true })
 
-
 function clearInput() {
   searchInput.value = ''
 }
@@ -76,8 +75,9 @@ function clearInput() {
 const sortingOptions = [
   { name: 'Latest', href: '/admin/cities?order=latest' },
   { name: 'Oldest', href: '/admin/cities?order=oldest' },
+  { name: 'Empty coordinates', href: '/admin/cities?order=empty-coordinates' },
   { name: 'By name', href: '/admin/cities?order=name' },
-  { name: 'By most providers', href: '/admin/cities?order=providers' },
+  { name: 'By providers', href: '/admin/cities?order=providers' },
   { name: 'By country', href: '/admin/cities?order=country' },
 ]
 
@@ -86,9 +86,8 @@ const sortDialog = ref(null)
 onClickOutside(sortDialog, () => (isSortDialogOpened.value = false))
 
 function toggleSortDialog() {
-  isSortDialogOpened.value = !isStoreDialogOpened.value
+  isSortDialogOpened.value = !isSortDialogOpened.value
 }
-
 </script>
 
 <template>
@@ -147,7 +146,6 @@ function toggleSortDialog() {
             </div>
           </div>
 
-
           <div class="mb-3 mt-4 flex flex-wrap items-center justify-end md:justify-between">
             <button class="m-1 rounded bg-blumilk-500 px-5 py-3 text-sm font-medium text-white shadow-md md:py-2" @click="toggleStoreDialog">
               Create city
@@ -166,27 +164,25 @@ function toggleSortDialog() {
             </div>
           </div>
 
-          <div class="flex w-full items-center justify-between">
-            <div v-if="props.cities.data.length">
+          <div class="flex w-full flex-wrap items-center justify-between">
+            <div v-if="props.cities.data.length" class="w-1/2">
               <PaginationInfo :meta="props.cities.meta" />
             </div>
 
             <div class="relative inline-block text-left">
               <div>
-                <button id="menu-button" type="button" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900" aria-expanded="false" aria-haspopup="true" @click="toggleSortDialog">
+                <button ref="sortDialog" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900" aria-expanded="false" aria-haspopup="true" @click="toggleSortDialog">
                   Sort
-                  <svg class="-mr-1 ml-1 h-5 w-5 shrink-0 text-gray-400 group-hover:text-gray-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
-                  </svg>
+                  <ChevronDownIcon class="ml-1 h-5 w-5" />
                 </button>
               </div>
 
-              <div v-if="isSortDialogOpened" ref="sortDialog" class="absolute right-1 z-10 mt-3.5 w-max rounded-md bg-white shadow-lg shadow-gray-300 ring-1 ring-gray-300 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+              <div v-if="isSortDialogOpened" class="absolute right-1 z-10 mt-3.5 w-max rounded-md bg-white shadow-lg shadow-gray-300 ring-1 ring-gray-300 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                 <div class="py-1" role="none">
-                  <InertiaLink v-for="option in sortingOptions" id="menu-item-0" :key="option.href"
-                               :href="option.href" class="block  px-4 py-2 text-sm text-gray-500 hover:text-blumilk-400" role="menuitem" tabindex="-1"
+                  <InertiaLink v-for="option in sortingOptions" :key="option.href"
+                               :href="option.href" class="block px-4 py-2 text-sm text-gray-500 hover:text-blumilk-400" role="menuitem" tabindex="-1"
                   >
-                    <span :class="{'font-medium text-blumilk-400': page.url.startsWith(option.href) || ((page.url === '/admin/cities' || page.url.startsWith('/admin/cities?page=')) && option.href.startsWith('/admin/cities?order=latest'))}">
+                    <span :class="{'font-medium text-blumilk-400': page.url.startsWith(option.href) || ((page.url === '/admin/cities' || page.url.startsWith('/admin/cities?search=') || page.url.startsWith('/admin/cities?page=')) && option.href.startsWith('/admin/cities?order=latest'))}">
                       {{ option.name }}
                     </span>
                   </InertiaLink>

@@ -25,6 +25,8 @@ class CityController extends Controller
             ->orderByName()
             ->orderByCountry()
             ->orderByTimeRange()
+            ->orderByEmptyCoordinates()
+
             ->paginate(15)
             ->withQueryString();
 

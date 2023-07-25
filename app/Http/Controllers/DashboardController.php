@@ -13,7 +13,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $importInfo = ImportInfo::with("importInfoDetail")->get();
+        $importInfo = ImportInfo::with("importInfoDetail")->orderByDesc("created_at")->get();
         $codes = Code::all();
         $providers = Provider::all();
 
