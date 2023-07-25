@@ -4,8 +4,10 @@ import { computed, ref, onMounted } from 'vue'
 import { TrashIcon } from '@heroicons/vue/24/outline'
 import FavoriteButton from '@/Shared/Components/FavoriteButton.vue'
 import axios from 'axios'
+import InfoPopup from '@/Shared/Components/InfoPopup.vue'
 
 const filterStore = useFilterStore()
+const showChildComponent = ref(false);
 
 const props = defineProps({
   cities: Array,
@@ -23,7 +25,6 @@ onMounted(() => {
       authenticated.value = true
     })
     .catch(() => {
-      console.error('User not authenticated.')
       authenticated.value = false
     })
 })
@@ -119,6 +120,10 @@ function clearFilters() {
 function showCity(city) {
   filterStore.changeSelectedCity(city)
 }
+
+function openInfoPopup() {
+  open.value = true;
+}
 </script>
 
 <template>
@@ -128,14 +133,12 @@ function showCity(city) {
     </h1>
     <ul role="list" class="scrollbar flex space-x-2 overflow-x-auto pb-2">
       <li v-for="country in filteredCountries" :key="country.id" class="col-span-1 flex cursor-pointer rounded-md"
-          :class="{ 'opacity-25': !country.hasProvider }" @click="filterCountry(country.id)"
-      >
+        :class="{ 'opacity-25': !country.hasProvider }" @click="filterCountry(country.id)">
         <div class="flex w-12 shrink-0 items-center justify-center rounded-l-md bg-gray-100 py-3">
           <i class="large flat flag" :class="[country.iso, country.isSelected ? 'animate-bounce pb-0' : 'pb-3']" />
         </div>
         <div
-          class="flex flex-1 items-center justify-between truncate rounded-r-md border-y border-r border-gray-100 bg-white"
-        >
+          class="flex flex-1 items-center justify-between truncate rounded-r-md border-y border-r border-gray-100 bg-white">
           <div class="flex-1 truncate px-3 text-sm">
             <span class="text-xs font-medium text-gray-600">{{ country.name }}</span>
           </div>
@@ -148,32 +151,31 @@ function showCity(city) {
     </h1>
     <ul role="list" class="scrollbar flex space-x-2 overflow-x-auto">
       <li v-for="provider in filteredProviders" :key="provider.id"
-          class="mb-2 flex h-8 w-fit shrink-0 cursor-pointer items-center justify-center rounded-md border border-zinc-300 p-1"
-          :style="{ 'background-color': provider.color }"
-          :class="{ 'opacity-25': filterStore.selectedProviderId !== null && filterStore.selectedProviderId !== provider.id }"
-          @click="filterProvider(provider.id)"
-      >
+        class="mb-2 flex h-8 w-fit shrink-0 cursor-pointer items-center justify-center rounded-md border border-zinc-300 p-1"
+        :style="{ 'background-color': provider.color }"
+        :class="{ 'opacity-25': filterStore.selectedProviderId !== null && filterStore.selectedProviderId !== provider.id }"
+        @click="filterProvider(provider.id)">
         <img class="w-8" :src="'/providers/' + provider.name + '.png'" alt="">
       </li>
     </ul>
 
     <div v-if="filterStore.selectedCountryId !== null || filterStore.selectedProviderId !== null"
-         class="flex justify-end sm:justify-start"
-    >
+      class="flex justify-end sm:justify-start">
       <button
         class="mt-3 flex w-fit items-center rounded-lg bg-gray-50 px-3 py-1 text-[10px] font-medium text-gray-500 hover:bg-gray-100"
-        @click="clearFilters"
-      >
+        @click="clearFilters">
         <TrashIcon class="mr-1 h-4 w-4" />
         Clear filters
       </button>
     </div>
 
+
+
+
     <ul v-if="filteredCities.length" role="list" class="mt-8 flex w-full flex-col divide-y divide-gray-300">
       <li v-for="city in filteredCities" :key="city.id"
-          class="group flex cursor-pointer flex-col items-start justify-between gap-x-6 pb-1 pt-4 sm:flex-row sm:pb-4"
-          @click="showCity(city)"
-      >
+        class="group flex cursor-pointer flex-col items-start justify-between gap-x-6 pb-1 pt-4 sm:flex-row sm:pb-4"
+        @click="showCity(city)">
         <div class="flex min-w-max items-center">
           <i :class="city.country.iso" class="flat flag huge shrink-0" @click="filterCountry(city.country.id)" />
           <div class="ml-4 flex flex-col justify-start">
@@ -184,6 +186,7 @@ function showCity(city) {
               {{ city.country.name }}
             </p>
             <FavoriteButton v-if="authenticated" :cityid="city.id" />
+            <InfoPopup v-else />
           </div>
         </div>
 
@@ -191,9 +194,8 @@ function showCity(city) {
           <div v-for="provider in filteredProviders" :key="provider.id">
             <div v-for="cityProvider in city.cityProviders" :key="cityProvider.provider_id">
               <div v-if="provider.id === cityProvider.provider_id" :style="{ 'background-color': provider.color }"
-                   class="m-1 flex h-6 w-fit shrink-0 items-center justify-center rounded-md border border-zinc-300 p-1 hover:opacity-75"
-                   @click="filterProvider(provider.id)"
-              >
+                class="m-1 flex h-6 w-fit shrink-0 items-center justify-center rounded-md border border-zinc-300 p-1 hover:opacity-75"
+                @click="filterProvider(provider.id)">
                 <img class="w-6" :src="'/providers/' + provider.name + '.png'" alt="">
               </div>
             </div>

@@ -13,23 +13,41 @@ class FavoritesControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testCityCanBeAddedToAndRemovedFromFavorites(): void
+    public function testCityCanBeAddedToFavorites(): void
     {
         $user = User::factory()->create();
 
         $this->actingAs($user);
 
         $city = City::factory()->create();
-        $response = $this->post("/favorites", ["city_id" => $city->id]);
-
-        $response->assertSessionHas("message", "City added to favorites!");
-
-        $this->assertTrue($this->app->make('App\Http\Controllers\FavoritesController')->check($city->id));
 
         $response = $this->post("/favorites", ["city_id" => $city->id]);
 
-        $response->assertSessionHas("message", "City removed from favorites!");
+        $response->assertStatus(200);
 
-        $this->assertFalse($this->app->make('App\Http\Controllers\FavoritesController')->check($city->id));
+        $this->assertDatabaseHas("favorites", [
+            "user_id" => $user->id,
+            "city_id" => $city->id,
+        ]);
+    }
+
+    public function testCityCanBeRemovedFromFavorites(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user);
+
+        $city = City::factory()->create();
+
+        $this->post("/favorites", ["city_id" => $city->id]);
+
+        $response = $this->post("/favorites", ["city_id" => $city->id]);
+
+        $response->assertStatus(200);
+
+        $this->assertDatabaseMissing("favorites", [
+            "user_id" => $user->id,
+            "city_id" => $city->id,
+        ]);
     }
 }
