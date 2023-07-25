@@ -17,7 +17,7 @@ const authenticated = ref(false)
 const user = ref(null)
 
 onMounted(() => {
-  axios.get('/user')
+  axios.get('/user', { timeout: 5000 })
     .then(response => {
       user.value = response.data
       authenticated.value = true
