@@ -60,7 +60,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div ref="intersectionTarget" style="float: right;">
+  <div ref="intersectionTarget">
     <button @click="toggleFavorite">
       <component :is="result ? SolidHeartIcon : OutlineHeartIcon" v-if="result !== null"
                  class="h-6 w-6 text-red-500"
