@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { XMarkIcon } from '@heroicons/vue/24/outline'
+import { ChevronDownIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 import { onClickOutside } from '@vueuse/core'
 
 const options = { hour: 'numeric', minute: 'numeric', second: 'numeric' }
@@ -36,9 +36,8 @@ function toggleImportDialog() {
 </script>
 
 <template>
-  <tr :class="status === 'Success' ? '' : 'cursor-pointer hover:bg-gray-100' "
+  <tr :class="status === 'Success' ? '' : 'hover:bg-gray-100' "
       class="border-t"
-      @click="toggleImportDialog"
   >
     <td class="table-cell break-all py-3.5 pl-2 text-sm capitalize text-gray-500 sm:pl-6">
       {{ info.who_runs_it }}
@@ -68,6 +67,9 @@ function toggleImportDialog() {
       <div class="text-xs capitalize">
         {{ info.status }}
       </div>
+    </td>
+    <td v-if="status !== 'Success'" class="table-cell cursor-pointer break-all py-3.5 pl-1 text-sm text-gray-500" @click="toggleImportDialog">
+      <ChevronDownIcon class="h-5 w-full" />
     </td>
   </tr>
 
