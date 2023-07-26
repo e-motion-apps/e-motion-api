@@ -14,6 +14,7 @@ use App\Jobs\NeuronDataImporterJob;
 use App\Jobs\QuickDataImporterJob;
 use App\Jobs\SpinDataImporterJob;
 use App\Jobs\VoiDataImporterJob;
+use App\Jobs\UrentDataImporterJob;
 use App\Models\ImportInfo;
 
 class DataImporterService
@@ -29,6 +30,7 @@ class DataImporterService
         VoiDataImporterJob::class,
         NeuronDataImporterJob::class,
         BirdDataImporterJob::class,
+        UrentDataImporterJob::class,
     ];
 
     public function run(string $whoRunsIt = "admin"): void
