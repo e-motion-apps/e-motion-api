@@ -12,28 +12,33 @@ use App\Jobs\LimeDataImporterJob;
 use App\Jobs\QuickDataImporterJob;
 use App\Jobs\SpinDataImporterJob;
 use App\Models\ImportInfo;
+use Illuminate\Support\Facades\Bus;
 
 class DataImporterService
 {
-    private array $importerJobs = [
-        BitMobilityDataImporterJob::class,
-        BoltDataImporterJob::class,
-        DottDataImporterJob::class,
-        HulajDataImporterJob::class,
-        LimeDataImporterJob::class,
-        SpinDataImporterJob::class,
-        QuickDataImporterJob::class,
-    ];
+    private int $importInfoId;
 
     public function run(string $whoRunsIt = "admin"): void
     {
         $importInfo = ImportInfo::query()->create([
             "who_runs_it" => $whoRunsIt,
-            "status" => "started",
+            "status" => "running",
         ]);
 
-        foreach ($this->importerJobs as $importerJob) {
-            dispatch(new $importerJob($importInfo->id))->onQueue("importers");
-        }
+        $this->importInfoId = $importInfo->id;
+
+        Bus::batch([
+            new BitMobilityDataImporterJob($this->importInfoId),
+            new BoltDataImporterJob($this->importInfoId),
+            new DottDataImporterJob($this->importInfoId),
+            new HulajDataImporterJob($this->importInfoId),
+            new LimeDataImporterJob($this->importInfoId),
+            new QuickDataImporterJob($this->importInfoId),
+            new SpinDataImporterJob($this->importInfoId),
+        ])->finally(function (): void {
+            ImportInfo::query()->where("id", $this->importInfoId)->update([
+                "status" => "finished",
+            ]);
+        })->onQueue("importers")->dispatch();
     }
 }

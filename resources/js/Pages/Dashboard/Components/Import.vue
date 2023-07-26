@@ -47,15 +47,26 @@ function toggleImportDialog() {
       {{ new Date(info.created_at).toLocaleDateString("pl-PL", options) }}
     </td>
 
-    <td :class="['flex', 'items-center', 'py-3.5', 'text-sm', 'lg:table-cell',
+    <td v-if="info.status === 'finished'"
+        :class="['flex', 'items-center', 'py-3.5', 'text-sm', 'lg:table-cell',
                  status === 'Success' ? 'text-emerald-400' :
                  status === 'Error' ? 'text-red-600' : 'text-orange-400']"
     >
-      <div class="w-fit flex-none animate-pulse rounded-full p-1">
+      <div class="w-fit flex-none rounded-full p-1">
         <div class="h-1.5 w-1.5 rounded-full bg-current" />
       </div>
       <div class="text-xs">
         {{ status }}
+      </div>
+    </td>
+    <td v-else
+        class="flex items-center py-3.5 text-sm text-gray-500 lg:table-cell"
+    >
+      <div class="w-fit flex-none animate-pulse rounded-full p-1">
+        <div class="h-1.5 w-1.5 rounded-full bg-current" />
+      </div>
+      <div class="text-xs capitalize">
+        {{ info.status }}
       </div>
     </td>
   </tr>
@@ -81,7 +92,7 @@ function toggleImportDialog() {
             </div>
 
             <div v-for="detail in info.import_info_detail" :key="detail.id"
-                 :class="detail.code == 400 ? 'border-red-600 bg-red-100' : 'border-orange-500 bg-orange-100'"
+                 :class="detail.code === 400 ? 'border-red-600 bg-red-100' : 'border-orange-500 bg-orange-100'"
                  class="mb-4 flex flex-col justify-center rounded border p-2 font-light"
             >
               <div v-for="provider in providers" :key="provider.id">
@@ -96,11 +107,11 @@ function toggleImportDialog() {
               </div>
 
               <div v-for="code in codes" :key="code.number">
-                <div v-if="detail.code == code.number" class="mt-1 text-sm text-gray-800">
+                <div v-if="detail.code === code.number" class="mt-1 text-sm text-gray-800">
                   <p class="font-normal">
                     {{ code.description }}
                   </p>
-                  <InertiaLink v-if="detail.code == 420" href="/admin/cities?order=empty-coordinates" class="font-medium">
+                  <InertiaLink v-if="detail.code === 419" href="/admin/cities?order=empty-coordinates" class="font-medium">
                     Check list of cities with no coordinates.
                   </InertiaLink>
                 </div>

@@ -18,7 +18,7 @@ return new class() extends Migration {
                 ->on("import_infos")
                 ->onDelete("cascade");
 
-            $table->string("code");
+            $table->unsignedBigInteger("code");
             $table->timestamps();
         });
     }

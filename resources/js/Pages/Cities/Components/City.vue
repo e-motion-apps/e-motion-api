@@ -146,7 +146,7 @@ function toggleProvidersForm() {
         {{ city.name }}
       </p>
     </div>
-    <div class="mt-1 flex flex-col break-all text-gray-500 sm:block lg:hidden">
+    <div v-if="city.latitude" class="mt-1 flex flex-col break-all text-gray-500 sm:block lg:hidden">
       <span>{{ city.latitude }}</span>
       <span class="hidden sm:inline">, </span>
       <br class="hidden sm:inline">

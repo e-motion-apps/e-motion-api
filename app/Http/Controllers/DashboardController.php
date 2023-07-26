@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\DashboardResource;
 use App\Models\Code;
 use App\Models\ImportInfo;
 use App\Models\Provider;
@@ -13,12 +14,16 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $importInfo = ImportInfo::with("importInfoDetail")->orderByDesc("created_at")->get();
+        $importInfo = ImportInfo::query()
+            ->with("importInfoDetail")
+            ->orderByDesc("created_at")
+            ->paginate(5)
+            ->withQueryString();
         $codes = Code::all();
         $providers = Provider::all();
 
         return Inertia::render("Dashboard/Index", [
-            "importInfo" => $importInfo,
+            "importInfo" => DashboardResource::collection($importInfo),
             "codes" => $codes,
             "providers" => $providers,
         ]);
