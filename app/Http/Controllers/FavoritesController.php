@@ -13,14 +13,15 @@ class FavoritesController extends Controller
     public function store(Request $request, Session $session): void
     {
         $cityId = $request->input("city_id");
+        $userId = $request->user()?->id;
 
-        $existingFavorite = Favorites::where("user_id", request()->user()?->id)
+        $existingFavorite = Favorites::where("user_id", $userId)
             ->where("city_id", $cityId)
             ->first();
 
         if (!$existingFavorite) {
             Favorites::create([
-                "user_id" => request()->user()?->id,
+                "user_id" => $userId,
                 "city_id" => $cityId,
             ]);
             $session->flash("message", "City added to favorites!");
@@ -30,9 +31,11 @@ class FavoritesController extends Controller
         }
     }
 
-    public function check($cityId): bool
+    public function check(Request $request, int $cityId): bool
     {
-        return Favorites::where("user_id", request()->user()?->id)
+        $userId = $request->user()?->id;
+
+        return Favorites::where("user_id", $userId)
             ->where("city_id", $cityId)
             ->exists();
     }
