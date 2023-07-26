@@ -17,6 +17,8 @@ class RydeDataImporter extends DataImporter
 
     protected Crawler $sections;
 
+    private string $countryName;
+
     public function extract(): static
     {
         try {
@@ -30,19 +32,39 @@ class RydeDataImporter extends DataImporter
         }
 
         $crawler = new Crawler($html);
-        $this->sections = $crawler->filter("container-1144 > h2 > w-layout-grid");
+        $this->sections = $crawler->filter('.section.neutral-50.wf-section');
 
         if (count($this->sections) === 0) {
             $this->createImportInfoDetails("204", self::PROVIDER_ID);
-
+            dump(1234);
             $this->stopExecution = true;
         }
 
         return $this;
     }
 
-    public function transform() :void
+    public function transform(): void
     {
+        if ($this->stopExecution) {
+            return;
+        }
 
+        $mapboxService = new MapboxGeocodingService();
+        $existingCityProviders = [];
+
+        foreach ($this->sections as $section) {
+            $country = null;
+
+            foreach ($section->childNodes as $node) {
+                if ($node->nodeName === "heading-h2") {
+                    $flagEmojiPattern = '/[\x{1F1E6}-\x{1F1FF}]{2}/u';
+                    $this->countryName = preg_replace($flagEmojiPattern, '', $this->countryName);
+                    $this->countryName = trim($node->nodeValue);
+                }
+
+                if ($node->nodeName === "location") {
+                }
+            }
+        }
     }
 }
