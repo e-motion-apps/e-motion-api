@@ -37,4 +37,13 @@ class FavoritesControllerTest extends TestCase
             "city_id" => $city->id,
         ]);
     }
+
+    public function testUserIsNotAuthenticated(): void
+    {
+        $city = City::factory()->create();
+
+        $this->post("/favorites", ["city_id" => $city->id])
+            ->assertStatus(302)
+            ->assertRedirect("/login");
+    }
 }
