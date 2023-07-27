@@ -8,6 +8,7 @@ use App\Models\City;
 use App\Models\CityAlternativeName;
 use App\Models\Country;
 use App\Services\MapboxGeocodingService;
+use Stichoza\GoogleTranslate\GoogleTranslate;
 use Symfony\Component\DomCrawler\Crawler;
 use Throwable;
 
@@ -54,11 +55,17 @@ class UrentDataImporter extends DataImporter
         foreach ($this->sections as $section) {
             $cityName = $section->nodeValue;
 
-            $city = City::query()->where("name", $cityName)->first();
-            $alternativeCityName = CityAlternativeName::query()->where("name", $cityName)->first();
+            if (preg_match('/\p{Cyrillic}/u', $cityName) === 1){
+                $tr = new GoogleTranslate("en");
+                $cityName = $tr->translate($cityName);
+            }
+            $cityName = str_replace("-", " ", $cityName);
 
-            if ($city || $alternativeCityName) {
-                $cityId = $city ? $city->id : $alternativeCityName->city_id;
+            $city = City::query()->where("name", $cityName)->first();
+            $alternativeCity = CityAlternativeName::query()->where("name", $cityName)->first();
+
+            if ($city || $alternativeCity) {
+                $cityId = $city ? $city->id : $alternativeCity->city_id;
 
                 $this->createProvider($cityId, self::PROVIDER_ID);
                 $existingCityProviders[] = $cityId;
