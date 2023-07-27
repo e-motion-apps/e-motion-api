@@ -40,8 +40,4 @@ return [
 
     "aliases" => Facade::defaultAliases()->merge([
     ])->toArray(),
-
-    "mapbox_token" => env("MAPBOX_TOKEN"),
-
-    "mapbox_api_url" => env("MAPBOX_URL"),
 ];
