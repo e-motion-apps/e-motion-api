@@ -14,10 +14,11 @@ class MapboxGeocodingService
 
     public function getCoordinatesFromApi(string $cityName, string $countryName, $client = new Client()): array
     {
-        $token = config('app.mapbox_token');
+        $token = config("app.mapbox_token");
 
         try {
-            $response = $client->get(config('app.mapbox_api_url') . "$cityName,$countryName.json?access_token=$token&types=place",
+            $response = $client->get(
+                config("app.mapbox_api_url") . "$cityName,$countryName.json?access_token=$token&types=place",
             );
 
             $coordinates = json_decode($response->getBody()->getContents(), associative: true)["features"][0]["center"];
@@ -30,10 +31,11 @@ class MapboxGeocodingService
 
     public function getPlaceFromApi(string $lat, string $long, $client = new Client()): array
     {
-        $token = config('app.mapbox_token');
+        $token = config("app.mapbox_token");
 
         try {
-            $response = $client->get(config('app.mapbox_api_url') . "$long,$lat.json?access_token=$token",
+            $response = $client->get(
+                config("app.mapbox_api_url") . "$long,$lat.json?access_token=$token",
             );
             $features = json_decode($response->getBody()->getContents(), associative: true)["features"];
 
