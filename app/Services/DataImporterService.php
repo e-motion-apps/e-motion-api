@@ -11,23 +11,23 @@ use App\Jobs\HulajDataImporterJob;
 use App\Jobs\LimeDataImporterJob;
 use App\Jobs\NeuronDataImporterJob;
 use App\Jobs\QuickDataImporterJob;
+use App\Jobs\RydeDataImporterJob;
 use App\Jobs\SpinDataImporterJob;
 use App\Jobs\VoiDataImporterJob;
-use App\Jobs\RydeDataImporterJob;
 use App\Models\ImportInfo;
 
 class DataImporterService
 {
     private array $importerJobs = [
-        //BitMobilityDataImporterJob::class,
-        //BoltDataImporterJob::class,
-        //DottDataImporterJob::class,
-        //HulajDataImporterJob::class,
-        //LimeDataImporterJob::class,
-        //SpinDataImporterJob::class,
-        //QuickDataImporterJob::class,
-        //VoiDataImporterJob::class,
-        //NeuronDataImporterJob::class,
+        BitMobilityDataImporterJob::class,
+        BoltDataImporterJob::class,
+        DottDataImporterJob::class,
+        HulajDataImporterJob::class,
+        LimeDataImporterJob::class,
+        SpinDataImporterJob::class,
+        QuickDataImporterJob::class,
+        VoiDataImporterJob::class,
+        NeuronDataImporterJob::class,
         RydeDataImporterJob::class,
     ];
 

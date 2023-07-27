@@ -13,10 +13,9 @@ use Throwable;
 
 class RydeDataImporter extends DataImporter
 {
-    private const PROVIDER_ID = 20;
+    private const PROVIDER_ID = 15;
 
     protected Crawler $sections;
-
     private string $countryName;
 
     public function extract(): static
@@ -32,11 +31,10 @@ class RydeDataImporter extends DataImporter
         }
 
         $crawler = new Crawler($html);
-        $this->sections = $crawler->filter('.section.neutral-50.wf-section');
+        $this->sections = $crawler->filter("div.neutral-50 .container-1144");
 
         if (count($this->sections) === 0) {
             $this->createImportInfoDetails("204", self::PROVIDER_ID);
-            dump(1234);
             $this->stopExecution = true;
         }
 
@@ -56,15 +54,58 @@ class RydeDataImporter extends DataImporter
             $country = null;
 
             foreach ($section->childNodes as $node) {
-                if ($node->nodeName === "heading-h2") {
+                if ($node->nodeName === "h2") {
                     $flagEmojiPattern = '/[\x{1F1E6}-\x{1F1FF}]{2}/u';
-                    $this->countryName = preg_replace($flagEmojiPattern, '', $this->countryName);
                     $this->countryName = trim($node->nodeValue);
+                    $this->countryName = preg_replace($flagEmojiPattern, "", $this->countryName);
+                    $this->countryName = trim($this->countryName);
                 }
 
-                if ($node->nodeName === "location") {
+                if ($node->nodeName === "div") {
+                    foreach ($node->childNodes as $div) {
+                        if ($div->nodeName === "div") {
+                            foreach ($div->childNodes as $city)
+                            if ($city->nodeName === "h1") {
+                                $cityName = trim($city->nodeValue);
+                                $city = City::query()->where("name", $cityName)->first();
+                                $alternativeCityName = CityAlternativeName::query()->where("name", $cityName)->first();
+
+                                if ($city || $alternativeCityName) {
+                                    $cityId = $city ? $city->id : $alternativeCityName->city_id;
+
+                                    $this->createProvider($cityId, self::PROVIDER_ID);
+                                    $existingCityProviders[] = $cityId;
+                                } else {
+                                    $country = Country::query()->where("name", $this->countryName)->orWhere("alternative_name", $this->countryName)->first();
+
+                                    if ($country) {
+                                        $coordinates = $mapboxService->getCoordinatesFromApi($cityName, $this->countryName);
+                                        $countCoordinates = count($coordinates);
+
+                                        if (!$countCoordinates) {
+                                            $this->createImportInfoDetails("419", self::PROVIDER_ID);
+                                        }
+
+                                        $city = City::query()->create([
+                                            "name" => $cityName,
+                                            "latitude" => ($countCoordinates > 0) ? $coordinates[0] : null,
+                                            "longitude" => ($countCoordinates > 0) ? $coordinates[1] : null,
+                                            "country_id" => $country->id,
+                                        ]);
+
+                                        $this->createProvider($city->id, self::PROVIDER_ID);
+                                        $existingCityProviders[] = $city->id;
+                                    } else {
+                                        $this->countryNotFound($cityName, $this->countryName);
+                                        $this->createImportInfoDetails("420", self::PROVIDER_ID);
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
+            $this->deleteMissingProviders(self::PROVIDER_ID, $existingCityProviders);
         }
     }
 }
