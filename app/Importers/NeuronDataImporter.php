@@ -30,7 +30,7 @@ class NeuronDataImporter extends DataImporter
 
         if (preg_match($pattern, $html, $matches)) {
             $jsonString = $matches[1];
-            $this->regionsData = json_decode($jsonString, true);
+            $this->regionsData = json_decode($jsonString, associative: true);
         }
 
         if (!isset($this->regionsData["list"])) {

@@ -12,17 +12,15 @@ class MapboxGeocodingService
     protected string $city;
     protected string $country;
 
-    public function getCoordinatesFromApi(string $cityName, string $countryName): array
+    public function getCoordinatesFromApi(string $cityName, string $countryName, $client = new Client()): array
     {
-        $token = env("MAPBOX_TOKEN");
-        $client = new Client();
+        $token = config('app.mapbox_token');
 
         try {
-            $response = $client->get(
-                "https://api.mapbox.com/geocoding/v5/mapbox.places/$cityName,$countryName.json?access_token=$token&types=place",
+            $response = $client->get(config('app.mapbox_api_url') . "$cityName,$countryName.json?access_token=$token&types=place",
             );
 
-            $coordinates = json_decode($response->getBody()->getContents(), true)["features"][0]["center"];
+            $coordinates = json_decode($response->getBody()->getContents(), associative: true)["features"][0]["center"];
 
             return [$coordinates[1], $coordinates[0]];
         } catch (Throwable) {
@@ -30,16 +28,14 @@ class MapboxGeocodingService
         }
     }
 
-    public function getPlaceFromApi(string $lat, string $long): array
+    public function getPlaceFromApi(string $lat, string $long, $client = new Client()): array
     {
-        $token = env("MAPBOX_TOKEN");
-        $client = new Client();
+        $token = config('app.mapbox_token');
 
         try {
-            $response = $client->get(
-                "https://api.mapbox.com/geocoding/v5/mapbox.places/$long,$lat.json?access_token=$token",
+            $response = $client->get(config('app.mapbox_api_url') . "$long,$lat.json?access_token=$token",
             );
-            $features = json_decode($response->getBody()->getContents(), true)["features"];
+            $features = json_decode($response->getBody()->getContents(), associative: true)["features"];
 
             foreach ($features as $key) {
                 $id = $key["id"];

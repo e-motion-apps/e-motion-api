@@ -56,14 +56,9 @@ class BirdDataImporter extends DataImporter
 
         foreach ($coordinatesList as $coordinates) {
             if ($coordinates) {
-                $coords = explode(" ", $coordinates);
-                $lat = $coords[0];
-                $long = $coords[1];
+                [$lat, $long] = explode(" ", $coordinates);
 
-                $data = $mapboxService->getPlaceFromApi($lat, $long);
-
-                $cityName = $data[0];
-                $countryName = $data[1];
+                [$cityName, $countryName] = $mapboxService->getPlaceFromApi($lat, $long);
 
                 $city = City::query()->where("name", $cityName)->first();
                 $alternativeCityName = CityAlternativeName::query()->where("name", $cityName)->first();
