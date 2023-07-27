@@ -15,18 +15,14 @@ class FavoritesController extends Controller
         $cityId = $request->input("city_id");
         $userId = $request->user()?->id;
 
-        $existingFavorite = Favorites::where("user_id", $userId)
-            ->where("city_id", $cityId)
-            ->first();
+        $favorite = Favorites::firstOrCreate(
+            ["user_id" => $userId, "city_id" => $cityId],
+        );
 
-        if (!$existingFavorite) {
-            Favorites::create([
-                "user_id" => $userId,
-                "city_id" => $cityId,
-            ]);
+        if ($favorite->wasRecentlyCreated) {
             $session->flash("message", "City added to favorites!");
         } else {
-            $existingFavorite->delete();
+            $favorite->delete();
             $session->flash("message", "City removed from favorites!");
         }
     }
