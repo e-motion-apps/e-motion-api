@@ -9,11 +9,11 @@ use App\Jobs\BoltDataImporterJob;
 use App\Jobs\DottDataImporterJob;
 use App\Jobs\HulajDataImporterJob;
 use App\Jobs\LimeDataImporterJob;
-use App\Jobs\NeuronDataImporterJob;
 use App\Jobs\QuickDataImporterJob;
 use App\Jobs\SpinDataImporterJob;
 use App\Jobs\VoiDataImporterJob;
 use App\Jobs\ZwingsDataImporterJob;
+use App\Jobs\NeuronDataImporterJob;
 use App\Models\ImportInfo;
 
 class DataImporterService
@@ -27,6 +27,7 @@ class DataImporterService
         SpinDataImporterJob::class,
         QuickDataImporterJob::class,
         VoiDataImporterJob::class,
+        NeuronDataImporterJob::class,
         ZwingsDataImporterJob::class,
     ];
 

@@ -32,6 +32,7 @@ class ZwingsDataImporter extends DataImporter
 
         $crawler = new Crawler($html);
         $this->sections = $crawler->filter("main > section > div .background-image");
+
         if (count($this->sections) === 0) {
             $this->createImportInfoDetails("204", self::PROVIDER_ID);
             $this->stopExecution = true;
