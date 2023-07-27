@@ -29,35 +29,4 @@ class MapboxGeocodingService
             return [];
         }
     }
-
-    public function getPlaceFromApi(string $lat, string $long): array
-    {
-        $token = env("MAPBOX_TOKEN");
-        $client = new Client();
-
-        try {
-            $response = $client->get(
-                "https://api.mapbox.com/geocoding/v5/mapbox.places/$long,$lat.json?access_token=$token",
-            );
-            $features = json_decode($response->getBody()->getContents(), true)["features"];
-
-            foreach ($features as $key) {
-                $id = $key["id"];
-
-                if (str_contains($id, "place")) {
-                    $this->city = $key["text"];
-                } elseif (str_contains($id, "locality") && !isset($this->city)) {
-                    $this->city = $key["text"];
-                }
-
-                if (str_contains($id, "country")) {
-                    $this->country = $key["text"];
-                }
-            }
-
-            return [$this->city, $this->country];
-        } catch (Throwable) {
-            return [];
-        }
-    }
 }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Jobs\BirdDataImporterJob;
 use App\Jobs\BitMobilityDataImporterJob;
 use App\Jobs\BoltDataImporterJob;
 use App\Jobs\DottDataImporterJob;
@@ -29,7 +28,6 @@ class DataImporterService
         QuickDataImporterJob::class,
         VoiDataImporterJob::class,
         NeuronDataImporterJob::class,
-        BirdDataImporterJob::class,
         UrentDataImporterJob::class,
     ];
 
