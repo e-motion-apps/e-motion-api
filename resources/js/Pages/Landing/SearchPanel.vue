@@ -1,9 +1,9 @@
 <script setup>
 import { useFilterStore } from '@/Shared/Stores/FilterStore'
-import { computed, ref, onMounted } from 'vue'
+import { computed } from 'vue'
+import { usePage } from '@inertiajs/vue3' 
 import { TrashIcon } from '@heroicons/vue/24/outline'
 import FavoriteButton from '@/Shared/Components/FavoriteButton.vue'
-import axios from 'axios'
 import InfoPopup from '@/Shared/Components/InfoPopup.vue'
 
 const filterStore = useFilterStore()
@@ -14,19 +14,7 @@ const props = defineProps({
   countries: Array,
 })
 
-const authenticated = ref(false)
-const user = ref(null)
-
-onMounted(() => {
-  axios.get('/user', { timeout: 5000 })
-    .then(response => {
-      user.value = response.data
-      authenticated.value = true
-    })
-    .catch(() => {
-      authenticated.value = false
-    })
-})
+const authenticated = computed(() => usePage().props.auth.isAuth)
 
 const filteredCities = computed(() => {
   const selectedCountryId = filterStore.selectedCountryId

@@ -20,7 +20,6 @@ Route::middleware("auth")->group(function (): void {
     Route::post("/logout", [AuthController::class, "logout"])->name("logout");
     Route::post("/favorites", [FavoritesController::class, "store"]);
     Route::get("/favorites/{city_id}", [FavoritesController::class, "check"]);
-    Route::get("/user", fn() => auth()->user());
 
     Route::middleware(["role:admin"])->group(function (): void {
         Route::get("/admin/dashboard", [DashboardController::class, "index"]);
