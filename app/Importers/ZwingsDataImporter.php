@@ -16,7 +16,7 @@ class ZwingsDataImporter extends DataImporter
     private const PROVIDER_ID = 16;
 
     protected Crawler $sections;
-    private string $countryName = "United Kingdom";
+    private const COUNTRY_NAME = "United Kingdom";
 
     public function extract(): static
     {
@@ -67,10 +67,10 @@ class ZwingsDataImporter extends DataImporter
                                 $this->createProvider($cityId, self::PROVIDER_ID);
                                 $existingCityProviders[] = $cityId;
                             } else {
-                                $country = Country::query()->where("name", $this->countryName)->orWhere("alternative_name", $this->countryName)->first();
+                                $country = Country::query()->where("name", self::COUNTRY_NAME)->orWhere("alternative_name", self::COUNTRY_NAME)->first();
 
                                 if ($country) {
-                                    $coordinates = $mapboxService->getCoordinatesFromApi($cityName, $this->countryName);
+                                    $coordinates = $mapboxService->getCoordinatesFromApi($cityName, self::COUNTRY_NAME);
                                     $countCoordinates = count($coordinates);
 
                                     if (!$countCoordinates) {
@@ -87,7 +87,7 @@ class ZwingsDataImporter extends DataImporter
                                     $this->createProvider($city->id, self::PROVIDER_ID);
                                     $existingCityProviders[] = $city->id;
                                 } else {
-                                    $this->countryNotFound($cityName, $this->countryName);
+                                    $this->countryNotFound($cityName, self::COUNTRY_NAME);
                                     $this->createImportInfoDetails("420", self::PROVIDER_ID);
                                 }
                             }
