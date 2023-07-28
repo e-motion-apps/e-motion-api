@@ -147,7 +147,7 @@ function toggleSortDialog() {
           </div>
 
           <div class="mb-3 mt-4 flex flex-wrap items-center justify-end md:justify-between">
-            <button class="m-1 rounded bg-blumilk-500 px-5 py-3 text-sm font-medium text-white shadow-md md:py-2" @click="toggleStoreDialog">
+            <button class="mr-1 rounded bg-blumilk-500 px-5 py-3 text-sm font-medium text-white shadow-md hover:bg-blumilk-400 md:py-2" @click="toggleStoreDialog">
               Create city
             </button>
 

@@ -4,7 +4,6 @@ import { usePage } from '@inertiajs/vue3'
 import Import from './Components/Import.vue'
 import PaginationInfo from '@/Shared/Components/PaginationInfo.vue'
 import Pagination from '@/Shared/Components/Pagination.vue'
-import { PlayCircleIcon } from '@heroicons/vue/24/solid'
 
 const page = usePage()
 
@@ -21,15 +20,16 @@ defineProps({
   <div class="flex w-full md:justify-end">
     <div class="mt-16 flex h-full w-full flex-col justify-between md:mt-0 md:w-2/3 lg:w-3/4 xl:w-5/6">
       <div class="m-4 flex flex-col lg:mx-8">
-        <InertiaLink href="/run-importers" class="mb-4 flex w-fit">
-          <div class="flex items-center rounded-full bg-blumilk-500 px-4 py-2 text-white hover:bg-blumilk-400">
-            <PlayCircleIcon class="h-7 w-7" />
-            <span class="ml-3"> Run importers </span>
-          </div>
-        </InertiaLink>
+        <button class="my-5 w-fit rounded bg-blumilk-500 text-sm font-medium text-white shadow-md hover:bg-blumilk-400">
+          <InertiaLink href="/run-importers">
+            <div class="px-5 py-3 md:py-2">
+              Run importers
+            </div>
+          </InertiaLink>
+        </button>
 
         <PaginationInfo v-if="importInfo.data.length" :meta="importInfo.meta" />
-        <div class="rounded-lg ring-gray-300 sm:ring-1">
+        <div v-if="importInfo.data.length" class="rounded-lg ring-gray-300 sm:ring-1">
           <table class="min-w-full">
             <thead>
               <tr>
@@ -49,6 +49,11 @@ defineProps({
             </tbody>
           </table>
         </div>
+
+        <p v-else class="mt-8 flex font-medium text-gray-800">
+          Didn't find anything. Just empty space.
+        </p>
+
         <Pagination :meta="importInfo.meta" :links="importInfo.links" />
       </div>
     </div>
