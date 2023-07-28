@@ -7,7 +7,7 @@ use App\Http\Controllers\CityAlternativeNameController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\CityProviderController;
 use App\Http\Controllers\CountryController;
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ImportInfoController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware("guest")->group(function (): void {
@@ -19,7 +19,7 @@ Route::middleware("auth")->group(function (): void {
     Route::post("/logout", [AuthController::class, "logout"])->name("logout");
 
     Route::middleware(["role:admin"])->group(function (): void {
-        Route::get("/admin/dashboard", [DashboardController::class, "index"]);
+        Route::get("/admin/importers", [ImportInfoController::class, "index"]);
         Route::resource("/admin/countries", CountryController::class);
         Route::resource("/admin/cities", CityController::class);
         Route::resource("/city-alternative-name", CityAlternativeNameController::class);

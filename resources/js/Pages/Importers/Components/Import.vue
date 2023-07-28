@@ -36,39 +36,43 @@ function toggleImportDialog() {
 </script>
 
 <template>
-  <tr :class="status === 'Success' ? '' : 'hover:bg-gray-100' "
+  <tr :class="(status === 'Success') || (info.status !== 'finished') ? '' : 'hover:bg-gray-100' "
       class="border-t"
   >
-    <td class="table-cell break-all py-3.5 pl-2 text-sm capitalize text-gray-500 sm:pl-6">
+    <td class="table-cell break-all py-3.5 pl-2 text-xs capitalize text-gray-500 sm:pl-6">
       {{ info.who_runs_it }}
     </td>
-    <td class="table-cell break-all py-3.5 pl-1 text-sm text-gray-500">
+    <td class="table-cell break-all px-4 py-3.5 text-xs text-gray-500">
       {{ new Date(info.created_at).toLocaleDateString("pl-PL", options) }}
     </td>
 
     <td v-if="info.status === 'finished'"
-        :class="['flex', 'items-center', 'py-3.5', 'text-sm', 'lg:table-cell',
-                 status === 'Success' ? 'text-emerald-400' :
-                 status === 'Error' ? 'text-red-600' : 'text-orange-400']"
+        :class="[
+          status === 'Success' ? 'text-emerald-400' :
+          status === 'Error' ? 'text-red-600' : 'text-orange-400']"
     >
-      <div class="w-fit flex-none rounded-full p-1">
-        <div class="h-1.5 w-1.5 rounded-full bg-current" />
-      </div>
-      <div class="text-xs">
-        {{ status }}
+      <div class="flex">
+        <div class="w-fit rounded-full p-1">
+          <div class="h-1.5 w-1.5 rounded-full bg-current" />
+        </div>
+        <div class="text-xs font-medium">
+          {{ status }}
+        </div>
       </div>
     </td>
     <td v-else
-        class="flex items-center py-3.5 text-sm text-gray-500 lg:table-cell"
+        class="table-cell items-center py-3.5 text-sm text-gray-500"
     >
-      <div class="w-fit flex-none animate-pulse rounded-full p-1">
-        <div class="h-1.5 w-1.5 rounded-full bg-current" />
-      </div>
-      <div class="text-xs capitalize">
-        {{ info.status }}
+      <div class="flex">
+        <div class="flex w-fit animate-pulse rounded-full p-1">
+          <div class="h-1.5 w-1.5 rounded-full bg-current" />
+        </div>
+        <div class="text-xs font-medium capitalize">
+          {{ info.status }}
+        </div>
       </div>
     </td>
-    <td v-if="status !== 'Success'" class="table-cell cursor-pointer break-all py-3.5 pl-1 text-sm text-gray-500" @click="toggleImportDialog">
+    <td v-if="status !== 'Success' && info.status === 'finished'" class="table-cell cursor-pointer pl-1 text-gray-400 hover:text-black" @click="toggleImportDialog">
       <ChevronDownIcon class="h-5 w-full" />
     </td>
   </tr>

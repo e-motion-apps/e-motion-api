@@ -1,11 +1,12 @@
 <script setup>
 import { Dialog, DialogPanel } from '@headlessui/vue'
-import { ChartBarIcon, ClipboardIcon, FlagIcon, MapPinIcon, PlayCircleIcon } from '@heroicons/vue/24/solid'
+import { ChartBarIcon, ClipboardIcon, FlagIcon, MapPinIcon, ForwardIcon } from '@heroicons/vue/24/solid'
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 import { ref } from 'vue'
 
 const navigation = [
   { name: 'Dashboard', href: '/admin/dashboard', icon: ClipboardIcon },
+  { name: 'Importers', href: '/admin/importers', icon: ForwardIcon },
   { name: 'Countries', href: '/admin/countries', icon: FlagIcon },
   { name: 'Cities', href: '/admin/cities', icon: MapPinIcon },
   { name: 'Statistics', href: '/admin/statistics', icon: ChartBarIcon },
@@ -63,11 +64,6 @@ function toggleMobileMenu() {
                 >
                   {{ item.name }}
                 </InertiaLink>
-                <InertiaLink href="/run-importers">
-                  <div class="-mx-3 my-3 block rounded-lg bg-blumilk-500 px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-blumilk-400">
-                    Run importers
-                  </div>
-                </InertiaLink>
               </div>
             </div>
           </div>
@@ -81,12 +77,6 @@ function toggleMobileMenu() {
           >
             <component :is="item.icon" class="h-7 w-7" />
             <span class="ml-3 hidden md:flex"> {{ item.name }} </span>
-          </div>
-        </InertiaLink>
-        <InertiaLink href="/run-importers" class="flex h-full md:h-fit">
-          <div class="mx-auto flex w-11/12 items-center px-6 hover:bg-blumilk-400 hover:text-white md:rounded-lg md:bg-blumilk-500 md:px-2 md:py-3 md:text-white lg:hover:text-white">
-            <PlayCircleIcon class="h-7 w-7" />
-            <span class="ml-3 hidden md:flex"> Run importers </span>
           </div>
         </InertiaLink>
       </ul>

@@ -105,7 +105,7 @@ function showCity(city) {
 </script>
 
 <template>
-  <div class="mx-auto mt-12 flex w-11/12 flex-col lg:w-5/6 ">
+  <div class="mx-auto mt-4 flex w-11/12 flex-col sm:mt-12 lg:w-5/6 ">
     <h1 class="mb-1 text-[11px] font-medium text-gray-600">
       Countries
     </h1>
