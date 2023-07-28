@@ -71,19 +71,15 @@ class BeamDataImporter extends DataImporter
             $country = null;
             foreach ($section->childNodes as $node) {
                 if ($node->nodeName === "h4") {
-                    $countryName = $node->nodeValue;
+                    $this->countryName = $node->nodeValue;
                 }
                 if ($node->nodeName === "div") {
                     foreach ($node->childNodes as $div) {
                         if ($div->nodeName === "div") {
                             foreach ($div->childNodes as $city) {
                                 if ($city->nodeName === "img" && $city->getAttribute("src") === "https://uploads-ssl.webflow.com/63c4acbedbab5dea8b1b98cd/63d8a5b60da91e7d71298637_map-vehicle-saturn.png") {
-                                    dump("test1");
-                                    dump($city->getAttribute("src"));
                                     $this->hasEscooters = true;
-                                } else {
-                                    dump("test2");
-                                    dump($city->getAttribute("src"));
+                                } elseif ($city->nodeName === "img" && $city->getAttribute("src") !== "https://uploads-ssl.webflow.com/63c4acbedbab5dea8b1b98cd/63d8a5b60da91e7d71298637_map-vehicle-saturn.png") {
                                     $this->hasEscooters = false;
                                 }
                                 if ($city->nodeName === "p" && $this->hasEscooters == true) {
@@ -100,16 +96,48 @@ class BeamDataImporter extends DataImporter
                                     });
                                     foreach ($arrayOfCitiesNames as $cityName) {
                                         $cityName = trim($cityName);
-                                        if ($countryName === "Australia") {
-                                            //dump($cityName);
-                                            //dump($this->hasEscooters);
-                                            //dump($countryName);
+                                        $city = City::query()->where("name", $cityName)->first();
+                                        $alternativeCityName = CityAlternativeName::query()->where("name", $cityName)->first();
+
+                                        if ($city || $alternativeCityName) {
+                                            $cityId = $city ? $city->id : $alternativeCityName->city_id;
+
+                                            $this->createProvider($cityId, self::PROVIDER_ID);
+                                            $existingCityProviders[] = $cityId;
+                                        } else {
+                                            if($this->countryName === "Korea") {
+                                                $this->countryName = "South Korea";
+                                            }
+                                            $country = Country::query()->where("name", $this->countryName)->orWhere("alternative_name", $this->countryName)->first();
+
+                                            if ($country) {
+                                                $coordinates = $mapboxService->getCoordinatesFromApi($cityName, $this->countryName);
+                                                $countCoordinates = count($coordinates);
+
+                                                if (!$countCoordinates) {
+                                                    $this->createImportInfoDetails("419", self::PROVIDER_ID);
+                                                }
+
+                                                $city = City::query()->create([
+                                                    "name" => $cityName,
+                                                    "latitude" => ($countCoordinates > 0) ? $coordinates[0] : null,
+                                                    "longitude" => ($countCoordinates > 0) ? $coordinates[1] : null,
+                                                    "country_id" => $country->id,
+                                                ]);
+
+                                                $this->createProvider($city->id, self::PROVIDER_ID);
+                                                $existingCityProviders[] = $city->id;
+                                            } else {
+                                                $this->countryNotFound($cityName, $this->countryName);
+                                                $this->createImportInfoDetails("420", self::PROVIDER_ID);
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
                     }
+                    $this->deleteMissingProviders(self::PROVIDER_ID, $existingCityProviders);
                 }
             }
         }
