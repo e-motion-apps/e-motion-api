@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Exceptions\MapboxGeocodingServiceException;
 use GuzzleHttp\Client;
 use Throwable;
 
@@ -12,6 +13,9 @@ class MapboxGeocodingService
     protected string $city;
     protected string $country;
 
+    /**
+     * @throws MapboxGeocodingServiceException
+     */
     public function getCoordinatesFromApi(string $cityName, string $countryName): array
     {
         $client = new Client();
@@ -25,11 +29,14 @@ class MapboxGeocodingService
             $coordinates = json_decode($response->getBody()->getContents(), associative: true)["features"][0]["center"];
 
             return [$coordinates[1], $coordinates[0]];
-        } catch (Throwable) {
-            return [];
+        } catch (Throwable $exception) {
+            throw new MapboxGeocodingServiceException(previous: $exception);
         }
     }
 
+    /**
+     * @throws MapboxGeocodingServiceException
+     */
     public function getPlaceFromApi(string $lat, string $long): array
     {
         $client = new Client();
@@ -56,8 +63,8 @@ class MapboxGeocodingService
             }
 
             return [$this->city, $this->country];
-        } catch (Throwable) {
-            return [];
+        } catch (Throwable $exception) {
+            throw new MapboxGeocodingServiceException(previous: $exception);
         }
     }
 }
