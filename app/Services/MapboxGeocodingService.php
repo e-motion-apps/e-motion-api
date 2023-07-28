@@ -9,9 +9,6 @@ use Throwable;
 
 class MapboxGeocodingService
 {
-    protected string $city;
-    protected string $country;
-
     public function getCoordinatesFromApi(string $cityName, string $countryName): array
     {
         $token = env("MAPBOX_TOKEN");
