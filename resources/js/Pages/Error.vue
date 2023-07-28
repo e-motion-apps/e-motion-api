@@ -14,7 +14,7 @@ defineProps({
       <h1 class="mt-4 text-3xl font-bold tracking-tight text-white sm:text-5xl">
         Page not found
       </h1>
-      <div class="mt-10 flex justify-center">
+      <div class="mt-8 flex justify-center">
         <InertiaLink href="/" class="text-sm font-semibold leading-7 text-white">
           Back to home
         </InertiaLink>
