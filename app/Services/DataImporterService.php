@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Jobs\BirdDataImporterJob;
 use App\Jobs\BitMobilityDataImporterJob;
 use App\Jobs\BoltDataImporterJob;
 use App\Jobs\DottDataImporterJob;
@@ -29,6 +30,7 @@ class DataImporterService
         VoiDataImporterJob::class,
         NeuronDataImporterJob::class,
         RydeDataImporterJob::class,
+        BirdDataImporterJob::class,
     ];
 
     public function run(string $whoRunsIt = "admin"): void

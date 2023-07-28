@@ -26,7 +26,7 @@ class BoltDataImporter extends DataImporter
             $response = $client->get("https://bolt.eu/page-data/en/scooters/page-data.json");
             $content = json_decode($response->getBody()->getContents(), true);
 
-            $this->fetchedCountriesDictionary = json_decode($content["result"]["data"]["countries"]["edges"][0]["node"]["data"], true)["countries"];
+            $this->fetchedCountriesDictionary = json_decode($content["result"]["data"]["countries"]["edges"][0]["node"]["data"], associative: true)["countries"];
             $this->fetchedCityDictionary = $content["result"]["data"]["cities"]["nodes"];
             $this->fetchedCities = $content["result"]["data"]["scooterCities"]["nodes"];
 
