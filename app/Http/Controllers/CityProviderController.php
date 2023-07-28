@@ -25,8 +25,7 @@ class CityProviderController extends Controller
                 ->sortByDesc(fn(City $city): int => $city->cityProvider->count()),
         );
 
-        $providers = ProviderResource::collection(Provider::all());
-
+        $providers = ProviderResource::collection(Provider::all()->sortBy('name'));
         $countries = Country::whereHas("city.cityProvider")
             ->with(["city.cityAlternativeName", "city.cityProvider"])
             ->get();
