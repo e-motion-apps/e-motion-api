@@ -13,7 +13,7 @@ use Throwable;
 
 class ZwingsDataImporter extends DataImporter
 {
-    private const PROVIDER_ID = 16;
+    private const PROVIDER_ID = 15;
     private const COUNTRY_NAME = "United Kingdom";
 
     protected Crawler $sections;
