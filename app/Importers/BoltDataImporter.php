@@ -8,7 +8,6 @@ use App\Models\City;
 use App\Models\CityAlternativeName;
 use App\Models\Country;
 use App\Services\MapboxGeocodingService;
-use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 
 class BoltDataImporter extends DataImporter
@@ -22,8 +21,7 @@ class BoltDataImporter extends DataImporter
     public function extract(): static
     {
         try {
-            $client = new Client();
-            $response = $client->get("https://bolt.eu/page-data/en/scooters/page-data.json");
+            $response = $this->client->get("https://bolt.eu/page-data/en/scooters/page-data.json");
             $content = json_decode($response->getBody()->getContents(), true);
 
             $this->fetchedCountriesDictionary = json_decode($content["result"]["data"]["countries"]["edges"][0]["node"]["data"], associative: true)["countries"];

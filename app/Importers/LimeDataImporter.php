@@ -8,7 +8,6 @@ use App\Models\City;
 use App\Models\CityAlternativeName;
 use App\Models\Country;
 use App\Services\MapboxGeocodingService;
-use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -21,8 +20,7 @@ class LimeDataImporter extends DataImporter
     public function extract(): static
     {
         try {
-            $client = new Client();
-            $response = $client->get("https://www.li.me/locations");
+            $response = $this->client->get("https://www.li.me/locations");
             $html = $response->getBody()->getContents();
         } catch (GuzzleException) {
             $this->createImportInfoDetails("400", self::PROVIDER_ID);

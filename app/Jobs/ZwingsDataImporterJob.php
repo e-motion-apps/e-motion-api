@@ -8,9 +8,8 @@ use App\Importers\ZwingsDataImporter;
 
 class ZwingsDataImporterJob extends DataImporterJob
 {
-    public function handle(): void
+    public function handle(ZwingsDataImporter $importer): void
     {
-        $importer = new ZwingsDataImporter($this->importInfoId);
-        $importer->extract()->transform();
+        $importer->setImportInfo($this->importInfoId)->extract()->transform();
     }
 }

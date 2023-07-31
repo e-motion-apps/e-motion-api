@@ -8,9 +8,8 @@ use App\Importers\RydeDataImporter;
 
 class RydeDataImporterJob extends DataImporterJob
 {
-    public function handle(): void
+    public function handle(RydeDataImporter $importer): void
     {
-        $importer = new RydeDataImporter($this->importInfoId);
-        $importer->extract()->transform();
+        $importer->setImportInfo($this->importInfoId)->extract()->transform();
     }
 }
