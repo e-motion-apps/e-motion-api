@@ -8,8 +8,9 @@ use App\Models\City;
 use App\Models\CityAlternativeName;
 use App\Models\Country;
 use App\Services\MapboxGeocodingService;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Component\DomCrawler\Crawler;
-use Throwable;
 
 class RydeDataImporter extends DataImporter
 {
@@ -21,8 +22,10 @@ class RydeDataImporter extends DataImporter
     public function extract(): static
     {
         try {
-            $html = file_get_contents("https://www.ryde-technology.com/Locations");
-        } catch (Throwable) {
+            $client = new Client();
+            $response = $client->get("https://www.ryde-technology.com/Locations");
+            $html = $response->getBody()->getContents();
+        } catch (GuzzleException) {
             $this->createImportInfoDetails("400", self::PROVIDER_ID);
 
             $this->stopExecution = true;

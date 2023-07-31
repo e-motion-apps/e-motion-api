@@ -8,7 +8,8 @@ use App\Models\City;
 use App\Models\CityAlternativeName;
 use App\Models\Country;
 use App\Services\MapboxGeocodingService;
-use Throwable;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 
 class NeuronDataImporter extends DataImporter
 {
@@ -19,8 +20,10 @@ class NeuronDataImporter extends DataImporter
     public function extract(): static
     {
         try {
-            $html = file_get_contents("https://www.scootsafe.com/");
-        } catch (Throwable) {
+            $client = new Client();
+            $response = $client->get("https://www.scootsafe.com/");
+            $html = $response->getBody()->getContents();
+        } catch (GuzzleException) {
             $this->createImportInfoDetails("400", self::PROVIDER_ID);
             $this->stopExecution = true;
 

@@ -8,8 +8,9 @@ use App\Models\City;
 use App\Models\CityAlternativeName;
 use App\Models\Country;
 use App\Services\MapboxGeocodingService;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Component\DomCrawler\Crawler;
-use Throwable;
 
 class DottDataImporter extends DataImporter
 {
@@ -20,8 +21,10 @@ class DottDataImporter extends DataImporter
     public function extract(): static
     {
         try {
-            $html = file_get_contents("https://ridedott.com/ride-with-us/london/");
-        } catch (Throwable) {
+            $client = new Client();
+            $response = $client->get("https://ridedott.com/ride-with-us/london/");
+            $html = $response->getBody()->getContents();
+        } catch (GuzzleException) {
             $this->createImportInfoDetails("400", self::PROVIDER_ID);
 
             $this->stopExecution = true;
