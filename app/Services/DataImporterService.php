@@ -12,6 +12,7 @@ use App\Jobs\HulajDataImporterJob;
 use App\Jobs\LimeDataImporterJob;
 use App\Jobs\NeuronDataImporterJob;
 use App\Jobs\QuickDataImporterJob;
+use App\Jobs\RydeDataImporterJob;
 use App\Jobs\SpinDataImporterJob;
 use App\Jobs\VoiDataImporterJob;
 use App\Models\ImportInfo;
@@ -28,6 +29,7 @@ class DataImporterService
         QuickDataImporterJob::class,
         VoiDataImporterJob::class,
         NeuronDataImporterJob::class,
+        RydeDataImporterJob::class,
         BirdDataImporterJob::class,
     ];
 
