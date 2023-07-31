@@ -15,6 +15,7 @@ use App\Jobs\QuickDataImporterJob;
 use App\Jobs\RydeDataImporterJob;
 use App\Jobs\SpinDataImporterJob;
 use App\Jobs\VoiDataImporterJob;
+use App\Jobs\ZwingsDataImporterJob;
 use App\Models\ImportInfo;
 
 class DataImporterService
@@ -30,6 +31,7 @@ class DataImporterService
         VoiDataImporterJob::class,
         NeuronDataImporterJob::class,
         RydeDataImporterJob::class,
+        ZwingsDataImporterJob::class,
         BirdDataImporterJob::class,
     ];
 
