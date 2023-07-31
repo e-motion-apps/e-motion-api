@@ -5,6 +5,7 @@ import { Bars3Icon, XMarkIcon, UserCircleIcon, ArrowRightOnRectangleIcon, Comput
 import { router, usePage } from '@inertiajs/vue3'
 import { onClickOutside } from '@vueuse/core'
 import { useForm } from '@inertiajs/vue3'
+import LanguageSwitch from '@/Shared/Components/LanguageSwitch.vue'
 import ErrorMessage from '@/Shared/Components/ErrorMessage.vue'
 
 import { useFilterStore } from '../Stores/FilterStore'
@@ -128,6 +129,8 @@ defineExpose({
       </div>
     </nav>
 
+    {{ $t('NavigationBar.Map') }}
+    <LanguageSwitch />
     <div v-if="isAuthDialogOpened" class="fixed inset-0 z-50 flex items-center bg-black/50">
       <div ref="authDialog" class="mx-auto w-11/12 rounded-lg bg-white shadow-lg sm:w-3/4 md:w-2/3 lg:w-1/2 xl:w-1/3">
         <div class="flex w-full justify-end">

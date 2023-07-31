@@ -2,6 +2,7 @@ import { defineConfig, loadEnv,  } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import laravel from 'laravel-vite-plugin'
 import { networkInterfaces } from 'os'
+import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 
 export default ({ mode }) => {
     process.env = { ...process.env, ...loadEnv(mode, process.cwd()) }
@@ -32,6 +33,9 @@ export default ({ mode }) => {
                     },
                 },
             }),
+            VueI18nPlugin({
+                include: "./resources/js/assets/lang/**",
+              }),
         ],
     })
 }

@@ -1,7 +1,18 @@
 import { createInertiaApp, Head, Link } from '@inertiajs/vue3'
 import { createApp, h } from 'vue'
+import { createI18n } from "vue-i18n";
 import '../css/app.css'
 import { createPinia } from 'pinia'
+import messages from "@intlify/unplugin-vue-i18n/messages";
+
+const i18n = createI18n({
+  legacy: false,
+  globalInjection: true,
+  locale: "en",
+  fallbackLocale: "en",
+  availableLocales: ["en", "pl"],
+  messages: messages,
+});
 
 const pinia = createPinia()
 
@@ -20,6 +31,7 @@ createInertiaApp({
     return createApp({ render: () => h(App, props) })
       .use(plugin)
       .use(pinia)
+      .use(i18n)
       .component('InertiaLink', Link)
       .component('InertiaHead', Head)
       .mount(el)

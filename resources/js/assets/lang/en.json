@@ -1,0 +1,19 @@
+{
+    "NavigationBar":{
+        "Map": "Map",
+        "AddCompany": "Add company",
+        "SignIn": "Sign in"
+    },
+    "CompanyBrowser":{
+        "CompaniesList": "Companies list",
+        "FoundCompanies": "Found companies",
+        "Search": "Search",
+        "Filter": "Filters"
+    },
+    "Comboboxes":{
+        "ComboboxCity": "Choose city",
+        "ComboboxField": "Choose field of study",
+        "ComboboxDepartment": "Choose department",
+        "ComboboxSpecialization": "Choose specialization"
+    }
+}

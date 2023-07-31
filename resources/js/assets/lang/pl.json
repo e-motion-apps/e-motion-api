@@ -1,0 +1,19 @@
+{
+    "NavigationBar":{
+        "Map": "Mapa",
+        "AddCompany": "Dodaj firmę",
+        "SignIn": "Zaloguj"
+    },
+    "CompanyBrowser":{
+        "CompaniesList": "Lista firm",
+        "FoundCompanies": "Znaleziono",
+        "Search": "Wyszukaj",
+        "Filter": "Filtry"
+    },
+    "Comboboxes":{
+        "ComboboxCity": "Wybierz miasto",
+        "ComboboxField": "Wybierz kierunek",
+        "ComboboxDepartment": "Wybierz wydział",
+        "ComboboxSpecialization": "Wybierz specjalizację"
+    }
+}
