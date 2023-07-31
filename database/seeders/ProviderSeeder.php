@@ -27,6 +27,7 @@ class ProviderSeeder extends Seeder
             ["name" => "voi", "color" => "#f46c63"],
             ["name" => "whoosh", "color" => "#ffca47"],
             ["name" => "zwings", "color" => "#abb8c3"],
+            ["name" => "ryde", "color" => "#4dcb1f"],
         ];
 
         foreach ($providers as $provider) {
