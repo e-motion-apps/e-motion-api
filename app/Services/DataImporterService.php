@@ -22,6 +22,7 @@ use App\Models\ImportInfo;
 class DataImporterService
 {
     private array $importerJobs = [
+        BirdDataImporterJob::class,
         BitMobilityDataImporterJob::class,
         BoltDataImporterJob::class,
         DottDataImporterJob::class,
@@ -34,7 +35,6 @@ class DataImporterService
         UrentDataImporterJob::class,
         RydeDataImporterJob::class,
         ZwingsDataImporterJob::class,
-        BirdDataImporterJob::class,
     ];
 
     public function run(string $whoRunsIt = "admin"): void

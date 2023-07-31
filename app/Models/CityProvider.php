@@ -10,13 +10,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
- * @property int $provider_id
+ * @property string $provider_name
  * @property int $city_id
  */
 class CityProvider extends Model
 {
     protected $fillable = [
-        "provider_id",
+        "provider_name",
         "city_id",
         "created_by",
     ];

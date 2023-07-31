@@ -19,7 +19,7 @@ class CityProviderSeeder extends Seeder
         foreach ($cities as $city) {
             foreach ($providers as $provider) {
                 CityProvider::query()->create([
-                    "provider_id" => $provider->id,
+                    "provider_name" => $provider->name,
                     "city_id" => $city->id,
                     "created_by" => "admin",
                 ]);

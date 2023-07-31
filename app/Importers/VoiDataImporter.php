@@ -13,8 +13,6 @@ use Throwable;
 
 class VoiDataImporter extends DataImporter
 {
-    private const PROVIDER_ID = 13;
-
     protected Crawler $sections;
     private string $countryName;
 
@@ -23,7 +21,7 @@ class VoiDataImporter extends DataImporter
         try {
             $html = file_get_contents("https://www.voi.com/locations");
         } catch (Throwable) {
-            $this->createImportInfoDetails("400", self::PROVIDER_ID);
+            $this->createImportInfoDetails("400", self::getProviderName());
 
             $this->stopExecution = true;
 
@@ -34,7 +32,7 @@ class VoiDataImporter extends DataImporter
         $this->sections = $crawler->filter("section.locations-list .holder > div > .s-col-6.col-4.mb-4");
 
         if (count($this->sections) === 0) {
-            $this->createImportInfoDetails("204", self::PROVIDER_ID);
+            $this->createImportInfoDetails("204", self::getProviderName());
 
             $this->stopExecution = true;
         }
@@ -70,7 +68,7 @@ class VoiDataImporter extends DataImporter
                             if ($city || $alternativeCityName) {
                                 $cityId = $city ? $city->id : $alternativeCityName->city_id;
 
-                                $this->createProvider($cityId, self::PROVIDER_ID);
+                                $this->createProvider($cityId, self::getProviderName());
                                 $existingCityProviders[] = $cityId;
                             } else {
                                 $country = Country::query()->where("name", $this->countryName)->orWhere("alternative_name", $this->countryName)->first();
@@ -80,7 +78,7 @@ class VoiDataImporter extends DataImporter
                                     $countCoordinates = count($coordinates);
 
                                     if (!$countCoordinates) {
-                                        $this->createImportInfoDetails("419", self::PROVIDER_ID);
+                                        $this->createImportInfoDetails("419", self::getProviderName());
                                     }
 
                                     $city = City::query()->create([
@@ -90,11 +88,11 @@ class VoiDataImporter extends DataImporter
                                         "country_id" => $country->id,
                                     ]);
 
-                                    $this->createProvider($city->id, self::PROVIDER_ID);
+                                    $this->createProvider($city->id, self::getProviderName());
                                     $existingCityProviders[] = $city->id;
                                 } else {
                                     $this->countryNotFound($cityName, $this->countryName);
-                                    $this->createImportInfoDetails("420", self::PROVIDER_ID);
+                                    $this->createImportInfoDetails("420", self::getProviderName());
                                 }
                             }
                         }
@@ -102,6 +100,6 @@ class VoiDataImporter extends DataImporter
                 }
             }
         }
-        $this->deleteMissingProviders(self::PROVIDER_ID, $existingCityProviders);
+        $this->deleteMissingProviders(self::getProviderName(), $existingCityProviders);
     }
 }

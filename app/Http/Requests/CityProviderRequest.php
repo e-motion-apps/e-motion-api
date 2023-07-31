@@ -11,7 +11,7 @@ class CityProviderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "providerIds" => ["array"],
+            "providerNames" => ["array"],
         ];
     }
 }

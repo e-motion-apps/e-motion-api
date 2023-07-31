@@ -41,7 +41,7 @@ class CityProviderController extends Controller
 
     public function update(CityProviderService $service, CityProviderRequest $request, City $city): void
     {
-        $service->updateProvider($request->providerIds, $city);
+        $service->updateProvider($request->providerNames, $city);
     }
 
     public function runImporters(DataImporterService $service): void

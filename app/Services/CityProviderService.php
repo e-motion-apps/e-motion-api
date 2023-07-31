@@ -9,32 +9,32 @@ use App\Models\CityProvider;
 
 class CityProviderService
 {
-    public function updateProvider(array $providerIds, City $city): void
+    public function updateProvider(array $providerNames, City $city): void
     {
-        $existingCityProviderIds = [];
+        $existingCityProviderNames = [];
 
-        foreach ($providerIds as $providerId) {
+        foreach ($providerNames as $providerName) {
             $provider = CityProvider::query()
                 ->updateOrCreate([
                     "city_id" => $city->id,
-                    "provider_id" => $providerId,
+                    "provider_name" => $providerName,
                 ]);
 
             if ($provider->created_by !== "scrapper") {
                 CityProvider::query()->where([
                     "city_id" => $city->id,
-                    "provider_id" => $providerId,
+                    "provider_name" => $providerName,
                 ])->update([
                     "created_by" => "admin",
                 ]);
             }
 
-            $existingCityProviderIds[] = $providerId;
+            $existingCityProviderNames[] = $providerName;
         }
 
         $cityProvidersToDelete = CityProvider::query()
             ->where("city_id", $city->id)
-            ->whereNotIn("provider_id", $existingCityProviderIds)
+            ->whereNotIn("provider_name", $existingCityProviderNames)
             ->get();
 
         $cityProvidersToDelete->each(fn($cityProvider) => $cityProvider->delete());
