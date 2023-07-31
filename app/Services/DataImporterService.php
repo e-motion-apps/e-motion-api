@@ -10,7 +10,11 @@ use App\Jobs\DottDataImporterJob;
 use App\Jobs\HulajDataImporterJob;
 use App\Jobs\LimeDataImporterJob;
 use App\Jobs\QuickDataImporterJob;
+use App\Jobs\RydeDataImporterJob;
 use App\Jobs\SpinDataImporterJob;
+use App\Jobs\UrentDataImporterJob;
+use App\Jobs\VoiDataImporterJob;
+use App\Jobs\ZwingsDataImporterJob;
 use App\Models\ImportInfo;
 use Illuminate\Support\Facades\Bus;
 
@@ -35,6 +39,9 @@ class DataImporterService
             new LimeDataImporterJob($this->importInfoId),
             new QuickDataImporterJob($this->importInfoId),
             new SpinDataImporterJob($this->importInfoId),
+            new UrentDataImporterJob($this->importInfoId),
+            new VoiDataImporterJob($this->importInfoId),
+            new ZwingsDataImporterJob($this->importInfoId),
         ])->finally(function (): void {
             ImportInfo::query()->where("id", $this->importInfoId)->update([
                 "status" => "finished",
