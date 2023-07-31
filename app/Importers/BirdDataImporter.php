@@ -10,30 +10,29 @@ use App\Models\Country;
 use App\Services\MapboxGeocodingService;
 use Throwable;
 
-class NeuronDataImporter extends DataImporter
+class BirdDataImporter extends DataImporter
 {
-    private const PROVIDER_ID = 9;
+    private const PROVIDER_ID = 1;
 
-    protected array $regionsData;
+    protected string $fetchedData;
 
     public function extract(): static
     {
         try {
-            $html = file_get_contents("https://www.scootsafe.com/");
+            $html = file_get_contents("https://www.bird.co/map/");
         } catch (Throwable) {
             $this->createImportInfoDetails("400", self::PROVIDER_ID);
             $this->stopExecution = true;
 
             return $this;
         }
-        $pattern = '/regions\s*=\s*({.*?})\s*;/s';
+        $pattern = '/let features = \[([\s\S]*?)\];/';
 
         if (preg_match($pattern, $html, $matches)) {
-            $jsonString = $matches[1];
-            $this->regionsData = json_decode($jsonString, associative: true);
+            $this->fetchedData = $matches[1];
         }
 
-        if (!isset($this->regionsData["list"])) {
+        if (!isset($this->fetchedData)) {
             $this->createImportInfoDetails("204", self::PROVIDER_ID);
 
             $this->stopExecution = true;
@@ -51,19 +50,21 @@ class NeuronDataImporter extends DataImporter
         $mapboxService = new MapboxGeocodingService();
         $existingCityProviders = [];
 
-        $regionsList = $this->regionsData["list"];
+        $this->fetchedData = str_replace(["{", "}", "\t", "type: 'hq'", ",", "\n", "position: new google.maps.LatLng("], "", $this->fetchedData);
+        $coordinatesList = explode(")", $this->fetchedData);
+        $coordinatesList = array_map("trim", $coordinatesList);
 
-        foreach ($regionsList as $region) {
-            $countryName = $region["name"];
+        foreach ($coordinatesList as $coordinates) {
+            if ($coordinates) {
+                [$lat, $long] = explode(" ", $coordinates);
 
-            foreach ($region["cities"] as $city) {
-                $cityName = $city["name"];
+                [$cityName, $countryName] = $mapboxService->getPlaceFromApi($lat, $long);
 
-                $cityDB = City::query()->where("name", $cityName)->first();
-                $alternativeCityNameDB = CityAlternativeName::query()->where("name", $cityName)->first();
+                $city = City::query()->where("name", $cityName)->first();
+                $alternativeCityName = CityAlternativeName::query()->where("name", $cityName)->first();
 
-                if ($cityDB || $alternativeCityNameDB) {
-                    $cityId = $cityDB ? $cityDB->id : $alternativeCityNameDB->city_id;
+                if ($city || $alternativeCityName) {
+                    $cityId = $city ? $city->id : $alternativeCityName->city_id;
 
                     $this->createProvider($cityId, self::PROVIDER_ID);
                     $existingCityProviders[] = $cityId;
@@ -71,17 +72,14 @@ class NeuronDataImporter extends DataImporter
                     $country = Country::query()->where("name", $countryName)->first();
 
                     if ($country) {
-                        $coordinates = $mapboxService->getCoordinatesFromApi($cityName, $countryName);
-                        $countCoordinates = count($coordinates);
-
-                        if (!$countCoordinates) {
+                        if (!$lat || !$long) {
                             $this->createImportInfoDetails("419", self::PROVIDER_ID);
                         }
 
                         $city = City::query()->create([
                             "name" => $cityName,
-                            "latitude" => ($countCoordinates > 0) ? $coordinates[0] : null,
-                            "longitude" => ($countCoordinates > 0) ? $coordinates[1] : null,
+                            "latitude" => $lat,
+                            "longitude" => $long,
                             "country_id" => $country->id,
                         ]);
 
