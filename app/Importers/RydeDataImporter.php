@@ -13,7 +13,7 @@ use Throwable;
 
 class RydeDataImporter extends DataImporter
 {
-    private const PROVIDER_ID = 15;
+    private const PROVIDER_ID = 17;
 
     protected Crawler $sections;
     private string $countryName;
