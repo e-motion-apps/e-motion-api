@@ -10,7 +10,7 @@ return new class() extends Migration {
     public function up(): void
     {
         Schema::create("codes", function (Blueprint $table): void {
-            $table->string("number");
+            $table->unsignedBigInteger("number");
             $table->string("description");
             $table->timestamps();
         });

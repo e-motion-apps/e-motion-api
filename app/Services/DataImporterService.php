@@ -18,34 +18,39 @@ use App\Jobs\UrentDataImporterJob;
 use App\Jobs\VoiDataImporterJob;
 use App\Jobs\ZwingsDataImporterJob;
 use App\Models\ImportInfo;
+use Illuminate\Support\Facades\Bus;
 
 class DataImporterService
 {
-    private array $importerJobs = [
-        BirdDataImporterJob::class,
-        BitMobilityDataImporterJob::class,
-        BoltDataImporterJob::class,
-        DottDataImporterJob::class,
-        HulajDataImporterJob::class,
-        LimeDataImporterJob::class,
-        SpinDataImporterJob::class,
-        QuickDataImporterJob::class,
-        VoiDataImporterJob::class,
-        NeuronDataImporterJob::class,
-        UrentDataImporterJob::class,
-        RydeDataImporterJob::class,
-        ZwingsDataImporterJob::class,
-    ];
+    private int $importInfoId;
 
     public function run(string $whoRunsIt = "admin"): void
     {
         $importInfo = ImportInfo::query()->create([
             "who_runs_it" => $whoRunsIt,
-            "status" => "started",
+            "status" => "running",
         ]);
 
-        foreach ($this->importerJobs as $importerJob) {
-            dispatch(new $importerJob($importInfo->id))->onQueue("importers");
-        }
+        $this->importInfoId = $importInfo->id;
+
+        Bus::batch([
+            new BirdDataImporterJob($this->importInfoId),
+            new BitMobilityDataImporterJob($this->importInfoId),
+            new BoltDataImporterJob($this->importInfoId),
+            new DottDataImporterJob($this->importInfoId),
+            new HulajDataImporterJob($this->importInfoId),
+            new LimeDataImporterJob($this->importInfoId),
+            new NeuronDataImporterJob($this->importInfoId),
+            new QuickDataImporterJob($this->importInfoId),
+            new RydeDataImporterJob($this->importInfoId),
+            new SpinDataImporterJob($this->importInfoId),
+            new UrentDataImporterJob($this->importInfoId),
+            new VoiDataImporterJob($this->importInfoId),
+            new ZwingsDataImporterJob($this->importInfoId),
+        ])->finally(function (): void {
+            ImportInfo::query()->where("id", $this->importInfoId)->update([
+                "status" => "finished",
+            ]);
+        })->onQueue("importers")->dispatch();
     }
 }

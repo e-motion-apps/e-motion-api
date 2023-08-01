@@ -22,6 +22,7 @@ class CityProviderController extends Controller
             City::with("cityAlternativeName", "cityProvider", "country")
                 ->has("cityProvider")
                 ->get()
+                ->sortBy("name")
                 ->sortByDesc(fn(City $city): int => $city->cityProvider->count()),
         );
 
