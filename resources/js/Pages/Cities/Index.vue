@@ -92,21 +92,21 @@ function clearInput() {
 
               <div class="flex flex-col p-6 pt-0">
                 <h1 class="mb-3 text-lg font-bold text-gray-800">
-                  Create city
+                  {{ $t('CRUD.Create_city') }}
                 </h1>
 
                 <form class="flex flex-col text-xs font-bold text-gray-600" @submit.prevent="storeCity">
-                  <label class="mb-1 mt-4">Name</label>
+                  <label class="mb-1 mt-4">{{ $t('Auth.Name') }}</label>
                   <input v-model="storeCityForm.name" class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 md:p-3" type="text" required>
                   <ErrorMessage :message="storeCityForm.errors.name" />
 
-                  <label class="mb-1 mt-4">Latitude</label>
+                  <label class="mb-1 mt-4">{{ $t('Technical.Latitude') }}</label>
                   <input v-model="storeCityForm.latitude" class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text"
                          required @keydown="preventCommaInput"
                   >
                   <ErrorMessage :message="storeCityForm.errors.latitude" />
 
-                  <label class="mb-1 mt-4">Longitude</label>
+                  <label class="mb-1 mt-4">{{ $t('Technical.Longitude') }}</label>
                   <input v-model="storeCityForm.longitude" class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text"
                          required @keydown="preventCommaInput"
                   >
@@ -114,7 +114,7 @@ function clearInput() {
                   <p v-if="commaInputError" class="text-xs text-rose-600">
                     {{ commaInputError }}
                   </p>
-                  <label class="mb-1 mt-4">Country</label>
+                  <label class="mb-1 mt-4">{{ $t('Technical.Country') }}</label>
                   <select v-model="storeCityForm.country_id" required class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3">
                     <option v-for="country in props.countries" :key="country.id" class="m-6 p-6 " :value="country.id">
                       {{ country.name }}
@@ -123,7 +123,7 @@ function clearInput() {
 
                   <div class="flex w-full justify-end">
                     <PrimarySaveButton>
-                      Save
+                      {{ $t('CRUD.Save') }}
                     </PrimarySaveButton>
                   </div>
                 </form>
@@ -134,7 +134,7 @@ function clearInput() {
 
           <div class="mb-3 mt-4 flex flex-wrap items-center justify-end md:justify-between">
             <button class="m-1 rounded bg-blumilk-500 px-5 py-3 text-sm font-medium text-white shadow-md md:py-2" @click="toggleStoreDialog">
-              Create city
+              {{ $t('CRUD.Create_city') }}
             </button>
 
             <div class="m-1 flex w-full rounded-md shadow-sm md:w-fit">
@@ -159,16 +159,16 @@ function clearInput() {
               <thead>
                 <tr>
                   <th scope="col" class="py-3.5 pl-5 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 lg:table-cell">
-                    Name
+                    {{ $t('Auth.Name') }}
                   </th>
                   <th scope="col" class="hidden py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
-                    Longitude
+                    {{ $t('Technical.Longitude') }}
                   </th>
                   <th scope="col" class="hidden py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
-                    Latitude
+                    {{ $t('Technical.Latitude') }}
                   </th>
                   <th scope="col" class="py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
-                    Providers
+                    {{ $t('Technical.Providers') }}
                   </th>
                 </tr>
               </thead>
@@ -182,7 +182,7 @@ function clearInput() {
 
           <div v-else>
             <p class="mt-6 text-lg font-medium text-gray-500">
-              Sorry, we couldn't find any cities.
+              {{ $t('Prompt.Sorry_we_couldnt_cities') }}
             </p>
           </div>
 

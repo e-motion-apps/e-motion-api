@@ -24,9 +24,41 @@
         "Looking_for_an_escooter" : "Looking for an e-scooter?",
         "Try_it_out" : "Try it out!",
         "Create_account" : "Create account",
+        "Login_to_add_to_favorite" : "Login to add to favorite",
+        "Sorry_we_couldnt_cities" : "Sorry, we couldn't find any cities",
+        "Sorry_we_couldnt_countries" : "Sorry, we couldn't find any countries",
     },
     "Info": {
         "advert_1" : "There are plenty of e-scooter providers, so sometimes you can be confused about which app you should use during your trips.",
-        "advert_2" : "his application can help you with planning your vacations or business trips."
+        "advert_2" : "This application can help you with planning your vacations or business trips."
+    },
+    "CRUD": {
+        "Edit" : "Edit",
+        "Delete" : "Delete",
+        "Add" : "Add",
+        "Create_city" : "Create city",
+        "Create_country" : "Create country",
+        "Update_city" : "Update city", 
+        "Save" : "Save",
+        "Add_alt_name" : "Add alternative name",
+        "Clear_filters" : "Clear filters",
+    },
+    "Technical": {
+        "Latitude" : "Latitude", 
+        "Longitude" : "Longitude",
+        "Providers" : "Providers",
+        "Country" : "Country",
+        "Countries" : "Countries",
+    },
+    "Word": {
+        "Showing" : "Showing",
+        "Of" : "of",
+        "To" : "to",
+        "Results" : "results",
+    },
+    "Sentence": {
+        "Alternative_name" : "Alternative name",
+        "Filling" : "Filling",
+        "Didnt_find_providers" : "We didn't find any providers",
     }
 }

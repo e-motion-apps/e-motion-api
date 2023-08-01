@@ -59,12 +59,6 @@ function logout() {
   clearFilters()
 }
 
-const navigation = [
-  { name: i18n.t('GUI.Prices'), href: '#' },
-  { name: i18n.t('GUI.Find_a_ride'), href: '#' },
-  { name: i18n.t('GUI.Rules'), href: '#' },
-]
-
 const isMobileMenuOpened = ref(false)
 
 function toggleMobileMenu() {
@@ -118,9 +112,15 @@ defineExpose({
         </button>
       </div>
       <div class="hidden items-center md:flex md:gap-x-12">
-        <InertiaLink v-for="item in navigation" :key="item.name" :href="item.href" class="text-sm font-medium leading-6 text-gray-800 lg:text-base" @click="clearFilters">
-          {{ item.name }}
-        </InertiaLink>
+        <div>
+          <a href="#">{{ $t('GUI.Prices')}}</a>
+        </div>
+        <div>
+          <a href="#">{{ $t('GUI.Find_a_ride')}}</a>
+        </div>
+        <div>
+          <a href="#">{{ $t('GUI.Rules')}}</a>
+        </div>
         <InertiaLink v-if="isAdmin" href="/admin/cities" @click="clearFilters">
           <ComputerDesktopIcon class="h-6 w-6" />
         </InertiaLink>

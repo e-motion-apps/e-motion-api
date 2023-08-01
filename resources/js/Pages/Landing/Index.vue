@@ -82,7 +82,7 @@ onMounted(async () => {
             />
           </svg>
           <p class="mt-4 text-xs font-medium text-gray-400">
-            Filling map with providers...
+            {{ $t('Sentence.Filling') }}
           </p>
         </div>
       </div>

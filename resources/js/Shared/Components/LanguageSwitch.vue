@@ -25,20 +25,17 @@ const setLocale = (locale) => {
   <div>
     <select
       v-model="$i18n.locale"
-      class="select w-fit text-sm sm:text-xs pl-2 pr-6 py-2 text-gray-50 bg-primary focus:bg-blue-900 hover:bg-blue-900 rounded-full overflow-hidden"
+      class="select rounded-full bg-blumilk-500 text-lg font-semibold text-white shadow-lg shadow-blumilk-50 hover:bg-blumilk-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 lg:text-xl h-fit"
       @change="setLocale($i18n.locale)"
     >
       <option
         v-for="locale in locales"
         :key="locale.lang"
-        class="border-slate-900"
+        class="border-bg-blumilk-500 text-white"
         :value="locale.lang"
       >
-        {{ locale.lang }}
+        {{ locale.name }}
       </option>
     </select>
   </div>
 </template>
-
-
-<!-- locale is ctx=>etc. instead of name of country -->

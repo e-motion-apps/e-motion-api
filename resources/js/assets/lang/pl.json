@@ -24,10 +24,41 @@
         "Looking_for_an_escooter" : "Szukasz hulajnogi elektrycznej?",
         "Try_it_out" : "Spróbuj teraz!",
         "Create_account" : "Stwórz konto",
+        "Login_to_add_to_favorite" : "Zaloguj się, aby dodać do ulubionych",
+        "Sorry_we_couldnt_cities" : "Przepraszamy, ale nie mogliśmy znaleźć żadnych miast",
+        "Sorry_we_couldnt_countries" : "Przepraszamy, ale nie mogliśmy znaleźć żadnych krajów",
     },
     "Info": {
         "advert_1" : "Jest wielu dostawców hulajnóg elektrycznych, więc czasami możesz być zdezorientowany, których aplikacji powinieneś używać podczas swoich podróży.",
         "advert_2" : "Ta aplikacja pomoże Ci z planowaniem twoich wakacji, lub podróży biznesowych",
+    },
+    "CRUD": {
+        "Edit" : "Edytuj",
+        "Delete" : "Usuń",
+        "Add" : "Dodaj",
+        "Create_city" : "Stwórz miasto",
+        "Create_country" : "Stwórz kraj",
+        "Update_city" : "Aktualizuj miasto",
+        "Save" : "Zapisz",
+        "Add_alt_name" : "Dodaj alternatywną nazwę",
+        "Clear_filters" : "Wyczyść filtry",
+    },
+    "Technical": {
+        "Latitude" : "Szerokość geograficzna",
+        "Longitude" : "Długość geograficzna",
+        "Providers" : "Dostawcy",
+        "Country" : "Kraj",
+        "Countries" : "Kraje",
+    },
+    "Word": {
+        "Showing" : "Pokazuje",
+        "Of" : "z",
+        "To" : "do",
+        "Results" : "wyników",
+    },
+    "Sentence": {
+        "Alternative_name" : "Alternatywna nazwa",
+        "Filling" : "Filling map with providers",
+        "Didnt_find_providers" : "Nie znaleziono dostawców",
     }
-
 }

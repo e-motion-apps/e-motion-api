@@ -85,20 +85,20 @@ function clearInput() {
 
               <div class="flex flex-col p-6 pt-0">
                 <h1 class="mb-3 text-lg font-bold text-gray-800">
-                  Create country
+                  {{ $t('CRUD.Create_country') }}
                 </h1>
 
                 <form class="flex flex-col text-xs font-bold text-gray-600" @submit.prevent="storeCountry">
-                  <label class="mb-1 mt-4">Name</label>
+                  <label class="mb-1 mt-4">{{ $t('Auth.Name') }}</label>
                   <input v-model="storeCountryForm.name" class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 md:p-3" type="text" required>
                   <ErrorMessage :message="storeCountryForm.errors.name" />
-                  <label class="mb-1 mt-4">Alternative name</label>
+                  <label class="mb-1 mt-4">{{ $t('Sentence.Alternative_name') }}</label>
                   <input v-model="storeCountryForm.alternative_name" class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 md:p-3" type="text">
                   <ErrorMessage :message="storeCountryForm.errors.alternative_name" />
-                  <label class="mb-1 mt-4">Latitude</label>
+                  <label class="mb-1 mt-4">{{ $t('Technical.Latitude') }}</label>
                   <input v-model="storeCountryForm.latitude" class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 md:p-3" type="text" required @keydown="preventCommaInput">
                   <ErrorMessage :message="storeCountryForm.errors.latitude" />
-                  <label class="mb-1 mt-4">Longitude</label>
+                  <label class="mb-1 mt-4">{{ $t('Technical.Longitude') }}</label>
                   <input v-model="storeCountryForm.longitude" class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 md:p-3" type="text" required @keydown="preventCommaInput">
                   <ErrorMessage :message="storeCountryForm.errors.longitude" />
                   <label class="mb-1 mt-4">ISO</label>
@@ -108,7 +108,7 @@ function clearInput() {
 
                   <div class="flex w-full justify-end">
                     <PrimarySaveButton>
-                      Save
+                      {{ $t('CRUD.Save') }}
                     </PrimarySaveButton>
                   </div>
                 </form>
@@ -118,7 +118,7 @@ function clearInput() {
 
           <div class="mb-3 mt-4 flex flex-wrap items-center justify-end md:justify-between">
             <button class="m-1 rounded bg-blumilk-500 px-5 py-3 text-sm font-medium text-white shadow-md md:py-2" @click="toggleStoreDialog">
-              Create country
+              {{ $t('CRUD.Create_country') }}
             </button>
 
             <div class="m-1 flex w-full rounded-md shadow-sm md:w-fit">
@@ -143,16 +143,16 @@ function clearInput() {
               <thead>
                 <tr>
                   <th scope="col" class="py-3.5 pl-5 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 lg:table-cell">
-                    Name
+                    {{ $t('Auth.Name') }}
                   </th>
                   <th scope="col" class="table-cell py-3.5 text-left text-sm font-semibold text-gray-900">
-                    Alternative name
+                    {{ $t('Sentence.Alternative_name') }}
                   </th>
                   <th scope="col" class="hidden py-3.5 text-left text-sm font-semibold text-gray-900 xl:table-cell">
-                    Latitude
+                    {{ $t('Technical.Latitude') }}
                   </th>
                   <th scope="col" class="hidden py-3.5 text-left text-sm font-semibold text-gray-900 xl:table-cell">
-                    Longitude
+                    {{ $t('Technical.Longitude') }}
                   </th>
                   <th scope="col" class="hidden py-3.5 text-left text-sm font-semibold text-gray-900 xl:table-cell">
                     ISO
@@ -168,7 +168,7 @@ function clearInput() {
           </div>
           <div v-else>
             <p class="mt-6 text-lg font-medium text-gray-500">
-              Sorry, we couldn't find any countries.
+              {{ $t('Prompt.Sorry_we_couldnt_countries') }}
             </p>
           </div>
           <Pagination :meta="props.countries.meta" :links="props.countries.links" />
