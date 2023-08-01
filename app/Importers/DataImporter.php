@@ -12,13 +12,11 @@ use GuzzleHttp\Client;
 abstract class DataImporter
 {
     protected bool $stopExecution = false;
-    protected Client $client;
     protected int $importInfoId;
 
-    public function __construct()
-    {
-        $this->client = new Client();
-    }
+    public function __construct(
+        protected Client $client,
+    ) {}
 
     public function setImportInfo(int $importInfoId): static
     {
@@ -30,6 +28,11 @@ abstract class DataImporter
     abstract public function extract(): static;
 
     abstract public function transform(): void;
+
+    public function hasStoppedExecution(): bool
+    {
+        return $this->stopExecution;
+    }
 
     protected function countryNotFound(string $cityName, string $countryName): void
     {

@@ -14,7 +14,7 @@ class BirdDataImporter extends DataImporter
 {
     private const PROVIDER_ID = 1;
 
-    protected string $fetchedData;
+    protected string $html;
 
     public function extract(): static
     {
@@ -27,23 +27,23 @@ class BirdDataImporter extends DataImporter
 
             return $this;
         }
-        $pattern = '/let features = \[([\s\S]*?)\];/';
-
-        if (preg_match($pattern, $html, $matches)) {
-            $this->fetchedData = $matches[1];
-        }
-
-        if (!isset($this->fetchedData)) {
-            $this->createImportInfoDetails("204", self::PROVIDER_ID);
-
-            $this->stopExecution = true;
-        }
 
         return $this;
     }
 
     public function transform(): void
     {
+        $pattern = '/let features = \[([\s\S]*?)\];/';
+
+        if (preg_match($pattern, $this->html, $matches)) {
+            $fetchedData = $matches[1];
+        }
+
+        if (!isset($fetchedData)) {
+            $this->createImportInfoDetails("204", self::PROVIDER_ID);
+            $this->stopExecution = true;
+        }
+
         if ($this->stopExecution) {
             return;
         }
