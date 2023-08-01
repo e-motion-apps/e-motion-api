@@ -79,7 +79,7 @@ const selectedCityProviders = reactive([])
 
 onMounted(() => {
   props.city.cityProviders.forEach(provider => {
-    selectedCityProviders.push(provider.provider_id)
+    selectedCityProviders.push(provider.provider_name)
   })
 })
 
@@ -94,7 +94,7 @@ function toggleProviderSelection(provider) {
 
 function updateCityProviders(cityId) {
   router.patch(`/update-city-providers/${cityId}`, {
-    providerIds: selectedCityProviders,
+    providerNames: selectedCityProviders,
   }, {
     onSuccess: () => {
       toggleEditDialog()
@@ -103,7 +103,7 @@ function updateCityProviders(cityId) {
 }
 
 const filteredSelectedCityProviders = computed(() => {
-  return props.providers.filter(provider => selectedCityProviders.includes(provider.id))
+  return props.providers.filter(provider => selectedCityProviders.includes(provider.name))
 })
 
 function goToGoogleMaps(latitude, longitude) {
@@ -177,12 +177,12 @@ function toggleProvidersForm() {
       <div class="items-top flex h-1/2 flex-wrap items-center">
         <div
           v-for="provider in filteredSelectedCityProviders.slice(0, 4)"
-          :key="provider.id"
-          :style="{'background-color': selectedCityProviders.includes(provider.id) ? provider.color : ''}"
-          :class="selectedCityProviders.includes(provider.id) ? 'border-zinc-600 drop-shadow-lg' : 'hidden'"
+          :key="provider.name"
+          :style="{'background-color': selectedCityProviders.includes(provider.name) ? provider.color : ''}"
+          :class="selectedCityProviders.includes(provider.name) ? 'border-zinc-600 drop-shadow-lg' : 'hidden'"
           class="m-1 flex h-5 w-fit items-center justify-center rounded border border-zinc-300 bg-zinc-300 p-1 "
         >
-          <img class="w-5" :src="'/providers/' + provider.name + '.png'" alt="">
+          <img class="w-5" :src="'/providers/' + provider.name.toLowerCase() + '.png'" alt="">
         </div>
 
         <div
@@ -309,11 +309,11 @@ function toggleProvidersForm() {
           <div class="flex flex-wrap">
             <div
               v-for="provider in props.providers"
-              :key="provider.id"
-              :style="{'background-color': selectedCityProviders.includes(provider.id) ? provider.color : ''}"
-              :class="selectedCityProviders.includes(provider.id) ? 'border-zinc-600 drop-shadow-lg' : ''"
+              :key="provider.name"
+              :style="{'background-color': selectedCityProviders.includes(provider.name) ? provider.color : ''}"
+              :class="selectedCityProviders.includes(provider.name) ? 'border-zinc-600 drop-shadow-lg' : ''"
               class="mx-1 my-2 flex h-10 w-fit cursor-pointer items-center justify-center rounded-lg border border-zinc-300 bg-zinc-300 p-1 "
-              @click="toggleProviderSelection(provider.id)"
+              @click="toggleProviderSelection(provider.name)"
             >
               <input
                 v-model="selectedCityProviders"
@@ -321,7 +321,7 @@ function toggleProvidersForm() {
                 type="checkbox"
               >
               <label class="cursor-pointer">
-                <img class="w-10" :src="'/providers/' + provider.name + '.png'" alt="">
+                <img class="w-10" :src="'/providers/' + provider.name.toLowerCase() + '.png'" alt="">
               </label>
             </div>
           </div>

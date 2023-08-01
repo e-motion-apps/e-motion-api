@@ -13,8 +13,6 @@ use Throwable;
 
 class LimeDataImporter extends DataImporter
 {
-    private const PROVIDER_ID = 7;
-
     protected Crawler $sections;
 
     public function extract(): static
@@ -22,7 +20,7 @@ class LimeDataImporter extends DataImporter
         try {
             $html = file_get_contents("https://www.li.me/locations");
         } catch (Throwable) {
-            $this->createImportInfoDetails("400", self::PROVIDER_ID);
+            $this->createImportInfoDetails("400", self::getProviderName());
 
             $this->stopExecution = true;
 
@@ -33,7 +31,7 @@ class LimeDataImporter extends DataImporter
         $this->sections = $crawler->filter(".pb-4 > .box-content .inline-block");
 
         if (count($this->sections) === 0) {
-            $this->createImportInfoDetails("204", self::PROVIDER_ID);
+            $this->createImportInfoDetails("204", self::getProviderName());
 
             $this->stopExecution = true;
         }
@@ -60,7 +58,7 @@ class LimeDataImporter extends DataImporter
             if ($city || $alternativeCityName) {
                 $cityId = $city ? $city->id : $alternativeCityName->city_id;
 
-                $this->createProvider($cityId, self::PROVIDER_ID);
+                $this->createProvider($cityId, self::getProviderName());
                 $existingCityProviders[] = $cityId;
             }
             else {
@@ -81,7 +79,7 @@ class LimeDataImporter extends DataImporter
                     $countCoordinates = count($coordinates);
 
                     if (!$countCoordinates) {
-                        $this->createImportInfoDetails("419", self::PROVIDER_ID);
+                        $this->createImportInfoDetails("419", self::getProviderName());
                     }
 
                     $city = City::query()->create([
@@ -91,14 +89,14 @@ class LimeDataImporter extends DataImporter
                         "country_id" => $country->id,
                     ]);
 
-                    $this->createProvider($city->id, self::PROVIDER_ID);
+                    $this->createProvider($city->id, self::getProviderName());
                     $existingCityProviders[] = $city->id;
                 } else {
                     $this->countryNotFound($cityName, $countryName);
-                    $this->createImportInfoDetails("420", self::PROVIDER_ID);
+                    $this->createImportInfoDetails("420", self::getProviderName());
                 }
             }
         }
-        $this->deleteMissingProviders(self::PROVIDER_ID, $existingCityProviders);
+        $this->deleteMissingProviders(self::getProviderName(), $existingCityProviders);
     }
 }

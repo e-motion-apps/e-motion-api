@@ -4,6 +4,19 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Importers\BirdDataImporter;
+use App\Importers\BitMobilityDataImporter;
+use App\Importers\BoltDataImporter;
+use App\Importers\DottDataImporter;
+use App\Importers\HulajDataImporter;
+use App\Importers\LimeDataImporter;
+use App\Importers\NeuronDataImporter;
+use App\Importers\QuickDataImporter;
+use App\Importers\RydeDataImporter;
+use App\Importers\SpinDataImporter;
+use App\Importers\UrentDataImporter;
+use App\Importers\VoiDataImporter;
+use App\Importers\ZwingsDataImporter;
 use App\Models\Provider;
 use Illuminate\Database\Seeder;
 
@@ -12,23 +25,19 @@ class ProviderSeeder extends Seeder
     public function run(): void
     {
         $providers = [
-            ["name" => "bird", "color" => "#26ccf0"],
-            ["name" => "bitmobility", "color" => "#8da6e3"],
-            ["name" => "bolt", "color" => "#24f0a0"],
-            ["name" => "dott", "color" => "#f5c604"],
-            ["name" => "helbiz", "color" => "#ffffff"],
-            ["name" => "hulaj", "color" => "#d6213f"],
-            ["name" => "lime", "color" => "#00de00"],
-            ["name" => "link", "color" => "#def700"],
-            ["name" => "neuron", "color" => "#445261"],
-            ["name" => "quick", "color" => "#009ac7"],
-            ["name" => "spin", "color" => "#ff5436"],
-            ["name" => "tier", "color" => "#0e1a50"],
-            ["name" => "voi", "color" => "#f46c63"],
-            ["name" => "whoosh", "color" => "#ffca47"],
-            ["name" => "urent", "color" => "#9400FF"],
-            ["name" => "zwings", "color" => "#abb8c3"],
-            ["name" => "ryde", "color" => "#4dcb1f"],
+            ["name" => BirdDataImporter::getProviderName(), "color" => "#26ccf0"],
+            ["name" => BitMobilityDataImporter::getProviderName(), "color" => "#8da6e3"],
+            ["name" => BoltDataImporter::getProviderName(), "color" => "#24f0a0"],
+            ["name" => DottDataImporter::getProviderName(), "color" => "#f5c604"],
+            ["name" => HulajDataImporter::getProviderName(), "color" => "#d6213f"],
+            ["name" => LimeDataImporter::getProviderName(), "color" => "#00de00"],
+            ["name" => NeuronDataImporter::getProviderName(), "color" => "#445261"],
+            ["name" => QuickDataImporter::getProviderName(), "color" => "#009ac7"],
+            ["name" => SpinDataImporter::getProviderName(), "color" => "#ff5436"],
+            ["name" => VoiDataImporter::getProviderName(), "color" => "#f46c63"],
+            ["name" => UrentDataImporter::getProviderName(), "color" => "#9400FF"],
+            ["name" => ZwingsDataImporter::getProviderName(), "color" => "#abb8c3"],
+            ["name" => RydeDataImporter::getProviderName(), "color" => "#4dcb1f"],
         ];
 
         foreach ($providers as $provider) {
