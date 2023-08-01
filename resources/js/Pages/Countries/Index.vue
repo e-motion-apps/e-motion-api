@@ -1,9 +1,9 @@
 <script setup>
-import Country from './Components/Country.vue'
+import Country from '../../Shared/Components/Country.vue'
 import { router, useForm, usePage } from '@inertiajs/vue3'
 import { ref, watch } from 'vue'
 import AdminNavigation from '@/Shared/Layout/AdminNavigation.vue'
-import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/vue/24/outline'
+import { MagnifyingGlassIcon, XMarkIcon, ChevronDownIcon } from '@heroicons/vue/24/outline'
 import ErrorMessage from '@/Shared/Components/ErrorMessage.vue'
 import { onClickOutside } from '@vueuse/core'
 import { debounce } from 'lodash/function'
@@ -17,6 +17,7 @@ function storeCountry() {
   storeCountryForm.post('/admin/countries/', {
     onSuccess: () => {
       storeCountryForm.reset()
+      toggleStoreDialog()
       commaInputError.value = ''
     },
   })
@@ -66,6 +67,21 @@ watch(searchInput, debounce(() => {
 function clearInput() {
   searchInput.value = ''
 }
+
+const sortingOptions = [
+  { name: 'Latest', href: '/admin/countries?order=latest' },
+  { name: 'Oldest', href: '/admin/countries?order=oldest' },
+  { name: 'By name', href: '/admin/countries?order=name' },
+]
+
+const isSortDialogOpened = ref(false)
+const sortDialog = ref(null)
+onClickOutside(sortDialog, () => (isSortDialogOpened.value = false))
+
+function toggleSortDialog() {
+  isSortDialogOpened.value = !isSortDialogOpened.value
+}
+
 </script>
 
 <template>
@@ -117,7 +133,7 @@ function clearInput() {
           </div>
 
           <div class="mb-3 mt-4 flex flex-wrap items-center justify-end md:justify-between">
-            <button class="m-1 rounded bg-blumilk-500 px-5 py-3 text-sm font-medium text-white shadow-md md:py-2" @click="toggleStoreDialog">
+            <button class="mr-1 rounded bg-blumilk-500 px-5 py-3 text-sm font-medium text-white shadow-md hover:bg-blumilk-400 md:py-2" @click="toggleStoreDialog">
               Create country
             </button>
 
@@ -134,8 +150,31 @@ function clearInput() {
             </div>
           </div>
 
-          <div v-if="props.countries.data.length">
-            <PaginationInfo :meta="props.countries.meta" />
+          <div class="flex w-full items-center justify-between">
+            <div v-if="props.countries.data.length">
+              <PaginationInfo :meta="props.countries.meta" />
+            </div>
+
+            <div class="relative inline-block text-left">
+              <div>
+                <button ref="sortDialog" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900" aria-expanded="false" aria-haspopup="true" @click="toggleSortDialog">
+                  Sort
+                  <ChevronDownIcon class="ml-1 h-5 w-5" />
+                </button>
+              </div>
+
+              <div v-if="isSortDialogOpened" class="absolute right-1 z-10 mt-3.5 w-max rounded-md bg-white shadow-lg shadow-gray-300 ring-1 ring-gray-300 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                <div class="py-1" role="none">
+                  <InertiaLink v-for="option in sortingOptions" :key="option.href"
+                               :href="option.href" class="block px-4 py-2 text-sm text-gray-500 hover:text-blumilk-400" role="menuitem" tabindex="-1"
+                  >
+                    <span :class="{'font-medium text-blumilk-400': page.url.startsWith(option.href) || ((page.url === '/admin/countries' || page.url.startsWith('/admin/countries?search=') || page.url.startsWith('/admin/countries?page=')) && option.href.startsWith('/admin/countries?order=oldest'))}">
+                      {{ option.name }}
+                    </span>
+                  </InertiaLink>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div v-if="props.countries.data.length" class="rounded-lg ring-gray-300 sm:ring-1">
