@@ -49,6 +49,11 @@
         "Providers" : "Providers",
         "Country" : "Country",
         "Countries" : "Countries",
+        "City" : "City",
+        "Cities" : "Cities",
+        "Statistics" : "Statistics",
+        "Run_importers" : "Run importers",
+        "Dashboard" : "Dashboard",
     },
     "Word": {
         "Showing" : "Showing",
@@ -58,7 +63,7 @@
     },
     "Sentence": {
         "Alternative_name" : "Alternative name",
-        "Filling" : "Filling",
+        "Filling" : "Filling map with providers",
         "Didnt_find_providers" : "We didn't find any providers",
     }
 }

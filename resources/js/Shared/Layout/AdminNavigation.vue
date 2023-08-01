@@ -3,13 +3,15 @@ import { Dialog, DialogPanel } from '@headlessui/vue'
 import { ChartBarIcon, ClipboardIcon, FlagIcon, MapPinIcon, PlayCircleIcon } from '@heroicons/vue/24/solid'
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
+const i18n = useI18n()
 const navigation = [
-  { name: 'Dashboard', href: '/admin/dashboard', icon: ClipboardIcon },
-  { name: 'Countries', href: '/admin/countries', icon: FlagIcon },
-  { name: 'Cities', href: '/admin/cities', icon: MapPinIcon },
-  { name: 'Statistics', href: '/admin/statistics', icon: ChartBarIcon },
-  { name: 'Run importers', href: '/run-importers', icon: PlayCircleIcon },
+  { name: i18n.t('Technical.Dashboard'), href: '/admin/dashboard', icon: ClipboardIcon },
+  { name: i18n.t('Technical.Countries'), href: '/admin/countries', icon: FlagIcon },
+  { name: i18n.t('Technical.Cities'), href: '/admin/cities', icon: MapPinIcon },
+  { name: i18n.t('Technical.Statistics'), href: '/admin/statistics', icon: ChartBarIcon },
+  { name: i18n.t('Technical.Run_importers'), href: '/run-importers', icon: PlayCircleIcon },
 ]
 
 const isMobileMenuOpened = ref(false)
@@ -58,12 +60,13 @@ function toggleMobileMenu() {
           <div class="mt-6 flow-root">
             <div class="-my-6 divide-y divide-gray-500/10">
               <div class="space-y-2 py-6">
+                
                 <InertiaLink v-for="item in navigation" :key="item.name"
                              :class="{'bg-blumilk-50': $page.url.startsWith(item.href)}" :href="item.href"
                              class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-800 hover:bg-blumilk-25"
                 >
                   {{ item.name }}
-                </InertiaLink>
+              </InertiaLink>
               </div>
             </div>
           </div>
@@ -83,4 +86,3 @@ function toggleMobileMenu() {
     </div>
   </div>
 </template>
-

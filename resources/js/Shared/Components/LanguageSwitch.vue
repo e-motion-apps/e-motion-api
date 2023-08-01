@@ -23,15 +23,13 @@ const setLocale = (locale) => {
 
 <template>
   <div>
-    <select
+    <select class="float-left w-full sm:w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
       v-model="$i18n.locale"
-      class="select rounded-full bg-blumilk-500 text-lg font-semibold text-white shadow-lg shadow-blumilk-50 hover:bg-blumilk-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 lg:text-xl h-fit"
       @change="setLocale($i18n.locale)"
     >
       <option
         v-for="locale in locales"
         :key="locale.lang"
-        class="border-bg-blumilk-500 text-white"
         :value="locale.lang"
       >
         {{ locale.name }}

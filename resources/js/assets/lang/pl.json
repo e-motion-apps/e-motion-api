@@ -49,6 +49,11 @@
         "Providers" : "Dostawcy",
         "Country" : "Kraj",
         "Countries" : "Kraje",
+        "City" : "Miasto",
+        "Cities" : "Miasta",
+        "Statistics" : "Statystyki",
+        "Run_importers" : "Uruchom importery",
+        "Dashboard" : "Panel",
     },
     "Word": {
         "Showing" : "Pokazuje",
@@ -58,7 +63,7 @@
     },
     "Sentence": {
         "Alternative_name" : "Alternatywna nazwa",
-        "Filling" : "Filling map with providers",
+        "Filling" : "Wypełnianie mapy dostawcami",
         "Didnt_find_providers" : "Nie znaleziono dostawców",
     }
 }
