@@ -1,6 +1,3 @@
-<script setup>
-</script>
-
 <template>
   <div class="mx-auto mt-16 flex w-11/12 animate-pulse flex-col lg:w-5/6">
     <p class="mb-3 mr-2 h-2 w-16 rounded bg-gray-400 font-bold" />
