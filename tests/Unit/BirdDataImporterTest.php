@@ -8,17 +8,15 @@ use App\Importers\BirdDataImporter;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Response;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 
 class BirdDataImporterTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function testExtractWithSuccessfulResponse(): void
     {
         $mockHttpClient = $this->createMock(Client::class);
+
         $mockResponse = new Response(200, [], "Mocked HTML Content");
 
         $mockHttpClient->method("get")->willReturn($mockResponse);
@@ -28,7 +26,6 @@ class BirdDataImporterTest extends TestCase
         $result = $dataImporter->extract();
 
         $this->assertInstanceOf(BirdDataImporter::class, $result);
-
         $this->assertFalse($result->hasStoppedExecution());
     }
 
