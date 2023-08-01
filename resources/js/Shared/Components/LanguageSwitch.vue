@@ -1,8 +1,19 @@
 <script setup>
-import locales from "@/assets/lang/index.js"
+
 import { inject } from "vue"
 
 const formkitConfig = inject(Symbol.for("FormKitConfig"))
+
+const locales = [
+  {
+    name: "Polski",
+    lang: "pl",
+  },
+  {
+    name: "English",
+    lang: "en",
+  },
+]
 
 const setLocale = (locale) => {
   localStorage.setItem("locale", locale)
@@ -23,7 +34,7 @@ const setLocale = (locale) => {
         class="border-slate-900"
         :value="locale.lang"
       >
-        {{ locale.name }}
+        {{ locale.lang }}
       </option>
     </select>
   </div>

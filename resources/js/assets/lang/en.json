@@ -1,19 +1,32 @@
 {
-    "NavigationBar":{
-        "Map": "Map",
-        "AddCompany": "Add company",
-        "SignIn": "Sign in"
+    "GUI": {
+        "Prices" : "Prices",
+        "Find_a_ride" : "Find a ride",
+        "Rules" : "Rules",
+        "Loading" : "Loading",
+        "Admin_panel" : "Admin panel",
+        "Close_menu" : "Close menu",
+        "Open_menu" : "Open menu",
     },
-    "CompanyBrowser":{
-        "CompaniesList": "Companies list",
-        "FoundCompanies": "Found companies",
-        "Search": "Search",
-        "Filter": "Filters"
+    "Auth": {
+        "Register" : "Register",
+        "Name" : "Name",
+        "Email" : "Email",
+        "Password" : "Password",
+        "Log_in" : "Log in",
+        "Log_out" : "Log out",
+        "Sign_up" : "Sign up",
+        "Confirm_password" : "Confirm password",
     },
-    "Comboboxes":{
-        "ComboboxCity": "Choose city",
-        "ComboboxField": "Choose field of study",
-        "ComboboxDepartment": "Choose department",
-        "ComboboxSpecialization": "Choose specialization"
+    "Prompt": {
+        "No_account" : "Don't have an account?",
+        "Already_have_an_account" : "Already have an account?",
+        "Looking_for_an_escooter" : "Looking for an e-scooter?",
+        "Try_it_out" : "Try it out!",
+        "Create_account" : "Create account",
+    },
+    "Info": {
+        "advert_1" : "There are plenty of e-scooter providers, so sometimes you can be confused about which app you should use during your trips.",
+        "advert_2" : "his application can help you with planning your vacations or business trips."
     }
 }

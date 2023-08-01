@@ -1,19 +1,33 @@
 {
-    "NavigationBar":{
-        "Map": "Mapa",
-        "AddCompany": "Dodaj firmę",
-        "SignIn": "Zaloguj"
+    "GUI": {
+        "Prices" : "Ceny",
+        "Find_a_ride" : "Znajdź przejazd",
+        "Rules" : "Zasady",
+        "Loading" : "Ładowanie",
+        "Admin_panel" : "Panel administratora",
+        "Close_menu" : "Zamknij menu",
+        "Open_menu" : "Otwórz menu",
     },
-    "CompanyBrowser":{
-        "CompaniesList": "Lista firm",
-        "FoundCompanies": "Znaleziono",
-        "Search": "Wyszukaj",
-        "Filter": "Filtry"
+    "Auth": {
+        "Register" : "Zarejestruj",
+        "Name" : "Nazwa",
+        "Email" : "E-mail",
+        "Password" : "Hasło",
+        "Log_in" : "Zaloguj",
+        "Log_out" : "Wyloguj",
+        "Sign_up" : "Zarejestruj się",
+        "Confirm_password" : "Potwierdź hasło",
     },
-    "Comboboxes":{
-        "ComboboxCity": "Wybierz miasto",
-        "ComboboxField": "Wybierz kierunek",
-        "ComboboxDepartment": "Wybierz wydział",
-        "ComboboxSpecialization": "Wybierz specjalizację"
+    "Prompt": {
+        "No_account" : "Nie masz konta?",
+        "Already_have_account" : "Masz już konto?",
+        "Looking_for_an_escooter" : "Szukasz hulajnogi elektrycznej?",
+        "Try_it_out" : "Spróbuj teraz!",
+        "Create_account" : "Stwórz konto",
+    },
+    "Info": {
+        "advert_1" : "Jest wielu dostawców hulajnóg elektrycznych, więc czasami możesz być zdezorientowany, których aplikacji powinieneś używać podczas swoich podróży.",
+        "advert_2" : "Ta aplikacja pomoże Ci z planowaniem twoich wakacji, lub podróży biznesowych",
     }
+
 }
