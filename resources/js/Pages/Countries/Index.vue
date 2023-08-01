@@ -1,5 +1,5 @@
 <script setup>
-import Country from './Components/Country.vue'
+import Country from '../../Shared/Components/Country.vue'
 import { router, useForm, usePage } from '@inertiajs/vue3'
 import { ref, watch } from 'vue'
 import AdminNavigation from '@/Shared/Layout/AdminNavigation.vue'

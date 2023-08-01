@@ -1,5 +1,5 @@
 <script setup>
-import City from './Components/City.vue'
+import City from '../../Shared/Components/City.vue'
 import { useForm, usePage, router } from '@inertiajs/vue3'
 import { ref, watch } from 'vue'
 import AdminNavigation from '@/Shared/Layout/AdminNavigation.vue'
