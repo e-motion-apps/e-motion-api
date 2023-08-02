@@ -97,19 +97,19 @@ defineExpose({
         <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
                 @click="toggleMobileMenu"
         >
-          <span class="sr-only">{{ $t('GUI.openMenu') }}</span>
+          <span class="sr-only">{{ __('GUI.openMenu') }}</span>
           <Bars3Icon class="h-6 w-6" aria-hidden="true" />
         </button>
       </div>
       <div class="hidden items-center md:flex md:gap-x-12">
         <div>
-          <a href="#">{{ $t('GUI.Prices') }}</a>
+          <a href="#">{{ __('GUI.Prices') }}</a>
         </div>
         <div>
-          <a href="#">{{ $t('GUI.findRide') }}</a>
+          <a href="#">{{ __('GUI.findRide') }}</a>
         </div>
         <div>
-          <a href="#">{{ $t('GUI.Rules') }}</a>
+          <a href="#">{{ __('GUI.Rules') }}</a>
         </div>
         <LanguageSwitch />
         <InertiaLink v-if="isAdmin" href="/admin/cities" @click="clearFilters">
@@ -131,13 +131,13 @@ defineExpose({
         <div v-if="isLoginFormSelected" class="rounded-lg px-6 pb-8">
           <form class="space-y-5" @submit.prevent="login">
             <div>
-              <label class="mb-1 block text-sm font-semibold text-gray-800">{{ $t('Auth.Email') }}</label>
+              <label class="mb-1 block text-sm font-semibold text-gray-800">{{ __('Auth.Email') }}</label>
               <input v-model="loginForm.email" type="email" class="w-full rounded-lg border-blumilk-200 py-3 md:p-2"
                      required
               >
             </div>
             <div>
-              <label class="mb-1 block text-sm font-semibold text-gray-800">{{ $t('Auth.Password') }}</label>
+              <label class="mb-1 block text-sm font-semibold text-gray-800">{{ __('Auth.Password') }}</label>
               <input v-model="loginForm.password" type="password" class="w-full rounded-lg border-blumilk-200 py-3 md:p-2"
                      required
               >
@@ -147,19 +147,19 @@ defineExpose({
               <button type="submit"
                       class="w-full rounded-lg bg-blumilk-500 p-4 font-semibold text-white hover:bg-blumilk-600 md:py-2"
               >
-                {{ $t('Auth.logIn') }}
+                {{ __('Auth.logIn') }}
               </button>
             </div>
           </form>
           <button :disabled="loginForm.processing" class="mt-6 text-xs font-light" @click="toggleAuthOption">
-            {{ $t('Prompt.noAccount') }} <span class="font-normal">{{ $t('Auth.signUp') }}</span>
+            {{ __('Prompt.noAccount') }} <span class="font-normal">{{ __('Auth.signUp') }}</span>
           </button>
         </div>
 
         <div v-else class="rounded-lg px-6 pb-8">
           <form class="space-y-5" @submit.prevent="register">
             <div>
-              <label class="mb-1 block text-sm font-semibold text-gray-800">{{ $t('Auth.Name') }}</label>
+              <label class="mb-1 block text-sm font-semibold text-gray-800">{{ __('Auth.Name') }}</label>
               <input v-model="registerForm.name" type="text" class="w-full rounded-lg border-blumilk-200 py-3 md:p-2"
                      required
               >
@@ -167,20 +167,20 @@ defineExpose({
             </div>
 
             <div>
-              <label class="mb-1 block text-sm font-semibold text-gray-800">{{ $t('Auth.Email') }}</label>
+              <label class="mb-1 block text-sm font-semibold text-gray-800">{{ __('Auth.Email') }}</label>
               <input v-model="registerForm.email" type="email" class="w-full rounded-lg border-blumilk-200 py-3 md:p-2"
                      required
               >
               <ErrorMessage :message="registerForm.errors.email" />
             </div>
             <div>
-              <label class="mb-1 block text-sm font-semibold text-gray-800">{{ $t('Auth.Password') }}</label>
+              <label class="mb-1 block text-sm font-semibold text-gray-800">{{ __('Auth.Password') }}</label>
               <input v-model="registerForm.password" type="password"
                      class="w-full rounded-lg border-blumilk-200 py-3 md:p-2" required
               >
             </div>
             <div>
-              <label class="mb-1 block text-sm font-semibold text-gray-800">{{ $t('Auth.confirmPassword') }}</label>
+              <label class="mb-1 block text-sm font-semibold text-gray-800">{{ __('Auth.confirmPassword') }}</label>
               <input v-model="registerForm.password_confirmation" type="password"
                      class="w-full rounded-lg border-blumilk-200 py-3 md:p-2" required
               >
@@ -190,12 +190,12 @@ defineExpose({
               <button type="submit"
                       class="w-full rounded-lg bg-blumilk-500 p-4 font-semibold text-white hover:bg-blumilk-600 md:py-2"
               >
-                {{ $t('Auth.signUp') }}
+                {{ __('Auth.signUp') }}
               </button>
             </div>
           </form>
           <button :disabled="registerForm.processing" class="mt-6 text-xs font-light" @click="toggleAuthOption">
-            {{ $t('Prompt.Already_have_account') }} <span class="font-normal">{{ $t('Auth.logIn') }}</span>
+            {{ __('Prompt.Already_have_account') }} <span class="font-normal">{{ __('Auth.logIn') }}</span>
           </button>
         </div>
       </div>
@@ -213,7 +213,7 @@ defineExpose({
             <img class="h-10 sm:hidden" src="@/assets/scooter.png" alt="escooter logo">
           </InertiaLink>
           <button type="button" class="-m-2.5 rounded-md px-2.5 text-gray-700 sm:pt-4" @click="toggleMobileMenu">
-            <span class="sr-only">{{ $t('GUI.closeMenu') }}</span>
+            <span class="sr-only">{{ __('GUI.closeMenu') }}</span>
             <XMarkIcon class="h-6 w-6" aria-hidden="true" />
           </button>
         </div>
@@ -221,20 +221,20 @@ defineExpose({
           <div class="-my-6 divide-y divide-gray-500/10">
             <div class="space-y-4 py-6">
               <div>
-                <a href="#">{{ $t('GUI.Prices') }}</a>
+                <a href="#">{{ __('GUI.Prices') }}</a>
               </div>
               <div>
-                <a href="#">{{ $t('GUI.findRide') }}</a>
+                <a href="#">{{ __('GUI.findRide') }}</a>
               </div>
               <div>
-                <a href="#">{{ $t('GUI.Rules') }}</a>
+                <a href="#">{{ __('GUI.Rules') }}</a>
               </div>
             </div>
             <div class="py-6">
               <button v-if="isAdmin" class="-mx-3 mb-4 flex w-full font-semibold text-gray-800">
                 <InertiaLink v-if="isAdmin" class="flex w-full items-center rounded px-3 py-2.5 hover:bg-blumilk-25" href="/admin/cities">
                   <ComputerDesktopIcon class="h-6 w-6" />
-                  <span class="ml-2">{{ $t('GUI.adminPanel') }}</span>
+                  <span class="ml-2">{{ __('GUI.adminPanel') }}</span>
                 </InertiaLink>
               </button>
               <button class="-mx-3 flex w-full font-semibold text-gray-800">
@@ -242,14 +242,14 @@ defineExpose({
                       @click="logout"
                 >
                   <ArrowRightOnRectangleIcon class="h-6 w-6" />
-                  <span class="ml-2">{{ $t('Auth.logOut') }}</span>
+                  <span class="ml-2">{{ __('Auth.logOut') }}</span>
                 </span>
 
                 <span v-if="!isAuth" class="flex w-full items-center rounded px-3 py-2.5 hover:bg-blumilk-25"
                       @click="toggleAuthDialog"
                 >
                   <UserCircleIcon class="h-6 w-6" />
-                  <span class="ml-2">{{ $t('Auth.logIn') }}</span>
+                  <span class="ml-2">{{ __('Auth.logIn') }}</span>
                 </span>
               </button>
               <div class="mx-auto flex items-center justify-center px-6 py-3">

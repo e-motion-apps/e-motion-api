@@ -6,9 +6,16 @@ namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Inertia\Middleware;
+use Illuminate\Contracts\Foundation\Application;
+use App\Helpers\I18n;
 
 class HandleInertiaRequests extends Middleware
 {
+
+    public function __construct(
+        protected Application $application
+    ) {}
+
     protected $rootView = "app";
 
     public function version(Request $request): ?string
@@ -24,6 +31,8 @@ class HandleInertiaRequests extends Middleware
                 "isAdmin" => optional(auth()->user())->isAdmin(),
                 "user" => auth()->user(),
             ],
+            "locale" => $this->application->getLocale(),
+            "language" => I18n::getTranslations(lang_path($this->application->getLocale() . ".json")),
         ]);
     }
 }

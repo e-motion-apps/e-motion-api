@@ -65,7 +65,7 @@ onMounted(() => {
       <component :is="result ? SolidHeartIcon : OutlineHeartIcon" v-if="result !== null"
                  class="h-6 w-6 text-red-500"
       />
-      <span v-else>{{ $t('GUI.Loading') }}...</span>
+      <span v-else>{{ __('GUI.Loading') }}...</span>
     </button>
   </div>
 </template>

@@ -8,14 +8,12 @@
         "lintf": "./node_modules/.bin/eslint resources/js --ext .js,.vue --fix"
     },
     "dependencies": {
-        "@formkit/i18n": "^0.17.5",
         "@formkit/vue": "^0.17.5",
         "@headlessui/vue": "^1.7.15",
         "@heroicons/vue": "^2.0.18",
         "@inertiajs/inertia-vue3": "^0.6.0",
         "@inertiajs/progress": "^0.2.7",
         "@inertiajs/vue3": "^1.0.9",
-        "@intlify/unplugin-vue-i18n": "^0.12.2",
         "@tailwindcss/forms": "^0.5.4",
         "@tailwindcss/typography": "^0.5.9",
         "@vueuse/core": "^10.3.0",
@@ -24,8 +22,7 @@
         "lodash": "^4.17.21",
         "pinia": "^2.1.6",
         "tailwindcss": "^3.3.3",
-        "vue": "^3.3.4",
-        "vue-i18n": "^9.2.2"
+        "vue": "^3.3.4"
     },
     "devDependencies": {
         "@typescript-eslint/eslint-plugin": "^6.2.1",

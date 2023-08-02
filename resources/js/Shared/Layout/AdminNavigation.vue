@@ -3,15 +3,13 @@ import { Dialog, DialogPanel } from '@headlessui/vue'
 import { ChartBarIcon, ClipboardIcon, FlagIcon, MapPinIcon, PlayCircleIcon } from '@heroicons/vue/24/solid'
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 import { ref } from 'vue'
-import { useI18n } from 'vue-i18n'
 
-const i18n = useI18n()
 const navigation = [
-  { name: i18n.t('Technical.Dashboard'), href: '/admin/dashboard', icon: ClipboardIcon },
-  { name: i18n.t('Technical.Countries'), href: '/admin/countries', icon: FlagIcon },
-  { name: i18n.t('Technical.Cities'), href: '/admin/cities', icon: MapPinIcon },
-  { name: i18n.t('Technical.Statistics'), href: '/admin/statistics', icon: ChartBarIcon },
-  { name: i18n.t('Technical.runImporters'), href: '/run-importers', icon: PlayCircleIcon },
+  { name: __('Technical.Dashboard'), href: '/admin/dashboard', icon: ClipboardIcon },
+  { name: __('Technical.Countries'), href: '/admin/countries', icon: FlagIcon },
+  { name: __('Technical.Cities'), href: '/admin/cities', icon: MapPinIcon },
+  { name: __('Technical.Statistics'), href: '/admin/statistics', icon: ChartBarIcon },
+  { name: __('Technical.runImporters'), href: '/run-importers', icon: PlayCircleIcon },
 ]
 
 const isMobileMenuOpened = ref(false)
@@ -35,7 +33,7 @@ function toggleMobileMenu() {
         <button type="button" class="inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
                 @click="toggleMobileMenu"
         >
-          <span class="sr-only">{{ $t('GUI.openMenu') }}</span>
+          <span class="sr-only">{{ __('GUI.openMenu') }}</span>
           <Bars3Icon class="h-6 w-6" aria-hidden="true" />
         </button>
       </div>
@@ -53,7 +51,7 @@ function toggleMobileMenu() {
             <button type="button" class="-m-2.5 rounded-md px-2.5 text-gray-700 sm:pt-4"
                     @click="toggleMobileMenu"
             >
-              <span class="sr-only">{{ $t('GUI.closeMenu') }}</span>
+              <span class="sr-only">{{ __('GUI.closeMenu') }}</span>
               <XMarkIcon class="h-6 w-6" aria-hidden="true" />
             </button>
           </div>
