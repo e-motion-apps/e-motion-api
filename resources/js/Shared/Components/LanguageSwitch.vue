@@ -1,8 +1,8 @@
 <script setup>
+import { router } from '@inertiajs/vue3'
+import { useI18n } from 'vue-i18n'
 
-import { inject } from 'vue'
-
-const formkitConfig = inject(Symbol.for('FormKitConfig'))
+const i18n = useI18n()
 
 const locales = [
   {
@@ -16,22 +16,20 @@ const locales = [
 ]
 
 const setLocale = (locale) => {
-  localStorage.setItem('locale', locale)
-  formkitConfig.locale = locale
+  router.post(`/language/${locale}`, {}, {
+    onSuccess() {
+      i18n.locale.value = locale
+    },
+  })
 }
 </script>
 
 <template>
   <div>
     <select v-model="$i18n.locale"
-            class="block w-full rounded-lg border bg-none p-2.5 py-1.5 text-center align-middle text-sm sm:w-20"
-            @change="setLocale($i18n.locale)"
-    >
-      <option
-        v-for="locale in locales"
-        :key="locale.lang"
-        :value="locale.lang"
-      >
+      class="block w-full rounded-lg border bg-none p-2.5 py-1.5 text-center align-middle text-sm sm:w-20"
+      @change="setLocale($i18n.locale)">
+      <option v-for="locale in locales" :key="locale.lang" :value="locale.lang">
         {{ locale.name }}
       </option>
     </select>

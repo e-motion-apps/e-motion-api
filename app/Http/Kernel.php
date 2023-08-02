@@ -29,6 +29,7 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Spatie\Permission\Middlewares\RoleMiddleware;
+use App\Http\Middleware\SetLocale;
 
 class Kernel extends HttpKernel
 {
@@ -89,5 +90,6 @@ class Kernel extends HttpKernel
         "throttle" => ThrottleRequests::class,
         "verified" => EnsureEmailIsVerified::class,
         "role" => RoleMiddleware::class,
+        "setLocale" => SetLocale::class,
     ];
 }
