@@ -16,7 +16,7 @@ class CityResource extends JsonResource
             "name" => $this->name,
             "latitude" => $this->latitude,
             "longitude" => $this->longitude,
-            "city_alternativeNames" => $this->cityAlternativeName,
+            "city_alternative_names" => $this->cityAlternativeName,
             "cityProviders" => $this->cityProvider,
             "country" => $this->country,
         ];
