@@ -5,8 +5,8 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="flex items-center justify-between border-t border-gray-200 bg-white py-3 ">
-    <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+  <div class="flex items-center justify-between bg-white py-3 ">
+    <div class="flex items-center justify-between">
       <div>
         <p class="text-sm text-gray-700">
           {{ $t('Word.Showing') }}

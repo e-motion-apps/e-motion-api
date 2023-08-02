@@ -7,14 +7,7 @@ import { onClickOutside } from '@vueuse/core'
 import { useForm } from '@inertiajs/vue3'
 import LanguageSwitch from '@/Shared/Components/LanguageSwitch.vue'
 import ErrorMessage from '@/Shared/Components/ErrorMessage.vue'
-import { useFilterStore } from '../Stores/FilterStore'
 
-const filterStore = useFilterStore()
-
-function clearFilters() {
-  filterStore.changeSelectedProvider(null)
-  filterStore.changeSelectedCountry(null)
-}
 
 const page = usePage()
 const isAuth = computed(() => page.props.auth.isAuth)
@@ -53,8 +46,6 @@ function login() {
 function logout() {
   router.post('/logout')
   isMobileMenuOpened.value = false
-
-  clearFilters()
 }
 
 const isMobileMenuOpened = ref(false)
@@ -98,7 +89,7 @@ defineExpose({
 <template>
   <header class="fixed w-full bg-white">
     <nav class="mx-auto flex items-center justify-between px-6 py-3" aria-label="Global">
-      <InertiaLink href="/" class="flex items-center justify-center" @click="clearFilters">
+      <InertiaLink href="/" class="flex items-center justify-center">
         <img class="h-10" src="@/assets/scooter.png" alt="escooter logo">
         <span class="ml-3 hidden text-2xl font-semibold text-gray-800 sm:flex">e&#8209;scooters</span>
       </InertiaLink>
@@ -241,9 +232,7 @@ defineExpose({
             </div>
             <div class="py-6">
               <button v-if="isAdmin" class="-mx-3 mb-4 flex w-full font-semibold text-gray-800">
-                <InertiaLink v-if="isAdmin" class="flex w-full items-center rounded px-3 py-2.5 hover:bg-blumilk-25"
-                             href="/admin/cities" @click="clearFilters"
-                >
+                <InertiaLink v-if="isAdmin" class="flex w-full items-center rounded px-3 py-2.5 hover:bg-blumilk-25" href="/admin/cities">
                   <ComputerDesktopIcon class="h-6 w-6" />
                   <span class="ml-2">{{ $t('GUI.Admin_panel') }}</span>
                 </InertiaLink>

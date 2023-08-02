@@ -11,9 +11,9 @@ return new class() extends Migration {
     {
         Schema::create("city_providers", function (Blueprint $table): void {
             $table->id();
-            $table->unsignedBigInteger("provider_id");
-            $table->foreign("provider_id")
-                ->references("id")
+            $table->string("provider_name");
+            $table->foreign("provider_name")
+                ->references("name")
                 ->on("providers")
                 ->onDelete("cascade");
 

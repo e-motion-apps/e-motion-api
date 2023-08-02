@@ -69,17 +69,17 @@ function fillMap() {
   markers.value = L.featureGroup()
 
   const selectedCountryId = filterStore.selectedCountryId
-  const selectedProviderId = filterStore.selectedProviderId
+  const selectedProviderName = filterStore.selectedProviderName
 
   const filteredCities = props.cities.filter(city => {
-    if (selectedCountryId !== null && selectedProviderId === null) {
+    if (selectedCountryId !== null && selectedProviderName === null) {
       return city.country.id === selectedCountryId
-    } else if (selectedCountryId === null && selectedProviderId !== null) {
-      return city.cityProviders.some(cityProvider => cityProvider.provider_id === selectedProviderId)
-    } else if (selectedCountryId !== null && selectedProviderId !== null) {
+    } else if (selectedCountryId === null && selectedProviderName !== null) {
+      return city.cityProviders.some(cityProvider => cityProvider.provider_name === selectedProviderName)
+    } else if (selectedCountryId !== null && selectedProviderName !== null) {
       return (
         city.country.id === selectedCountryId &&
-                city.cityProviders.some(cityProvider => cityProvider.provider_id === selectedProviderId)
+                city.cityProviders.some(cityProvider => cityProvider.provider_name === selectedProviderName)
       )
     } else {
       return true

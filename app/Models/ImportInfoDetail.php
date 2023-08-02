@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class ImportInfoDetail extends Model
 {
     protected $fillable = [
-        "provider_id",
+        "provider_name",
         "import_info_id",
         "code",
     ];

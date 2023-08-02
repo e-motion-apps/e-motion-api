@@ -52,6 +52,10 @@ Lints and fixes frontend files:
 ```
 npm run lintf
 ```
+Runs a queue that processes importers' jobs:
+```
+php artisan queue:work --queue="importers" --timeout=0
+```
 
 ### Containers
 

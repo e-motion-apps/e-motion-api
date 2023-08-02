@@ -18,9 +18,14 @@ class CityController extends Controller
 {
     public function index(): Response
     {
-        $cities = City::query()->with("cityAlternativeName", "cityProvider", "country")
-            ->orderBy("country_id")
+        $cities = City::query()
+            ->with("cityAlternativeName", "cityProvider", "country")
+            ->orderByProvidersCount()
             ->search("name")
+            ->orderByName()
+            ->orderByCountry()
+            ->orderByTimeRange()
+            ->orderByEmptyCoordinates()
             ->paginate(15)
             ->withQueryString();
 

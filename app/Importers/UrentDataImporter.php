@@ -8,19 +8,20 @@ use App\Models\City;
 use App\Models\CityAlternativeName;
 use App\Models\Country;
 use App\Services\MapboxGeocodingService;
+use Stichoza\GoogleTranslate\GoogleTranslate;
 use Symfony\Component\DomCrawler\Crawler;
 use Throwable;
 
-class QuickDataImporter extends DataImporter
+class UrentDataImporter extends DataImporter
 {
-    private const COUNTRY_NAME = "Poland";
+    private const COUNTRY_NAME = "Russia";
 
     protected Crawler $sections;
 
     public function extract(): static
     {
         try {
-            $html = file_get_contents("https://quick-app.eu/lokalizacje/");
+            $html = file_get_contents("https://start.urent.ru/");
         } catch (Throwable) {
             $this->createImportInfoDetails("400", self::getProviderName());
 
@@ -30,7 +31,7 @@ class QuickDataImporter extends DataImporter
         }
 
         $crawler = new Crawler($html);
-        $this->sections = $crawler->filter(".tx-hd-desc > ul > li");
+        $this->sections = $crawler->filter(".city-block-1 > div > div > .grid-item-1 > ul > li");
 
         if (count($this->sections) === 0) {
             $this->createImportInfoDetails("204", self::getProviderName());
@@ -53,11 +54,17 @@ class QuickDataImporter extends DataImporter
         foreach ($this->sections as $section) {
             $cityName = $section->nodeValue;
 
-            $city = City::query()->where("name", $cityName)->first();
-            $alternativeCityName = CityAlternativeName::query()->where("name", $cityName)->first();
+            if (preg_match('/\p{Cyrillic}/u', $cityName) === 1){
+                $tr = new GoogleTranslate("en");
+                $cityName = $tr->translate($cityName);
+            }
+            $cityName = str_replace("-", " ", $cityName);
 
-            if ($city || $alternativeCityName) {
-                $cityId = $city ? $city->id : $alternativeCityName->city_id;
+            $city = City::query()->where("name", $cityName)->first();
+            $alternativeCity = CityAlternativeName::query()->where("name", $cityName)->first();
+
+            if ($city || $alternativeCity) {
+                $cityId = $city ? $city->id : $alternativeCity->city_id;
 
                 $this->createProvider($cityId, self::getProviderName());
                 $existingCityProviders[] = $cityId;
