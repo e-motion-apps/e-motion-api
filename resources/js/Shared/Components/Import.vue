@@ -101,13 +101,13 @@ function toggleImportDialog() {
                  :class="detail.code === 400 ? 'border-red-600 bg-red-100' : 'border-orange-500 bg-orange-100'"
                  class="mb-4 flex flex-col justify-center rounded border p-2 font-light"
             >
-              <div v-for="provider in providers" :key="provider.id">
-                <div v-if="detail.provider_id === provider.id">
+              <div v-for="provider in providers" :key="provider.name">
+                <div v-if="detail.provider_name === provider.name">
                   <div
                     :style="{'background-color': provider.color}"
                     class="mr-2 flex h-9 w-fit items-center justify-center rounded border border-zinc-300 p-1"
                   >
-                    <img :src="'/providers/' + provider.name + '.png'" alt="" class="w-12">
+                    <img :src="'/providers/' + provider.name.toLowerCase() + '.png'" alt="" class="w-12">
                   </div>
                 </div>
               </div>
