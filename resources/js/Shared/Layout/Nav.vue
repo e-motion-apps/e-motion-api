@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { Dialog, DialogPanel } from '@headlessui/vue'
 import { Bars3Icon, XMarkIcon, UserCircleIcon, ArrowRightOnRectangleIcon, ComputerDesktopIcon } from '@heroicons/vue/24/outline'
 import { router, usePage } from '@inertiajs/vue3'
@@ -19,6 +19,13 @@ function clearFilters() {
 const page = usePage()
 const isAuth= computed(() => page.props.auth.isAuth)
 const isAdmin = computed(() => page.props.auth.isAdmin)
+const isAuthRequired = computed(() => page.props.flash.isAuthRequired)
+
+onMounted(() => {
+  if (isAuthRequired.value) {
+    isAuthDialogOpened.value = true
+  }
+})
 
 const registerForm = useForm({
   name: '',

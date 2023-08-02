@@ -24,9 +24,8 @@ Route::middleware("auth")->group(function (): void {
         Route::resource("/admin/cities", CityController::class);
         Route::resource("/city-alternative-name", CityAlternativeNameController::class);
         Route::patch("/update-city-providers/{city}", [CityProviderController::class, "update"]);
+        Route::post("/run-importers", [CityProviderController::class, "runImporters"]);
     });
 });
 
 Route::inertia("/", "Landing/Index")->name("home");
-
-Route::get("/run-importers", [CityProviderController::class, "runImporters"]);

@@ -24,6 +24,9 @@ class HandleInertiaRequests extends Middleware
                 "isAdmin" => optional(auth()->user())->isAdmin(),
                 "user" => auth()->user(),
             ],
+            "flash" => [
+                "isAuthRequired" => fn() => $request->session()->get("isAuthRequired"),
+            ],
         ]);
     }
 }
