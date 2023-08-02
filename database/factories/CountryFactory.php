@@ -12,7 +12,7 @@ class CountryFactory extends Factory
     {
         return [
             "name" => fake()->unique()->city(),
-            "alternativeName" => fake()->unique()->city(),
+            "alternative_name" => fake()->unique()->city(),
             "latitude" => fake()->latitude(),
             "longitude" => fake()->longitude(),
             "iso" => fake()->unique()->languageCode() . "x",

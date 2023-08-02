@@ -70,7 +70,7 @@ class UrentDataImporter extends DataImporter
                 $existingCityProviders[] = $cityId;
             }
             else {
-                $country = Country::query()->where("name", self::COUNTRY_NAME)->orWhere("alternativeName", self::COUNTRY_NAME)->first();
+                $country = Country::query()->where("name", self::COUNTRY_NAME)->orWhere("alternative_name", self::COUNTRY_NAME)->first();
 
                 if ($country) {
                     $coordinates = $mapboxService->getCoordinatesFromApi($cityName, self::COUNTRY_NAME);
