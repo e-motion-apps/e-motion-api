@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * @property int $id
  * @property string $name
- * @property string $alternative_name
+ * @property string $alternativeName
  * @property string $latitude
  * @property string $longitude
  * @property string $iso
@@ -24,7 +24,7 @@ class Country extends Model
 
     protected $fillable = [
         "name",
-        "alternative_name",
+        "alternativeName",
         "latitude",
         "longitude",
         "iso",

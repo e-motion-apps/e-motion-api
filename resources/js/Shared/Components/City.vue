@@ -233,7 +233,7 @@ function toggleProvidersForm() {
         </div>
 
         <button :class="isCityFormOpened ? 'bg-blumilk-50' : ''" class="mb-3 ml-6 rounded-lg bg-blumilk-25 px-3 py-1 text-sm font-bold text-gray-800 hover:bg-blumilk-50" @click="toggleCityForm">
-          {{ $t('CRUD.Update_city') }}
+          {{ $t('CRUD.updateCity') }}
         </button>
         <form v-if="isCityFormOpened" class="flex flex-col rounded px-6 text-xs font-bold text-gray-600"
               @submit.prevent="updateCity(city.id)"
@@ -264,7 +264,7 @@ function toggleProvidersForm() {
 
         <br>
         <button :class="isAlternativeCityNameFormOpened ? 'bg-blumilk-50' : ''" class="mb-3 ml-6 rounded-lg bg-blumilk-25 px-3 py-1 text-sm font-bold text-gray-800 hover:bg-blumilk-50" @click="toggleAlternativeCityNameForm">
-          {{ $t('CRUD.Add_alt_name') }}
+          {{ $t('CRUD.addAltName') }}
         </button>
         <form v-if="isAlternativeCityNameFormOpened" class="flex flex-col rounded p-6"
               @submit.prevent="storeAlternativeCityName(city.id)"
@@ -284,7 +284,7 @@ function toggleProvidersForm() {
         </form>
 
         <div v-if="isAlternativeCityNameFormOpened" class="flex flex-wrap">
-          <div v-for="alternativeName in props.city.city_alternative_names" :key="alternativeName.id" class="ml-6">
+          <div v-for="alternativeName in props.city.city_alternativeNames" :key="alternativeName.id" class="ml-6">
             <div class="group flex w-fit cursor-pointer break-all rounded py-1 pl-1 pr-3 text-sm font-bold text-zinc-500 hover:bg-blumilk-25"
                  @click="destroyAlternativeCityName(alternativeName.id)"
             >

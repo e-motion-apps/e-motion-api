@@ -14,7 +14,7 @@ class CountryResource extends JsonResource
         return [
             "id" => $this->id,
             "name" => $this->name,
-            "alternative_name" => $this->alternative_name,
+            "alternativeName" => $this->alternativeName,
             "latitude" => $this->latitude,
             "longitude" => $this->longitude,
             "iso" => $this->iso,

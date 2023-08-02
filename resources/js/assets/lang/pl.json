@@ -1,49 +1,49 @@
 {
     "GUI": {
         "Prices" : "Ceny",
-        "Find_a_ride" : "Znajdź przejazd",
+        "findRide" : "Znajdź przejazd",
         "Rules" : "Zasady",
         "Loading" : "Ładowanie",
-        "Admin_panel" : "Panel administratora",
-        "Close_menu" : "Zamknij menu",
-        "Open_menu" : "Otwórz menu",
-        "Search_city" : "Szukaj miasta",
-        "Search_country" : "Szukaj kraju"
+        "adminPanel" : "Panel administratora",
+        "closeMenu" : "Zamknij menu",
+        "openMenu" : "Otwórz menu",
+        "searchCity" : "Szukaj miasta",
+        "searchCountry" : "Szukaj kraju"
     },
     "Auth": {
         "Register" : "Zarejestruj",
         "Name" : "Nazwa",
         "Email" : "E-mail",
         "Password" : "Hasło",
-        "Log_in" : "Zaloguj",
-        "Log_out" : "Wyloguj",
-        "Sign_up" : "Zarejestruj się",
-        "Confirm_password" : "Potwierdź hasło"
+        "logIn" : "Zaloguj",
+        "logOut" : "Wyloguj",
+        "signUp" : "Zarejestruj się",
+        "confirmPassword" : "Potwierdź hasło"
     },
     "Prompt": {
-        "No_account" : "Nie masz konta?",
+        "noAccount" : "Nie masz konta?",
         "Already_have_account" : "Masz już konto?",
-        "Looking_for_an_escooter" : "Szukasz hulajnogi elektrycznej?",
-        "Try_it_out" : "Wypróbuj teraz!",
-        "Create_account" : "Stwórz konto",
-        "Login_to_add_to_favorite" : "Zaloguj się, aby dodać do ulubionych",
-        "Sorry_we_couldnt_cities" : "Przepraszamy, ale nie mogliśmy znaleźć żadnych miast",
-        "Sorry_we_couldnt_countries" : "Przepraszamy, ale nie mogliśmy znaleźć żadnych krajów"
+        "lookingForAnEscooter" : "Szukasz hulajnogi elektrycznej?",
+        "tryItOut" : "Wypróbuj teraz!",
+        "createAccount" : "Stwórz konto",
+        "loginToAddToFavorite" : "Zaloguj się, aby dodać do ulubionych",
+        "sorryWeCouldntCities" : "Przepraszamy, ale nie mogliśmy znaleźć żadnych miast",
+        "sorryWeCouldntCountries" : "Przepraszamy, ale nie mogliśmy znaleźć żadnych krajów"
     },
     "Info": {
-        "advert_1" : "Jest wielu dostawców hulajnóg elektrycznych, więc czasami można poczuć pewne niepewności co do tego, których aplikacji powinno się używać podczas swoich podróży.",
-        "advert_2" : "Ta aplikacja pomoże Ci z planowaniem Twoich wakacji, lub podróży biznesowych"
+        "advert1" : "Jest wielu dostawców hulajnóg elektrycznych, więc czasami można poczuć pewne niepewności co do tego, których aplikacji powinno się używać podczas swoich podróży.",
+        "advert2" : "Ta aplikacja pomoże Ci z planowaniem Twoich wakacji, lub podróży biznesowych"
     },
     "CRUD": {
         "Edit" : "Edytuj",
         "Delete" : "Usuń",
         "Add" : "Dodaj",
-        "Create_city" : "Utwórz miasto",
-        "Create_country" : "Utwórz kraj",
-        "Update_city" : "Aktualizuj miasto",
+        "createCity" : "Utwórz miasto",
+        "createCountry" : "Utwórz kraj",
+        "updateCity" : "Aktualizuj miasto",
         "Save" : "Zapisz",
-        "Add_alt_name" : "Dodaj alternatywną nazwę",
-        "Clear_filters" : "Wyczyść filtry"
+        "addAltName" : "Dodaj alternatywną nazwę",
+        "clearFilters" : "Wyczyść filtry"
     },
     "Technical": {
         "Latitude" : "Szerokość geograficzna",
@@ -54,7 +54,7 @@
         "City" : "Miasto",
         "Cities" : "Miasta",
         "Statistics" : "Statystyki",
-        "Run_importers" : "Uruchom importery",
+        "runImporters" : "Uruchom importery",
         "Dashboard" : "Strona główna"
     },
     "Word": {
@@ -64,17 +64,17 @@
         "Results" : "wyników"
     },
     "Sentence": {
-        "Alternative_name" : "Alternatywna nazwa",
+        "alternativeName" : "Alternatywna nazwa",
         "Filling" : "Wypełnianie mapy dostawcami",
-        "Didnt_find_providers" : "Nie znaleziono dostawców"
+        "didntFindProviders" : "Nie znaleziono dostawców"
     },
     "Sorting": {
         "Latest" : "Najnowsze",
         "Oldest" : "Najstarsze",
-        "Empty_coordinates" : "Puste współrzędne",
-        "By_name" : "Alfabetycznie",
-        "By_providers" : "Według dostawców",
-        "By_country" : "Według kraju",
+        "emptyCoordinates" : "Puste współrzędne",
+        "byName" : "Alfabetycznie",
+        "byProviders" : "Według dostawców",
+        "byCountry" : "Według kraju",
         "Sort" : "Sortuj"
     }
 }

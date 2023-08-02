@@ -68,7 +68,7 @@ class LimeDataImporter extends DataImporter
 
                         break;
                     default:
-                        $country = Country::query()->where("name", $countryName)->orWhere("alternative_name", $countryName)->first();
+                        $country = Country::query()->where("name", $countryName)->orWhere("alternativeName", $countryName)->first();
 
                         break;
                 }

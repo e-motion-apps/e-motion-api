@@ -14,12 +14,12 @@ const emit = defineEmits(['try-it-out', 'create-account'])
 
     <div class="lg:pb-16">
       <h1 class="text-4xl font-bold tracking-tight text-gray-800 sm:text-5xl">
-        {{ $t('Prompt.Looking_for_an_escooter') }}
+        {{ $t('Prompt.lookingForAnEscooter') }}
       </h1>
       <p class="mx-0 w-full items-start pt-10 text-sm leading-7 text-gray-600 sm:w-2/3 sm:text-base lg:mx-auto lg:w-full lg:text-lg">
-        {{ $t('Info.advert_1') }}
+        {{ $t('Info.advert1') }}
         <br><br>
-        <strong>{{ $t('Info.advert_2') }}</strong>
+        <strong>{{ $t('Info.advert2') }}</strong>
       </p>
     </div>
 
@@ -27,11 +27,11 @@ const emit = defineEmits(['try-it-out', 'create-account'])
       class="flex w-full flex-wrap items-center justify-center space-y-5 sm:hidden sm:justify-between sm:space-y-0 md:flex"
     >
       <PrimaryButton class="h-fit w-11/12 px-2 py-5 sm:w-5/12" @click="emit('try-it-out')">
-        {{ $t('Prompt.Try_it_out') }}
+        {{ $t('Prompt.tryItOut') }}
       </PrimaryButton>
 
       <SecondaryButton class="h-fit w-11/12 px-2 py-5 sm:w-5/12" @click="emit('create-account')">
-        {{ $t('Prompt.Create_account') }}
+        {{ $t('Prompt.createAccount') }}
       </SecondaryButton>
     </div>
 

@@ -77,7 +77,7 @@ class BoltDataImporter extends DataImporter
                 $existingCityProviders[] = $cityId;
             }
             else {
-                $country = Country::query()->where("name", $countryName)->orWhere("alternative_name", $countryName)->first();
+                $country = Country::query()->where("name", $countryName)->orWhere("alternativeName", $countryName)->first();
 
                 if ($country) {
                     $coordinates = $mapboxService->getCoordinatesFromApi($cityName, $countryName);

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Schema;
 return new class() extends Migration {
     public function up(): void
     {
-        Schema::create("city_alternative_names", function (Blueprint $table): void {
+        Schema::create("city_alternativeNames", function (Blueprint $table): void {
             $table->id();
             $table->string("name")->unique();
             $table->unsignedBigInteger("city_id");
@@ -23,6 +23,6 @@ return new class() extends Migration {
 
     public function down(): void
     {
-        Schema::dropIfExists("city_alternative_names");
+        Schema::dropIfExists("city_alternativeNames");
     }
 };

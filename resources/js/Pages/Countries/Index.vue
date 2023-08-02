@@ -27,7 +27,7 @@ function storeCountry() {
 
 const storeCountryForm = useForm({
   name: '',
-  alternative_name: '',
+  alternativeName: '',
   latitude: '',
   longitude: '',
   iso: '',
@@ -73,7 +73,7 @@ function clearInput() {
 const sortingOptions = [
   { name: i18n.t('Sorting.Latest'), href: '/admin/countries?order=latest' },
   { name: i18n.t('Sorting.Oldest'), href: '/admin/countries?order=oldest' },
-  { name: i18n.t('Sorting.By_name'), href: '/admin/countries?order=name' },
+  { name: i18n.t('Sorting.byName'), href: '/admin/countries?order=name' },
 ]
 
 const isSortDialogOpened = ref(false)
@@ -103,16 +103,16 @@ function toggleSortDialog() {
 
               <div class="flex flex-col p-6 pt-0">
                 <h1 class="mb-3 text-lg font-bold text-gray-800">
-                  {{ $t('CRUD.Create_country') }}
+                  {{ $t('CRUD.createCountry') }}
                 </h1>
 
                 <form class="flex flex-col text-xs font-bold text-gray-600" @submit.prevent="storeCountry">
                   <label class="mb-1 mt-4">{{ $t('Auth.Name') }}</label>
                   <input v-model="storeCountryForm.name" class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 md:p-3" type="text" required>
                   <ErrorMessage :message="storeCountryForm.errors.name" />
-                  <label class="mb-1 mt-4">{{ $t('Sentence.Alternative_name') }}</label>
-                  <input v-model="storeCountryForm.alternative_name" class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 md:p-3" type="text">
-                  <ErrorMessage :message="storeCountryForm.errors.alternative_name" />
+                  <label class="mb-1 mt-4">{{ $t('Sentence.alternativeName') }}</label>
+                  <input v-model="storeCountryForm.alternativeName" class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 md:p-3" type="text">
+                  <ErrorMessage :message="storeCountryForm.errors.alternativeName" />
                   <label class="mb-1 mt-4">{{ $t('Technical.Latitude') }}</label>
                   <input v-model="storeCountryForm.latitude" class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 md:p-3" type="text" required @keydown="preventCommaInput">
                   <ErrorMessage :message="storeCountryForm.errors.latitude" />
@@ -136,7 +136,7 @@ function toggleSortDialog() {
 
           <div class="mb-3 mt-4 flex flex-wrap items-center justify-end md:justify-between">
             <button class="mr-1 rounded bg-blumilk-500 px-5 py-3 text-sm font-medium text-white shadow-md hover:bg-blumilk-400 md:py-2" @click="toggleStoreDialog">
-              {{ $t('CRUD.Create_country') }}
+              {{ $t('CRUD.createCountry') }}
             </button>
 
             <div class="m-1 flex w-full rounded-md shadow-sm md:w-fit">
@@ -144,7 +144,7 @@ function toggleSortDialog() {
                 <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                   <MagnifyingGlassIcon class="h-5 w-5 text-gray-800" />
                 </div>
-                <input v-model.trim="searchInput" type="text" class="block w-full rounded border-0 py-3 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blumilk-300 sm:text-sm sm:leading-6 md:py-1.5" :placeholder="$t('GUI.Search_country')">
+                <input v-model.trim="searchInput" type="text" class="block w-full rounded border-0 py-3 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blumilk-300 sm:text-sm sm:leading-6 md:py-1.5" :placeholder="$t('GUI.searchCountry')">
               </div>
               <button v-if="searchInput.length" type="button" class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-800 ring-1 ring-inset ring-gray-300 hover:bg-blumilk-25" @click="clearInput">
                 <XMarkIcon class="h-5 w-5" />
@@ -187,7 +187,7 @@ function toggleSortDialog() {
                     {{ $t('Auth.Name') }}
                   </th>
                   <th scope="col" class="table-cell py-3.5 text-left text-sm font-semibold text-gray-900">
-                    {{ $t('Sentence.Alternative_name') }}
+                    {{ $t('Sentence.alternativeName') }}
                   </th>
                   <th scope="col" class="hidden py-3.5 text-left text-sm font-semibold text-gray-900 xl:table-cell">
                     {{ $t('Technical.Latitude') }}
@@ -209,7 +209,7 @@ function toggleSortDialog() {
           </div>
           <div v-else>
             <p class="mt-6 text-lg font-medium text-gray-500">
-              {{ $t('Prompt.Sorry_we_couldnt_countries') }}
+              {{ $t('Prompt.sorryWeCouldntCountries') }}
             </p>
           </div>
           <Pagination :meta="props.countries.meta" :links="props.countries.links" />

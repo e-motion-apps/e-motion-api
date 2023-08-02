@@ -74,7 +74,7 @@ class RydeDataImporter extends DataImporter
                                     $this->createProvider($cityId, self::getProviderName());
                                     $existingCityProviders[] = $cityId;
                                 } else {
-                                    $country = Country::query()->where("name", $this->countryName)->orWhere("alternative_name", $this->countryName)->first();
+                                    $country = Country::query()->where("name", $this->countryName)->orWhere("alternativeName", $this->countryName)->first();
 
                                     if ($country) {
                                         $coordinates = $mapboxService->getCoordinatesFromApi($cityName, $this->countryName);

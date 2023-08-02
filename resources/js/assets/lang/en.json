@@ -1,49 +1,49 @@
 {
     "GUI": {
         "Prices" : "Prices",
-        "Find_a_ride" : "Find a ride",
+        "findRide" : "Find a ride",
         "Rules" : "Rules",
         "Loading" : "Loading",
-        "Admin_panel" : "Admin panel",
-        "Close_menu" : "Close menu",
-        "Open_menu" : "Open menu",
-        "Search_city" : "Search city",
-        "Search_country" : "Search country"
+        "adminPanel" : "Admin panel",
+        "closeMenu" : "Close menu",
+        "openMenu" : "Open menu",
+        "searchCity" : "Search city",
+        "searchCountry" : "Search country"
     },
     "Auth": {
         "Register" : "Register",
         "Name" : "Name",
         "Email" : "Email",
         "Password" : "Password",
-        "Log_in" : "Log in",
-        "Log_out" : "Log out",
-        "Sign_up" : "Sign up",
-        "Confirm_password" : "Confirm password"
+        "logIn" : "Log in",
+        "logOut" : "Log out",
+        "signUp" : "Sign up",
+        "confirmPassword" : "Confirm password"
     },
     "Prompt": {
-        "No_account" : "Don't have an account?",
-        "Already_have_an_account" : "Already have an account?",
-        "Looking_for_an_escooter" : "Looking for an e-scooter?",
-        "Try_it_out" : "Try it out!",
-        "Create_account" : "Create account",
-        "Login_to_add_to_favorite" : "Login to add to favorite",
-        "Sorry_we_couldnt_cities" : "Sorry, we couldn't find any cities",
-        "Sorry_we_couldnt_countries" : "Sorry, we couldn't find any countries"
+        "noAccount" : "Don't have an account?",
+        "alreadyHaveAnAccount" : "Already have an account?",
+        "lookingForAnEscooter" : "Looking for an e-scooter?",
+        "tryItOut" : "Try it out!",
+        "createAccount" : "Create account",
+        "loginToAddToFavorite" : "Login to add to favorite",
+        "sorryWeCouldntCities" : "Sorry, we couldn't find any cities",
+        "sorryWeCouldntCountries" : "Sorry, we couldn't find any countries"
     },
     "Info": {
-        "advert_1" : "There are plenty of e-scooter providers, so sometimes you can be confused about which app you should use during your trips.",
-        "advert_2" : "This application can help you with planning your vacations or business trips."
+        "advert1" : "There are plenty of e-scooter providers, so sometimes you can be confused about which app you should use during your trips.",
+        "advert2" : "This application can help you with planning your vacations or business trips."
     },
     "CRUD": {
         "Edit" : "Edit",
         "Delete" : "Delete",
         "Add" : "Add",
-        "Create_city" : "Create city",
-        "Create_country" : "Create country",
-        "Update_city" : "Update city", 
+        "createCity" : "Create city",
+        "createCountry" : "Create country",
+        "updateCity" : "Update city", 
         "Save" : "Save",
-        "Add_alt_name" : "Add alternative name",
-        "Clear_filters" : "Clear filters"
+        "addAltName" : "Add alternative name",
+        "clearFilters" : "Clear filters"
     },
     "Technical": {
         "Latitude" : "Latitude", 
@@ -54,7 +54,7 @@
         "City" : "City",
         "Cities" : "Cities",
         "Statistics" : "Statistics",
-        "Run_importers" : "Run importers",
+        "runImporters" : "Run importers",
         "Dashboard" : "Dashboard"
     },
     "Word": {
@@ -64,17 +64,17 @@
         "Results" : "results"
     },
     "Sentence": {
-        "Alternative_name" : "Alternative name",
+        "alternativeName" : "Alternative name",
         "Filling" : "Filling map with providers",
-        "Didnt_find_providers" : "We didn't find any providers"
+        "didntFindProviders" : "We didn't find any providers"
     },
     "Sorting": {
         "Latest" : "Latest",
         "Oldest" : "Oldest",
-        "Empty_coordinates" : "Empty coordinates",
-        "By_name" : "By name",
-        "By_providers" : "By providers",
-        "By_country" : "By country",
+        "emptyCoordinates" : "Empty coordinates",
+        "byName" : "By name",
+        "byProviders" : "By providers",
+        "byCountry" : "By country",
         "Sort" : "Sort"
     }
 }

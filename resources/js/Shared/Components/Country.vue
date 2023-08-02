@@ -24,7 +24,7 @@ function updateCountry(countryId) {
 
 const updateCountryForm = useForm({
   name: props.country.name,
-  alternative_name: props.country.alternative_name,
+  alternativeName: props.country.alternativeName,
   latitude: props.country.latitude,
   longitude: props.country.longitude,
   iso: props.country.iso,
@@ -65,7 +65,7 @@ function toggleEditDialog() {
     </div>
   </td>
   <td class="table-cell break-all py-3.5 text-sm text-gray-500">
-    {{ country.alternative_name }}
+    {{ country.alternativeName }}
   </td>
   <td class="hidden break-all py-3.5 pl-1 text-sm text-gray-500 xl:table-cell">
     {{ country.latitude }}
@@ -107,9 +107,9 @@ function toggleEditDialog() {
           <label class="mb-1">{{ $t('Auth.Name') }}</label>
           <input v-model="updateCountryForm.name" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text" required>
           <ErrorMessage :message="updateCountryForm.errors.name" />
-          <label class="mb-1 mt-4">{{ $t('Sentence.Alternative_name') }}</label>
-          <input v-model="updateCountryForm.alternative_name" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text">
-          <ErrorMessage :message="updateCountryForm.errors.alternative_name" />
+          <label class="mb-1 mt-4">{{ $t('Sentence.alternativeName') }}</label>
+          <input v-model="updateCountryForm.alternativeName" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text">
+          <ErrorMessage :message="updateCountryForm.errors.alternativeName" />
 
           <label class="mb-1 mt-4">{{ $t('Technical.Latitude') }}</label>
           <input v-model="updateCountryForm.latitude" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text" required @keydown="preventCommaInput">
