@@ -35,4 +35,14 @@ class FavoritesController extends Controller
             ->where("city_id", $cityId)
             ->exists();
     }
+
+    public function show(Request $request): array
+    {
+        $userId = $request->user()?->id;
+
+        return Favorites::where("user_id", $userId)
+            ->get()
+            ->pluck("city_id")
+            ->toArray();
+    }
 }
