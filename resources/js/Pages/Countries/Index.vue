@@ -10,7 +10,9 @@ import { debounce } from 'lodash/function'
 import Pagination from '@/Shared/Components/Pagination.vue'
 import PaginationInfo from '@/Shared/Components/PaginationInfo.vue'
 import PrimarySaveButton from '@/Shared/Components/PrimarySaveButton.vue'
+import { useI18n } from 'vue-i18n'
 
+const i18n = useI18n()
 const page = usePage()
 
 function storeCountry() {
@@ -69,9 +71,9 @@ function clearInput() {
 }
 
 const sortingOptions = [
-  { name: 'Latest', href: '/admin/countries?order=latest' },
-  { name: 'Oldest', href: '/admin/countries?order=oldest' },
-  { name: 'By name', href: '/admin/countries?order=name' },
+  { name: i18n.t('Sorting.Latest'), href: '/admin/countries?order=latest' },
+  { name: i18n.t('Sorting.Oldest'), href: '/admin/countries?order=oldest' },
+  { name: i18n.t('Sorting.By_name'), href: '/admin/countries?order=name' },
 ]
 
 const isSortDialogOpened = ref(false)
@@ -142,7 +144,7 @@ function toggleSortDialog() {
                 <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                   <MagnifyingGlassIcon class="h-5 w-5 text-gray-800" />
                 </div>
-                <input v-model.trim="searchInput" type="text" class="block w-full rounded border-0 py-3 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blumilk-300 sm:text-sm sm:leading-6 md:py-1.5" placeholder="Search country">
+                <input v-model.trim="searchInput" type="text" class="block w-full rounded border-0 py-3 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blumilk-300 sm:text-sm sm:leading-6 md:py-1.5" :placeholder="$t('GUI.Search_country')">
               </div>
               <button v-if="searchInput.length" type="button" class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-800 ring-1 ring-inset ring-gray-300 hover:bg-blumilk-25" @click="clearInput">
                 <XMarkIcon class="h-5 w-5" />
@@ -158,7 +160,7 @@ function toggleSortDialog() {
             <div class="relative inline-block text-left">
               <div>
                 <button ref="sortDialog" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900" aria-expanded="false" aria-haspopup="true" @click="toggleSortDialog">
-                  Sort
+                  {{ $t("Sorting.Sort") }}
                   <ChevronDownIcon class="ml-1 h-5 w-5" />
                 </button>
               </div>

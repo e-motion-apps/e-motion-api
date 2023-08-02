@@ -7,6 +7,8 @@
         "Admin_panel" : "Admin panel",
         "Close_menu" : "Close menu",
         "Open_menu" : "Open menu",
+        "Search_city" : "Search city",
+        "Search_country" : "Search country",
     },
     "Auth": {
         "Register" : "Register",
@@ -65,5 +67,14 @@
         "Alternative_name" : "Alternative name",
         "Filling" : "Filling map with providers",
         "Didnt_find_providers" : "We didn't find any providers",
+    },
+    "Sorting": {
+        "Latest" : "Latest",
+        "Oldest" : "Oldest",
+        "Empty_coordinates" : "Empty coordinates",
+        "By_name" : "By name",
+        "By_providers" : "By providers",
+        "By_country" : "By country",
+        "Sort" : "Sort",
     }
 }
