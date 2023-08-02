@@ -59,7 +59,7 @@ class BirdDataImporterTest extends TestCase
         $this->assertTrue($result->hasStoppedExecution());
     }
 
-    public function testParsingDataCorrectly():void
+    public function testParsingDataCorrectly(): void
     {
         $html = "let features = [
         {
@@ -92,8 +92,5 @@ class BirdDataImporterTest extends TestCase
             "40.813616 -96.7025955",
         ];
         $this->assertEquals($expectedResult, $result);
-
-
-
     }
 }
