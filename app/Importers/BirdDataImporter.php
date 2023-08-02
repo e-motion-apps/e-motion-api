@@ -12,32 +12,15 @@ use GuzzleHttp\Exception\GuzzleException;
 
 class BirdDataImporter extends DataImporter
 {
-    private const PROVIDER_ID = 1;
-
     protected string $html;
-    protected string $fetchedData;
 
     public function extract(): static
     {
         try {
             $response = $this->client->get("https://www.bird.co/map/");
-            $html = $response->getBody()->getContents();
+            $this->html = $response->getBody()->getContents();
         } catch (GuzzleException) {
             $this->createImportInfoDetails("400", self::getProviderName());
-            $this->stopExecution = true;
-
-            return $this;
-        }
-
-        $pattern = '/let features = \[([\s\S]*?)\];/';
-
-        if (preg_match($pattern, $html, $matches)) {
-            $this->fetchedData = $matches[1];
-        }
-
-        if (!isset($this->fetchedData)) {
-            $this->createImportInfoDetails("204", self::getProviderName());
-
             $this->stopExecution = true;
         }
         return $this;
@@ -45,27 +28,13 @@ class BirdDataImporter extends DataImporter
 
     public function transform(): void
     {
-        $pattern = '/let features = \[([\s\S]*?)\];/';
-
-        if (preg_match($pattern, $this->html, $matches)) {
-            $this->fetchedData = $matches[1];
-        }
-
-        if (!isset($this->fetchedData)) {
-            $this->createImportInfoDetails("204", self::PROVIDER_ID);
-            $this->stopExecution = true;
-        }
+        $mapboxService = new MapboxGeocodingService();
+        $existingCityProviders = [];
+        $coordinatesList = $this->parseData($this->html);
 
         if ($this->stopExecution) {
             return;
         }
-
-        $mapboxService = new MapboxGeocodingService();
-        $existingCityProviders = [];
-
-        $this->fetchedData = str_replace(["{", "}", "\t", "type: 'hq'", ",", "\n", "position: new google.maps.LatLng("], "", $this->fetchedData);
-        $coordinatesList = explode(")", $this->fetchedData);
-        $coordinatesList = array_map("trim", $coordinatesList);
 
         foreach ($coordinatesList as $coordinates) {
             if ($coordinates) {
@@ -73,38 +42,68 @@ class BirdDataImporter extends DataImporter
 
                 [$cityName, $countryName] = $mapboxService->getPlaceFromApi($lat, $long);
 
-                $city = City::query()->where("name", $cityName)->first();
-                $alternativeCityName = CityAlternativeName::query()->where("name", $cityName)->first();
-
-                if ($city || $alternativeCityName) {
-                    $cityId = $city ? $city->id : $alternativeCityName->city_id;
-
-                    $this->createProvider($cityId, self::getProviderName());
-                    $existingCityProviders[] = $cityId;
-                } else {
-                    $country = Country::query()->where("name", $countryName)->first();
-
-                    if ($country) {
-                        if (!$lat || !$long) {
-                            $this->createImportInfoDetails("419", self::getProviderName());
-                        }
-
-                        $city = City::query()->create([
-                            "name" => $cityName,
-                            "latitude" => $lat,
-                            "longitude" => $long,
-                            "country_id" => $country->id,
-                        ]);
-
-                        $this->createProvider($city->id, self::getProviderName());
-                        $existingCityProviders[] = $city->id;
-                    } else {
-                        $this->countryNotFound($cityName, $countryName);
-                        $this->createImportInfoDetails("420", self::getProviderName());
-                    }
+                $provider = $this->save($cityName, $countryName, $lat, $long);
+                if ($provider != '') {
+                    $existingCityProviders[] = $provider;
                 }
+
             }
         }
         $this->deleteMissingProviders(self::getProviderName(), $existingCityProviders);
+    }
+
+    protected function parseData(string $html): array
+    {
+        $pattern = '/let features = \[([\s\S]*?)\];/';
+
+        if (preg_match($pattern, $html, $matches)) {
+            $fetchedData = $matches[1];
+        }
+
+        if (!isset($fetchedData)) {
+            $this->createImportInfoDetails("204", self::getProviderName());
+            $this->stopExecution = true;
+        }
+
+        $fetchedData = str_replace(["{", "}", "\t", "type: 'hq'", ",", "\n", "position: new google.maps.LatLng("], "", $fetchedData);
+        $coordinates = explode(")", $fetchedData);
+        $coordinates = array_filter($coordinates, "trim");
+
+        return array_map("trim", $coordinates);
+    }
+
+    protected function save(string $cityName, string $countryName, string $lat, string $long): string
+    {
+        $city = City::query()->where("name", $cityName)->first();
+        $alternativeCityName = CityAlternativeName::query()->where("name", $cityName)->first();
+
+        if ($city || $alternativeCityName) {
+            $cityId = $city ? $city->id : $alternativeCityName->city_id;
+
+            $this->createProvider($cityId, self::getProviderName());
+            return strval($cityId);
+        } else {
+            $country = Country::query()->where("name", $countryName)->first();
+
+            if ($country) {
+                if (!$lat || !$long) {
+                    $this->createImportInfoDetails("419", self::getProviderName());
+                }
+
+                $city = City::query()->create([
+                    "name" => $cityName,
+                    "latitude" => $lat,
+                    "longitude" => $long,
+                    "country_id" => $country->id,
+                ]);
+
+                $this->createProvider($city->id, self::getProviderName());
+                return strval($city->id);
+            } else {
+                $this->countryNotFound($cityName, $countryName);
+                $this->createImportInfoDetails("420", self::getProviderName());
+                return '';
+            }
+        }
     }
 }
