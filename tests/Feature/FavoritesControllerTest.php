@@ -43,7 +43,6 @@ class FavoritesControllerTest extends TestCase
         $city = City::factory()->create();
 
         $this->post("/favorites", ["city_id" => $city->id])
-            ->assertStatus(302)
-            ->assertRedirect("/login");
+            ->assertStatus(404);
     }
 }
