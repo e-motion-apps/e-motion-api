@@ -7,13 +7,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property int $id
  * @property string $name
  * @property string $url
  * @property string $color
  */
 class Provider extends Model
 {
+    public $incrementing = false;
+    protected $primaryKey = "name";
+    protected $keyType = "string";
+
     public function cityProvider()
     {
         return $this->belongsTo(CityProvider::class);

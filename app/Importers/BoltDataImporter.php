@@ -13,8 +13,6 @@ use GuzzleHttp\Exception\GuzzleException;
 
 class BoltDataImporter extends DataImporter
 {
-    private const PROVIDER_ID = 3;
-
     protected array $fetchedCities = [];
     protected array $fetchedCityDictionary = [];
     protected array $fetchedCountriesDictionary = [];
@@ -26,16 +24,16 @@ class BoltDataImporter extends DataImporter
             $response = $client->get("https://bolt.eu/page-data/en/scooters/page-data.json");
             $content = json_decode($response->getBody()->getContents(), true);
 
-            $this->fetchedCountriesDictionary = json_decode($content["result"]["data"]["countries"]["edges"][0]["node"]["data"], true)["countries"];
+            $this->fetchedCountriesDictionary = json_decode($content["result"]["data"]["countries"]["edges"][0]["node"]["data"], associative: true)["countries"];
             $this->fetchedCityDictionary = $content["result"]["data"]["cities"]["nodes"];
             $this->fetchedCities = $content["result"]["data"]["scooterCities"]["nodes"];
 
             if (empty($this->fetchedCountriesDictionary) || empty($this->fetchedCityDictionary) || empty($this->fetchedCities)) {
-                $this->createImportInfoDetails("204", self::PROVIDER_ID);
+                $this->createImportInfoDetails("204", self::getProviderName());
                 $this->stopExecution = true;
             }
         } catch (GuzzleException) {
-            $this->createImportInfoDetails("400", self::PROVIDER_ID);
+            $this->createImportInfoDetails("400", self::getProviderName());
             $this->stopExecution = true;
         }
 
@@ -75,7 +73,7 @@ class BoltDataImporter extends DataImporter
             if ($city || $alternativeCityName) {
                 $cityId = $city ? $city->id : $alternativeCityName->city_id;
 
-                $this->createProvider($cityId, self::PROVIDER_ID);
+                $this->createProvider($cityId, self::getProviderName());
                 $existingCityProviders[] = $cityId;
             }
             else {
@@ -87,7 +85,7 @@ class BoltDataImporter extends DataImporter
                     $countCoordinates = count($coordinates);
 
                     if (!$countCoordinates) {
-                        $this->createImportInfoDetails("419", self::PROVIDER_ID);
+                        $this->createImportInfoDetails("419", self::getProviderName());
                     }
 
                     $city = City::query()->create([
@@ -97,11 +95,11 @@ class BoltDataImporter extends DataImporter
                         "country_id" => $country->id,
                     ]);
 
-                    $this->createProvider($city->id, self::PROVIDER_ID);
+                    $this->createProvider($city->id, self::getProviderName());
                     $existingCityProviders[] = $city->id;
                 } else {
                     $this->countryNotFound($cityName, $countryName);
-                    $this->createImportInfoDetails("420", self::PROVIDER_ID);
+                    $this->createImportInfoDetails("420", self::getProviderName());
                 }
             }
         }
@@ -110,6 +108,6 @@ class BoltDataImporter extends DataImporter
         unset($fetchedCityDictionary);
         unset($fetchedCountriesDictionary);
 
-        $this->deleteMissingProviders(self::PROVIDER_ID, $existingCityProviders);
+        $this->deleteMissingProviders(self::getProviderName(), $existingCityProviders);
     }
 }

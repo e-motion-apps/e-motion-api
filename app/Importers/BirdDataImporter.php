@@ -1,0 +1,95 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Importers;
+
+use App\Models\City;
+use App\Models\CityAlternativeName;
+use App\Models\Country;
+use App\Services\MapboxGeocodingService;
+use Throwable;
+
+class BirdDataImporter extends DataImporter
+{
+    protected string $fetchedData;
+
+    public function extract(): static
+    {
+        try {
+            $html = file_get_contents("https://www.bird.co/map/");
+        } catch (Throwable) {
+            $this->createImportInfoDetails("400", self::getProviderName());
+            $this->stopExecution = true;
+
+            return $this;
+        }
+        $pattern = '/let features = \[([\s\S]*?)\];/';
+
+        if (preg_match($pattern, $html, $matches)) {
+            $this->fetchedData = $matches[1];
+        }
+
+        if (!isset($this->fetchedData)) {
+            $this->createImportInfoDetails("204", self::getProviderName());
+
+            $this->stopExecution = true;
+        }
+
+        return $this;
+    }
+
+    public function transform(): void
+    {
+        if ($this->stopExecution) {
+            return;
+        }
+
+        $mapboxService = new MapboxGeocodingService();
+        $existingCityProviders = [];
+
+        $this->fetchedData = str_replace(["{", "}", "\t", "type: 'hq'", ",", "\n", "position: new google.maps.LatLng("], "", $this->fetchedData);
+        $coordinatesList = explode(")", $this->fetchedData);
+        $coordinatesList = array_map("trim", $coordinatesList);
+
+        foreach ($coordinatesList as $coordinates) {
+            if ($coordinates) {
+                [$lat, $long] = explode(" ", $coordinates);
+
+                [$cityName, $countryName] = $mapboxService->getPlaceFromApi($lat, $long);
+
+                $city = City::query()->where("name", $cityName)->first();
+                $alternativeCityName = CityAlternativeName::query()->where("name", $cityName)->first();
+
+                if ($city || $alternativeCityName) {
+                    $cityId = $city ? $city->id : $alternativeCityName->city_id;
+
+                    $this->createProvider($cityId, self::getProviderName());
+                    $existingCityProviders[] = $cityId;
+                } else {
+                    $country = Country::query()->where("name", $countryName)->first();
+
+                    if ($country) {
+                        if (!$lat || !$long) {
+                            $this->createImportInfoDetails("419", self::getProviderName());
+                        }
+
+                        $city = City::query()->create([
+                            "name" => $cityName,
+                            "latitude" => $lat,
+                            "longitude" => $long,
+                            "country_id" => $country->id,
+                        ]);
+
+                        $this->createProvider($city->id, self::getProviderName());
+                        $existingCityProviders[] = $city->id;
+                    } else {
+                        $this->countryNotFound($cityName, $countryName);
+                        $this->createImportInfoDetails("420", self::getProviderName());
+                    }
+                }
+            }
+        }
+        $this->deleteMissingProviders(self::getProviderName(), $existingCityProviders);
+    }
+}
