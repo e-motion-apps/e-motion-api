@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use App\Http\Middleware\HandleInertiaRequests;
 
 class SetLocale
 {
@@ -12,7 +13,7 @@ class SetLocale
     {
         $locale = $request->cookie("locale");
 
-        if (!empty($locale) && in_array($locale, config("app.supported_locales"))) {
+        if (!empty($locale) && in_array($locale, config("app.supported_locales"), true)) {
             app()->setLocale($request->cookie("locale"));
         }
 

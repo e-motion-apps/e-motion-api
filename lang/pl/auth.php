@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 return [
     "failed" => "Nieprawidłowe dane logowania",
     "password" => "Podane hasło jest nieprawidłowe.",

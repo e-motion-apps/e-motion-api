@@ -3,13 +3,13 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ChangeLocaleController;
 use App\Http\Controllers\CityAlternativeNameController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\CityProviderController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\FavoritesController;
 use App\Http\Controllers\ImportInfoController;
-use App\Http\Controllers\ChangeLocaleController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware("guest")->group(function (): void {
