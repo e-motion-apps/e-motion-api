@@ -1,6 +1,6 @@
 <script setup>
 import { Dialog, DialogPanel } from '@headlessui/vue'
-import { ChartBarIcon, ClipboardIcon, FlagIcon, MapPinIcon, ForwardIcon } from '@heroicons/vue/24/solid'
+import { ChartBarIcon, ClipboardIcon, FlagIcon, MapPinIcon, ForwardIcon, PlayCircleIcon } from '@heroicons/vue/24/solid'
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
