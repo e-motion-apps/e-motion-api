@@ -8,7 +8,7 @@
         "Close_menu" : "Close menu",
         "Open_menu" : "Open menu",
         "Search_city" : "Search city",
-        "Search_country" : "Search country",
+        "Search_country" : "Search country"
     },
     "Auth": {
         "Register" : "Register",
@@ -18,7 +18,7 @@
         "Log_in" : "Log in",
         "Log_out" : "Log out",
         "Sign_up" : "Sign up",
-        "Confirm_password" : "Confirm password",
+        "Confirm_password" : "Confirm password"
     },
     "Prompt": {
         "No_account" : "Don't have an account?",
@@ -28,7 +28,7 @@
         "Create_account" : "Create account",
         "Login_to_add_to_favorite" : "Login to add to favorite",
         "Sorry_we_couldnt_cities" : "Sorry, we couldn't find any cities",
-        "Sorry_we_couldnt_countries" : "Sorry, we couldn't find any countries",
+        "Sorry_we_couldnt_countries" : "Sorry, we couldn't find any countries"
     },
     "Info": {
         "advert_1" : "There are plenty of e-scooter providers, so sometimes you can be confused about which app you should use during your trips.",
@@ -43,7 +43,7 @@
         "Update_city" : "Update city", 
         "Save" : "Save",
         "Add_alt_name" : "Add alternative name",
-        "Clear_filters" : "Clear filters",
+        "Clear_filters" : "Clear filters"
     },
     "Technical": {
         "Latitude" : "Latitude", 
@@ -55,18 +55,18 @@
         "Cities" : "Cities",
         "Statistics" : "Statistics",
         "Run_importers" : "Run importers",
-        "Dashboard" : "Dashboard",
+        "Dashboard" : "Dashboard"
     },
     "Word": {
         "Showing" : "Showing",
         "Of" : "of",
         "To" : "to",
-        "Results" : "results",
+        "Results" : "results"
     },
     "Sentence": {
         "Alternative_name" : "Alternative name",
         "Filling" : "Filling map with providers",
-        "Didnt_find_providers" : "We didn't find any providers",
+        "Didnt_find_providers" : "We didn't find any providers"
     },
     "Sorting": {
         "Latest" : "Latest",
@@ -75,6 +75,6 @@
         "By_name" : "By name",
         "By_providers" : "By providers",
         "By_country" : "By country",
-        "Sort" : "Sort",
+        "Sort" : "Sort"
     }
 }

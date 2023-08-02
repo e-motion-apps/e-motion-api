@@ -8,7 +8,7 @@
         "Close_menu" : "Zamknij menu",
         "Open_menu" : "Otwórz menu",
         "Search_city" : "Szukaj miasta",
-        "Search_country" : "Szukaj kraju",
+        "Search_country" : "Szukaj kraju"
     },
     "Auth": {
         "Register" : "Zarejestruj",
@@ -18,7 +18,7 @@
         "Log_in" : "Zaloguj",
         "Log_out" : "Wyloguj",
         "Sign_up" : "Zarejestruj się",
-        "Confirm_password" : "Potwierdź hasło",
+        "Confirm_password" : "Potwierdź hasło"
     },
     "Prompt": {
         "No_account" : "Nie masz konta?",
@@ -28,22 +28,22 @@
         "Create_account" : "Stwórz konto",
         "Login_to_add_to_favorite" : "Zaloguj się, aby dodać do ulubionych",
         "Sorry_we_couldnt_cities" : "Przepraszamy, ale nie mogliśmy znaleźć żadnych miast",
-        "Sorry_we_couldnt_countries" : "Przepraszamy, ale nie mogliśmy znaleźć żadnych krajów",
+        "Sorry_we_couldnt_countries" : "Przepraszamy, ale nie mogliśmy znaleźć żadnych krajów"
     },
     "Info": {
-        "advert_1" : "Jest wielu dostawców hulajnóg elektrycznych, więc czasami możesz być zdezorientowany, których aplikacji powinieneś używać podczas swoich podróży.",
-        "advert_2" : "Ta aplikacja pomoże Ci z planowaniem twoich wakacji, lub podróży biznesowych",
+        "advert_1" : "Jest wielu dostawców hulajnóg elektrycznych, więc czasami można poczuć pewne niepewności co do tego, których aplikacji powinno się używać podczas swoich podróży.",
+        "advert_2" : "Ta aplikacja pomoże Ci z planowaniem Twoich wakacji, lub podróży biznesowych"
     },
     "CRUD": {
         "Edit" : "Edytuj",
         "Delete" : "Usuń",
         "Add" : "Dodaj",
-        "Create_city" : "Stwórz miasto",
-        "Create_country" : "Stwórz kraj",
+        "Create_city" : "Utwórz miasto",
+        "Create_country" : "Utwórz kraj",
         "Update_city" : "Aktualizuj miasto",
         "Save" : "Zapisz",
         "Add_alt_name" : "Dodaj alternatywną nazwę",
-        "Clear_filters" : "Wyczyść filtry",
+        "Clear_filters" : "Wyczyść filtry"
     },
     "Technical": {
         "Latitude" : "Szerokość geograficzna",
@@ -55,18 +55,18 @@
         "Cities" : "Miasta",
         "Statistics" : "Statystyki",
         "Run_importers" : "Uruchom importery",
-        "Dashboard" : "Panel",
+        "Dashboard" : "Strona główna"
     },
     "Word": {
         "Showing" : "Pokazuje",
         "Of" : "z",
         "To" : "do",
-        "Results" : "wyników",
+        "Results" : "wyników"
     },
     "Sentence": {
         "Alternative_name" : "Alternatywna nazwa",
         "Filling" : "Wypełnianie mapy dostawcami",
-        "Didnt_find_providers" : "Nie znaleziono dostawców",
+        "Didnt_find_providers" : "Nie znaleziono dostawców"
     },
     "Sorting": {
         "Latest" : "Najnowsze",
@@ -75,6 +75,6 @@
         "By_name" : "Alfabetycznie",
         "By_providers" : "Według dostawców",
         "By_country" : "Według kraju",
-        "Sort" : "Sortuj",
+        "Sort" : "Sortuj"
     }
 }

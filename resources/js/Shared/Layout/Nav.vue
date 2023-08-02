@@ -195,7 +195,7 @@ defineExpose({
             </div>
           </form>
           <button :disabled="registerForm.processing" class="mt-6 text-xs font-light" @click="toggleAuthOption">
-            {{ $t('Prompt.Already_have_account') }} <span class="font-normal">{{ $t(Auth.Log_in) }}</span>
+            {{ $t('Prompt.Already_have_account') }} <span class="font-normal">{{ $t('Auth.Log_in') }}</span>
           </button>
         </div>
       </div>

@@ -174,7 +174,7 @@ function toggleSortDialog() {
             <div class="relative inline-block text-left">
               <div>
                 <button ref="sortDialog" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900" aria-expanded="false" aria-haspopup="true" @click="toggleSortDialog">
-                  {{ $t("Sorting.Sort") }}
+                  {{ $t('Sorting.Sort') }}
                   <ChevronDownIcon class="ml-1 h-5 w-5" />
                 </button>
               </div>
