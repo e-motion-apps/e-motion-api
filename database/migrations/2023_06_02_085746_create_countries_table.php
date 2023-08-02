@@ -12,7 +12,7 @@ return new class() extends Migration {
         Schema::create("countries", function (Blueprint $table): void {
             $table->id();
             $table->string("name")->unique();
-            $table->string("alternativeName")->nullable();
+            $table->string("alternative_name")->nullable();
             $table->string("latitude")->nullable();
             $table->string("longitude")->nullable();
             $table->string("iso")->unique();
