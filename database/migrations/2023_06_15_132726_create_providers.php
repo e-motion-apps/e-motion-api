@@ -10,8 +10,7 @@ return new class() extends Migration {
     public function up(): void
     {
         Schema::create("providers", function (Blueprint $table): void {
-            $table->id();
-            $table->string("name");
+            $table->string("name")->unique();
             $table->string("url")->nullable();
             $table->string("color");
             $table->timestamps();

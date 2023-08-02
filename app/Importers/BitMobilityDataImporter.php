@@ -13,7 +13,6 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class BitMobilityDataImporter extends DataImporter
 {
-    private const PROVIDER_ID = 2;
     private const COUNTRY_NAME = "Italy";
 
     protected Crawler $sections;
@@ -21,11 +20,11 @@ class BitMobilityDataImporter extends DataImporter
     public function extract(): static
     {
         try {
+
             $response = $this->client->get("https://bitmobility.it/dove-siamo/");
             $html = $response->getBody()->getContents();
         } catch (GuzzleException) {
-            $this->createImportInfoDetails("400", self::PROVIDER_ID);
-
+            $this->createImportInfoDetails("400", self::getProviderName());
             $this->stopExecution = true;
 
             return $this;
@@ -35,7 +34,7 @@ class BitMobilityDataImporter extends DataImporter
         $this->sections = $crawler->filter(".wpb_content_element > .wpb_wrapper > p > a");
 
         if (count($this->sections) === 0) {
-            $this->createImportInfoDetails("204", self::PROVIDER_ID);
+            $this->createImportInfoDetails("204", self::getProviderName());
 
             $this->stopExecution = true;
         }
@@ -61,7 +60,7 @@ class BitMobilityDataImporter extends DataImporter
             if ($city || $alternativeCityName) {
                 $cityId = $city ? $city->id : $alternativeCityName->city_id;
 
-                $this->createProvider($cityId, self::PROVIDER_ID);
+                $this->createProvider($cityId, self::getProviderName());
                 $existingCityProviders[] = $cityId;
             }
             else {
@@ -73,7 +72,7 @@ class BitMobilityDataImporter extends DataImporter
                     $countCoordinates = count($coordinates);
 
                     if (!$countCoordinates) {
-                        $this->createImportInfoDetails("419", self::PROVIDER_ID);
+                        $this->createImportInfoDetails("419", self::getProviderName());
                     }
 
                     $city = City::query()->create([
@@ -83,14 +82,14 @@ class BitMobilityDataImporter extends DataImporter
                         "country_id" => $country->id,
                     ]);
 
-                    $this->createProvider($city->id, self::PROVIDER_ID);
+                    $this->createProvider($city->id, self::getProviderName());
                     $existingCityProviders[] = $city->id;
                 } else {
                     $this->countryNotFound($cityName, self::COUNTRY_NAME);
-                    $this->createImportInfoDetails("420", self::PROVIDER_ID);
+                    $this->createImportInfoDetails("420", self::getProviderName());
                 }
             }
         }
-        $this->deleteMissingProviders(self::PROVIDER_ID, $existingCityProviders);
+        $this->deleteMissingProviders(self::getProviderName(), $existingCityProviders);
     }
 }

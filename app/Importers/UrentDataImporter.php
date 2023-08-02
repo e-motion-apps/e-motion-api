@@ -14,7 +14,6 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class UrentDataImporter extends DataImporter
 {
-    private const PROVIDER_ID = 15;
     private const COUNTRY_NAME = "Russia";
 
     protected Crawler $sections;
@@ -25,7 +24,7 @@ class UrentDataImporter extends DataImporter
             $response = $this->client->get("https://start.urent.ru/");
             $html = $response->getBody()->getContents();
         } catch (GuzzleException) {
-            $this->createImportInfoDetails("400", self::PROVIDER_ID);
+            $this->createImportInfoDetails("400", self::getProviderName());
 
             $this->stopExecution = true;
 
@@ -36,7 +35,7 @@ class UrentDataImporter extends DataImporter
         $this->sections = $crawler->filter(".city-block-1 > div > div > .grid-item-1 > ul > li");
 
         if (count($this->sections) === 0) {
-            $this->createImportInfoDetails("204", self::PROVIDER_ID);
+            $this->createImportInfoDetails("204", self::getProviderName());
 
             $this->stopExecution = true;
         }
@@ -68,7 +67,7 @@ class UrentDataImporter extends DataImporter
             if ($city || $alternativeCity) {
                 $cityId = $city ? $city->id : $alternativeCity->city_id;
 
-                $this->createProvider($cityId, self::PROVIDER_ID);
+                $this->createProvider($cityId, self::getProviderName());
                 $existingCityProviders[] = $cityId;
             }
             else {
@@ -80,7 +79,7 @@ class UrentDataImporter extends DataImporter
                     $countCoordinates = count($coordinates);
 
                     if (!$countCoordinates) {
-                        $this->createImportInfoDetails("419", self::PROVIDER_ID);
+                        $this->createImportInfoDetails("419", self::getProviderName());
                     }
 
                     $city = City::query()->create([
@@ -90,14 +89,14 @@ class UrentDataImporter extends DataImporter
                         "country_id" => $country->id,
                     ]);
 
-                    $this->createProvider($city->id, self::PROVIDER_ID);
+                    $this->createProvider($city->id, self::getProviderName());
                     $existingCityProviders[] = $city->id;
                 } else {
                     $this->countryNotFound($cityName, self::COUNTRY_NAME);
-                    $this->createImportInfoDetails("420", self::PROVIDER_ID);
+                    $this->createImportInfoDetails("420", self::getProviderName());
                 }
             }
         }
-        $this->deleteMissingProviders(self::PROVIDER_ID, $existingCityProviders);
+        $this->deleteMissingProviders(self::getProviderName(), $existingCityProviders);
     }
 }

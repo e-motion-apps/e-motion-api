@@ -69,7 +69,7 @@ onMounted(async () => {
       </div>
 
       <div v-show="isDesktop || (showMap && isMobile)" class="relative h-full lg:w-1/2">
-        <Map v-if="data.providers.length" :key="`${filterStore.selectedCountryId}-${filterStore.selectedProviderId}`" :cities="data.cities" class="z-10" />
+        <Map v-if="data.providers.length" :key="`${filterStore.selectedCountryId}-${filterStore.selectedProviderName}`" :cities="data.cities" class="z-10" />
         <div v-else class="flex h-full flex-col items-center justify-center bg-blumilk-25" aria-label="Loading..." role="status">
           <svg class="h-24 w-24 animate-spin" viewBox="3 3 18 18">
             <path

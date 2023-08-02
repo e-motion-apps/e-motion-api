@@ -1,7 +1,7 @@
 <script setup>
 import { useFilterStore } from '@/Shared/Stores/FilterStore'
 import { computed } from 'vue'
-import { usePage } from '@inertiajs/vue3' 
+import { usePage } from '@inertiajs/vue3'
 import { TrashIcon } from '@heroicons/vue/24/outline'
 import FavoriteButton from '@/Shared/Components/FavoriteButton.vue'
 import InfoPopup from '@/Shared/Components/InfoPopup.vue'
@@ -18,20 +18,20 @@ const authenticated = computed(() => usePage().props.auth.isAuth)
 
 const filteredCities = computed(() => {
   const selectedCountryId = filterStore.selectedCountryId
-  const selectedProviderId = filterStore.selectedProviderId
+  const selectedProviderName = filterStore.selectedProviderName
 
-  if (selectedCountryId === null && selectedProviderId === null) {
+  if (selectedCountryId === null && selectedProviderName === null) {
     return props.cities
-  } else if (selectedCountryId !== null && selectedProviderId === null) {
+  } else if (selectedCountryId !== null && selectedProviderName === null) {
     return props.cities.filter(city => city.country.id === selectedCountryId)
-  } else if (selectedCountryId === null && selectedProviderId !== null) {
+  } else if (selectedCountryId === null && selectedProviderName !== null) {
     return props.cities.filter(city =>
-      city.cityProviders.some(cityProvider => cityProvider.provider_id === selectedProviderId),
+      city.cityProviders.some(cityProvider => cityProvider.provider_name === selectedProviderName),
     )
   } else {
     return props.cities.filter(city =>
       city.country.id === selectedCountryId &&
-      city.cityProviders.some(cityProvider => cityProvider.provider_id === selectedProviderId),
+      city.cityProviders.some(cityProvider => cityProvider.provider_name === selectedProviderName),
     )
   }
 })
@@ -46,7 +46,7 @@ const filteredProviders = computed(() => {
       props.cities.some(city =>
         city.country.id === selectedCountryId &&
         city.cityProviders.some(cityProvider =>
-          cityProvider.provider_id === provider.id,
+          cityProvider.provider_name === provider.name,
         ),
       ),
     )
@@ -54,10 +54,10 @@ const filteredProviders = computed(() => {
 })
 
 const filteredCountries = computed(() => {
-  const selectedProviderId = filterStore.selectedProviderId
+  const selectedProviderName = filterStore.selectedProviderName
   const selectedCountryId = filterStore.selectedCountryId
 
-  if (selectedProviderId === null) {
+  if (selectedProviderName === null) {
     return props.countries.map(country => ({
       ...country,
       hasProvider: true,
@@ -68,7 +68,7 @@ const filteredCountries = computed(() => {
       const hasProvider = props.cities.some(city =>
         city.country.id === country.id &&
         city.cityProviders.some(cityProvider =>
-          cityProvider.provider_id === selectedProviderId,
+          cityProvider.provider_name === selectedProviderName,
         ),
       )
 
@@ -91,11 +91,11 @@ function filterCountry(countryId) {
   }
 }
 
-function filterProvider(providerId) {
-  if (filterStore.selectedProviderId === providerId) {
+function filterProvider(providerName) {
+  if (filterStore.selectedProviderName === providerName) {
     filterStore.changeSelectedProvider(null)
   } else {
-    filterStore.changeSelectedProvider(providerId)
+    filterStore.changeSelectedProvider(providerName)
   }
 }
 
@@ -110,7 +110,7 @@ function showCity(city) {
 </script>
 
 <template>
-  <div class="mx-auto mt-12 flex w-11/12 flex-col lg:w-5/6 ">
+  <div class="mx-auto mt-4 flex w-11/12 flex-col sm:mt-12 lg:w-5/6 ">
     <h1 class="mb-1 text-[11px] font-medium text-gray-600">
       Countries
     </h1>
@@ -135,17 +135,17 @@ function showCity(city) {
       Providers
     </h1>
     <ul role="list" class="scrollbar flex space-x-2 overflow-x-auto">
-      <li v-for="provider in filteredProviders" :key="provider.id"
+      <li v-for="provider in filteredProviders" :key="provider.name"
           class="mb-2 flex h-8 w-fit shrink-0 cursor-pointer items-center justify-center rounded-md border border-zinc-300 p-1"
           :style="{ 'background-color': provider.color }"
-          :class="{ 'opacity-25': filterStore.selectedProviderId !== null && filterStore.selectedProviderId !== provider.id }"
-          @click="filterProvider(provider.id)"
+          :class="{ 'opacity-25': filterStore.selectedProviderName !== null && filterStore.selectedProviderName !== provider.name }"
+          @click="filterProvider(provider.name)"
       >
-        <img class="w-8" :src="'/providers/' + provider.name + '.png'" alt="">
+        <img class="w-8" :src="'/providers/' + provider.name.toLowerCase() + '.png'" alt="">
       </li>
     </ul>
 
-    <div v-if="filterStore.selectedCountryId !== null || filterStore.selectedProviderId !== null"
+    <div v-if="filterStore.selectedCountryId !== null || filterStore.selectedProviderName !== null"
          class="flex justify-end sm:justify-start"
     >
       <button
@@ -180,13 +180,13 @@ function showCity(city) {
         </div>
 
         <div class="mt-4 flex w-fit flex-row-reverse flex-wrap items-center justify-end sm:mt-0 sm:justify-start">
-          <div v-for="provider in filteredProviders" :key="provider.id">
-            <div v-for="cityProvider in city.cityProviders" :key="cityProvider.provider_id">
-              <div v-if="provider.id === cityProvider.provider_id" :style="{ 'background-color': provider.color }"
+          <div v-for="provider in filteredProviders" :key="provider.name">
+            <div v-for="cityProvider in city.cityProviders" :key="cityProvider.provider_name">
+              <div v-if="provider.name === cityProvider.provider_name" :style="{ 'background-color': provider.color }"
                    class="m-1 flex h-6 w-fit shrink-0 items-center justify-center rounded-md border border-zinc-300 p-1 hover:opacity-75"
-                   @click="filterProvider(provider.id)"
+                   @click="filterProvider(provider.name)"
               >
-                <img class="w-6" :src="'/providers/' + provider.name + '.png'" alt="">
+                <img class="w-6" :src="'/providers/' + provider.name.toLowerCase() + '.png'" alt="">
               </div>
             </div>
           </div>

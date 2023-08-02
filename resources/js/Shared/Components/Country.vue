@@ -79,7 +79,7 @@ function toggleEditDialog() {
     {{ country.iso }}
   </td>
 
-  <td class="relative flex justify-end border-t border-transparent py-3.5 text-right text-xs font-medium sm:pl-3 md:pr-2 xl:pr-0">
+  <td class="relative table-cell justify-end border-t text-right text-xs font-medium sm:pl-3 md:pr-2 xl:pr-0">
     <span class="flex flex-wrap">
       <button class="mx-0.5 mb-1 flex w-fit shrink-0 items-center rounded py-1 pr-2 text-blumilk-500 hover:bg-blumilk-25" @click="toggleEditDialog">
         <PencilIcon class="h-5 w-8 text-blumilk-500" />
@@ -98,7 +98,7 @@ function toggleEditDialog() {
     <div class="fixed inset-0 z-10 flex items-center overflow-y-auto bg-black/50">
       <div ref="editDialog" class="mx-auto w-11/12 rounded-lg bg-white pb-6 sm:w-5/6 md:w-3/4 lg:w-1/2 xl:w-1/3">
         <div class="flex w-full justify-end">
-          <button class="px-4 pt-4" @click="toggleEditDialog()">
+          <button class="px-4 pt-4" @click="toggleEditDialog">
             <XMarkIcon class="h-6 w-6" />
           </button>
         </div>

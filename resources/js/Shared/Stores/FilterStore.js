@@ -5,7 +5,7 @@ export const useFilterStore = defineStore('useFilterStore', {
     selectedCity: null,
 
     selectedCountryId: null,
-    selectedProviderId: null,
+    selectedProviderName: null,
   }),
   actions: {
     changeSelectedCity(city) {
@@ -14,8 +14,8 @@ export const useFilterStore = defineStore('useFilterStore', {
     changeSelectedCountry(countryId) {
       this.selectedCountryId = countryId
     },
-    changeSelectedProvider(providerId) {
-      this.selectedProviderId = providerId
+    changeSelectedProvider(providerName) {
+      this.selectedProviderName = providerName
     },
   },
 })

@@ -12,8 +12,6 @@ use GuzzleHttp\Exception\GuzzleException;
 
 class NeuronDataImporter extends DataImporter
 {
-    private const PROVIDER_ID = 9;
-
     protected array $regionsData;
 
     public function extract(): static
@@ -22,7 +20,8 @@ class NeuronDataImporter extends DataImporter
             $response = $this->client->get("https://www.scootsafe.com/");
             $html = $response->getBody()->getContents();
         } catch (GuzzleException) {
-            $this->createImportInfoDetails("400", self::PROVIDER_ID);
+            $this->createImportInfoDetails("400", self::getProviderName());
+
             $this->stopExecution = true;
 
             return $this;
@@ -35,7 +34,7 @@ class NeuronDataImporter extends DataImporter
         }
 
         if (!isset($this->regionsData["list"])) {
-            $this->createImportInfoDetails("204", self::PROVIDER_ID);
+            $this->createImportInfoDetails("204", self::getProviderName());
 
             $this->stopExecution = true;
         }
@@ -66,7 +65,7 @@ class NeuronDataImporter extends DataImporter
                 if ($cityDB || $alternativeCityNameDB) {
                     $cityId = $cityDB ? $cityDB->id : $alternativeCityNameDB->city_id;
 
-                    $this->createProvider($cityId, self::PROVIDER_ID);
+                    $this->createProvider($cityId, self::getProviderName());
                     $existingCityProviders[] = $cityId;
                 } else {
                     $country = Country::query()->where("name", $countryName)->first();
@@ -76,7 +75,7 @@ class NeuronDataImporter extends DataImporter
                         $countCoordinates = count($coordinates);
 
                         if (!$countCoordinates) {
-                            $this->createImportInfoDetails("419", self::PROVIDER_ID);
+                            $this->createImportInfoDetails("419", self::getProviderName());
                         }
 
                         $city = City::query()->create([
@@ -86,15 +85,15 @@ class NeuronDataImporter extends DataImporter
                             "country_id" => $country->id,
                         ]);
 
-                        $this->createProvider($city->id, self::PROVIDER_ID);
+                        $this->createProvider($city->id, self::getProviderName());
                         $existingCityProviders[] = $city->id;
                     } else {
                         $this->countryNotFound($cityName, $countryName);
-                        $this->createImportInfoDetails("420", self::PROVIDER_ID);
+                        $this->createImportInfoDetails("420", self::getProviderName());
                     }
                 }
             }
         }
-        $this->deleteMissingProviders(self::PROVIDER_ID, $existingCityProviders);
+        $this->deleteMissingProviders(self::getProviderName(), $existingCityProviders);
     }
 }
