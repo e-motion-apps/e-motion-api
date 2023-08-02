@@ -1,18 +1,18 @@
 import { createInertiaApp, Head, Link } from '@inertiajs/vue3'
 import { createApp, h } from 'vue'
-import { createI18n } from "vue-i18n";
+import { createI18n } from 'vue-i18n'
 import '../css/app.css'
 import { createPinia } from 'pinia'
-import messages from "@intlify/unplugin-vue-i18n/messages";
+import messages from '@intlify/unplugin-vue-i18n/messages'
 import {
   plugin as formkitPlugin,
   defaultConfig as formkitDefaultConfig,
-} from "@formkit/vue"
-import formkitConfig from "./formkit.config"
+} from '@formkit/vue'
+import formkitConfig from './formkit.config'
 
 const getLocale = () => {
   return (
-    localStorage.getItem("locale") || navigator.language.split("-")[0] || "pl"
+    localStorage.getItem('locale') || navigator.language.split('-')[0] || 'pl'
   )
 }
 
@@ -33,10 +33,11 @@ createInertiaApp({
     const i18n = createI18n({
       legacy: false,
       locale: getLocale(),
-      fallbackLocale: "pl",
-      availableLocales: ["en", "pl"],
+      fallbackLocale: 'pl',
+      availableLocales: ['en', 'pl'],
       messages: messages,
     })
+
     return createApp({ render: () => h(App, props) })
       .use(plugin)
       .use(pinia)
