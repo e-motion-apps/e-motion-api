@@ -13,19 +13,16 @@ class MapboxGeocodingService
     protected string $city;
     protected string $country;
     protected MapboxGeocodingService $mapboxService;
-    protected Client $client;
 
-    public function __construct(Client $client)
-    {
-        $this->client = $client;
-    }
+    public function __construct(
+        protected Client $client,
+    ) {}
 
     /**
      * @throws MapboxGeocodingServiceException
      */
     public function getCoordinatesFromApi(string $cityName, string $countryName): array
     {
-
         $token = config("mapbox.token");
 
         try {

@@ -17,18 +17,18 @@ class BitMobilityDataImporter extends DataImporter
     private const COUNTRY_NAME = "Italy";
 
     protected Crawler $sections;
-    protected MapboxGeocodingService $mapboxService;
 
-    public function __construct(Client $client, MapboxGeocodingService $mapboxService)
+    public function __construct(
+        Client $client,
+        protected MapboxGeocodingService $mapboxService,
+    )
     {
         parent::__construct($client);
-        $this->mapboxService = $mapboxService;
     }
 
     public function extract(): static
     {
         try {
-
             $response = $this->client->get("https://bitmobility.it/dove-siamo/");
             $html = $response->getBody()->getContents();
         } catch (GuzzleException) {

@@ -37,7 +37,7 @@ abstract class DataImporter
     public static function getProviderName(): string
     {
         $parted = explode("\\", static::class);
-        $parted= str_replace("DataImporter", "", $parted[count($parted) - 1]);
+        $parted = str_replace("DataImporter", "", $parted[count($parted) - 1]);
         $classNameParts = explode("@", $parted);
 
         return $classNameParts[0];

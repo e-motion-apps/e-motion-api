@@ -16,12 +16,13 @@ class VoiDataImporter extends DataImporter
 {
     protected Crawler $sections;
     private string $countryName;
-    protected MapboxGeocodingService $mapboxService;
 
-    public function __construct(Client $client, MapboxGeocodingService $mapboxService)
+    public function __construct(
+        Client $client,
+        protected MapboxGeocodingService $mapboxService,
+    )
     {
         parent::__construct($client);
-        $this->mapboxService = $mapboxService;
     }
 
     public function extract(): static

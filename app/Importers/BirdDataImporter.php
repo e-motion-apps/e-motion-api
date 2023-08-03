@@ -15,12 +15,13 @@ use GuzzleHttp\Exception\GuzzleException;
 class BirdDataImporter extends DataImporter
 {
     protected string $html;
-    protected MapboxGeocodingService $mapboxService;
 
-    public function __construct(Client $client, MapboxGeocodingService $mapboxService)
+    public function __construct(
+        Client $client,
+        protected MapboxGeocodingService $mapboxService,
+    )
     {
         parent::__construct($client);
-        $this->mapboxService = $mapboxService;
     }
 
     public function extract(): static
@@ -32,6 +33,7 @@ class BirdDataImporter extends DataImporter
             $this->createImportInfoDetails("400", self::getProviderName());
             $this->stopExecution = true;
         }
+
         return $this;
     }
 
@@ -54,10 +56,10 @@ class BirdDataImporter extends DataImporter
                 [$cityName, $countryName] = $this->mapboxService->getPlaceFromApi($lat, $long);
 
                 $provider = $this->save($cityName, $countryName, $lat, $long);
-                if ($provider != '') {
+
+                if ($provider !== "") {
                     $existingCityProviders[] = $provider;
                 }
-
             }
         }
         $this->deleteMissingProviders(self::getProviderName(), $existingCityProviders);
@@ -92,29 +94,26 @@ class BirdDataImporter extends DataImporter
             $cityId = $city ? $city->id : $alternativeCityName->city_id;
 
             $this->createProvider($cityId, self::getProviderName());
+
             return strval($cityId);
-        } else {
-            $country = Country::query()->where("name", $countryName)->first();
+        }  
+        $country = Country::query()->where("name", $countryName)->first();
 
-            if ($country) {
-                if (!$lat || !$long) {
-                    $this->createImportInfoDetails("419", self::getProviderName());
-                }
+        if ($country) {
+            $city = City::query()->create([
+                "name" => $cityName,
+                "latitude" => $lat,
+                "longitude" => $long,
+                "country_id" => $country->id,
+            ]);
 
-                $city = City::query()->create([
-                    "name" => $cityName,
-                    "latitude" => $lat,
-                    "longitude" => $long,
-                    "country_id" => $country->id,
-                ]);
+            $this->createProvider($city->id, self::getProviderName());
 
-                $this->createProvider($city->id, self::getProviderName());
-                return strval($city->id);
-            } else {
-                $this->countryNotFound($cityName, $countryName);
-                $this->createImportInfoDetails("420", self::getProviderName());
-                return '';
-            }
-        }
+            return strval($city->id);
+        }  
+        $this->countryNotFound($cityName, $countryName);
+        $this->createImportInfoDetails("420", self::getProviderName());
+
+        return "";
     }
 }

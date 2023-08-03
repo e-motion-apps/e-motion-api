@@ -16,13 +16,15 @@ class BoltDataImporter extends DataImporter
     protected array $fetchedCities = [];
     protected array $fetchedCityDictionary = [];
     protected array $fetchedCountriesDictionary = [];
-    protected MapboxGeocodingService $mapboxService;
 
-    public function __construct(Client $client, MapboxGeocodingService $mapboxService)
+    public function __construct(
+        Client $client,
+        protected MapboxGeocodingService $mapboxService,
+    )
     {
         parent::__construct($client);
-        $this->mapboxService = $mapboxService;
     }
+
     public function extract(): static
     {
         try {

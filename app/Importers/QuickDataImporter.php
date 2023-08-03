@@ -17,12 +17,13 @@ class QuickDataImporter extends DataImporter
     private const COUNTRY_NAME = "Poland";
 
     protected Crawler $sections;
-    protected MapboxGeocodingService $mapboxService;
 
-    public function __construct(Client $client, MapboxGeocodingService $mapboxService)
+    public function __construct(
+        Client $client,
+        protected MapboxGeocodingService $mapboxService,
+    )
     {
         parent::__construct($client);
-        $this->mapboxService = $mapboxService;
     }
 
     public function extract(): static
