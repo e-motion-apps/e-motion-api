@@ -124,5 +124,5 @@ return [
         "password" => "hasło",
         "latitude" => "szerokość geograficzna",
         "longitude" => "długość geograficzna",
-    ]
+    ],
 ];

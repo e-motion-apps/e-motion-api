@@ -15,7 +15,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
-    const ERROR_MESSAGE = "Please verify your credentials and try again";
+    public const ERROR_MESSAGE = "Please verify your credentials and try again";
+
     public function store(RegisterRequest $request): Response
     {
         $user = User::create([
