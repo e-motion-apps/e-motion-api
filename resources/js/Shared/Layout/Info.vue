@@ -46,7 +46,7 @@ const emit = defineEmits(['try-it-out', 'create-account'])
         </PrimaryButton>
 
         <SecondaryButton class="h-fit w-full px-2 py-5" @click="emit('create-account')">
-          {{ ('Create account') }}
+          {{ __('Create account') }}
         </SecondaryButton>
       </div>
     </div>

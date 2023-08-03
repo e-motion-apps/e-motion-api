@@ -43,6 +43,12 @@ function login() {
   })
 }
 
+const navigation = [
+  { name: 'Prices', href: '#' },
+  { name: 'Find a ride', href: '#' },
+  { name: 'Rules', href: '#' },
+]
+
 function logout() {
   router.post('/logout')
   isMobileMenuOpened.value = false
@@ -94,27 +100,19 @@ defineExpose({
         <span class="ml-3 hidden text-2xl font-semibold text-gray-800 sm:flex">e&#8209;scooters</span>
       </InertiaLink>
       <div class="flex md:hidden">
-        <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
-                @click="toggleMobileMenu"
-        >
-          <span class="sr-only">{{ __('Open menu') }}</span>
+        <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700" @click="toggleMobileMenu">
+          <span class="sr-only">{{ __('Open main menu') }}</span>
           <Bars3Icon class="h-6 w-6" aria-hidden="true" />
         </button>
       </div>
       <div class="hidden items-center md:flex md:gap-x-12">
-        <div>
-          <a href="#">{{ __('Prices') }}</a>
-        </div>
-        <div>
-          <a href="#">{{ __('Find ride') }}</a>
-        </div>
-        <div>
-          <a href="#">{{ __('Rules') }}</a>
-        </div>
-        <LanguageSwitch />
-        <InertiaLink v-if="isAdmin" href="/admin/cities" @click="clearFilters">
+        <InertiaLink v-for="item in navigation" :key="item.name" :href="item.href" class="text-sm font-medium leading-6 text-gray-800 lg:text-base">
+          {{ __(item.name) }}
+        </InertiaLink>
+        <InertiaLink v-if="isAdmin" href="/admin/cities">
           <ComputerDesktopIcon class="h-6 w-6" />
         </InertiaLink>
+        <LanguageSwitch />
         <button>
           <ArrowRightOnRectangleIcon v-if="isAuth" class="h-6 w-6" @click="logout" />
           <UserCircleIcon v-else class="h-6 w-6" @click="toggleAuthDialog" />
@@ -220,40 +218,40 @@ defineExpose({
         <div class="mt-6 flow-root">
           <div class="-my-6 divide-y divide-gray-500/10">
             <div class="space-y-4 py-6">
-              <div>
-                <a href="#">{{ __('Prices') }}</a>
-              </div>
-              <div>
-                <a href="#">{{ __('Find ride') }}</a>
-              </div>
-              <div>
-                <a href="#">{{ __('Rules') }}</a>
-              </div>
-            </div>
-            <div class="py-6">
-              <button v-if="isAdmin" class="-mx-3 mb-4 flex w-full font-semibold text-gray-800">
-                <InertiaLink v-if="isAdmin" class="flex w-full items-center rounded px-3 py-2.5 hover:bg-blumilk-25" href="/admin/cities">
-                  <ComputerDesktopIcon class="h-6 w-6" />
-                  <span class="ml-2">{{ __('Admin panel') }}</span>
+              <div class="space-y-2 py-6">
+                <InertiaLink v-for="item in navigation" :key="item.name" :href="item.href"
+                             class=" -mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-800 hover:bg-blumilk-25"
+                >
+                  {{ __(item.name) }}
                 </InertiaLink>
-              </button>
-              <button class="-mx-3 flex w-full font-semibold text-gray-800">
-                <span v-if="isAuth" class="flex w-full items-center rounded px-3 py-2.5 hover:bg-blumilk-25"
-                      @click="logout"
-                >
-                  <ArrowRightOnRectangleIcon class="h-6 w-6" />
-                  <span class="ml-2">{{ __('Log out') }}</span>
-                </span>
+              </div>
+              <div class="py-6">
+                <button v-if="isAdmin" class="-mx-3 mb-4 flex w-full font-semibold text-gray-800">
+                  <InertiaLink v-if="isAdmin" class="flex w-full items-center rounded px-3 py-2.5 hover:bg-blumilk-25"
+                               href="/admin/cities"
+                  >
+                    <ComputerDesktopIcon class="h-6 w-6" />
+                    <span class="ml-2">{{ __('Admin panel') }}</span>
+                  </InertiaLink>
+                </button>
+                <button class="-mx-3 flex w-full font-semibold text-gray-800">
+                  <span v-if="isAuth" class="flex w-full items-center rounded px-3 py-2.5 hover:bg-blumilk-25"
+                        @click="logout"
+                  >
+                    <ArrowRightOnRectangleIcon class="h-6 w-6" />
+                    <span class="ml-2">{{ __('Log out') }}</span>
+                  </span>
 
-                <span v-if="!isAuth" class="flex w-full items-center rounded px-3 py-2.5 hover:bg-blumilk-25"
-                      @click="toggleAuthDialog"
-                >
-                  <UserCircleIcon class="h-6 w-6" />
-                  <span class="ml-2">{{ __('Log in') }}</span>
-                </span>
-              </button>
-              <div class="mx-auto flex items-center justify-center px-6 py-3">
-                <LanguageSwitch />
+                  <span v-if="!isAuth" class="flex w-full items-center rounded px-3 py-2.5 hover:bg-blumilk-25"
+                        @click="toggleAuthDialog"
+                  >
+                    <UserCircleIcon class="h-6 w-6" />
+                    <span class="ml-2">{{ __('Log in') }}</span>
+                  </span>
+                </button>
+                <div class="mx-auto flex items-center justify-center px-6 py-3">
+                  <LanguageSwitch />
+                </div>
               </div>
             </div>
           </div>

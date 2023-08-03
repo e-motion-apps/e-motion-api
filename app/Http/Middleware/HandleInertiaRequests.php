@@ -4,19 +4,18 @@ declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
+use App\Helpers\I18n;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
-use Illuminate\Contracts\Foundation\Application;
-use App\Helpers\I18n;
 
 class HandleInertiaRequests extends Middleware
 {
+    protected $rootView = "app";
 
     public function __construct(
-        protected Application $application
+        protected Application $application,
     ) {}
-
-    protected $rootView = "app";
 
     public function version(Request $request): ?string
     {

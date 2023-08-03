@@ -1,6 +1,6 @@
 {
     "Prices": "Ceny",
-    "Find ride": "Znajdź przejazd",
+    "Find a ride": "Znajdź przejazd",
     "Rules": "Zasady",
     "Loading": "Ładowanie",
     "Admin panel": "Panel administratora",
@@ -25,7 +25,7 @@
     "Sorry we couldnt cities": "Przepraszamy, ale nie mogliśmy znaleźć żadnych miast",
     "Sorry we couldnt countries": "Przepraszamy, ale nie mogliśmy znaleźć żadnych krajów",
     "advert1": "Jest wielu dostawców hulajnóg elektrycznych, więc czasami można poczuć pewne niepewności co do tego, których aplikacji powinno się używać podczas swoich podróży.",
-    "advert2": "Ta aplikacja pomoże Ci z planowaniem Twoich wakacji, lub podróży biznesowych",
+    "advert2": "Ta aplikacja pomoże Ci z planowaniem Twoich wakacji, lub podróży biznesowych.",
     "Edit": "Edytuj",
     "Delete": "Usuń",
     "Add": "Dodaj",
@@ -63,5 +63,6 @@
     "Who": "Kto",
     "When": "Kiedy",
     "Status": "Status",
-    "Didnt find anything": "Nie znaleziono niczego"
+    "Didnt find anything": "Nie znaleziono niczego",
+    "Open main menu": "Otwórz menu główne"
 }
