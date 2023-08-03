@@ -97,7 +97,7 @@ defineExpose({
         <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
                 @click="toggleMobileMenu"
         >
-          <span class="sr-only">{{ __('openMenu') }}</span>
+          <span class="sr-only">{{ __('Open menu') }}</span>
           <Bars3Icon class="h-6 w-6" aria-hidden="true" />
         </button>
       </div>
@@ -106,13 +106,13 @@ defineExpose({
           <a href="#">{{ __('Prices') }}</a>
         </div>
         <div>
-          <a href="#">{{ __('findRide') }}</a>
+          <a href="#">{{ __('Find ride') }}</a>
         </div>
         <div>
           <a href="#">{{ __('Rules') }}</a>
         </div>
         <LanguageSwitch />
-        <InertiaLink v-if="isAdmin" href="/admin/cities" @click="clearFilters">
+        <InertiaLink v-if="isAdmin" href="/admin/cities" @click="Clear filters">
           <ComputerDesktopIcon class="h-6 w-6" />
         </InertiaLink>
         <button>
@@ -147,12 +147,12 @@ defineExpose({
               <button type="submit"
                       class="w-full rounded-lg bg-blumilk-500 p-4 font-semibold text-white hover:bg-blumilk-600 md:py-2"
               >
-                {{ __('logIn') }}
+                {{ __('Log in') }}
               </button>
             </div>
           </form>
           <button :disabled="loginForm.processing" class="mt-6 text-xs font-light" @click="toggleAuthOption">
-            {{ __('noAccount') }} <span class="font-normal">{{ __('signUp') }}</span>
+            {{ __('No account') }} <span class="font-normal">{{ __('Sign up') }}</span>
           </button>
         </div>
 
@@ -190,12 +190,12 @@ defineExpose({
               <button type="submit"
                       class="w-full rounded-lg bg-blumilk-500 p-4 font-semibold text-white hover:bg-blumilk-600 md:py-2"
               >
-                {{ __('signUp') }}
+                {{ __('Sign up') }}
               </button>
             </div>
           </form>
           <button :disabled="registerForm.processing" class="mt-6 text-xs font-light" @click="toggleAuthOption">
-            {{ __('alreadyHaveAccount') }} <span class="font-normal">{{ __('logIn') }}</span>
+            {{ __('Already have account') }} <span class="font-normal">{{ __('Log in') }}</span>
           </button>
         </div>
       </div>
@@ -213,7 +213,7 @@ defineExpose({
             <img class="h-10 sm:hidden" src="@/assets/scooter.png" alt="escooter logo">
           </InertiaLink>
           <button type="button" class="-m-2.5 rounded-md px-2.5 text-gray-700 sm:pt-4" @click="toggleMobileMenu">
-            <span class="sr-only">{{ __('closeMenu') }}</span>
+            <span class="sr-only">{{ __('Close menu') }}</span>
             <XMarkIcon class="h-6 w-6" aria-hidden="true" />
           </button>
         </div>
@@ -224,7 +224,7 @@ defineExpose({
                 <a href="#">{{ __('Prices') }}</a>
               </div>
               <div>
-                <a href="#">{{ __('findRide') }}</a>
+                <a href="#">{{ __('Find ride') }}</a>
               </div>
               <div>
                 <a href="#">{{ __('Rules') }}</a>
@@ -234,7 +234,7 @@ defineExpose({
               <button v-if="isAdmin" class="-mx-3 mb-4 flex w-full font-semibold text-gray-800">
                 <InertiaLink v-if="isAdmin" class="flex w-full items-center rounded px-3 py-2.5 hover:bg-blumilk-25" href="/admin/cities">
                   <ComputerDesktopIcon class="h-6 w-6" />
-                  <span class="ml-2">{{ __('adminPanel') }}</span>
+                  <span class="ml-2">{{ __('Admin panel') }}</span>
                 </InertiaLink>
               </button>
               <button class="-mx-3 flex w-full font-semibold text-gray-800">
@@ -242,14 +242,14 @@ defineExpose({
                       @click="logout"
                 >
                   <ArrowRightOnRectangleIcon class="h-6 w-6" />
-                  <span class="ml-2">{{ __('logOut') }}</span>
+                  <span class="ml-2">{{ __('Log out') }}</span>
                 </span>
 
                 <span v-if="!isAuth" class="flex w-full items-center rounded px-3 py-2.5 hover:bg-blumilk-25"
                       @click="toggleAuthDialog"
                 >
                   <UserCircleIcon class="h-6 w-6" />
-                  <span class="ml-2">{{ __('logIn') }}</span>
+                  <span class="ml-2">{{ __('Log in') }}</span>
                 </span>
               </button>
               <div class="mx-auto flex items-center justify-center px-6 py-3">

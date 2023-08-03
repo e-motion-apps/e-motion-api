@@ -153,7 +153,7 @@ function showCity(city) {
         @click="clearFilters"
       >
         <TrashIcon class="mr-1 h-4 w-4" />
-        {{ __('clearFilters') }}
+        {{ __('Clear filters') }}
       </button>
     </div>
 
@@ -194,7 +194,7 @@ function showCity(city) {
       </li>
     </ul>
     <p v-else class="mt-8 flex justify-center font-medium text-gray-800">
-      {{ __('didntFindProviders') }}
+      {{ __('Didnt find providers') }}
     </p>
   </div>
 </template>
