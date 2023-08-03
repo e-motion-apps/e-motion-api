@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
+    const ERROR_MESSAGE = "Please verify your credentials and try again";
     public function store(RegisterRequest $request): Response
     {
         $user = User::create([
@@ -40,7 +41,7 @@ class AuthController extends Controller
         }
 
         return back()->withErrors([
-            "loginError" => "Please verify your credentials and try again",
+            "loginError" => __(self::ERROR_MESSAGE),
         ]);
     }
 

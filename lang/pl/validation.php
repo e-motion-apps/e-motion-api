@@ -117,4 +117,12 @@ return [
     "uploaded" => "Nie udało się wgrać pliku :attribute.",
     "url" => "Format pola :attribute jest nieprawidłowy.",
     "uuid" => "Pole :attribute musi być poprawnym identyfikatorem UUID.",
+
+    "attributes" => [
+        "name" => "nazwa",
+        "email" => "e-mail",
+        "password" => "hasło",
+        "latitude" => "szerokość geograficzna",
+        "longitude" => "długość geograficzna",
+    ]
 ];

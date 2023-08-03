@@ -64,5 +64,6 @@
     "When": "Kiedy",
     "Status": "Status",
     "Didnt find anything": "Nie znaleziono niczego",
-    "Open main menu": "Otwórz menu główne"
+    "Open main menu": "Otwórz menu główne",
+    "Please verify your credentials and try again" : "Sprawdź swoje dane logowania i spróbuj ponownie"
 }
