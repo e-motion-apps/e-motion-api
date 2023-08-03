@@ -250,7 +250,7 @@ defineExpose({
                   </span>
                 </button>
                 <div class="mx-auto flex items-center justify-center px-6 py-3">
-                  <LanguageSwitch />
+                  <LanguageSwitch class="text-2xl"/>
                 </div>
               </div>
             </div>

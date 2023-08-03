@@ -6,12 +6,12 @@ const locales = [
   {
     name: 'Polski',
     lang: 'pl',
-    uni: '\uD83C\uDDF5\uD83C\uDDF1'
+    iso: 'pl'
   },
   {
     name: 'English',
     lang: 'en',
-    uni: '\uD83C\uDDEC\uD83C\uDDE7'
+    iso: 'gb'
   },
 ]
 
@@ -34,7 +34,7 @@ function setLocale(locale) {
         'opacity-100': currentLocale === locale.lang,
         'opacity-50': currentLocale !== locale.lang,
       }" :disabled="currentLocale === locale.lang" @click="setLocale(locale.lang)">
-        {{ locale.uni }}
+        <i :class="`${locale.iso} flat flag`"></i>
       </button>
     </div>
   </div>
