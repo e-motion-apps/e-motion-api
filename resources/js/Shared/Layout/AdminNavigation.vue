@@ -3,6 +3,7 @@ import { Dialog, DialogPanel } from '@headlessui/vue'
 import { ChartBarIcon, ClipboardIcon, FlagIcon, MapPinIcon, PlayCircleIcon } from '@heroicons/vue/24/solid'
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 import { ref } from 'vue'
+import LanguageSwitch from '@/Shared/Components/LanguageSwitch.vue'
 
 const navigation = [
   { name: 'Dashboard', href: '/admin/dashboard', icon: ClipboardIcon },
@@ -67,6 +68,9 @@ function toggleMobileMenu() {
               </div>
             </div>
           </div>
+          <div class="mx-auto flex items-center justify-center px-6 py-3">
+            <LanguageSwitch />
+          </div>
         </DialogPanel>
       </Dialog>
 
@@ -79,6 +83,9 @@ function toggleMobileMenu() {
             <span class="ml-3 hidden md:flex"> {{ __(item.name) }} </span>
           </div>
         </InertiaLink>
+        <div class="mx-auto flex items-center justify-center px-6 py-3">
+          <LanguageSwitch />
+        </div>
       </ul>
     </div>
   </div>
