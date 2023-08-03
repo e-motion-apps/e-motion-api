@@ -82,7 +82,7 @@ onMounted(async () => {
             />
           </svg>
           <p class="mt-4 text-xs font-medium text-gray-400">
-            {{ __('Sentence.Filling') }}
+            {{ __('Filling') }}
           </p>
         </div>
       </div>

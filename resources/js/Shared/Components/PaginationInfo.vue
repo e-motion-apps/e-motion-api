@@ -9,13 +9,13 @@ const props = defineProps({
     <div class="flex items-center justify-between">
       <div>
         <p class="text-sm text-gray-700">
-          {{ __('Word.Showing') }}
+          {{ __('Showing') }}
           <span class="font-medium">{{ props.meta.from }}</span>
-          {{ __('Word.To') }}
+          {{ __('To') }}
           <span class="font-medium"> {{ props.meta.to }}</span>
-          {{ __('Word.Of') }}
+          {{ __('Of') }}
           <span class="font-medium">{{ props.meta.total }}</span>
-          {{ __('Word.Results') }}
+          {{ __('Results') }}
         </p>
       </div>
     </div>

@@ -73,12 +73,12 @@ function clearInput() {
 }
 
 const sortingOptions = [
-  { name: __('Sorting.Latest'), href: '/admin/cities?order=latest' },
-  { name: __('Sorting.Oldest'), href: '/admin/cities?order=oldest' },
-  { name: __('Sorting.emptyCoordinates'), href: '/admin/cities?order=empty-coordinates' },
-  { name: __('Sorting.byName'), href: '/admin/cities?order=name' },
-  { name: __('Sorting.byProviders'), href: '/admin/cities?order=providers' },
-  { name: __('Sorting.byCountry'), href: '/admin/cities?order=country' },
+  { name: ('Latest'), href: '/admin/cities?order=latest' },
+  { name: ('Oldest'), href: '/admin/cities?order=oldest' },
+  { name: ('emptyCoordinates'), href: '/admin/cities?order=empty-coordinates' },
+  { name: ('byName'), href: '/admin/cities?order=name' },
+  { name: ('byProviders'), href: '/admin/cities?order=providers' },
+  { name: ('byCountry'), href: '/admin/cities?order=country' },
 ]
 
 const isSortDialogOpened = ref(false)
@@ -107,21 +107,21 @@ function toggleSortDialog() {
 
               <div class="flex flex-col p-6 pt-0">
                 <h1 class="mb-3 text-lg font-bold text-gray-800">
-                  {{ __('CRUD.createCity') }}
+                  {{ __('createCity') }}
                 </h1>
 
                 <form class="flex flex-col text-xs font-bold text-gray-600" @submit.prevent="storeCity">
-                  <label class="mb-1 mt-4">{{ __('Auth.Name') }}</label>
+                  <label class="mb-1 mt-4">{{ __('Name') }}</label>
                   <input v-model="storeCityForm.name" class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 md:p-3" type="text" required>
                   <ErrorMessage :message="storeCityForm.errors.name" />
 
-                  <label class="mb-1 mt-4">{{ __('Technical.Latitude') }}</label>
+                  <label class="mb-1 mt-4">{{ __('Latitude') }}</label>
                   <input v-model="storeCityForm.latitude" class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text"
                          required @keydown="preventCommaInput"
                   >
                   <ErrorMessage :message="storeCityForm.errors.latitude" />
 
-                  <label class="mb-1 mt-4">{{ __('Technical.Longitude') }}</label>
+                  <label class="mb-1 mt-4">{{ __('Longitude') }}</label>
                   <input v-model="storeCityForm.longitude" class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text"
                          required @keydown="preventCommaInput"
                   >
@@ -129,7 +129,7 @@ function toggleSortDialog() {
                   <p v-if="commaInputError" class="text-xs text-rose-600">
                     {{ commaInputError }}
                   </p>
-                  <label class="mb-1 mt-4">{{ __('Technical.Country') }}</label>
+                  <label class="mb-1 mt-4">{{ __('Country') }}</label>
                   <select v-model="storeCityForm.country_id" required class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3">
                     <option v-for="country in props.countries" :key="country.id" class="m-6 p-6 " :value="country.id">
                       {{ country.name }}
@@ -138,7 +138,7 @@ function toggleSortDialog() {
 
                   <div class="flex w-full justify-end">
                     <PrimarySaveButton>
-                      {{ __('CRUD.Save') }}
+                      {{ __('Save') }}
                     </PrimarySaveButton>
                   </div>
                 </form>
@@ -148,7 +148,7 @@ function toggleSortDialog() {
 
           <div class="mb-3 mt-4 flex flex-wrap items-center justify-end md:justify-between">
             <button class="mr-1 rounded bg-blumilk-500 px-5 py-3 text-sm font-medium text-white shadow-md hover:bg-blumilk-400 md:py-2" @click="toggleStoreDialog">
-              {{ __('CRUD.createCity') }}
+              {{ __('createCity') }}
             </button>
 
             <div class="m-1 flex w-full rounded-md shadow-sm md:w-fit">
@@ -156,7 +156,7 @@ function toggleSortDialog() {
                 <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                   <MagnifyingGlassIcon class="h-5 w-5 text-gray-800" />
                 </div>
-                <input v-model.trim="searchInput" type="text" class="block w-full rounded border-0 py-3 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blumilk-300 sm:text-sm sm:leading-6 md:py-1.5" :placeholder="__('GUI.searchCity')">
+                <input v-model.trim="searchInput" type="text" class="block w-full rounded border-0 py-3 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blumilk-300 sm:text-sm sm:leading-6 md:py-1.5" :placeholder="__('searchCity')">
               </div>
               <button v-if="searchInput.length" type="button" class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-800 ring-1 ring-inset ring-gray-300 hover:bg-blumilk-25" @click="clearInput">
                 <XMarkIcon class="h-5 w-5" />
@@ -172,7 +172,7 @@ function toggleSortDialog() {
             <div class="relative inline-block text-left">
               <div>
                 <button ref="sortDialog" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900" aria-expanded="false" aria-haspopup="true" @click="toggleSortDialog">
-                  {{ __('Sorting.Sort') }}
+                  {{ __('Sort') }}
                   <ChevronDownIcon class="ml-1 h-5 w-5" />
                 </button>
               </div>
@@ -196,16 +196,16 @@ function toggleSortDialog() {
               <thead>
                 <tr>
                   <th scope="col" class="py-3.5 pl-5 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 lg:table-cell">
-                    {{ __('Auth.Name') }}
+                    {{ __('Name') }}
                   </th>
                   <th scope="col" class="hidden py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
-                    {{ __('Technical.Longitude') }}
+                    {{ __('Longitude') }}
                   </th>
                   <th scope="col" class="hidden py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
-                    {{ __('Technical.Latitude') }}
+                    {{ __('Latitude') }}
                   </th>
                   <th scope="col" class="py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
-                    {{ __('Technical.Providers') }}
+                    {{ __('Providers') }}
                   </th>
                 </tr>
               </thead>
@@ -219,7 +219,7 @@ function toggleSortDialog() {
 
           <div v-else>
             <p class="mt-6 text-lg font-medium text-gray-500">
-              {{ __('Prompt.sorryWeCouldntCities') }}
+              {{ __('sorryWeCouldntCities') }}
             </p>
           </div>
 

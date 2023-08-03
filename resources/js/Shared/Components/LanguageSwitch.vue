@@ -1,6 +1,6 @@
 <script setup>
-import { router } from '@inertiajs/vue3'
-import { usePage } from '@inertiajs/inertia-vue3'
+import { router, usePage } from '@inertiajs/vue3'
+import { ref } from 'vue'
 
 const locales = [
   {
@@ -15,21 +15,18 @@ const locales = [
 
 const page = usePage()
 
-const setLocale = (locale) => {
-  router.post(`/language/${locale}`, {}, {
-    onSuccess() {
-      i18n.locale.value = locale
-    },
-  })
+const currentLocale = ref(page.props.locale)
+
+function setLocale(locale) {
+  router.post(`/language/${locale}`)
 }
 </script>
 
 <template>
-  {{ page.props.locale }}
   <div>
-    <select v-model="page.props.locale"
+    <select v-model="currentLocale"
             class="block w-full rounded-lg border bg-none p-2.5 py-1.5 text-center align-middle text-sm sm:w-20"
-            @change="setLocale(page.props.locale)"
+            @change="setLocale(currentLocale)"
     >
       <option v-for="locale in locales" :key="locale.lang" :value="locale.lang">
         {{ locale.name }}

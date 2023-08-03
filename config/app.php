@@ -18,7 +18,7 @@ return [
 
     "timezone" => "UTC",
 
-    "locale" => app()->getLocale(),
+    "locale" => "pl",
 
     "supported_locales" => [
         "en",

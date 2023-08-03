@@ -33,6 +33,6 @@ Route::middleware("auth")->group(function (): void {
     });
 });
 
-Route::post("/language/{locale}", [ChangeLocaleController::class, "__invoke"])->middleware("setLocale");
+Route::post("/language/{locale}", ChangeLocaleController::class);
 
 Route::inertia("/", "Landing/Index")->name("home");
