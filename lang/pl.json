@@ -38,6 +38,7 @@
     "Latitude": "Szerokość geograficzna",
     "Longitude": "Długość geograficzna",
     "Providers": "Dostawcy",
+    "Importers": "Importerzy",
     "Country": "Kraj",
     "Countries": "Kraje",
     "City": "Miasto",
@@ -58,5 +59,9 @@
     "By name": "Alfabetycznie",
     "By providers": "Według dostawców",
     "By country": "Według kraju",
-    "Sort": "Sortuj"
+    "Sort": "Sortuj",
+    "Who": "Kto",
+    "When": "Kiedy",
+    "Status": "Status",
+    "Didnt find anything": "Nie znaleziono niczego"
 }

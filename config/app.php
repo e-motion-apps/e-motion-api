@@ -18,7 +18,7 @@ return [
 
     "timezone" => "UTC",
 
-    "locale" => "pl",
+    "locale" => "en",
 
     "supported_locales" => [
         "en",

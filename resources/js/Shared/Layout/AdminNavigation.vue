@@ -5,11 +5,11 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 import { ref } from 'vue'
 
 const navigation = [
-  { name: "__('Dashboard')", href: '/admin/dashboard', icon: ClipboardIcon },
-  { name: "__('Countries')", href: '/admin/countries', icon: FlagIcon },
-  { name: "__('Cities')", href: '/admin/cities', icon: MapPinIcon },
-  { name: "__('Statistics')", href: '/admin/statistics', icon: ChartBarIcon },
-  { name: "__('Run importers')", href: '/run-importers', icon: PlayCircleIcon },
+  { name: 'Dashboard', href: '/admin/dashboard', icon: ClipboardIcon },
+  { name: 'Importers', href: '/admin/importers', icon: PlayCircleIcon },
+  { name: 'Countries', href: '/admin/countries', icon: FlagIcon },
+  { name: 'Cities', href: '/admin/cities', icon: MapPinIcon },
+  { name: 'Statistics', href: '/admin/statistics', icon: ChartBarIcon },
 ]
 
 const isMobileMenuOpened = ref(false)
@@ -62,7 +62,7 @@ function toggleMobileMenu() {
                              :class="{'bg-blumilk-50': $page.url.startsWith(item.href)}" :href="item.href"
                              class="-mx-3 my-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-800 hover:bg-blumilk-25"
                 >
-                  {{ item.name }}
+                  {{ __(item.name) }}
                 </InertiaLink>
               </div>
             </div>
@@ -76,7 +76,7 @@ function toggleMobileMenu() {
                class="mx-auto flex w-11/12 items-center bg-blumilk-25 px-6 hover:bg-blumilk-50 md:rounded-lg md:px-2 md:py-3"
           >
             <component :is="item.icon" class="h-7 w-7" />
-            <span class="ml-3 hidden md:flex"> {{ item.name }} </span>
+            <span class="ml-3 hidden md:flex"> {{ __(item.name) }} </span>
           </div>
         </InertiaLink>
       </ul>

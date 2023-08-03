@@ -69,9 +69,9 @@ function clearInput() {
 }
 
 const sortingOptions = [
-  { name: __('Latest'), href: '/admin/countries?order=latest' },
-  { name: __('Oldest'), href: '/admin/countries?order=oldest' },
-  { name: __('By name'), href: '/admin/countries?order=name' },
+  { name: ('Latest'), href: '/admin/countries?order=latest' },
+  { name: ('Oldest'), href: '/admin/countries?order=oldest' },
+  { name: ('By name'), href: '/admin/countries?order=name' },
 ]
 
 const isSortDialogOpened = ref(false)
@@ -169,7 +169,7 @@ function toggleSortDialog() {
                                :href="option.href" class="block px-4 py-2 text-sm text-gray-500 hover:text-blumilk-400" role="menuitem" tabindex="-1"
                   >
                     <span :class="{'font-medium text-blumilk-400': page.url.startsWith(option.href) || ((page.url === '/admin/countries' || page.url.startsWith('/admin/countries?search=') || page.url.startsWith('/admin/countries?page=')) && option.href.startsWith('/admin/countries?order=oldest'))}">
-                      {{ option.name }}
+                      {{ __(option.name) }}
                     </span>
                   </InertiaLink>
                 </div>

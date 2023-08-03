@@ -180,7 +180,7 @@ defineExpose({
               >
             </div>
             <div>
-              <label class="mb-1 block text-sm font-semibold text-gray-800">{{ __('confirmPassword') }}</label>
+              <label class="mb-1 block text-sm font-semibold text-gray-800">{{ __('Confirm password') }}</label>
               <input v-model="registerForm.password_confirmation" type="password"
                      class="w-full rounded-lg border-blumilk-200 py-3 md:p-2" required
               >
