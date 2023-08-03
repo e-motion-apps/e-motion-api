@@ -29,12 +29,13 @@ function setLocale(locale) {
 
 <template>
   <div>
-    <div class="flex pt-1.5 space-x-2">
-      <button class="large flat flags" v-for="locale in locales" :key="locale.lang" :class="{
+    <div class="flex space-x-2 pt-1.5">
+      <button v-for="locale in locales" :key="locale.lang" class="large flat flags" :class="{
         'opacity-100': currentLocale === locale.lang,
         'opacity-50': currentLocale !== locale.lang,
-      }" :disabled="currentLocale === locale.lang" @click="setLocale(locale.lang)">
-          <i :class="`${locale.iso} flat flag`" />
+      }" :disabled="currentLocale === locale.lang" @click="setLocale(locale.lang)"
+      >
+        <i :class="`${locale.iso} flat flag`" />
       </button>
     </div>
   </div>
