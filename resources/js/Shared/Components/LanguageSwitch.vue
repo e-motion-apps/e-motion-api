@@ -6,10 +6,12 @@ const locales = [
   {
     name: 'Polski',
     lang: 'pl',
+    uni: '\uD83C\uDDF5\uD83C\uDDF1'
   },
   {
     name: 'English',
     lang: 'en',
+    uni: '\uD83C\uDDEC\uD83C\uDDE7'
   },
 ]
 
@@ -18,19 +20,22 @@ const page = usePage()
 const currentLocale = ref(page.props.locale)
 
 function setLocale(locale) {
-  router.post(`/language/${locale}`)
+  if (currentLocale.value !== locale) {
+    currentLocale.value = locale;
+    router.post(`/language/${locale}`)
+  }
 }
 </script>
 
 <template>
   <div>
-    <select v-model="currentLocale"
-            class="block w-full rounded-lg border bg-none p-2.5 py-1.5 text-center align-middle text-sm sm:w-20"
-            @change="setLocale(currentLocale)"
-    >
-      <option v-for="locale in locales" :key="locale.lang" :value="locale.lang">
-        {{ locale.name }}
-      </option>
-    </select>
+    <div class="flex space-x-2">
+      <button v-for="locale in locales" :key="locale.lang" :class="{
+        'opacity-100': currentLocale === locale.lang,
+        'opacity-50': currentLocale !== locale.lang,
+      }" :disabled="currentLocale === locale.lang" @click="setLocale(locale.lang)">
+        {{ locale.uni }}
+      </button>
+    </div>
   </div>
 </template>
