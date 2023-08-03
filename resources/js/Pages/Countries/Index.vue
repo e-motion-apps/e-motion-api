@@ -71,7 +71,7 @@ function clearInput() {
 const sortingOptions = [
   { name: __('Latest'), href: '/admin/countries?order=latest' },
   { name: __('Oldest'), href: '/admin/countries?order=oldest' },
-  { name: __(By name), href: '/admin/countries?order=name' },
+  { name: __('By name'), href: '/admin/countries?order=name' },
 ]
 
 const isSortDialogOpened = ref(false)
@@ -185,7 +185,7 @@ function toggleSortDialog() {
                     {{ __('Name') }}
                   </th>
                   <th scope="col" class="table-cell py-3.5 text-left text-sm font-semibold text-gray-900">
-                    {{ __(Alt name) }}
+                    {{ __('Alt name') }}
                   </th>
                   <th scope="col" class="hidden py-3.5 text-left text-sm font-semibold text-gray-900 xl:table-cell">
                     {{ __('Latitude') }}

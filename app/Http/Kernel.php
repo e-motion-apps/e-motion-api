@@ -61,10 +61,10 @@ class Kernel extends HttpKernel
             AddQueuedCookiesToResponse::class,
             StartSession::class,
             ShareErrorsFromSession::class,
+            SetLocale::class,
             VerifyCsrfToken::class,
             SubstituteBindings::class,
             HandleInertiaRequests::class,
-            SetLocale::class,
         ],
 
         "api" => [

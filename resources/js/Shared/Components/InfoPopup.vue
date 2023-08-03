@@ -9,7 +9,7 @@ const showDescription = ref(false)
   <div @mouseover="showDescription = true" @mouseout="showDescription = false">
     <span><OutlineHeartIcon class="h-6 w-6 text-gray-500" /></span>
     <div v-show="showDescription" class="absolute z-50 rounded-lg border border-gray-300 bg-white p-2 text-sm shadow-md">
-      {{ __('loginToAddToFavorite') }}
+      {{ __('Login to add to favorite') }}
     </div>
   </div>
 </template>

@@ -73,12 +73,12 @@ function clearInput() {
 }
 
 const sortingOptions = [
-  { name: ('Latest'), href: '/admin/cities?order=latest' },
-  { name: ('Oldest'), href: '/admin/cities?order=oldest' },
-  { name: ('emptyCoordinates'), href: '/admin/cities?order=empty-coordinates' },
-  { name: ('byName'), href: '/admin/cities?order=name' },
-  { name: ('byProviders'), href: '/admin/cities?order=providers' },
-  { name: ('byCountry'), href: '/admin/cities?order=country' },
+  { name: 'Latest', href: '/admin/cities?order=latest' },
+  { name: 'Oldest', href: '/admin/cities?order=oldest' },
+  { name: 'Empty coordinates', href: '/admin/cities?order=empty-coordinates' },
+  { name: 'By name', href: '/admin/cities?order=name' },
+  { name: 'By providers', href: '/admin/cities?order=providers' },
+  { name: 'By country', href: '/admin/cities?order=country' },
 ]
 
 const isSortDialogOpened = ref(false)
@@ -107,7 +107,7 @@ function toggleSortDialog() {
 
               <div class="flex flex-col p-6 pt-0">
                 <h1 class="mb-3 text-lg font-bold text-gray-800">
-                  {{ __('createCity') }}
+                  {{ __('Create city') }}
                 </h1>
 
                 <form class="flex flex-col text-xs font-bold text-gray-600" @submit.prevent="storeCity">
@@ -148,7 +148,7 @@ function toggleSortDialog() {
 
           <div class="mb-3 mt-4 flex flex-wrap items-center justify-end md:justify-between">
             <button class="mr-1 rounded bg-blumilk-500 px-5 py-3 text-sm font-medium text-white shadow-md hover:bg-blumilk-400 md:py-2" @click="toggleStoreDialog">
-              {{ __('createCity') }}
+              {{ __('Create city') }}
             </button>
 
             <div class="m-1 flex w-full rounded-md shadow-sm md:w-fit">
@@ -156,7 +156,7 @@ function toggleSortDialog() {
                 <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                   <MagnifyingGlassIcon class="h-5 w-5 text-gray-800" />
                 </div>
-                <input v-model.trim="searchInput" type="text" class="block w-full rounded border-0 py-3 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blumilk-300 sm:text-sm sm:leading-6 md:py-1.5" :placeholder="__('searchCity')">
+                <input v-model.trim="searchInput" type="text" class="block w-full rounded border-0 py-3 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blumilk-300 sm:text-sm sm:leading-6 md:py-1.5" :placeholder="__('Search city')">
               </div>
               <button v-if="searchInput.length" type="button" class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-800 ring-1 ring-inset ring-gray-300 hover:bg-blumilk-25" @click="clearInput">
                 <XMarkIcon class="h-5 w-5" />
@@ -183,7 +183,7 @@ function toggleSortDialog() {
                                :href="option.href" class="block px-4 py-2 text-sm text-gray-500 hover:text-blumilk-400" role="menuitem" tabindex="-1"
                   >
                     <span :class="{'font-medium text-blumilk-400': page.url.startsWith(option.href) || ((page.url === '/admin/cities' || page.url.startsWith('/admin/cities?search=') || page.url.startsWith('/admin/cities?page=')) && option.href.startsWith('/admin/cities?order=latest'))}">
-                      {{ option.name }}
+                      {{ __(option.name) }}
                     </span>
                   </InertiaLink>
                 </div>
@@ -219,7 +219,7 @@ function toggleSortDialog() {
 
           <div v-else>
             <p class="mt-6 text-lg font-medium text-gray-500">
-              {{ __('sorryWeCouldntCities') }}
+              {{ __('Sorry we couldnt cities') }}
             </p>
           </div>
 

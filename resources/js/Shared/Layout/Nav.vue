@@ -112,7 +112,7 @@ defineExpose({
           <a href="#">{{ __('Rules') }}</a>
         </div>
         <LanguageSwitch />
-        <InertiaLink v-if="isAdmin" href="/admin/cities" @click="Clear filters">
+        <InertiaLink v-if="isAdmin" href="/admin/cities" @click="clearFilters">
           <ComputerDesktopIcon class="h-6 w-6" />
         </InertiaLink>
         <button>

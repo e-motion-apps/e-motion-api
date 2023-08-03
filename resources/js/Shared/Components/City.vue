@@ -233,7 +233,7 @@ function toggleProvidersForm() {
         </div>
 
         <button :class="isCityFormOpened ? 'bg-blumilk-50' : ''" class="mb-3 ml-6 rounded-lg bg-blumilk-25 px-3 py-1 text-sm font-bold text-gray-800 hover:bg-blumilk-50" @click="toggleCityForm">
-          {{ __('updateCity') }}
+          {{ __('Update city') }}
         </button>
         <form v-if="isCityFormOpened" class="flex flex-col rounded px-6 text-xs font-bold text-gray-600"
               @submit.prevent="updateCity(city.id)"
@@ -264,7 +264,7 @@ function toggleProvidersForm() {
 
         <br>
         <button :class="isAlternativeCityNameFormOpened ? 'bg-blumilk-50' : ''" class="mb-3 ml-6 rounded-lg bg-blumilk-25 px-3 py-1 text-sm font-bold text-gray-800 hover:bg-blumilk-50" @click="toggleAlternativeCityNameForm">
-          {{ __('addAltName') }}
+          {{ __('Add alt name') }}
         </button>
         <form v-if="isAlternativeCityNameFormOpened" class="flex flex-col rounded p-6"
               @submit.prevent="storeAlternativeCityName(city.id)"
