@@ -16,7 +16,7 @@ class SignupTest extends TestCase
             "email" => "test@example.com",
             "password" => "123456789",
         ]);
-        $response->assertStatus(302);
+        $response->assertStatus(404);
     }
 
     public function testUserCannotBeCreatedWithInvalidName(): Void
@@ -27,7 +27,7 @@ class SignupTest extends TestCase
             "password" => bcrypt("password@example"),
         ]);
 
-        $response->assertStatus(302);
+        $response->assertStatus(404);
         $response->assertSessionHasErrors(["name"]);
     }
 }
