@@ -4,15 +4,24 @@ declare(strict_types=1);
 
 namespace App\Importers;
 
+use App\Exceptions\MapboxGeocodingServiceException;
 use App\Models\City;
 use App\Models\CityAlternativeName;
 use App\Models\Country;
 use App\Services\MapboxGeocodingService;
+use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 
 class BirdDataImporter extends DataImporter
 {
     protected string $html;
+    protected MapboxGeocodingService $mapboxService;
+
+    public function __construct(Client $client, MapboxGeocodingService $mapboxService)
+    {
+        parent::__construct($client);
+        $this->mapboxService = $mapboxService;
+    }
 
     public function extract(): static
     {
@@ -26,9 +35,11 @@ class BirdDataImporter extends DataImporter
         return $this;
     }
 
+    /**
+     * @throws MapboxGeocodingServiceException
+     */
     public function transform(): void
     {
-        $mapboxService = new MapboxGeocodingService();
         $existingCityProviders = [];
         $coordinatesList = $this->parseData($this->html);
 
@@ -40,7 +51,7 @@ class BirdDataImporter extends DataImporter
             if ($coordinates) {
                 [$lat, $long] = explode(" ", $coordinates);
 
-                [$cityName, $countryName] = $mapboxService->getPlaceFromApi($lat, $long);
+                [$cityName, $countryName] = $this->mapboxService->getPlaceFromApi($lat, $long);
 
                 $provider = $this->save($cityName, $countryName, $lat, $long);
                 if ($provider != '') {

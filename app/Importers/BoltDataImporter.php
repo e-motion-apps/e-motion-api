@@ -8,6 +8,7 @@ use App\Models\City;
 use App\Models\CityAlternativeName;
 use App\Models\Country;
 use App\Services\MapboxGeocodingService;
+use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 
 class BoltDataImporter extends DataImporter
@@ -15,7 +16,13 @@ class BoltDataImporter extends DataImporter
     protected array $fetchedCities = [];
     protected array $fetchedCityDictionary = [];
     protected array $fetchedCountriesDictionary = [];
+    protected MapboxGeocodingService $mapboxService;
 
+    public function __construct(Client $client, MapboxGeocodingService $mapboxService)
+    {
+        parent::__construct($client);
+        $this->mapboxService = $mapboxService;
+    }
     public function extract(): static
     {
         try {
@@ -50,7 +57,6 @@ class BoltDataImporter extends DataImporter
             $fetchedCityDictionary[$city["slug"]] = $city;
         }
 
-        $mapboxService = new MapboxGeocodingService();
         $existingCityProviders = [];
 
         foreach ($this->fetchedCities as $city) {
@@ -78,7 +84,7 @@ class BoltDataImporter extends DataImporter
                 $country = Country::query()->where("name", $countryName)->orWhere("alternative_name", $countryName)->first();
 
                 if ($country) {
-                    $coordinates = $mapboxService->getCoordinatesFromApi($cityName, $countryName);
+                    $coordinates = $this->mapboxService->getCoordinatesFromApi($cityName, $countryName);
 
                     $countCoordinates = count($coordinates);
 

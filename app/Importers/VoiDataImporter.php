@@ -8,6 +8,7 @@ use App\Models\City;
 use App\Models\CityAlternativeName;
 use App\Models\Country;
 use App\Services\MapboxGeocodingService;
+use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -15,6 +16,13 @@ class VoiDataImporter extends DataImporter
 {
     protected Crawler $sections;
     private string $countryName;
+    protected MapboxGeocodingService $mapboxService;
+
+    public function __construct(Client $client, MapboxGeocodingService $mapboxService)
+    {
+        parent::__construct($client);
+        $this->mapboxService = $mapboxService;
+    }
 
     public function extract(): static
     {
@@ -47,7 +55,6 @@ class VoiDataImporter extends DataImporter
             return;
         }
 
-        $mapboxService = new MapboxGeocodingService();
         $existingCityProviders = [];
 
         foreach ($this->sections as $section) {
@@ -75,7 +82,7 @@ class VoiDataImporter extends DataImporter
                                 $country = Country::query()->where("name", $this->countryName)->orWhere("alternative_name", $this->countryName)->first();
 
                                 if ($country) {
-                                    $coordinates = $mapboxService->getCoordinatesFromApi($cityName, $this->countryName);
+                                    $coordinates = $this->mapboxService->getCoordinatesFromApi($cityName, $this->countryName);
                                     $countCoordinates = count($coordinates);
 
                                     if (!$countCoordinates) {

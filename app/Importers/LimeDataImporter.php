@@ -8,12 +8,20 @@ use App\Models\City;
 use App\Models\CityAlternativeName;
 use App\Models\Country;
 use App\Services\MapboxGeocodingService;
+use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Component\DomCrawler\Crawler;
 
 class LimeDataImporter extends DataImporter
 {
     protected Crawler $sections;
+    protected MapboxGeocodingService $mapboxService;
+
+    public function __construct(Client $client, MapboxGeocodingService $mapboxService)
+    {
+        parent::__construct($client);
+        $this->mapboxService = $mapboxService;
+    }
 
     public function extract(): static
     {
@@ -45,7 +53,6 @@ class LimeDataImporter extends DataImporter
             return;
         }
 
-        $mapboxService = new MapboxGeocodingService();
         $existingCityProviders = [];
 
         foreach ($this->sections as $section) {
@@ -74,7 +81,7 @@ class LimeDataImporter extends DataImporter
                 }
 
                 if ($country) {
-                    $coordinates = $mapboxService->getCoordinatesFromApi($cityName, $countryName);
+                    $coordinates = $this->mapboxService->getCoordinatesFromApi($cityName, $countryName);
 
                     $countCoordinates = count($coordinates);
 

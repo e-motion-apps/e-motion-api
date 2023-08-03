@@ -8,6 +8,7 @@ use App\Models\City;
 use App\Models\CityAlternativeName;
 use App\Models\Country;
 use App\Services\MapboxGeocodingService;
+use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -16,6 +17,13 @@ class ZwingsDataImporter extends DataImporter
     private const COUNTRY_NAME = "United Kingdom";
 
     protected Crawler $sections;
+    protected MapboxGeocodingService $mapboxService;
+
+    public function __construct(Client $client, MapboxGeocodingService $mapboxService)
+    {
+        parent::__construct($client);
+        $this->mapboxService = $mapboxService;
+    }
 
     public function extract(): static
     {
@@ -24,7 +32,7 @@ class ZwingsDataImporter extends DataImporter
             $html = $response->getBody()->getContents();
         } catch (GuzzleException) {
             $this->createImportInfoDetails("400", self::getProviderName());
-            
+
             $this->stopExecution = true;
 
             return $this;
@@ -47,7 +55,6 @@ class ZwingsDataImporter extends DataImporter
             return;
         }
 
-        $mapboxService = new MapboxGeocodingService();
         $existingCityProviders = [];
 
         foreach ($this->sections as $section) {
@@ -70,7 +77,7 @@ class ZwingsDataImporter extends DataImporter
                                 $country = Country::query()->where("name", self::COUNTRY_NAME)->orWhere("alternative_name", self::COUNTRY_NAME)->first();
 
                                 if ($country) {
-                                    $coordinates = $mapboxService->getCoordinatesFromApi($cityName, self::COUNTRY_NAME);
+                                    $coordinates = $this->mapboxService->getCoordinatesFromApi($cityName, self::COUNTRY_NAME);
                                     $countCoordinates = count($coordinates);
 
                                     if (!$countCoordinates) {

@@ -7,6 +7,7 @@ namespace Database\Seeders;
 use App\Models\City;
 use App\Models\Country;
 use App\Services\MapboxGeocodingService;
+use GuzzleHttp\Client;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
 
@@ -16,7 +17,7 @@ class CitiesAndCountriesSeeder extends Seeder
     {
         $items = Storage::json("public/countries.json");
 
-        $mapboxService = new MapboxGeocodingService();
+        $mapboxService = new MapboxGeocodingService(new Client());
 
         foreach ($items as $item) {
             $country = Country::query()->create([

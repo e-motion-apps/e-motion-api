@@ -37,8 +37,10 @@ abstract class DataImporter
     public static function getProviderName(): string
     {
         $parted = explode("\\", static::class);
+        $parted= str_replace("DataImporter", "", $parted[count($parted) - 1]);
+        $classNameParts = explode("@", $parted);
 
-        return str_replace("DataImporter", "", $parted[count($parted) - 1]);
+        return $classNameParts[0];
     }
 
     protected function countryNotFound(string $cityName, string $countryName): void {

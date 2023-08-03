@@ -12,17 +12,24 @@ class MapboxGeocodingService
 {
     protected string $city;
     protected string $country;
+    protected MapboxGeocodingService $mapboxService;
+    protected Client $client;
+
+    public function __construct(Client $client)
+    {
+        $this->client = $client;
+    }
 
     /**
      * @throws MapboxGeocodingServiceException
      */
     public function getCoordinatesFromApi(string $cityName, string $countryName): array
     {
-        $client = new Client();
+
         $token = config("mapbox.token");
 
         try {
-            $response = $client->get(
+            $response = $this->client->get(
                 config("mapbox.api_url") . "/mapbox.places/$cityName,$countryName.json?access_token=$token&types=place",
             );
 
@@ -39,11 +46,10 @@ class MapboxGeocodingService
      */
     public function getPlaceFromApi(string $lat, string $long): array
     {
-        $client = new Client();
         $token = config("mapbox.token");
 
         try {
-            $response = $client->get(
+            $response = $this->client->get(
                 config("mapbox.api_url") . "/mapbox.places/$long,$lat.json?access_token=$token",
             );
             $features = json_decode($response->getBody()->getContents(), associative: true)["features"];

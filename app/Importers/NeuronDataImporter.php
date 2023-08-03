@@ -8,11 +8,19 @@ use App\Models\City;
 use App\Models\CityAlternativeName;
 use App\Models\Country;
 use App\Services\MapboxGeocodingService;
+use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 
 class NeuronDataImporter extends DataImporter
 {
     protected array $regionsData;
+    protected MapboxGeocodingService $mapboxService;
+
+    public function __construct(Client $client, MapboxGeocodingService $mapboxService)
+    {
+        parent::__construct($client);
+        $this->mapboxService = $mapboxService;
+    }
 
     public function extract(): static
     {
@@ -48,7 +56,6 @@ class NeuronDataImporter extends DataImporter
             return;
         }
 
-        $mapboxService = new MapboxGeocodingService();
         $existingCityProviders = [];
 
         $regionsList = $this->regionsData["list"];
@@ -71,7 +78,7 @@ class NeuronDataImporter extends DataImporter
                     $country = Country::query()->where("name", $countryName)->first();
 
                     if ($country) {
-                        $coordinates = $mapboxService->getCoordinatesFromApi($cityName, $countryName);
+                        $coordinates = $this->mapboxService->getCoordinatesFromApi($cityName, $countryName);
                         $countCoordinates = count($coordinates);
 
                         if (!$countCoordinates) {
