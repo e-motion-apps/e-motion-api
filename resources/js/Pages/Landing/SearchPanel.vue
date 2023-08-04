@@ -2,6 +2,7 @@
 import { useFilterStore } from '@/Shared/Stores/FilterStore'
 import { computed, ref } from 'vue'
 import { usePage } from '@inertiajs/vue3'
+import axios from 'axios'
 import { TrashIcon, FaceSmileIcon } from '@heroicons/vue/24/outline'
 import FavoriteButton from '@/Shared/Components/FavoriteButton.vue'
 import InfoPopup from '@/Shared/Components/InfoPopup.vue'
@@ -110,19 +111,9 @@ function showCity(city) {
   filterStore.changeSelectedCity(city)
 }
 
-async function searchFavorites() {
-  try {
-    if (result.value === null) {
-      await fetchData()
-    }
-    await router.post('/favorites', {
-      cities: result.value,
-    })
-    result.value = !result.value
-  } catch (error) {
-    console.log(123)
-    console.error(error)
-  }
+function searchFavorites() {
+  const response = axios.get('/favorite')
+  console.log(response)
 }
 function showFavorites() {
   searchFavorites();
