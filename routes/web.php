@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ChangeLocaleController;
 use App\Http\Controllers\CityAlternativeNameController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\CityProviderController;
@@ -31,5 +32,7 @@ Route::middleware("auth")->group(function (): void {
         Route::post("/run-importers", [CityProviderController::class, "runImporters"]);
     });
 });
+
+Route::post("/language/{locale}", ChangeLocaleController::class);
 
 Route::inertia("/", "Landing/Index")->name("home");

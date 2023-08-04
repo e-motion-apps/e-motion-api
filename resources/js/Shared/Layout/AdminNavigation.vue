@@ -1,12 +1,13 @@
 <script setup>
 import { Dialog, DialogPanel } from '@headlessui/vue'
-import { ChartBarIcon, ClipboardIcon, FlagIcon, MapPinIcon, ForwardIcon } from '@heroicons/vue/24/solid'
+import { ChartBarIcon, ClipboardIcon, FlagIcon, MapPinIcon, PlayCircleIcon } from '@heroicons/vue/24/solid'
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 import { ref } from 'vue'
+import LanguageSwitch from '@/Shared/Components/LanguageSwitch.vue'
 
 const navigation = [
   { name: 'Dashboard', href: '/admin/dashboard', icon: ClipboardIcon },
-  { name: 'Importers', href: '/admin/importers', icon: ForwardIcon },
+  { name: 'Importers', href: '/admin/importers', icon: PlayCircleIcon },
   { name: 'Countries', href: '/admin/countries', icon: FlagIcon },
   { name: 'Cities', href: '/admin/cities', icon: MapPinIcon },
   { name: 'Statistics', href: '/admin/statistics', icon: ChartBarIcon },
@@ -33,7 +34,7 @@ function toggleMobileMenu() {
         <button type="button" class="inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
                 @click="toggleMobileMenu"
         >
-          <span class="sr-only">Open main menu</span>
+          <span class="sr-only">{{ __('Open menu') }}</span>
           <Bars3Icon class="h-6 w-6" aria-hidden="true" />
         </button>
       </div>
@@ -51,7 +52,7 @@ function toggleMobileMenu() {
             <button type="button" class="-m-2.5 rounded-md px-2.5 text-gray-700 sm:pt-4"
                     @click="toggleMobileMenu"
             >
-              <span class="sr-only">Close menu</span>
+              <span class="sr-only">{{ __('Close menu') }}</span>
               <XMarkIcon class="h-6 w-6" aria-hidden="true" />
             </button>
           </div>
@@ -62,10 +63,13 @@ function toggleMobileMenu() {
                              :class="{'bg-blumilk-50': $page.url.startsWith(item.href)}" :href="item.href"
                              class="-mx-3 my-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-800 hover:bg-blumilk-25"
                 >
-                  {{ item.name }}
+                  {{ __(item.name) }}
                 </InertiaLink>
               </div>
             </div>
+          </div>
+          <div class="mx-auto flex items-center justify-center px-6 py-3">
+            <LanguageSwitch class="text-2xl" />
           </div>
         </DialogPanel>
       </Dialog>
@@ -76,11 +80,13 @@ function toggleMobileMenu() {
                class="mx-auto flex w-11/12 items-center bg-blumilk-25 px-6 hover:bg-blumilk-50 md:rounded-lg md:px-2 md:py-3"
           >
             <component :is="item.icon" class="h-7 w-7" />
-            <span class="ml-3 hidden md:flex"> {{ item.name }} </span>
+            <span class="ml-3 hidden md:flex"> {{ __(item.name) }} </span>
           </div>
         </InertiaLink>
+        <div class="mx-auto flex items-center justify-center px-6 py-3">
+          <LanguageSwitch />
+        </div>
       </ul>
     </div>
   </div>
 </template>
-

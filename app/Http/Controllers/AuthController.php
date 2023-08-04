@@ -40,7 +40,7 @@ class AuthController extends Controller
         }
 
         return back()->withErrors([
-            "loginError" => "Please verify your credentials and try again",
+            "loginError" => __("Invalid password or username"),
         ]);
     }
 
