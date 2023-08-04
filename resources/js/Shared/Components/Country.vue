@@ -107,7 +107,7 @@ function toggleEditDialog() {
           <label class="mb-1">{{ __('Name') }}</label>
           <input v-model="updateCountryForm.name" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text" required>
           <ErrorMessage :message="updateCountryForm.errors.name" />
-          <label class="mb-1 mt-4">{{ __('Alt name') }}</label>
+          <label class="mb-1 mt-4">{{ __('Alternative name') }}</label>
           <input v-model="updateCountryForm.alternativeName" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text">
           <ErrorMessage :message="updateCountryForm.errors.alternativeName" />
 

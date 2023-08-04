@@ -219,7 +219,7 @@ function toggleSortDialog() {
 
           <div v-else>
             <p class="mt-6 text-lg font-medium text-gray-500">
-              {{ __('Sorry we couldnt cities') }}
+              {{ __('Sorry we couldn`t find any cities.') }}
             </p>
           </div>
 

@@ -150,7 +150,7 @@ defineExpose({
             </div>
           </form>
           <button :disabled="loginForm.processing" class="mt-6 text-xs font-light" @click="toggleAuthOption">
-            {{ __('Dont have an account?') }} <span class="font-normal">{{ __('Sign up') }}</span>
+            {{ __('Don`t have an account?') }} <span class="font-normal">{{ __('Sign up') }}</span>
           </button>
         </div>
 
@@ -193,7 +193,7 @@ defineExpose({
             </div>
           </form>
           <button :disabled="registerForm.processing" class="mt-6 text-xs font-light" @click="toggleAuthOption">
-            {{ __('Already have an account') }} <span class="font-normal">{{ __('Log in') }}</span>
+            {{ __('Already have an account?') }} <span class="font-normal">{{ __('Log in') }}</span>
           </button>
         </div>
       </div>

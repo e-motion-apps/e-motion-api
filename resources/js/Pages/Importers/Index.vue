@@ -51,7 +51,7 @@ function runImporters() {
         </div>
 
         <p v-else class="mt-8 flex font-medium text-gray-800">
-          {{ __('Didnt find anything') }}
+          {{ __('Didn`t find anything. Just empty space.') }}
         </p>
 
         <Pagination :meta="importInfo.meta" :links="importInfo.links" />

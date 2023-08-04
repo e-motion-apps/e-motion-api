@@ -69,9 +69,9 @@ function clearInput() {
 }
 
 const sortingOptions = [
-  { name: ('Latest'), href: '/admin/countries?order=latest' },
-  { name: ('Oldest'), href: '/admin/countries?order=oldest' },
-  { name: ('By name'), href: '/admin/countries?order=name' },
+  { name: 'Latest', href: '/admin/countries?order=latest' },
+  { name: 'Oldest', href: '/admin/countries?order=oldest' },
+  { name: 'By name', href: '/admin/countries?order=name' },
 ]
 
 const isSortDialogOpened = ref(false)
@@ -108,7 +108,7 @@ function toggleSortDialog() {
                   <label class="mb-1 mt-4">{{ __('Name') }}</label>
                   <input v-model="storeCountryForm.name" class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 md:p-3" type="text" required>
                   <ErrorMessage :message="storeCountryForm.errors.name" />
-                  <label class="mb-1 mt-4">{{ __('Alt name') }}</label>
+                  <label class="mb-1 mt-4">{{ __('Alternative name') }}</label>
                   <input v-model="storeCountryForm.alternativeName" class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 md:p-3" type="text">
                   <ErrorMessage :message="storeCountryForm.errors.alternativeName" />
                   <label class="mb-1 mt-4">{{ __('Latitude') }}</label>
@@ -185,7 +185,7 @@ function toggleSortDialog() {
                     {{ __('Name') }}
                   </th>
                   <th scope="col" class="table-cell py-3.5 text-left text-sm font-semibold text-gray-900">
-                    {{ __('Alt name') }}
+                    {{ __('Alternative name') }}
                   </th>
                   <th scope="col" class="hidden py-3.5 text-left text-sm font-semibold text-gray-900 xl:table-cell">
                     {{ __('Latitude') }}
@@ -207,7 +207,7 @@ function toggleSortDialog() {
           </div>
           <div v-else>
             <p class="mt-6 text-lg font-medium text-gray-500">
-              {{ __('Sorry we couldnt countries') }}
+              {{ __('Sorry we couldn`t find any countries.') }}
             </p>
           </div>
           <Pagination :meta="props.countries.meta" :links="props.countries.links" />
