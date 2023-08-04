@@ -16,44 +16,35 @@ class ExceptionHandler extends Handler
         "password",
         "password_confirmation",
     ];
-    protected array $handleByInertia = [
-        Response::HTTP_INTERNAL_SERVER_ERROR,
-        Response::HTTP_SERVICE_UNAVAILABLE,
-        Response::HTTP_TOO_MANY_REQUESTS,
-        419,
-        Response::HTTP_NOT_FOUND,
-        Response::HTTP_FORBIDDEN,
-        Response::HTTP_UNAUTHORIZED,
-    ];
 
     public function render($request, Throwable $e)
     {
         $response = parent::render($request, $e);
-
         $statusCode = $response->status();
 
-        switch ($statusCode) {
-            case Response::HTTP_METHOD_NOT_ALLOWED:
-            case Response::HTTP_FORBIDDEN:
-            case Response::HTTP_UNAUTHORIZED:
-                $statusCode = Response::HTTP_NOT_FOUND;
+        $description = $this->getDescriptionByStatusCode($statusCode);
 
-                break;
-            default:
-                $statusCode = Response::HTTP_NOT_FOUND;
+        return Inertia::render("Error", [
+            "statusCode" => $statusCode,
+            "description" => $description,
+        ])
+            ->toResponse($request)
+            ->setStatusCode($statusCode);
+    }
 
-                break;
-        }
+    protected function getDescriptionByStatusCode(int $statusCode): string
+    {
+        $descriptions = [
+            Response::HTTP_METHOD_NOT_ALLOWED => "Sorry, the page you were looking for could not be found.",
+            Response::HTTP_FORBIDDEN => "Sorry, the page you were looking for could not be found.",
+            Response::HTTP_UNAUTHORIZED => "Sorry, the page you were looking for could not be found.",
+            Response::HTTP_NOT_FOUND => "Sorry, the page you were looking for could not be found.",
+            Response::HTTP_INTERNAL_SERVER_ERROR => "Oops! Something went wrong on our end. Please try again later.",
+            Response::HTTP_SERVICE_UNAVAILABLE => "Oops! The service is currently unavailable. Please try again later.",
+            Response::HTTP_TOO_MANY_REQUESTS => "Oops! Too many requests. Please try again later.",
+            419 => "Your session has expired. Please refresh the page and try again.",
+        ];
 
-        if (in_array($statusCode, $this->handleByInertia, strict: true)) {
-            return Inertia::render("Error", [
-                "statusCode" => $statusCode,
-                "description" => "Sorry, the page you were looking for could not be found.",
-            ])
-                ->toResponse($request)
-                ->setStatusCode($statusCode);
-        }
-
-        return $response->setStatusCode($statusCode);
+        return $descriptions[$statusCode] ?? "Oops. Something went wrong. Try again later.";
     }
 }
