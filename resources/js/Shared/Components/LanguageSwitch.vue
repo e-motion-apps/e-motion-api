@@ -1,7 +1,6 @@
 <script setup>
-import { router, usePage } from '@inertiajs/vue3'
-import { ref } from 'vue'
-
+import { usePage } from '@inertiajs/vue3'
+import { computed } from 'vue'
 const locales = [
   {
     name: 'Polski',
@@ -15,28 +14,19 @@ const locales = [
   },
 ]
 
-const page = usePage()
+const currentLocale = computed(() => usePage().props.locale)
 
-const currentLocale = ref(page.props.locale)
-
-function setLocale(locale) {
-  if (currentLocale.value !== locale) {
-    currentLocale.value = locale
-    router.post(`/language/${locale}`)
-  }
-}
 </script>
 
 <template>
   <div>
     <div class="flex space-x-2 pt-1.5">
-      <button v-for="locale in locales" :key="locale.lang" class="large flat flags" :class="{
-        'opacity-100': currentLocale === locale.lang,
-        'opacity-50': currentLocale !== locale.lang,
-      }" :disabled="currentLocale === locale.lang" @click="setLocale(locale.lang)"
+      <InertiaLink v-for="locale in locales" :key="locale.lang" :href="`/language/${locale.lang}`" method="post" as="button"
+              :class="[currentLocale === locale.lang ? 'opacity-100' : 'opacity-50', 'large flat flags']"
+              :disabled="currentLocale === locale.lang"
       >
         <i :class="`${locale.iso} flat flag`" />
-      </button>
+      </InertiaLink>
     </div>
   </div>
 </template>

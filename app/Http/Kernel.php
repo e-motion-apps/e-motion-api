@@ -91,6 +91,5 @@ class Kernel extends HttpKernel
         "throttle" => ThrottleRequests::class,
         "verified" => EnsureEmailIsVerified::class,
         "role" => RoleMiddleware::class,
-        "setLocale" => SetLocale::class,
     ];
 }

@@ -14,7 +14,7 @@ const emit = defineEmits(['try-it-out', 'create-account'])
 
     <div class="lg:pb-16">
       <h1 class="text-4xl font-bold tracking-tight text-gray-800 sm:text-5xl">
-        {{ __('Looking for an escooter') }}
+        {{ __('Looking for an e-scooter?') }}
       </h1>
       <p class="mx-0 w-full items-start pt-10 text-sm leading-7 text-gray-600 sm:w-2/3 sm:text-base lg:mx-auto lg:w-full lg:text-lg">
         {{ __('advert1') }}
