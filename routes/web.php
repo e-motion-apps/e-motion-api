@@ -20,6 +20,7 @@ Route::middleware("auth")->group(function (): void {
     Route::post("/logout", [AuthController::class, "logout"])->name("logout");
     Route::post("/favorites", [FavoritesController::class, "store"]);
     Route::get("/favorites/{city_id}", [FavoritesController::class, "check"]);
+    Route::get("/favorites", [FavoritesController::class, "show"]);
 
     Route::middleware(["role:admin"])->group(function (): void {
         Route::get("/admin/importers", [ImportInfoController::class, "index"]);
