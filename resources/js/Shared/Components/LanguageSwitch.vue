@@ -22,8 +22,8 @@ const currentLocale = computed(() => usePage().props.locale)
   <div>
     <div class="flex space-x-2 pt-1.5">
       <InertiaLink v-for="locale in locales" :key="locale.lang" :href="`/language/${locale.lang}`" method="post" as="button"
-              :class="[currentLocale === locale.lang ? 'opacity-100' : 'opacity-50', 'large flat flags']"
-              :disabled="currentLocale === locale.lang"
+                   :class="[currentLocale === locale.lang ? 'opacity-100' : 'opacity-50', 'large flat flags']"
+                   :disabled="currentLocale === locale.lang"
       >
         <i :class="`${locale.iso} flat flag`" />
       </InertiaLink>
