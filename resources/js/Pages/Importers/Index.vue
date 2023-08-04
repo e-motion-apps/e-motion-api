@@ -25,7 +25,7 @@ function runImporters() {
     <div class="mt-16 flex h-full w-full flex-col justify-between md:mt-0 md:w-2/3 lg:w-3/4 xl:w-5/6">
       <div class="m-4 flex flex-col lg:mx-8">
         <button class="my-5 w-fit rounded bg-blumilk-500 px-5 py-3 text-sm font-medium text-white shadow-md hover:bg-blumilk-400 md:py-2" @click="runImporters">
-          Run importers
+          {{ __('Run importers') }}
         </button>
 
         <PaginationInfo v-if="importInfo.data.length" :meta="importInfo.meta" />
@@ -34,13 +34,13 @@ function runImporters() {
             <thead>
               <tr>
                 <th scope="col" class="table-cell py-3.5 pl-2 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-5">
-                  Who
+                  {{ __('Who') }}
                 </th>
                 <th scope="col" class="table-cell p-3.5 text-left text-sm font-semibold text-gray-900">
-                  When
+                  {{ __('When') }}
                 </th>
                 <th scope="col" class="table-cell py-3.5 pl-1 text-left text-sm font-semibold text-gray-900">
-                  Status
+                  {{ __('Status') }}
                 </th>
               </tr>
             </thead>
@@ -51,7 +51,7 @@ function runImporters() {
         </div>
 
         <p v-else class="mt-8 flex font-medium text-gray-800">
-          Didn't find anything. Just empty space.
+          {{ __('Didn`t find anything. Just empty space.') }}
         </p>
 
         <Pagination :meta="importInfo.meta" :links="importInfo.links" />

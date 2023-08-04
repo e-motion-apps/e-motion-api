@@ -20,6 +20,11 @@ return [
 
     "locale" => "en",
 
+    "supported_locales" => [
+        "en",
+        "pl",
+    ],
+
     "fallback_locale" => "en",
 
     "faker_locale" => "en_US",

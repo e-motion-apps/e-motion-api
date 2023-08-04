@@ -107,21 +107,21 @@ function toggleSortDialog() {
 
               <div class="flex flex-col p-6 pt-0">
                 <h1 class="mb-3 text-lg font-bold text-gray-800">
-                  Create city
+                  {{ __('Create city') }}
                 </h1>
 
                 <form class="flex flex-col text-xs font-bold text-gray-600" @submit.prevent="storeCity">
-                  <label class="mb-1 mt-4">Name</label>
+                  <label class="mb-1 mt-4">{{ __('Name') }}</label>
                   <input v-model="storeCityForm.name" class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 md:p-3" type="text" required>
                   <ErrorMessage :message="storeCityForm.errors.name" />
 
-                  <label class="mb-1 mt-4">Latitude</label>
+                  <label class="mb-1 mt-4">{{ __('Latitude') }}</label>
                   <input v-model="storeCityForm.latitude" class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text"
                          required @keydown="preventCommaInput"
                   >
                   <ErrorMessage :message="storeCityForm.errors.latitude" />
 
-                  <label class="mb-1 mt-4">Longitude</label>
+                  <label class="mb-1 mt-4">{{ __('Longitude') }}</label>
                   <input v-model="storeCityForm.longitude" class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text"
                          required @keydown="preventCommaInput"
                   >
@@ -129,7 +129,7 @@ function toggleSortDialog() {
                   <p v-if="commaInputError" class="text-xs text-rose-600">
                     {{ commaInputError }}
                   </p>
-                  <label class="mb-1 mt-4">Country</label>
+                  <label class="mb-1 mt-4">{{ __('Country') }}</label>
                   <select v-model="storeCityForm.country_id" required class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3">
                     <option v-for="country in props.countries" :key="country.id" class="m-6 p-6 " :value="country.id">
                       {{ country.name }}
@@ -138,7 +138,7 @@ function toggleSortDialog() {
 
                   <div class="flex w-full justify-end">
                     <PrimarySaveButton>
-                      Save
+                      {{ __('Save') }}
                     </PrimarySaveButton>
                   </div>
                 </form>
@@ -148,7 +148,7 @@ function toggleSortDialog() {
 
           <div class="mb-3 mt-4 flex flex-wrap items-center justify-end md:justify-between">
             <button class="mr-1 rounded bg-blumilk-500 px-5 py-3 text-sm font-medium text-white shadow-md hover:bg-blumilk-400 md:py-2" @click="toggleStoreDialog">
-              Create city
+              {{ __('Create city') }}
             </button>
 
             <div class="m-1 flex w-full rounded-md shadow-sm md:w-fit">
@@ -156,7 +156,7 @@ function toggleSortDialog() {
                 <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                   <MagnifyingGlassIcon class="h-5 w-5 text-gray-800" />
                 </div>
-                <input v-model.trim="searchInput" type="text" class="block w-full rounded border-0 py-3 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blumilk-300 sm:text-sm sm:leading-6 md:py-1.5" placeholder="Search city">
+                <input v-model.trim="searchInput" type="text" class="block w-full rounded border-0 py-3 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blumilk-300 sm:text-sm sm:leading-6 md:py-1.5" :placeholder="__('Search city')">
               </div>
               <button v-if="searchInput.length" type="button" class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-800 ring-1 ring-inset ring-gray-300 hover:bg-blumilk-25" @click="clearInput">
                 <XMarkIcon class="h-5 w-5" />
@@ -172,7 +172,7 @@ function toggleSortDialog() {
             <div class="relative inline-block text-left">
               <div>
                 <button ref="sortDialog" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900" aria-expanded="false" aria-haspopup="true" @click="toggleSortDialog">
-                  Sort
+                  {{ __('Sort') }}
                   <ChevronDownIcon class="ml-1 h-5 w-5" />
                 </button>
               </div>
@@ -183,7 +183,7 @@ function toggleSortDialog() {
                                :href="option.href" class="block px-4 py-2 text-sm text-gray-500 hover:text-blumilk-400" role="menuitem" tabindex="-1"
                   >
                     <span :class="{'font-medium text-blumilk-400': page.url.startsWith(option.href) || ((page.url === '/admin/cities' || page.url.startsWith('/admin/cities?search=') || page.url.startsWith('/admin/cities?page=')) && option.href.startsWith('/admin/cities?order=latest'))}">
-                      {{ option.name }}
+                      {{ __(option.name) }}
                     </span>
                   </InertiaLink>
                 </div>
@@ -196,16 +196,16 @@ function toggleSortDialog() {
               <thead>
                 <tr>
                   <th scope="col" class="py-3.5 pl-5 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 lg:table-cell">
-                    Name
+                    {{ __('Name') }}
                   </th>
                   <th scope="col" class="hidden py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
-                    Longitude
+                    {{ __('Longitude') }}
                   </th>
                   <th scope="col" class="hidden py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
-                    Latitude
+                    {{ __('Latitude') }}
                   </th>
                   <th scope="col" class="py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
-                    Providers
+                    {{ __('Providers') }}
                   </th>
                 </tr>
               </thead>
@@ -219,7 +219,7 @@ function toggleSortDialog() {
 
           <div v-else>
             <p class="mt-6 text-lg font-medium text-gray-500">
-              Sorry, we couldn't find any cities.
+              {{ __('Sorry we couldn`t find any cities.') }}
             </p>
           </div>
 
