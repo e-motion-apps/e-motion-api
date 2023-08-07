@@ -112,11 +112,11 @@ defineExpose({
         <InertiaLink v-if="isAdmin" href="/admin/cities">
           <ComputerDesktopIcon class="h-6 w-6" />
         </InertiaLink>
-        <LanguageSwitch />
         <button>
           <ArrowRightOnRectangleIcon v-if="isAuth" class="h-6 w-6" @click="logout" />
           <UserCircleIcon v-else class="h-6 w-6" @click="toggleAuthDialog" />
         </button>
+          <LanguageSwitch />
       </div>
     </nav>
     <div v-if="isAuthDialogOpened" class="fixed inset-0 z-50 flex items-center bg-black/50">
@@ -249,7 +249,7 @@ defineExpose({
                     <span class="ml-2">{{ __('Log in') }}</span>
                   </span>
                 </button>
-                <div class="mx-auto flex items-center justify-center px-6 py-3">
+                <div class="mx-auto flex items-center pt-8">
                   <LanguageSwitch class="text-2xl" />
                 </div>
               </div>

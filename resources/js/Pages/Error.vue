@@ -2,8 +2,9 @@
 import { ArrowLeftIcon } from '@heroicons/vue/24/outline'
 
 defineProps({
-  statusCode: Number,
-  description: String,
+    statusTitle: String,
+    statusDescription: String,
+    statusCode: Number,
 })
 </script>
 
@@ -15,15 +16,14 @@ defineProps({
           {{ statusCode }}
         </p>
         <h1 class="mt-4 text-4xl font-bold tracking-tight text-gray-800 sm:text-7xl">
-          Page not found
+          {{ statusTitle }}
         </h1>
         <p class="mt-6 px-0.5 text-base leading-7 text-gray-600">
-          {{ description }}
+          {{ statusDescription }}
         </p>
         <div class="mt-10">
-          <InertiaLink href="/" class="flex items-center text-sm font-semibold leading-7 text-blumilk-500">
-            <ArrowLeftIcon class="mr-2 h-6 w-6" />
-            <span class="text-xl">Back to home</span>
+          <InertiaLink href="/" class="flex items-center w-fit py-4 pr-4 text-sm font-semibold leading-7 text-blumilk-500">
+            <ArrowLeftIcon class="mr-2 h-10 w-10"/>
           </InertiaLink>
         </div>
       </div>
