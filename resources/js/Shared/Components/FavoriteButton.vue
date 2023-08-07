@@ -44,7 +44,6 @@ const toggleFavorite = async () => {
     }
   } catch (error) {
     toast.error("There was an error!");
-    console.log(error)
   }
 }
 
