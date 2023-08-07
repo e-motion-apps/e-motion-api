@@ -4,7 +4,7 @@ echo "Git fetch newest tag"
 cd /var/storage/www/ESCOOTERS/
 git fetch
 TAG="$(git describe --tags --abbrev=0 origin/main)"
-FILE="docker-compose.staging.yml"
+FILE="docker-compose.staging.yaml"
 
 echo "Git checkout tag: " $TAG
 git checkout tags/$TAG -f
