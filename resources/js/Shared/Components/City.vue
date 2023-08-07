@@ -5,6 +5,9 @@ import { PencilIcon, TrashIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 import ErrorMessage from '@/Shared/Components/ErrorMessage.vue'
 import { onClickOutside } from '@vueuse/core'
 import SecondarySaveButton from '@/Shared/Components/SecondarySaveButton.vue'
+import { useToast } from 'vue-toastification'
+
+const toast = useToast()
 
 const props = defineProps({
   city: Object,
@@ -13,12 +16,14 @@ const props = defineProps({
 
 function destroyCity(cityId) {
   router.delete(`/admin/cities/${cityId}`)
+  toast.success('City deleted successfully')
 }
 
 function updateCity(cityId) {
   updateCityForm.patch(`/admin/cities/${cityId}`, {
     onSuccess: () => {
       toggleEditDialog()
+      toast.success('City updated successfully')
     },
   })
 }
@@ -39,9 +44,11 @@ function storeAlternativeCityName(cityId) {
     onSuccess: () => {
       storeCityAlternativeNameForm.name = ''
       storeAlternativeCityNameErrors.value = []
+      toast.success('Alternative city name added successfully')
     },
     onError: (errors) => {
       storeAlternativeCityNameErrors.value = errors
+      toast.error('There was an error adding alternative city name')
     },
   })
 }
@@ -52,6 +59,7 @@ const storeCityAlternativeNameForm = reactive({
 
 function destroyAlternativeCityName(alternativeCityNameId) {
   router.delete(`/city-alternative-name/${alternativeCityNameId}`, { replace: true })
+  toast.success('Alternative city name deleted successfully')
 }
 
 const commaInputError = ref('')
@@ -98,6 +106,7 @@ function updateCityProviders(cityId) {
   }, {
     onSuccess: () => {
       toggleEditDialog()
+      toast.success('City providers updated successfully')
     },
   })
 }

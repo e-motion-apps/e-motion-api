@@ -10,8 +10,10 @@ import { debounce } from 'lodash/function'
 import Pagination from '@/Shared/Components/Pagination.vue'
 import PaginationInfo from '@/Shared/Components/PaginationInfo.vue'
 import PrimarySaveButton from '@/Shared/Components/PrimarySaveButton.vue'
+import { useToast } from 'vue-toastification'
 
 const page = usePage()
+const toast = useToast()
 
 function storeCountry() {
   storeCountryForm.post('/admin/countries/', {
@@ -19,6 +21,10 @@ function storeCountry() {
       storeCountryForm.reset()
       toggleStoreDialog()
       commaInputError.value = ''
+      toast.success('Country created successfully!')
+    },
+    onError: () => {
+      toast.error('There was an error creating the country!')
     },
   })
 }

@@ -66,5 +66,8 @@
     "Didn`t find anything. Just empty space.": "Nie znaleziono niczego",
     "Open main menu": "Otwórz menu główne",
     "Please verify your credentials and try again" : "Sprawdź swoje dane logowania i spróbuj ponownie",
-    "Invalid password or username" : "Nieprawidłowe hasło lub nazwa użytkownika"
+    "Invalid password or username" : "Nieprawidłowe hasło lub nazwa użytkownika",
+    "Show favorites": "Pokaż ulubione",
+    "City added to favorites!": "Miasto dodane do ulubionych!",
+    "City removed from favorites!": "Miasto usunięte z ulubionych!"
 }

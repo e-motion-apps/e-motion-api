@@ -10,8 +10,10 @@ import { debounce } from 'lodash/function'
 import Pagination from '@/Shared/Components/Pagination.vue'
 import PaginationInfo from '@/Shared/Components/PaginationInfo.vue'
 import PrimarySaveButton from '@/Shared/Components/PrimarySaveButton.vue'
+import { useToast } from 'vue-toastification'
 
 const page = usePage()
+const toast = useToast()
 
 const props = defineProps({
   cities: Object,
@@ -29,9 +31,11 @@ function storeCity() {
     onSuccess: () => {
       storeCityForm.reset()
       toggleStoreDialog()
+      toast.success('City created successfully')
     },
     onError: (errors) => {
       storeErrors.value = errors
+      toast.error('There was an error creating the city')
     },
   })
 }
