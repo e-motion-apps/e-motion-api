@@ -1,0 +1,17 @@
+name: Deploy release on the server
+on:
+  release:
+    types: [ published ]
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-20.04
+    steps:
+      - name: run deployment script over ssh
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.ACADEMIC_SERVER_HOST }}
+          username: ${{ secrets.ACADEMIC_SERVER_USER }}
+          key: ${{ secrets.ACADEMIC_SERVER_SSH_PRIVATE_KEY }}
+          port: ${{ secrets.ACADEMIC_SERVER_PORT }}
+          script: /var/storage/www/ESCOOTERS/scripts/deploy.sh
