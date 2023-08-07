@@ -123,7 +123,7 @@ function showFavorites() {
 <template>
   <div class="mx-auto mt-4 flex w-11/12 flex-col sm:mt-12 lg:w-5/6 ">
     <h1 class="mb-1 text-[11px] font-medium text-gray-600">
-      Countries
+      {{ __('Countries') }}
     </h1>
     <ul role="list" class="scrollbar flex space-x-2 overflow-x-auto pb-2">
       <li v-for="country in filteredCountries" :key="country.id" class="col-span-1 flex cursor-pointer rounded-md"
@@ -141,7 +141,7 @@ function showFavorites() {
     </ul>
 
     <h1 class="mb-1 mt-4 text-[11px] font-medium text-gray-600">
-      Providers
+      {{ __('Providers') }}
     </h1>
     <ul role="list" class="scrollbar flex space-x-2 overflow-x-auto">
       <li v-for="provider in filteredProviders" :key="provider.name"
@@ -207,7 +207,7 @@ function showFavorites() {
       </li>
     </ul>
     <p v-else class="mt-8 flex justify-center font-medium text-gray-800">
-      Didn't find selected provider. Just empty space.
+      {{ __('Didn`t find any providers') }}
     </p>
   </div>
 </template>

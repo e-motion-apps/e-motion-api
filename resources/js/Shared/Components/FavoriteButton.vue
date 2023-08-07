@@ -65,7 +65,7 @@ onMounted(() => {
       <component :is="result ? SolidHeartIcon : OutlineHeartIcon" v-if="result !== null"
                  class="h-6 w-6 text-red-500"
       />
-      <span v-else>Loading...</span>
+      <span v-else>{{ __('Loading') }}...</span>
     </button>
   </div>
 </template>

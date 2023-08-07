@@ -14,13 +14,12 @@ const emit = defineEmits(['try-it-out', 'create-account'])
 
     <div class="lg:pb-16">
       <h1 class="text-4xl font-bold tracking-tight text-gray-800 sm:text-5xl">
-        Looking for an e&#8209;scooter?
+        {{ __('Looking for an e-scooter?') }}
       </h1>
       <p class="mx-0 w-full items-start pt-10 text-sm leading-7 text-gray-600 sm:w-2/3 sm:text-base lg:mx-auto lg:w-full lg:text-lg">
-        There are plenty of e-scooter providers, so sometimes you can be confused about which app you should
-        use during your trips.
+        {{ __('advert1') }}
         <br><br>
-        <strong>This application can help you with planning your vacations or business trips.</strong>
+        <strong>{{ __('advert2') }}</strong>
       </p>
     </div>
 
@@ -28,11 +27,11 @@ const emit = defineEmits(['try-it-out', 'create-account'])
       class="flex w-full flex-wrap items-center justify-center space-y-5 sm:hidden sm:justify-between sm:space-y-0 md:flex"
     >
       <PrimaryButton class="h-fit w-11/12 px-2 py-5 sm:w-5/12" @click="emit('try-it-out')">
-        Try it out
+        {{ __('Try it out') }}
       </PrimaryButton>
 
       <SecondaryButton class="h-fit w-11/12 px-2 py-5 sm:w-5/12" @click="emit('create-account')">
-        Create account
+        {{ __('Create account') }}
       </SecondaryButton>
     </div>
 
@@ -47,7 +46,7 @@ const emit = defineEmits(['try-it-out', 'create-account'])
         </PrimaryButton>
 
         <SecondaryButton class="h-fit w-full px-2 py-5" @click="emit('create-account')">
-          Create account
+          {{ __('Create account') }}
         </SecondaryButton>
       </div>
     </div>

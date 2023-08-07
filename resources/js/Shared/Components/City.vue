@@ -211,14 +211,14 @@ function toggleProvidersForm() {
               @click="toggleEditDialog"
       >
         <PencilIcon class="h-5 w-8 text-blumilk-500" />
-        Edit
+        {{ __('Edit') }}
       </button>
 
       <button class="mx-0.5 mb-1 flex w-fit shrink-0 items-center rounded py-1 pr-2 text-rose-500 hover:bg-rose-100"
               @click="destroyCity(city.id)"
       >
         <TrashIcon class="h-5 w-8 text-rose-500" />
-        Delete
+        {{ __('Delete') }}
       </button>
     </span>
   </td>
@@ -233,22 +233,22 @@ function toggleProvidersForm() {
         </div>
 
         <button :class="isCityFormOpened ? 'bg-blumilk-50' : ''" class="mb-3 ml-6 rounded-lg bg-blumilk-25 px-3 py-1 text-sm font-bold text-gray-800 hover:bg-blumilk-50" @click="toggleCityForm">
-          Update city
+          {{ __('Update city') }}
         </button>
         <form v-if="isCityFormOpened" class="flex flex-col rounded px-6 text-xs font-bold text-gray-600"
               @submit.prevent="updateCity(city.id)"
         >
-          <label class="mb-1 mt-4">Name</label>
+          <label class="mb-1 mt-4">{{ __('Name') }}</label>
           <input v-model="updateCityForm.name" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text"
                  required
           >
           <ErrorMessage :message="updateCityForm.errors.name" />
-          <label class="mb-1 mt-4">Latitude</label>
+          <label class="mb-1 mt-4">{{ __('Latitude') }}</label>
           <input v-model="updateCityForm.latitude" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text"
                  required @keydown="preventCommaInput"
           >
           <ErrorMessage :message="updateCityForm.errors.latitude" />
-          <label class="mb-1 mt-4">Longitude</label>
+          <label class="mb-1 mt-4">{{ __('Longitude') }}</label>
           <input v-model="updateCityForm.longitude" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text"
                  required @keydown="preventCommaInput"
           >
@@ -257,14 +257,14 @@ function toggleProvidersForm() {
 
           <div class="flex w-full justify-end">
             <SecondarySaveButton>
-              Save
+              {{ __('Save') }}
             </SecondarySaveButton>
           </div>
         </form>
 
         <br>
         <button :class="isAlternativeCityNameFormOpened ? 'bg-blumilk-50' : ''" class="mb-3 ml-6 rounded-lg bg-blumilk-25 px-3 py-1 text-sm font-bold text-gray-800 hover:bg-blumilk-50" @click="toggleAlternativeCityNameForm">
-          Add alternative city name
+          {{ __('Add alternative name') }}
         </button>
         <form v-if="isAlternativeCityNameFormOpened" class="flex flex-col rounded p-6"
               @submit.prevent="storeAlternativeCityName(city.id)"
@@ -277,7 +277,7 @@ function toggleProvidersForm() {
             <ErrorMessage :message="storeAlternativeCityNameErrors.name" />
             <div class="flex w-full justify-end">
               <SecondarySaveButton>
-                Save
+                {{ __('Save') }}
               </SecondarySaveButton>
             </div>
           </div>
@@ -302,7 +302,7 @@ function toggleProvidersForm() {
 
         <br>
         <button :class="isProvidersFormOpened ? 'bg-blumilk-50' : ''" class="ml-6 flex rounded-lg bg-blumilk-25 px-3 py-1 text-sm font-bold text-gray-800 hover:bg-blumilk-50" @click="toggleProvidersForm">
-          Providers
+          {{ __('Providers') }}
         </button>
 
         <div v-if="isProvidersFormOpened" class="mt-4 flex flex-col rounded border-blumilk-100 px-6">
@@ -327,7 +327,7 @@ function toggleProvidersForm() {
           </div>
           <div class="flex w-full justify-end text-xs">
             <SecondarySaveButton @click="updateCityProviders(city.id)">
-              Save
+              {{ __('Save') }}
             </SecondarySaveButton>
           </div>
         </div>
