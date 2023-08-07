@@ -158,7 +158,7 @@ function showFavorites() {
         class="mt-3 flex w-fit items-center rounded-lg bg-gray-50 px-3 py-1 text-[10px] font-medium text-gray-500 hover:bg-gray-100"
         @click="showFavorites">
         <FaceSmileIcon class="mr-1 h-4 w-4" />
-        Show favorites
+        {{ __('Show favorites') }}
       </button>
 
       <div v-if="filterStore.selectedCountryId !== null || filterStore.selectedProviderName !== null"
@@ -167,7 +167,7 @@ function showFavorites() {
           class="mt-3 flex w-fit items-center rounded-lg bg-gray-50 px-3 py-1 text-[10px] font-medium text-gray-500 hover:bg-gray-100"
           @click="clearFilters">
           <TrashIcon class="mr-1 h-4 w-4" />
-          Clear filters
+          {{ __('Clear filters') }}
         </button>
       </div>
     </div>
