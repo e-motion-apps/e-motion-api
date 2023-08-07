@@ -116,7 +116,7 @@ defineExpose({
           <ArrowRightOnRectangleIcon v-if="isAuth" class="h-6 w-6" @click="logout" />
           <UserCircleIcon v-else class="h-6 w-6" @click="toggleAuthDialog" />
         </button>
-          <LanguageSwitch />
+        <LanguageSwitch />
       </div>
     </nav>
     <div v-if="isAuthDialogOpened" class="fixed inset-0 z-50 flex items-center bg-black/50">

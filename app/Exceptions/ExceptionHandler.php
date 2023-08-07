@@ -23,17 +23,19 @@ class ExceptionHandler extends Handler
         $response = parent::render($request, $e);
         $statusCode = $response->status();
 
-        app()->setLocale('en');
+        app()->setLocale("en");
 
-        $encryptedCookie = $request->cookie('locale');
+        $encryptedCookie = $request->cookie("locale");
+
         if ($encryptedCookie) {
-            if (in_array($encryptedCookie, ['pl', 'en'])) {
+            if (in_array($encryptedCookie, ["pl", "en"], true)) {
                 app()->setLocale($encryptedCookie);
             } else {
                 $decryptedCookie = Crypt::decryptString($encryptedCookie);
 
-                $languageCode = substr($decryptedCookie, strpos($decryptedCookie, '|') + 1);
-                if (in_array($languageCode, ['pl', 'en'])) {
+                $languageCode = substr($decryptedCookie, strpos($decryptedCookie, "|") + 1);
+
+                if (in_array($languageCode, ["pl", "en"], true)) {
                     app()->setLocale($languageCode);
                 }
             }
@@ -45,17 +47,18 @@ class ExceptionHandler extends Handler
             case Response::HTTP_TOO_MANY_REQUESTS:
                 $statusTitle = __($response->statusText());
                 $statusDescription = $this->getDescriptionByStatusCode($statusCode);
-                break;
 
+                break;
             case 419:
                 $statusTitle = __("Session Expired");
                 $statusDescription = __("Description: Session expired");
-                break;
 
+                break;
             default:
                 $statusTitle = __("Not Found");
                 $statusDescription = __("Description: Not found");
                 $statusCode = Response::HTTP_NOT_FOUND;
+
                 break;
         }
 

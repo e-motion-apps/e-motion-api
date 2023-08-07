@@ -19,20 +19,20 @@ const currentLocale = computed(() => usePage().props.locale)
 </script>
 
 <template>
-    <div class="flex space-x-2 pt-1.5">
-        <InertiaLink
-            v-for="locale in locales"
-            :key="locale.lang"
-            :href="`/language/${locale.lang}`"
-            method="post"
-            as="button"
-            :class="[currentLocale === locale.lang ? 'opacity-100' : 'opacity-30']"
-            :disabled="currentLocale === locale.lang"
-        >
-            <i
-                :class="`${locale.iso} flat flag`"
-                class="!h-[24px] !w-[36px] md:!h-[18px] md:!w-[27px] rounded"
-            ></i>
-        </InertiaLink>
-    </div>
+  <div class="flex space-x-2 pt-1.5">
+    <InertiaLink
+      v-for="locale in locales"
+      :key="locale.lang"
+      :href="`/language/${locale.lang}`"
+      method="post"
+      as="button"
+      :class="[currentLocale === locale.lang ? 'opacity-100' : 'opacity-30']"
+      :disabled="currentLocale === locale.lang"
+    >
+      <i
+        :class="`${locale.iso} flat flag`"
+        class="!h-[24px] !w-[36px] rounded md:!h-[18px] md:!w-[27px]"
+      />
+    </InertiaLink>
+  </div>
 </template>
