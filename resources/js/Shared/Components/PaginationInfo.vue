@@ -1,4 +1,5 @@
 <script setup>
+import { __ } from '../../translate'
 const props = defineProps({
   meta: Object,
 })

@@ -4,6 +4,7 @@ import { ChartBarIcon, ClipboardIcon, FlagIcon, MapPinIcon, PlayCircleIcon } fro
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 import { ref } from 'vue'
 import LanguageSwitch from '@/Shared/Components/LanguageSwitch.vue'
+import { __ } from '../../translate'
 
 const navigation = [
   { name: 'Dashboard', href: '/admin/dashboard', icon: ClipboardIcon },

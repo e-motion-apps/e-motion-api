@@ -5,6 +5,7 @@ import { usePage } from '@inertiajs/vue3'
 import { TrashIcon } from '@heroicons/vue/24/outline'
 import FavoriteButton from '@/Shared/Components/FavoriteButton.vue'
 import InfoPopup from '@/Shared/Components/InfoPopup.vue'
+import { __ } from '../../translate'
 
 const filterStore = useFilterStore()
 

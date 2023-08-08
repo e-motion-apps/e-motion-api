@@ -6,9 +6,9 @@ import ErrorMessage from '@/Shared/Components/ErrorMessage.vue'
 import { onClickOutside } from '@vueuse/core'
 import SecondarySaveButton from '@/Shared/Components/SecondarySaveButton.vue'
 import { useToast } from 'vue-toastification'
+import { __ } from '../../translate'
 
 const toast = useToast()
-
 const props = defineProps({
   city: Object,
   providers: Object,
@@ -23,7 +23,7 @@ function updateCity(cityId) {
   updateCityForm.patch(`/admin/cities/${cityId}`, {
     onSuccess: () => {
       toggleEditDialog()
-      toast.success('City updated successfully')
+      toast.success(__('City updated successfully!'))
     },
   })
 }

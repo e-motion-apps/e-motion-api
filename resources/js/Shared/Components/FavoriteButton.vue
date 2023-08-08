@@ -5,6 +5,7 @@ import axios from 'axios'
 import { useToast } from "vue-toastification";
 import { HeartIcon as SolidHeartIcon } from '@heroicons/vue/24/solid'
 import { HeartIcon as OutlineHeartIcon } from '@heroicons/vue/24/outline'
+import { __ } from '../../translate'
 
 const props = defineProps({
   cityid: {

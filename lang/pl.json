@@ -69,5 +69,6 @@
     "Invalid password or username" : "Nieprawidłowe hasło lub nazwa użytkownika",
     "Show favorites": "Pokaż ulubione",
     "City added to favorites!": "Miasto dodane do ulubionych!",
-    "City removed from favorites!": "Miasto usunięte z ulubionych!"
+    "City removed from favorites!": "Miasto usunięte z ulubionych!",
+    "City updated successfully!": "Miasto zaktualizowane pomyślnie!"
 }
