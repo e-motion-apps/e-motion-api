@@ -7,5 +7,5 @@ return [
     "sent" => "Wysłaliśmy Ci link do resetowania hasła!",
     "throttled" => "Proszę poczekać przed ponowną próbą.",
     "token" => "Token resetowania hasła jest nieprawidłowy.",
-    "user" => "Nie możemy znaleźć użytkownika z takim adresem email.",
+    "user" => "Nie możemy znaleźć użytkownika z takim adresem e-mail.",
 ];

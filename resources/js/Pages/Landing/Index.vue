@@ -17,14 +17,14 @@ const breakpoints = useBreakpoints(breakpointsTailwind)
 const showInfo = ref(true)
 const isMobile = ref(breakpoints.smaller('lg'))
 const isDesktop = ref(breakpoints.greaterOrEqual('lg'))
-const showMap = ref(false)
+const shouldShowMap = ref(false)
 
 function switchPanel() {
   showInfo.value = !showInfo.value
 }
 
 function switchMap() {
-  showMap.value = !showMap.value
+  shouldShowMap.value = !shouldShowMap.value
 }
 
 const nav = ref(null)
@@ -52,6 +52,14 @@ onMounted(async () => {
   await fetchProviders()
 })
 
+const shouldShowButton = computed(() => {
+  return (!showInfo.value && isMobile.value) || (isAuth.value && isMobile.value)
+})
+
+const buttonIcon = computed(() => {
+  return shouldShowMap.value ? XMarkIcon : MapIcon
+})
+
 </script>
 
 <template>
@@ -59,7 +67,7 @@ onMounted(async () => {
     <Nav ref="nav" class="z-30" />
 
     <div class="relative mt-16 flex grow flex-col lg:flex-row">
-      <div v-if="!showMap || (showMap && isDesktop)" class="grow lg:w-1/2">
+      <div v-if="isDesktop || !shouldShowMap" class="grow lg:w-1/2">
         <Info v-if="showInfo && !isAuth" @create-account="nav.toggleCreateAccountOption()" @try-it-out="switchPanel" />
 
         <div v-else class="w-full">
@@ -68,7 +76,7 @@ onMounted(async () => {
         </div>
       </div>
 
-      <div v-show="isDesktop || (showMap && isMobile)" class="relative h-full lg:w-1/2">
+      <div v-if="isDesktop || shouldShowMap" class="relative h-full lg:w-1/2">
         <Map v-if="data.providers.length" :key="`${filterStore.selectedCountryId}-${filterStore.selectedProviderName}`" :cities="data.cities" class="z-10" />
         <div v-else class="flex h-full flex-col items-center justify-center bg-blumilk-25" aria-label="Loading..." role="status">
           <svg class="h-24 w-24 animate-spin" viewBox="3 3 18 18">
@@ -87,11 +95,9 @@ onMounted(async () => {
         </div>
       </div>
 
-
-      <div v-if="(!showInfo && isMobile) || (isAuth && isMobile)" class="flex justify-center">
+      <div v-if="shouldShowButton" class="flex justify-center">
         <button class="hover:blumilk-600 fixed bottom-5 z-20 flex items-center justify-center rounded-full bg-blumilk-500 px-2 py-1.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" @click="switchMap">
-          <XMarkIcon v-if="showMap" class="h-6 w-6" />
-          <MapIcon v-else class="h-6 w-6" />
+          <component :is="buttonIcon" class="h-6 w-6" />
         </button>
       </div>
     </div>
