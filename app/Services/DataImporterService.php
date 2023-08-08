@@ -51,6 +51,6 @@ class DataImporterService
             ImportInfo::query()->where("id", $this->importInfoId)->update([
                 "status" => "finished",
             ]);
-        })->onQueue("importers")->dispatch();
+        })->dispatch();
     }
 }

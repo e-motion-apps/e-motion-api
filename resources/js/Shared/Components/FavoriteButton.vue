@@ -33,6 +33,8 @@ const toggleFavorite = async () => {
 
     await router.post('/favorites', {
       city_id: props.cityid,
+    }, {
+      preserveScroll: true,
     })
     result.value = !result.value
   } catch (error) {
@@ -63,9 +65,11 @@ onMounted(() => {
   <div ref="intersectionTarget">
     <button @click="toggleFavorite">
       <component :is="result ? SolidHeartIcon : OutlineHeartIcon" v-if="result !== null"
-                 class="h-6 w-6 text-red-500"
+                 class="h-6 w-6 text-rose-500"
       />
-      <span v-else>{{ __('Loading') }}...</span>
+      <span v-else class="animate-pulse text-rose-200">
+        <SolidHeartIcon class="h-6 w-6" />
+      </span>
     </button>
   </div>
 </template>
