@@ -52,6 +52,11 @@ class ImporterTest extends TestCase
 
         $mockMapboxService = $this->createMock(MapboxGeocodingService::class);
         $mockMapboxService->method("getPlaceFromApi")->willReturn(["Perth", "Australia"], ["Ottawa", "Canada"], ["Lincoln", "United States"]);
+        $mockMapboxService->method('getCoordinatesFromApi')
+            ->willReturn([
+                "latitude" => "mocked_latitude",
+                "longitude" => "mocked_longitude",
+            ]);
 
         $this->dataImporter = new class($mockHttpClient, $mockMapboxService) extends BirdDataImporter {
             protected function createImportInfoDetails($code, $providerName): void
