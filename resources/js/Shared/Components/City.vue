@@ -279,7 +279,7 @@ function toggleProvidersForm() {
               @submit.prevent="storeAlternativeCityName(city.id)"
         >
           <div class="flex flex-col text-xs">
-            <label class="mb-1 mt-4 text-xs font-bold text-gray-600">Alternative name</label>
+            <label class="mb-1 mt-4 text-xs font-bold text-gray-600">{{ __('Alternative name') }}</label>
             <input v-model="storeCityAlternativeNameForm.name" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3"
                    type="text" required
             >
