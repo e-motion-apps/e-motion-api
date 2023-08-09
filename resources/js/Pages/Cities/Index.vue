@@ -32,11 +32,11 @@ function storeCity() {
     onSuccess: () => {
       storeCityForm.reset()
       toggleStoreDialog()
-      toast.success('City created successfully')
+      toast.success(__('City created successfully!'))
     },
     onError: (errors) => {
       storeErrors.value = errors
-      toast.error('There was an error creating the city')
+      toast.error(__('There was an error creating the city!'))
     },
   })
 }
