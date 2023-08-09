@@ -8,21 +8,11 @@ use App\Exceptions\MapboxGeocodingServiceException;
 use App\Models\City;
 use App\Models\CityAlternativeName;
 use App\Models\Country;
-use App\Services\MapboxGeocodingService;
-use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 
 class BirdDataImporter extends DataImporter
 {
     protected string $html;
-
-    public function __construct(
-        Client $client,
-        protected MapboxGeocodingService $mapboxService,
-    )
-    {
-        parent::__construct($client);
-    }
 
     public function extract(): static
     {

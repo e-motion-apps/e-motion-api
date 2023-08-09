@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Importers;
 
-use App\Services\MapboxGeocodingService;
-use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 
 class BoltDataImporter extends DataImporter
@@ -13,14 +11,6 @@ class BoltDataImporter extends DataImporter
     protected array $fetchedCities = [];
     protected array $fetchedCityDictionary = [];
     protected array $fetchedCountriesDictionary = [];
-
-    public function __construct(
-        Client $client,
-        protected MapboxGeocodingService $mapboxService,
-    )
-    {
-        parent::__construct($client);
-    }
 
     public function extract(): static
     {

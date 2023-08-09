@@ -4,21 +4,11 @@ declare(strict_types=1);
 
 namespace App\Importers;
 
-use App\Services\MapboxGeocodingService;
-use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 
 class NeuronDataImporter extends DataImporter
 {
     protected array $regionsData;
-
-    public function __construct(
-        Client $client,
-        protected MapboxGeocodingService $mapboxService,
-    )
-    {
-        parent::__construct($client);
-    }
 
     public function extract(): static
     {

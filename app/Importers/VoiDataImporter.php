@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Importers;
 
-use App\Services\MapboxGeocodingService;
-use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -13,14 +11,6 @@ class VoiDataImporter extends DataImporter
 {
     protected Crawler $sections;
     private string $countryName;
-
-    public function __construct(
-        Client $client,
-        protected MapboxGeocodingService $mapboxService,
-    )
-    {
-        parent::__construct($client);
-    }
 
     public function extract(): static
     {

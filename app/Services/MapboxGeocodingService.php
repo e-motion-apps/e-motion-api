@@ -12,7 +12,6 @@ class MapboxGeocodingService
 {
     protected string $city;
     protected string $country;
-    protected MapboxGeocodingService $mapboxService;
 
     public function __construct(
         protected Client $client,
