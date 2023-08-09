@@ -42,12 +42,12 @@ class BirdDataImporter extends DataImporter
      */
     public function transform(): void
     {
-        $existingCityProviders = [];
-        $coordinatesList = $this->parseData($this->html);
-
         if ($this->stopExecution) {
             return;
         }
+
+        $existingCityProviders = [];
+        $coordinatesList = $this->parseData($this->html);
 
         foreach ($coordinatesList as $coordinates) {
             if ($coordinates) {
@@ -55,7 +55,7 @@ class BirdDataImporter extends DataImporter
 
                 [$cityName, $countryName] = $this->mapboxService->getPlaceFromApi($lat, $long);
 
-                $provider = $this->save($cityName, $countryName, $lat, $long);
+                $provider = $this->load($cityName, $countryName, $lat, $long);
 
                 if ($provider !== "") {
                     $existingCityProviders[] = $provider;
@@ -85,7 +85,7 @@ class BirdDataImporter extends DataImporter
         return array_map("trim", $coordinates);
     }
 
-    protected function save(string $cityName, string $countryName, string $lat, string $long): string
+    protected function load(string $cityName, string $countryName, string $lat = "", string $long = ""): string
     {
         $city = City::query()->where("name", $cityName)->first();
         $alternativeCityName = CityAlternativeName::query()->where("name", $cityName)->first();
@@ -96,7 +96,7 @@ class BirdDataImporter extends DataImporter
             $this->createProvider($cityId, self::getProviderName());
 
             return strval($cityId);
-        }  
+        }
         $country = Country::query()->where("name", $countryName)->first();
 
         if ($country) {
@@ -110,7 +110,7 @@ class BirdDataImporter extends DataImporter
             $this->createProvider($city->id, self::getProviderName());
 
             return strval($city->id);
-        }  
+        }
         $this->countryNotFound($cityName, $countryName);
         $this->createImportInfoDetails("420", self::getProviderName());
 

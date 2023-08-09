@@ -77,52 +77,61 @@ class SpinDataImporter extends DataImporter
             if ($countryName === "United States") {
                 $cityName = explode(", ", $cityName)[0];
             }
+            $provider = $this->load($cityName, $countryName);
 
-            $city = City::query()->where("name", $cityName)->first();
-            $alternativeCityName = CityAlternativeName::query()->where("name", $cityName)->first();
-
-            if ($city || $alternativeCityName) {
-                $cityId = $city ? $city->id : $alternativeCityName->city_id;
-
-                $this->createProvider($cityId, self::getProviderName());
-                $existingCityProviders[] = $cityId;
-            }
-            else {
-                switch ($countryName) {
-                    case str_contains($countryName, "US"):
-                        $country = Country::query()->where("name", "United States")->first();
-
-                        break;
-                    default:
-                        $country = Country::query()->where("name", $countryName)->orWhere("alternative_name", $countryName)->first();
-
-                        break;
-                }
-
-                if ($country) {
-                    $coordinates = $this->mapboxService->getCoordinatesFromApi($cityName, $countryName);
-
-                    $countCoordinates = count($coordinates);
-
-                    if (!$countCoordinates) {
-                        $this->createImportInfoDetails("419", self::getProviderName());
-                    }
-
-                    $city = City::query()->create([
-                        "name" => $cityName,
-                        "latitude" => ($countCoordinates > 0) ? $coordinates[0] : null,
-                        "longitude" => ($countCoordinates > 0) ? $coordinates[1] : null,
-                        "country_id" => $country->id,
-                    ]);
-
-                    $this->createProvider($city->id, self::getProviderName());
-                    $existingCityProviders[] = $city->id;
-                } else {
-                    $this->countryNotFound($cityName, $countryName);
-                    $this->createImportInfoDetails("420", self::getProviderName());
-                }
+            if ($provider !== "") {
+                $existingCityProviders[] = $provider;
             }
         }
         $this->deleteMissingProviders(self::getProviderName(), $existingCityProviders);
+    }
+
+    protected function load(string $cityName, string $countryName, string $lat = "", string $long = ""): string
+    {
+        $city = City::query()->where("name", $cityName)->first();
+        $alternativeCityName = CityAlternativeName::query()->where("name", $cityName)->first();
+
+        if ($city || $alternativeCityName) {
+            $cityId = $city ? $city->id : $alternativeCityName->city_id;
+
+            $this->createProvider($cityId, self::getProviderName());
+
+            return strval($cityId);
+        }  
+        switch ($countryName) {
+            case str_contains($countryName, "US"):
+                $country = Country::query()->where("name", "United States")->first();
+
+                break;
+            default:
+                $country = Country::query()->where("name", $countryName)->orWhere("alternative_name", $countryName)->first();
+
+                break;
+        }
+
+        if ($country) {
+            $coordinates = $this->mapboxService->getCoordinatesFromApi($cityName, $countryName);
+
+            $countCoordinates = count($coordinates);
+
+            if (!$countCoordinates) {
+                $this->createImportInfoDetails("419", self::getProviderName());
+            }
+
+            $city = City::query()->create([
+                "name" => $cityName,
+                "latitude" => ($countCoordinates > 0) ? $coordinates[0] : null,
+                "longitude" => ($countCoordinates > 0) ? $coordinates[1] : null,
+                "country_id" => $country->id,
+            ]);
+
+            $this->createProvider($city->id, self::getProviderName());
+
+            return strval($city->id);
+        }  
+        $this->countryNotFound($cityName, $countryName);
+        $this->createImportInfoDetails("420", self::getProviderName());
+
+        return "";
     }
 }

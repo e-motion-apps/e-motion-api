@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Importers;
 
-use App\Models\City;
-use App\Models\CityAlternativeName;
-use App\Models\Country;
 use App\Services\MapboxGeocodingService;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
@@ -67,38 +64,10 @@ class NeuronDataImporter extends DataImporter
             foreach ($region["cities"] as $city) {
                 $cityName = $city["name"];
 
-                $cityDB = City::query()->where("name", $cityName)->first();
-                $alternativeCityNameDB = CityAlternativeName::query()->where("name", $cityName)->first();
+                $provider = $this->load($cityName, $countryName);
 
-                if ($cityDB || $alternativeCityNameDB) {
-                    $cityId = $cityDB ? $cityDB->id : $alternativeCityNameDB->city_id;
-
-                    $this->createProvider($cityId, self::getProviderName());
-                    $existingCityProviders[] = $cityId;
-                } else {
-                    $country = Country::query()->where("name", $countryName)->first();
-
-                    if ($country) {
-                        $coordinates = $this->mapboxService->getCoordinatesFromApi($cityName, $countryName);
-                        $countCoordinates = count($coordinates);
-
-                        if (!$countCoordinates) {
-                            $this->createImportInfoDetails("419", self::getProviderName());
-                        }
-
-                        $city = City::query()->create([
-                            "name" => $cityName,
-                            "latitude" => ($countCoordinates > 0) ? $coordinates[0] : null,
-                            "longitude" => ($countCoordinates > 0) ? $coordinates[1] : null,
-                            "country_id" => $country->id,
-                        ]);
-
-                        $this->createProvider($city->id, self::getProviderName());
-                        $existingCityProviders[] = $city->id;
-                    } else {
-                        $this->countryNotFound($cityName, $countryName);
-                        $this->createImportInfoDetails("420", self::getProviderName());
-                    }
+                if ($provider !== "") {
+                    $existingCityProviders[] = $provider;
                 }
             }
         }

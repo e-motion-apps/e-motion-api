@@ -20,7 +20,7 @@ use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\MockObject\Exception;
 use Tests\TestCase;
 
-class BirdDataImporterTest extends TestCase
+class ImporterTest extends TestCase
 {
     private $dataImporter;
 
