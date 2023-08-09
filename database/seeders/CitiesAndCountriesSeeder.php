@@ -13,11 +13,11 @@ use Illuminate\Support\Facades\Storage;
 
 class CitiesAndCountriesSeeder extends Seeder
 {
-    protected $mapboxService;
 
-    public function __construct()
+    public function __construct(
+        protected MapboxGeocodingService $mapboxService,
+    )
     {
-        $this->mapboxService = new MapboxGeocodingService(new Client());
     }
 
     public function run(): void
