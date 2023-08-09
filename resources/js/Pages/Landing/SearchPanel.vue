@@ -111,13 +111,12 @@ function showCity(city) {
   filterStore.changeSelectedCity(city)
 }
 
-function searchFavorites() {
-  const response = axios.get('/favorite')
-  console.log(response)
-}
 function showFavorites() {
-  searchFavorites();
+  const response = axios.get('/favorites')
+  filterStore.changeSelectedFavorites(true)
+  console.log(state)
 }
+
 </script>
 
 <template>
