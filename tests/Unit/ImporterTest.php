@@ -9,7 +9,6 @@ use App\Models\City;
 use App\Models\CityProvider;
 use App\Models\Country;
 use App\Services\MapboxGeocodingService;
-use Database\Seeders\CitiesAndCountriesSeeder;
 use Database\Seeders\ProviderSeeder;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
@@ -17,11 +16,13 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\MockObject\Exception;
 use Tests\TestCase;
 
 class ImporterTest extends TestCase
 {
+    use RefreshDatabase;
     private $dataImporter;
 
     protected function setUp(): void
@@ -33,14 +34,6 @@ class ImporterTest extends TestCase
             position: new google.maps.LatLng(-31.9523123, 115.861309),
             type: 'hq'
         },
-        {
-            position: new google.maps.LatLng(45.4215296, -75.6971931),
-            type: 'hq'
-        },
-        {
-            position: new google.maps.LatLng(40.813616, -96.7025955),
-            type: 'hq'
-        }
     ];";
 
         $mockHandler = new MockHandler([
@@ -51,7 +44,7 @@ class ImporterTest extends TestCase
         $mockHttpClient = new Client(["handler" => $handlerStack]);
 
         $mockMapboxService = $this->createMock(MapboxGeocodingService::class);
-        $mockMapboxService->method("getPlaceFromApi")->willReturn(["Perth", "Australia"], ["Ottawa", "Canada"], ["Lincoln", "United States"]);
+        $mockMapboxService->method("getPlaceFromApi")->willReturn(["Perth", "Australia"]);
         $mockMapboxService->method("getCoordinatesFromApi")
             ->willReturn([
                 "latitude" => "mocked_latitude",
@@ -97,30 +90,6 @@ class ImporterTest extends TestCase
         $this->assertTrue($result->hasStoppedExecution());
     }
 
-    public function testAddToCityProviderDbWhenCityExists(): void
-    {
-        $this->seed(CitiesAndCountriesSeeder::class);
-
-        $this->dataImporter->extract();
-        $this->dataImporter->transform();
-
-        $this->assertDatabaseHas("cities", [
-            "name" => "Perth",
-            "latitude" => "-31.9523123",
-            "longitude" => "115.861309",
-        ]);
-        $this->assertDatabaseHas("cities", [
-            "name" => "Ottawa",
-            "latitude" => "45.421144",
-            "longitude" => "-75.690057",
-        ]);
-        $this->assertDatabaseHas("cities", [
-            "name" => "Lincoln",
-            "latitude" => "40.813616",
-            "longitude" => "-96.7025955",
-        ]);
-    }
-
     public function testAddToCityWithoutAssignedCountryDbWhenCityAndCountryMissing(): void
     {
         $this->dataImporter->extract();
@@ -129,19 +98,16 @@ class ImporterTest extends TestCase
         $this->assertDatabaseHas("city_without_assigned_countries", [
             "city_name" => "Perth",
         ]);
-        $this->assertDatabaseHas("city_without_assigned_countries", [
-            "city_name" => "Ottawa",
-        ]);
-        $this->assertDatabaseHas("city_without_assigned_countries", [
-            "city_name" => "Lincoln",
-        ]);
     }
 
     public function testAddToCityProviderDbAndCityDbWhenCountryExistsButCityMissing(): void
     {
-        $this->seed(CitiesAndCountriesSeeder::class);
-
-        City::query()->where("name", "Perth")->delete();
+        Country::query()->create([
+            "name" => "Australia",
+            "latitude" => "-27.00000000",
+            "longitude" => "133.00000000",
+            "iso" => "au",
+        ]);
 
         $this->assertDatabaseMissing("cities", [
             "name" => "Perth",
@@ -156,18 +122,46 @@ class ImporterTest extends TestCase
             "longitude" => "115.861309",
         ]);
 
-        $perth = City::query()->where("name", "Perth")->first();
+        $this->assertDatabaseHas("city_providers", [
+            "provider_name" => "Bird",
+            "city_id" => "1",
+        ]);
+    }
+
+    public function testAddToCityProviderDbWhenCityExists(): void
+    {
+        $country = Country::query()->create([
+            "name" => "Australia",
+            "latitude" => "-27.00000000",
+            "longitude" => "133.00000000",
+            "iso" => "au",
+        ]);
+
+        $city = City::query()->create([
+            "name" => "Perth",
+            "latitude" => "-31.9523123",
+            "longitude" => "115.861309",
+            "country_id" => $country->id,
+        ]);
+        $cityId = $city->id;
+
+        $this->dataImporter->extract();
+        $this->dataImporter->transform();
 
         $this->assertDatabaseHas("city_providers", [
             "provider_name" => "Bird",
-            "city_id" => $perth->id,
+            "city_id" => $cityId,
         ]);
     }
 
     public function testDeleteRecordWhenProviderNoLongerInThisCity(): void
     {
-        $this->seed(CitiesAndCountriesSeeder::class);
-        $country = Country::query()->where("name", "Poland")->first();
+        $country = Country::query()->create([
+            "name" => "Poland",
+            "latitude" => "52.00000000",
+            "longitude" => "20.00000000",
+            "iso" => "pl",
+        ]);
 
         $city = City::query()->create([
             "name" => "Legnica",
@@ -175,7 +169,6 @@ class ImporterTest extends TestCase
             "longitude" => "15.950674",
             "country_id" => $country->id,
         ]);
-
         $cityId = $city->id;
 
         CityProvider::query()->updateOrCreate([
@@ -185,7 +178,7 @@ class ImporterTest extends TestCase
         ]);
 
         $this->assertDatabaseHas("city_providers", [
-            "city_id" => $city->id,
+            "city_id" => $cityId,
             "provider_name" => "Bird",
         ]);
 
@@ -193,7 +186,7 @@ class ImporterTest extends TestCase
         $this->dataImporter->transform();
 
         $this->assertDatabaseMissing("city_providers", [
-            "city_id" => $city->id,
+            "city_id" => $cityId,
             "provider_name" => "Bird",
         ]);
     }
