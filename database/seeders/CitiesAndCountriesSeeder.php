@@ -7,18 +7,14 @@ namespace Database\Seeders;
 use App\Models\City;
 use App\Models\Country;
 use App\Services\MapboxGeocodingService;
-use GuzzleHttp\Client;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
 
 class CitiesAndCountriesSeeder extends Seeder
 {
-
     public function __construct(
         protected MapboxGeocodingService $mapboxService,
-    )
-    {
-    }
+    ) {}
 
     public function run(): void
     {
