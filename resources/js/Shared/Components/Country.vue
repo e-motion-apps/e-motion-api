@@ -16,14 +16,14 @@ const props = defineProps({
 
 function destroyCountry(countryId) {
   router.delete(`/admin/countries/${countryId}`)
-  toast.success(__('Country deleted successfully!'))
+  toast.success(__('Country deleted successfully'))
 }
 
 function updateCountry(countryId) {
   updateCountryForm.patch(`/admin/countries/${countryId}`, {
     onSuccess: () => {
       toggleEditDialog()
-      toast.success(__('Country updated successfully!'))
+      toast.success(__('Country updated successfully'))
     },
   })
 }

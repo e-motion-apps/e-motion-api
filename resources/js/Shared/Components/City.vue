@@ -16,14 +16,14 @@ const props = defineProps({
 
 function destroyCity(cityId) {
   router.delete(`/admin/cities/${cityId}`)
-  toast.success(__('City deleted successfully!'))
+  toast.success(__('City deleted successfully'))
 }
 
 function updateCity(cityId) {
   updateCityForm.patch(`/admin/cities/${cityId}`, {
     onSuccess: () => {
       toggleEditDialog()
-      toast.success(__('City updated successfully!'))
+      toast.success(__('City updated successfully'))
     },
   })
 }
@@ -44,11 +44,11 @@ function storeAlternativeCityName(cityId) {
     onSuccess: () => {
       storeCityAlternativeNameForm.name = ''
       storeAlternativeCityNameErrors.value = []
-      toast.success(__('Alternative city name added successfully!'))
+      toast.success(__('Alternative city name added successfully'))
     },
     onError: (errors) => {
       storeAlternativeCityNameErrors.value = errors
-      toast.error(__('There was an error adding alternative city name!'))
+      toast.error(__('There was an error adding alternative city name'))
     },
   })
 }
@@ -59,7 +59,7 @@ const storeCityAlternativeNameForm = reactive({
 
 function destroyAlternativeCityName(alternativeCityNameId) {
   router.delete(`/city-alternative-name/${alternativeCityNameId}`, { replace: true })
-  toast.success(__('Alternative city name deleted successfully!'))
+  toast.success(__('Alternative city name deleted successfully'))
 }
 
 const commaInputError = ref('')
@@ -106,7 +106,7 @@ function updateCityProviders(cityId) {
   }, {
     onSuccess: () => {
       toggleEditDialog()
-      toast.success(__('City providers updated successfully!'))
+      toast.success(__('City providers updated successfully'))
     },
   })
 }
