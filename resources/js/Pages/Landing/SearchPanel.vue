@@ -15,7 +15,7 @@ const props = defineProps({
   countries: Array,
 })
 
-const authenticated = computed(() => usePage().props.auth.isAuth)
+const isAuth = computed(() => usePage().props.auth.isAuth)
 
 const filteredCities = computed(() => {
   const selectedCountryId = filterStore.selectedCountryId
@@ -166,16 +166,22 @@ function showCity(city) {
           class="group flex cursor-pointer flex-col items-start justify-between gap-x-6 pb-1 pt-4 sm:flex-row sm:pb-4"
           @click="showCity(city)"
       >
-        <div class="flex min-w-max items-center">
-          <i :class="city.country.iso" class="flat flag huge shrink-0" @click="filterCountry(city.country.id)" />
-          <div class="ml-4 flex flex-col justify-start">
-            <p class="mr-2 break-all font-bold text-gray-900 group-hover:text-gray-500">
-              {{ city.name }}
-            </p>
-            <p class="break-all text-xs font-semibold text-blumilk-500">
-              {{ city.country.name }}
-            </p>
-            <FavoriteButton v-if="authenticated" :cityid="city.id" />
+        <div class="flex w-full justify-between sm:flex-col sm:justify-start">
+          <div class="flex w-max items-center">
+            <i :class="city.country.iso" class="flat flag huge shrink-0" @click="filterCountry(city.country.id)" />
+
+            <div class="ml-3 flex flex-col justify-start">
+              <p class="mr-2 break-all font-bold text-gray-900 group-hover:text-gray-500">
+                {{ city.name }}
+              </p>
+              <p class="break-all text-xs font-semibold text-blumilk-500">
+                {{ city.country.name }}
+              </p>
+            </div>
+          </div>
+
+          <div class="mt-0 flex w-fit items-center justify-end sm:ml-[64px] sm:mt-1 sm:justify-start">
+            <FavoriteButton v-if="isAuth" :cityid="city.id" />
             <InfoPopup v-else />
           </div>
         </div>

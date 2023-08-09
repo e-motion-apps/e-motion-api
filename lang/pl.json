@@ -65,8 +65,8 @@
     "Status": "Status",
     "Didn`t find anything. Just empty space.": "Nie znaleziono niczego",
     "Open main menu": "Otwórz menu główne",
-    "Please verify your credentials and try again" : "Sprawdź swoje dane logowania i spróbuj ponownie",
-    "Invalid password or username" : "Nieprawidłowe hasło lub nazwa użytkownika",
+    "Please verify your credentials and try again": "Sprawdź swoje dane logowania i spróbuj ponownie",
+    "Invalid password or username": "Nieprawidłowe hasło lub nazwa użytkownika",
     "Show favorites": "Pokaż ulubione",
     "City added to favorites!": "Miasto dodane do ulubionych!",
     "City removed from favorites!": "Miasto usunięte z ulubionych!",
@@ -89,5 +89,16 @@
     "Running": "Uruchomiony",
     "Stopped": "Zatrzymany",
     "Warning": "Ostrzeżenie",
-    "Check list of cities with no coordinates.": "Sprawdź listę miast bez współrzędnych."
+    "Check list of cities with no coordinates.": "Sprawdź listę miast bez współrzędnych.",
+    "Not Found": "Nie znaleziono strony",
+    "Internal Server Error": "Błąd serwera",
+    "Service Unavailable": "Serwis niedostępny",
+    "Too Many Requests": "Przekroczono limit zapytań",
+    "Session Expired": "Strona wygasła",
+    "Description: Not found": "Przykro nam, ale strona, której szukasz, nie istnieje.",
+    "Description: Server error": "Oj! Serwer napotkał na niespodziewane trudności. Spróbuj ponownie później.",
+    "Description: Server unavailable": "Oj! Serwis jest tymczasowo niedostępny. Spróbuj ponownie później.",
+    "Description: Too many requests": "Wysłano ostatnio zbyt wiele zapytań. Poczekaj i spróbuj ponownie później.",
+    "Description: Session expired": "Ta strona wygasła. Zaloguj się ponownie.",
+    "Description: Other": "Oj! Coś poszło nie tak. Spróbuj ponownie później."
 }

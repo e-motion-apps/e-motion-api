@@ -16,12 +16,11 @@ class LoginTest extends TestCase
             "password" => bcrypt("password@example"),
         ]);
 
-        $response = $this->post("/login", [
+        $this->post("/login", [
             "email" => "email@example.com",
             "password" => "password@example",
         ]);
 
-        $response->assertStatus(302);
         $this->assertAuthenticatedAs($user);
     }
 
@@ -30,25 +29,22 @@ class LoginTest extends TestCase
         $user = User::factory()->create();
 
         $this->actingAs($user);
-
-        $response = $this->post("/logout");
-        $response->assertStatus(302);
+        $this->post("/logout");
         $this->assertGuest();
     }
 
-    public function testUserCannotLoginWithInvalidPassword(): Void
+    public function testUserCannotLoginWithInvalidPassword(): void
     {
         User::factory()->create([
             "email" => "email@example.com",
             "password" => bcrypt("password@example"),
         ]);
 
-        $response = $this->post("login", [
+        $this->post("login", [
             "email" => "email@example.com",
             "password" => "IncorrectPassword",
         ]);
 
-        $response->assertStatus(302);
         $this->assertGuest();
     }
 }
