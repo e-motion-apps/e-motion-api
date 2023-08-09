@@ -2,8 +2,8 @@ import { createInertiaApp, Head, Link } from '@inertiajs/vue3'
 import { createApp, h } from 'vue'
 import '../css/app.css'
 import { createPinia } from 'pinia'
-import Toast from "vue-toastification";
-import "vue-toastification/dist/index.css";
+import Toast from 'vue-toastification'
+import 'vue-toastification/dist/index.css'
 
 const pinia = createPinia()
 
@@ -23,7 +23,7 @@ createInertiaApp({
       .use(plugin)
       .use(pinia)
       .use(Toast, {
-        position: "bottom-right",
+        position: 'bottom-right',
         timeout: 5000,
         closeOnClick: true,
         pauseOnFocusLoss: true,
@@ -34,7 +34,7 @@ createInertiaApp({
         hideProgressBar: false,
         closeButton: false,
         icon: true,
-        rtl: false
+        rtl: false,
       })
       .component('InertiaLink', Link)
       .component('InertiaHead', Head)

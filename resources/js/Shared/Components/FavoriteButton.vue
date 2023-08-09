@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { router } from '@inertiajs/vue3'
 import axios from 'axios'
-import { useToast } from "vue-toastification";
+import { useToast } from 'vue-toastification'
 import { HeartIcon as SolidHeartIcon } from '@heroicons/vue/24/solid'
 import { HeartIcon as OutlineHeartIcon } from '@heroicons/vue/24/outline'
 import { __ } from '../../translate'
@@ -24,7 +24,7 @@ const fetchData = async () => {
     const response = await axios.get(url)
     result.value = response.data
   } catch (error) {
-    toast.error(__('There was an error fetching data!'));
+    toast.error(__('There was an error fetching data!'))
   }
 }
 
@@ -40,13 +40,14 @@ const toggleFavorite = async () => {
       preserveScroll: true,
     })
     result.value = !result.value
+
     if (result.value === false) {
-      toast.success(__('City removed from favorites!'));
+      toast.success(__('City removed from favorites!'))
     } else if (result.value === true) {
-      toast.success(__('City added to favorites!'));
+      toast.success(__('City added to favorites!'))
     }
   } catch (error) {
-    toast.error("There was an error!");
+    toast.error('There was an error!')
   }
 }
 
