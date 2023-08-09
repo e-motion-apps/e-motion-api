@@ -5,7 +5,7 @@ import { __ } from '../../translate'
 
 const showToast = () => {
   const toast = useToast()
-  toast.info("Login to add to favorites");
+  toast.info(__('Login to add to favorites!'));
 }
 
 </script>

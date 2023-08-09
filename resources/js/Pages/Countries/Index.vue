@@ -22,10 +22,10 @@ function storeCountry() {
       storeCountryForm.reset()
       toggleStoreDialog()
       commaInputError.value = ''
-      toast.success('Country created successfully!')
+      toast.success(__('Country created successfully!'))
     },
     onError: () => {
-      toast.error('There was an error creating the country!')
+      toast.error(__('There was an error creating the country!'))
     },
   })
 }

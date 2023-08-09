@@ -12,11 +12,11 @@ const props = defineProps({
         <p class="text-sm text-gray-700">
           {{ __('Showing') }}
           <span class="font-medium">{{ props.meta.from }}</span>
-          {{ __('To') }}
+          {{ __('to') }}
           <span class="font-medium"> {{ props.meta.to }}</span>
-          {{ __('Of') }}
+          {{ __('of') }}
           <span class="font-medium">{{ props.meta.total }}</span>
-          {{ __('Results') }}
+          {{ __('results') }}
         </p>
       </div>
     </div>

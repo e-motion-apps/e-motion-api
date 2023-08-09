@@ -18,7 +18,7 @@ defineProps({
 
 function runImporters() {
   router.post('/run-importers', [])
-  toast.success('Importers started!');
+  toast.success(__('Importers started!'));
 }
 
 </script>

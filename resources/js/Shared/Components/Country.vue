@@ -16,14 +16,14 @@ const props = defineProps({
 
 function destroyCountry(countryId) {
   router.delete(`/admin/countries/${countryId}`)
-  toast.success('Country deleted!')
+  toast.success(__('Country deleted successfully!'))
 }
 
 function updateCountry(countryId) {
   updateCountryForm.patch(`/admin/countries/${countryId}`, {
     onSuccess: () => {
       toggleEditDialog()
-      toast.success('Country updated!')
+      toast.success(__('Country updated successfully!'))
     },
   })
 }
@@ -41,7 +41,7 @@ const commaInputError = ref('')
 function preventCommaInput(event) {
   if (event.key === ',') {
     event.preventDefault()
-    commaInputError.value = 'Use \'.\' instead of \',\''
+    commaInputError.value = __('Use') + ' "." ' + __('instead of') + ' "," '
   }
 }
 

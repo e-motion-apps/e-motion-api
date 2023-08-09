@@ -24,7 +24,7 @@ const fetchData = async () => {
     const response = await axios.get(url)
     result.value = response.data
   } catch (error) {
-    toast.error("There was an error fetching data!");
+    toast.error(__('There was an error fetching data!'));
   }
 }
 
@@ -39,9 +39,9 @@ const toggleFavorite = async () => {
     })
     result.value = !result.value
     if (result.value === false) {
-      toast.success('City removed from favorites!');
+      toast.success(__('City removed from favorites!'));
     } else if (result.value === true) {
-      toast.success('City added to favorites!');
+      toast.success(__('City added to favorites!'));
     }
   } catch (error) {
     toast.error("There was an error!");
