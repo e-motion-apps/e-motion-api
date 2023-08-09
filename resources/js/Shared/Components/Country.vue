@@ -41,7 +41,7 @@ const commaInputError = ref('')
 function preventCommaInput(event) {
   if (event.key === ',') {
     event.preventDefault()
-    commaInputError.value = __('Use') + ' "." ' + __('instead of') + ' "," '
+    commaInputError.value = __('Use `.` instead of `,`')
   }
 }
 

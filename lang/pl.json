@@ -82,12 +82,14 @@
     "Alternative city name added successfully": "Alternatywna nazwa miasta dodana pomyślnie",
     "Alternative city name deleted successfully": "Alternatywna nazwa miasta usunięta pomyślnie",
     "City providers updated successfully": "Dostawcy dostępni w mieście zaktualizowani pomyślnie",
-    "Use": "Użyj",
-    "instead of": "zamiast",
+    "Use `.` instead of `,`": "Użyj `.` zamiast `,`",
     "Importers started!": "Importerzy uruchomieni!",
-    "Running": "Uruchomiony",
-    "Stopped": "Zatrzymany",
+    "running": "Uruchomiony",
+    "stopped": "Zatrzymany",
+    "finished": "Zakończony",
     "Warning": "Ostrzeżenie",
+    "Error": "Błąd",
+    "Success": "Sukces",
     "Check list of cities with no coordinates.": "Sprawdź listę miast bez współrzędnych.",
     "Not Found": "Nie znaleziono strony",
     "Internal Server Error": "Błąd serwera",
@@ -99,5 +101,6 @@
     "Description: Server unavailable": "Oj! Serwis jest tymczasowo niedostępny. Spróbuj ponownie później.",
     "Description: Too many requests": "Wysłano ostatnio zbyt wiele zapytań. Poczekaj i spróbuj ponownie później.",
     "Description: Session expired": "Ta strona wygasła. Zaloguj się ponownie.",
-    "Description: Other": "Oj! Coś poszło nie tak. Spróbuj ponownie później."
+    "Description: Other": "Oj! Coś poszło nie tak. Spróbuj ponownie później.",
+    "At least one city has not been assigned to any country": "Przynajmniej jedno miasto nie zostało przypisane do żadnego kraju"
 }

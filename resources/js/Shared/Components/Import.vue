@@ -116,7 +116,7 @@ function toggleImportDialog() {
               <div v-for="code in codes" :key="code.number">
                 <div v-if="detail.code === code.number" class="mt-1 text-sm text-gray-800">
                   <p class="font-normal">
-                    {{ code.description }}
+                    {{ __(code.description) }}
                   </p>
                   <InertiaLink v-if="detail.code === 419" href="/admin/cities?order=empty-coordinates" class="font-medium">
                     {{ __('Check list of cities with no coordinates.') }}
