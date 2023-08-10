@@ -22,8 +22,6 @@ use Tests\TestCase;
 
 class ImporterTest extends TestCase
 {
-    use RefreshDatabase;
-
     private $dataImporter;
 
     protected function setUp(): void
