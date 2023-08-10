@@ -201,7 +201,7 @@ function showCity(city) {
       </li>
     </ul>
     <p v-else class="mt-8 flex justify-center font-medium text-gray-800">
-      {{ __('Didn`t find any providers') }}
+      {{ __('Didn`t find any providers.') }}
     </p>
   </div>
 </template>

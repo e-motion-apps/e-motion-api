@@ -91,7 +91,7 @@ const buttonIcon = computed(() => {
             />
           </svg>
           <p class="mt-4 text-xs font-medium text-gray-400">
-            {{ __('Filling map with providers') }}
+            {{ __('Filling map with providers.') }}
           </p>
         </div>
       </div>

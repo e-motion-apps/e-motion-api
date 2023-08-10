@@ -23,7 +23,7 @@ function updateCountry(countryId) {
   updateCountryForm.patch(`/admin/countries/${countryId}`, {
     onSuccess: () => {
       toggleEditDialog()
-      toast.success(__('Country updated successfully'))
+      toast.success(__('Country updated successfully.'))
     },
   })
 }
