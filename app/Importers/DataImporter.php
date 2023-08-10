@@ -118,7 +118,6 @@ abstract class DataImporter
             if (!$countCoordinates) {
                 $this->createImportInfoDetails("419", self::getProviderName());
             }
-
             $city = City::query()->create([
                 "name" => $cityName,
                 "latitude" => ($countCoordinates > 0) ? $coordinates[0] : null,
