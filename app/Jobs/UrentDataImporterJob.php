@@ -8,9 +8,8 @@ use App\Importers\UrentDataImporter;
 
 class UrentDataImporterJob extends DataImporterJob
 {
-    public function handle(): void
+    public function handle(UrentDataImporter $importer): void
     {
-        $importer = new UrentDataImporter($this->importInfoId);
-        $importer->extract()->transform();
+        $importer->setImportInfo($this->importInfoId)->extract()->transform();
     }
 }

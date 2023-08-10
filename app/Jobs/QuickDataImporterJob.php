@@ -8,9 +8,8 @@ use App\Importers\QuickDataImporter;
 
 class QuickDataImporterJob extends DataImporterJob
 {
-    public function handle(): void
+    public function handle(QuickDataImporter $importer): void
     {
-        $importer = new QuickDataImporter($this->importInfoId);
-        $importer->extract()->transform();
+        $importer->setImportInfo($this->importInfoId)->extract()->transform();
     }
 }

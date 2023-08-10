@@ -8,9 +8,8 @@ use App\Importers\NeuronDataImporter;
 
 class NeuronDataImporterJob extends DataImporterJob
 {
-    public function handle(): void
+    public function handle(NeuronDataImporter $importer): void
     {
-        $importer = new NeuronDataImporter($this->importInfoId);
-        $importer->extract()->transform();
+        $importer->setImportInfo($this->importInfoId)->extract()->transform();
     }
 }
