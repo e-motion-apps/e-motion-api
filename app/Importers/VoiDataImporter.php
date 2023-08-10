@@ -4,12 +4,8 @@ declare(strict_types=1);
 
 namespace App\Importers;
 
-use App\Models\City;
-use App\Models\CityAlternativeName;
-use App\Models\Country;
-use App\Services\MapboxGeocodingService;
+use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Component\DomCrawler\Crawler;
-use Throwable;
 
 class VoiDataImporter extends DataImporter
 {
@@ -19,8 +15,9 @@ class VoiDataImporter extends DataImporter
     public function extract(): static
     {
         try {
-            $html = file_get_contents("https://www.voi.com/locations");
-        } catch (Throwable) {
+            $response = $this->client->get("https://www.voi.com/locations");
+            $html = $response->getBody()->getContents();
+        } catch (GuzzleException) {
             $this->createImportInfoDetails("400", self::getProviderName());
 
             $this->stopExecution = true;
@@ -46,12 +43,9 @@ class VoiDataImporter extends DataImporter
             return;
         }
 
-        $mapboxService = new MapboxGeocodingService();
         $existingCityProviders = [];
 
         foreach ($this->sections as $section) {
-            $country = null;
-
             foreach ($section->childNodes as $node) {
                 if ($node->nodeName === "h4") {
                     $this->countryName = trim($node->nodeValue);
@@ -62,38 +56,10 @@ class VoiDataImporter extends DataImporter
                         if ($city->nodeName === "li") {
                             $cityName = trim($city->nodeValue);
 
-                            $city = City::query()->where("name", $cityName)->first();
-                            $alternativeCityName = CityAlternativeName::query()->where("name", $cityName)->first();
+                            $provider = $this->load($cityName, $this->countryName);
 
-                            if ($city || $alternativeCityName) {
-                                $cityId = $city ? $city->id : $alternativeCityName->city_id;
-
-                                $this->createProvider($cityId, self::getProviderName());
-                                $existingCityProviders[] = $cityId;
-                            } else {
-                                $country = Country::query()->where("name", $this->countryName)->orWhere("alternative_name", $this->countryName)->first();
-
-                                if ($country) {
-                                    $coordinates = $mapboxService->getCoordinatesFromApi($cityName, $this->countryName);
-                                    $countCoordinates = count($coordinates);
-
-                                    if (!$countCoordinates) {
-                                        $this->createImportInfoDetails("419", self::getProviderName());
-                                    }
-
-                                    $city = City::query()->create([
-                                        "name" => $cityName,
-                                        "latitude" => ($countCoordinates > 0) ? $coordinates[0] : null,
-                                        "longitude" => ($countCoordinates > 0) ? $coordinates[1] : null,
-                                        "country_id" => $country->id,
-                                    ]);
-
-                                    $this->createProvider($city->id, self::getProviderName());
-                                    $existingCityProviders[] = $city->id;
-                                } else {
-                                    $this->countryNotFound($cityName, $this->countryName);
-                                    $this->createImportInfoDetails("420", self::getProviderName());
-                                }
+                            if ($provider !== "") {
+                                $existingCityProviders[] = $provider;
                             }
                         }
                     }

@@ -12,11 +12,13 @@ use Illuminate\Support\Facades\Storage;
 
 class CitiesAndCountriesSeeder extends Seeder
 {
+    public function __construct(
+        protected MapboxGeocodingService $mapboxService,
+    ) {}
+
     public function run(): void
     {
         $items = Storage::json("public/countries.json");
-
-        $mapboxService = new MapboxGeocodingService();
 
         foreach ($items as $item) {
             $country = Country::query()->create([
@@ -29,7 +31,7 @@ class CitiesAndCountriesSeeder extends Seeder
             $coordinates = [];
 
             if ($item["capital"]) {
-                $coordinates = $mapboxService->getCoordinatesFromApi(cityName: $item["capital"], countryName: $item["name"]);
+                $coordinates = $this->mapboxService->getCoordinatesFromApi(cityName: $item["capital"], countryName: $item["name"]);
             }
 
             $countCoordinates = count($coordinates);

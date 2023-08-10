@@ -8,9 +8,8 @@ use App\Importers\BitMobilityDataImporter;
 
 class BitMobilityDataImporterJob extends DataImporterJob
 {
-    public function handle(): void
+    public function handle(BitMobilityDataImporter $importer): void
     {
-        $importer = new BitMobilityDataImporter($this->importInfoId);
-        $importer->extract()->transform();
+        $importer->setImportInfo($this->importInfoId)->extract()->transform();
     }
 }

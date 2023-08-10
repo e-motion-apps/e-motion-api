@@ -8,9 +8,8 @@ use App\Importers\DottDataImporter;
 
 class DottDataImporterJob extends DataImporterJob
 {
-    public function handle(): void
+    public function handle(DottDataImporter $importer): void
     {
-        $importer = new DottDataImporter($this->importInfoId);
-        $importer->extract()->transform();
+        $importer->setImportInfo($this->importInfoId)->extract()->transform();
     }
 }
