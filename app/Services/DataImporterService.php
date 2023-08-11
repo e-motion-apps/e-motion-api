@@ -10,6 +10,7 @@ use App\Jobs\BoltDataImporterJob;
 use App\Jobs\DottDataImporterJob;
 use App\Jobs\HulajDataImporterJob;
 use App\Jobs\LimeDataImporterJob;
+use App\Jobs\LinkDataImporterJob;
 use App\Jobs\NeuronDataImporterJob;
 use App\Jobs\QuickDataImporterJob;
 use App\Jobs\RydeDataImporterJob;
@@ -40,6 +41,7 @@ class DataImporterService
             new DottDataImporterJob($this->importInfoId),
             new HulajDataImporterJob($this->importInfoId),
             new LimeDataImporterJob($this->importInfoId),
+            new LinkDataImporterJob($this->importInfoId),
             new NeuronDataImporterJob($this->importInfoId),
             new QuickDataImporterJob($this->importInfoId),
             new RydeDataImporterJob($this->importInfoId),
