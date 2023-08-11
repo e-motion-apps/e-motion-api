@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Importers\BeamDataImporter;
 use App\Importers\BirdDataImporter;
 use App\Importers\BitMobilityDataImporter;
 use App\Importers\BoltDataImporter;
@@ -25,6 +26,7 @@ class ProviderSeeder extends Seeder
     public function run(): void
     {
         $providers = [
+            ["name" => BeamDataImporter::getProviderName(), "color" => "#7347ff"],
             ["name" => BirdDataImporter::getProviderName(), "color" => "#26ccf0"],
             ["name" => BitMobilityDataImporter::getProviderName(), "color" => "#8da6e3"],
             ["name" => BoltDataImporter::getProviderName(), "color" => "#24f0a0"],
