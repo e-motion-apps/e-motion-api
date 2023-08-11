@@ -9,8 +9,6 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class BerylDataImporter extends DataImporter
 {
-    private const COUNTRY_NAME = "United Kingdom";
-
     protected Crawler $sections;
 
     public function extract(): static
@@ -51,11 +49,14 @@ class BerylDataImporter extends DataImporter
             foreach ($section->childNodes as $node) {
                 if ($node->nodeName === "div") {
                     foreach ($node->childNodes as $city) {
-                        if ($city->nodeName === "h3") {
-
-                        }
                         if ($city->nodeValue === "e-Scooters") {
-                            dump($city->nodeValue);
+                            $eScootersFound = true;
+                        } else {
+                            $eScootersFound = false;
+                        }
+                        dump($eScootersFound);
+                        if ($city->nodeName === "h3" && $eScootersFound) {
+                            dump(456);
                         }
                     }
                 }
