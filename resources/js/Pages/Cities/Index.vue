@@ -1,9 +1,9 @@
 <script setup>
-import City from './Components/City.vue'
+import City from '../../Shared/Components/City.vue'
 import { useForm, usePage, router } from '@inertiajs/vue3'
 import { ref, watch } from 'vue'
 import AdminNavigation from '@/Shared/Layout/AdminNavigation.vue'
-import { XMarkIcon,  MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
+import { XMarkIcon, MagnifyingGlassIcon, ChevronDownIcon } from '@heroicons/vue/24/outline'
 import ErrorMessage from '@/Shared/Components/ErrorMessage.vue'
 import { onClickOutside } from '@vueuse/core'
 import { debounce } from 'lodash/function'
@@ -68,11 +68,26 @@ watch(searchInput, debounce(() => {
   })
 }, 300), { deep: true })
 
-
 function clearInput() {
   searchInput.value = ''
 }
 
+const sortingOptions = [
+  { name: 'Latest', href: '/admin/cities?order=latest' },
+  { name: 'Oldest', href: '/admin/cities?order=oldest' },
+  { name: 'Empty coordinates', href: '/admin/cities?order=empty-coordinates' },
+  { name: 'By name', href: '/admin/cities?order=name' },
+  { name: 'By providers', href: '/admin/cities?order=providers' },
+  { name: 'By country', href: '/admin/cities?order=country' },
+]
+
+const isSortDialogOpened = ref(false)
+const sortDialog = ref(null)
+onClickOutside(sortDialog, () => (isSortDialogOpened.value = false))
+
+function toggleSortDialog() {
+  isSortDialogOpened.value = !isSortDialogOpened.value
+}
 </script>
 
 <template>
@@ -92,21 +107,21 @@ function clearInput() {
 
               <div class="flex flex-col p-6 pt-0">
                 <h1 class="mb-3 text-lg font-bold text-gray-800">
-                  Create city
+                  {{ __('Create city') }}
                 </h1>
 
                 <form class="flex flex-col text-xs font-bold text-gray-600" @submit.prevent="storeCity">
-                  <label class="mb-1 mt-4">Name</label>
+                  <label class="mb-1 mt-4">{{ __('Name') }}</label>
                   <input v-model="storeCityForm.name" class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 md:p-3" type="text" required>
                   <ErrorMessage :message="storeCityForm.errors.name" />
 
-                  <label class="mb-1 mt-4">Latitude</label>
+                  <label class="mb-1 mt-4">{{ __('Latitude') }}</label>
                   <input v-model="storeCityForm.latitude" class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text"
                          required @keydown="preventCommaInput"
                   >
                   <ErrorMessage :message="storeCityForm.errors.latitude" />
 
-                  <label class="mb-1 mt-4">Longitude</label>
+                  <label class="mb-1 mt-4">{{ __('Longitude') }}</label>
                   <input v-model="storeCityForm.longitude" class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text"
                          required @keydown="preventCommaInput"
                   >
@@ -114,7 +129,7 @@ function clearInput() {
                   <p v-if="commaInputError" class="text-xs text-rose-600">
                     {{ commaInputError }}
                   </p>
-                  <label class="mb-1 mt-4">Country</label>
+                  <label class="mb-1 mt-4">{{ __('Country') }}</label>
                   <select v-model="storeCityForm.country_id" required class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3">
                     <option v-for="country in props.countries" :key="country.id" class="m-6 p-6 " :value="country.id">
                       {{ country.name }}
@@ -123,7 +138,7 @@ function clearInput() {
 
                   <div class="flex w-full justify-end">
                     <PrimarySaveButton>
-                      Save
+                      {{ __('Save') }}
                     </PrimarySaveButton>
                   </div>
                 </form>
@@ -131,10 +146,9 @@ function clearInput() {
             </div>
           </div>
 
-
           <div class="mb-3 mt-4 flex flex-wrap items-center justify-end md:justify-between">
-            <button class="m-1 rounded bg-blumilk-500 px-5 py-3 text-sm font-medium text-white shadow-md md:py-2" @click="toggleStoreDialog">
-              Create city
+            <button class="mr-1 rounded bg-blumilk-500 px-5 py-3 text-sm font-medium text-white shadow-md hover:bg-blumilk-400 md:py-2" @click="toggleStoreDialog">
+              {{ __('Create city') }}
             </button>
 
             <div class="m-1 flex w-full rounded-md shadow-sm md:w-fit">
@@ -142,7 +156,7 @@ function clearInput() {
                 <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                   <MagnifyingGlassIcon class="h-5 w-5 text-gray-800" />
                 </div>
-                <input v-model.trim="searchInput" type="text" class="block w-full rounded border-0 py-3 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blumilk-300 sm:text-sm sm:leading-6 md:py-1.5" placeholder="Search city">
+                <input v-model.trim="searchInput" type="text" class="block w-full rounded border-0 py-3 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blumilk-300 sm:text-sm sm:leading-6 md:py-1.5" :placeholder="__('Search city')">
               </div>
               <button v-if="searchInput.length" type="button" class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-800 ring-1 ring-inset ring-gray-300 hover:bg-blumilk-25" @click="clearInput">
                 <XMarkIcon class="h-5 w-5" />
@@ -150,8 +164,31 @@ function clearInput() {
             </div>
           </div>
 
-          <div v-if="props.cities.data.length">
-            <PaginationInfo :meta="props.cities.meta" />
+          <div class="flex w-full flex-wrap items-center justify-between">
+            <div v-if="props.cities.data.length" class="w-1/2">
+              <PaginationInfo :meta="props.cities.meta" />
+            </div>
+
+            <div class="relative inline-block text-left">
+              <div>
+                <button ref="sortDialog" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900" aria-expanded="false" aria-haspopup="true" @click="toggleSortDialog">
+                  {{ __('Sort') }}
+                  <ChevronDownIcon class="ml-1 h-5 w-5" />
+                </button>
+              </div>
+
+              <div v-if="isSortDialogOpened" class="absolute right-1 z-10 mt-3.5 w-max rounded-md bg-white shadow-lg shadow-gray-300 ring-1 ring-gray-300 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                <div class="py-1" role="none">
+                  <InertiaLink v-for="option in sortingOptions" :key="option.href"
+                               :href="option.href" class="block px-4 py-2 text-sm text-gray-500 hover:text-blumilk-400" role="menuitem" tabindex="-1"
+                  >
+                    <span :class="{'font-medium text-blumilk-400': page.url.startsWith(option.href) || ((page.url === '/admin/cities' || page.url.startsWith('/admin/cities?search=') || page.url.startsWith('/admin/cities?page=')) && option.href.startsWith('/admin/cities?order=latest'))}">
+                      {{ __(option.name) }}
+                    </span>
+                  </InertiaLink>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div v-if="props.cities.data.length" class="rounded-lg ring-gray-300 sm:ring-1">
@@ -159,16 +196,16 @@ function clearInput() {
               <thead>
                 <tr>
                   <th scope="col" class="py-3.5 pl-5 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 lg:table-cell">
-                    Name
+                    {{ __('Name') }}
                   </th>
                   <th scope="col" class="hidden py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
-                    Longitude
+                    {{ __('Longitude') }}
                   </th>
                   <th scope="col" class="hidden py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
-                    Latitude
+                    {{ __('Latitude') }}
                   </th>
                   <th scope="col" class="py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
-                    Providers
+                    {{ __('Providers') }}
                   </th>
                 </tr>
               </thead>
@@ -182,7 +219,7 @@ function clearInput() {
 
           <div v-else>
             <p class="mt-6 text-lg font-medium text-gray-500">
-              Sorry, we couldn't find any cities.
+              {{ __('Sorry we couldn`t find any cities.') }}
             </p>
           </div>
 

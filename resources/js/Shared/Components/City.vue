@@ -79,7 +79,7 @@ const selectedCityProviders = reactive([])
 
 onMounted(() => {
   props.city.cityProviders.forEach(provider => {
-    selectedCityProviders.push(provider.provider_id)
+    selectedCityProviders.push(provider.provider_name)
   })
 })
 
@@ -94,7 +94,7 @@ function toggleProviderSelection(provider) {
 
 function updateCityProviders(cityId) {
   router.patch(`/update-city-providers/${cityId}`, {
-    providerIds: selectedCityProviders,
+    providerNames: selectedCityProviders,
   }, {
     onSuccess: () => {
       toggleEditDialog()
@@ -103,7 +103,7 @@ function updateCityProviders(cityId) {
 }
 
 const filteredSelectedCityProviders = computed(() => {
-  return props.providers.filter(provider => selectedCityProviders.includes(provider.id))
+  return props.providers.filter(provider => selectedCityProviders.includes(provider.name))
 })
 
 function goToGoogleMaps(latitude, longitude) {
@@ -146,7 +146,7 @@ function toggleProvidersForm() {
         {{ city.name }}
       </p>
     </div>
-    <div class="mt-1 flex flex-col break-all text-gray-500 sm:block lg:hidden">
+    <div v-if="city.latitude" class="mt-1 flex flex-col break-all text-gray-500 sm:block lg:hidden">
       <span>{{ city.latitude }}</span>
       <span class="hidden sm:inline">, </span>
       <br class="hidden sm:inline">
@@ -177,12 +177,12 @@ function toggleProvidersForm() {
       <div class="items-top flex h-1/2 flex-wrap items-center">
         <div
           v-for="provider in filteredSelectedCityProviders.slice(0, 4)"
-          :key="provider.id"
-          :style="{'background-color': selectedCityProviders.includes(provider.id) ? provider.color : ''}"
-          :class="selectedCityProviders.includes(provider.id) ? 'border-zinc-600 drop-shadow-lg' : 'hidden'"
+          :key="provider.name"
+          :style="{'background-color': selectedCityProviders.includes(provider.name) ? provider.color : ''}"
+          :class="selectedCityProviders.includes(provider.name) ? 'border-zinc-600 drop-shadow-lg' : 'hidden'"
           class="m-1 flex h-5 w-fit items-center justify-center rounded border border-zinc-300 bg-zinc-300 p-1 "
         >
-          <img class="w-5" :src="'/providers/' + provider.name + '.png'" alt="">
+          <img class="w-5" :src="'/providers/' + provider.name.toLowerCase() + '.png'" alt="">
         </div>
 
         <div
@@ -205,20 +205,20 @@ function toggleProvidersForm() {
     </div>
   </td>
 
-  <td class="relative flex justify-end border-t border-transparent py-3.5 text-right text-xs font-medium sm:pl-3 md:pr-2">
+  <td class="relative table-cell justify-end border-t text-right text-xs font-medium sm:pl-3 md:pr-2">
     <span class="flex flex-wrap">
       <button class="mx-0.5 mb-1 flex w-fit shrink-0 items-center rounded py-1 pr-2 text-blumilk-500 hover:bg-blumilk-25"
               @click="toggleEditDialog"
       >
         <PencilIcon class="h-5 w-8 text-blumilk-500" />
-        Edit
+        {{ __('Edit') }}
       </button>
 
       <button class="mx-0.5 mb-1 flex w-fit shrink-0 items-center rounded py-1 pr-2 text-rose-500 hover:bg-rose-100"
               @click="destroyCity(city.id)"
       >
         <TrashIcon class="h-5 w-8 text-rose-500" />
-        Delete
+        {{ __('Delete') }}
       </button>
     </span>
   </td>
@@ -233,22 +233,22 @@ function toggleProvidersForm() {
         </div>
 
         <button :class="isCityFormOpened ? 'bg-blumilk-50' : ''" class="mb-3 ml-6 rounded-lg bg-blumilk-25 px-3 py-1 text-sm font-bold text-gray-800 hover:bg-blumilk-50" @click="toggleCityForm">
-          Update city
+          {{ __('Update city') }}
         </button>
         <form v-if="isCityFormOpened" class="flex flex-col rounded px-6 text-xs font-bold text-gray-600"
               @submit.prevent="updateCity(city.id)"
         >
-          <label class="mb-1 mt-4">Name</label>
+          <label class="mb-1 mt-4">{{ __('Name') }}</label>
           <input v-model="updateCityForm.name" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text"
                  required
           >
           <ErrorMessage :message="updateCityForm.errors.name" />
-          <label class="mb-1 mt-4">Latitude</label>
+          <label class="mb-1 mt-4">{{ __('Latitude') }}</label>
           <input v-model="updateCityForm.latitude" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text"
                  required @keydown="preventCommaInput"
           >
           <ErrorMessage :message="updateCityForm.errors.latitude" />
-          <label class="mb-1 mt-4">Longitude</label>
+          <label class="mb-1 mt-4">{{ __('Longitude') }}</label>
           <input v-model="updateCityForm.longitude" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text"
                  required @keydown="preventCommaInput"
           >
@@ -257,14 +257,14 @@ function toggleProvidersForm() {
 
           <div class="flex w-full justify-end">
             <SecondarySaveButton>
-              Save
+              {{ __('Save') }}
             </SecondarySaveButton>
           </div>
         </form>
 
         <br>
         <button :class="isAlternativeCityNameFormOpened ? 'bg-blumilk-50' : ''" class="mb-3 ml-6 rounded-lg bg-blumilk-25 px-3 py-1 text-sm font-bold text-gray-800 hover:bg-blumilk-50" @click="toggleAlternativeCityNameForm">
-          Add alternative city name
+          {{ __('Add alternative name') }}
         </button>
         <form v-if="isAlternativeCityNameFormOpened" class="flex flex-col rounded p-6"
               @submit.prevent="storeAlternativeCityName(city.id)"
@@ -277,7 +277,7 @@ function toggleProvidersForm() {
             <ErrorMessage :message="storeAlternativeCityNameErrors.name" />
             <div class="flex w-full justify-end">
               <SecondarySaveButton>
-                Save
+                {{ __('Save') }}
               </SecondarySaveButton>
             </div>
           </div>
@@ -302,18 +302,18 @@ function toggleProvidersForm() {
 
         <br>
         <button :class="isProvidersFormOpened ? 'bg-blumilk-50' : ''" class="ml-6 flex rounded-lg bg-blumilk-25 px-3 py-1 text-sm font-bold text-gray-800 hover:bg-blumilk-50" @click="toggleProvidersForm">
-          Providers
+          {{ __('Providers') }}
         </button>
 
         <div v-if="isProvidersFormOpened" class="mt-4 flex flex-col rounded border-blumilk-100 px-6">
           <div class="flex flex-wrap">
             <div
               v-for="provider in props.providers"
-              :key="provider.id"
-              :style="{'background-color': selectedCityProviders.includes(provider.id) ? provider.color : ''}"
-              :class="selectedCityProviders.includes(provider.id) ? 'border-zinc-600 drop-shadow-lg' : ''"
+              :key="provider.name"
+              :style="{'background-color': selectedCityProviders.includes(provider.name) ? provider.color : ''}"
+              :class="selectedCityProviders.includes(provider.name) ? 'border-zinc-600 drop-shadow-lg' : ''"
               class="mx-1 my-2 flex h-10 w-fit cursor-pointer items-center justify-center rounded-lg border border-zinc-300 bg-zinc-300 p-1 "
-              @click="toggleProviderSelection(provider.id)"
+              @click="toggleProviderSelection(provider.name)"
             >
               <input
                 v-model="selectedCityProviders"
@@ -321,13 +321,13 @@ function toggleProvidersForm() {
                 type="checkbox"
               >
               <label class="cursor-pointer">
-                <img class="w-10" :src="'/providers/' + provider.name + '.png'" alt="">
+                <img class="w-10" :src="'/providers/' + provider.name.toLowerCase() + '.png'" alt="">
               </label>
             </div>
           </div>
           <div class="flex w-full justify-end text-xs">
             <SecondarySaveButton @click="updateCityProviders(city.id)">
-              Save
+              {{ __('Save') }}
             </SecondarySaveButton>
           </div>
         </div>

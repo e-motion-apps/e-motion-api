@@ -8,9 +8,8 @@ use App\Importers\VoiDataImporter;
 
 class VoiDataImporterJob extends DataImporterJob
 {
-    public function handle(): void
+    public function handle(VoiDataImporter $importer): void
     {
-        $importer = new VoiDataImporter($this->importInfoId);
-        $importer->extract()->transform();
+        $importer->setImportInfo($this->importInfoId)->extract()->transform();
     }
 }

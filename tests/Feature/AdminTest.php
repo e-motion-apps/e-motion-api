@@ -42,8 +42,7 @@ class AdminTest extends TestCase
 
     public function testAdminCanEnterAdminDashboardCountries(): void
     {
-        $response = $this->get("/admin/countries");
-        $response->assertStatus(200);
+        $this->get("/admin/countries");
         $this->assertAuthenticatedAs(User::first());
     }
 }

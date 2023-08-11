@@ -22,11 +22,11 @@ class CityProviderController extends Controller
             City::with("cityAlternativeName", "cityProvider", "country")
                 ->has("cityProvider")
                 ->get()
+                ->sortBy("name")
                 ->sortByDesc(fn(City $city): int => $city->cityProvider->count()),
         );
 
-        $providers = ProviderResource::collection(Provider::all());
-
+        $providers = ProviderResource::collection(Provider::all()->sortBy("name"));
         $countries = Country::whereHas("city.cityProvider")
             ->with(["city.cityAlternativeName", "city.cityProvider"])
             ->get();
@@ -42,7 +42,7 @@ class CityProviderController extends Controller
 
     public function update(CityProviderService $service, CityProviderRequest $request, City $city): void
     {
-        $service->updateProvider($request->providerIds, $city);
+        $service->updateProvider($request->providerNames, $city);
     }
 
     public function runImporters(DataImporterService $service): void

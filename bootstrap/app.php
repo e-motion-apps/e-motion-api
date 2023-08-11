@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use App\Console\Kernel as ConsoleKernel;
-use App\Exceptions\Handler;
+use App\Exceptions\ExceptionHandler as Handler;
 use App\Http\Kernel as HttpKernel;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernelContract;
 use Illuminate\Contracts\Debug\ExceptionHandler;
