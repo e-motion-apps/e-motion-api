@@ -12,6 +12,7 @@ use App\Models\Country;
 use App\Models\ImportInfoDetail;
 use App\Services\MapboxGeocodingService;
 use GuzzleHttp\Client;
+use Stichoza\GoogleTranslate\GoogleTranslate;
 
 abstract class DataImporter
 {
@@ -46,6 +47,13 @@ abstract class DataImporter
         $classNameParts = explode("@", $parted);
 
         return $classNameParts[0];
+    }
+
+    public function translate(string $word, $language): string
+    {
+        $translate = new GoogleTranslate($language);
+
+        return $translate->translate($word);
     }
 
     protected function countryNotFound(string $cityName, string $countryName): void
