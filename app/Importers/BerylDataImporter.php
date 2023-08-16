@@ -46,8 +46,6 @@ class BerylDataImporter extends DataImporter
         $existingCityProviders = [];
 
         foreach ($this->sections as $section) {
-            $country = null;
-
             foreach ($section->childNodes as $node) {
                 if ($node->nodeName === "div") {
                     foreach ($node->childNodes as $city) {
