@@ -9,6 +9,8 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class BerylDataImporter extends DataImporter
 {
+    private const COUNTRY_NAME = "United Kingdom";
+
     protected Crawler $sections;
 
     public function extract(): static
@@ -49,14 +51,53 @@ class BerylDataImporter extends DataImporter
             foreach ($section->childNodes as $node) {
                 if ($node->nodeName === "div") {
                     foreach ($node->childNodes as $city) {
+                        if ($city->nodeName === "h3") {
+                            $cityName = $city->nodeValue;
+                        }
+
+                        $eScootersFound = false;
+
                         if ($city->nodeValue === "e-Scooters") {
                             $eScootersFound = true;
-                        } else {
-                            $eScootersFound = false;
                         }
-                        dump($eScootersFound);
-                        if ($city->nodeName === "h3" && $eScootersFound) {
-                            dump(456);
+
+                        if ($eScootersFound) {
+                            $cityName = str_replace(["E-scooters", "and ", ","], "", $cityName);
+                            $cityName = trim($cityName);
+
+                            if ($cityName === "Bournemouth Christchurch Poole") {
+                                $arrayofcityNames = explode(" ", $cityName);
+
+                                foreach ($arrayofcityNames as $cityName) {
+                                    $provider = $this->load($cityName, self::COUNTRY_NAME);
+
+                                    if ($provider !== "") {
+                                        $existingCityProviders[] = $provider;
+                                    }
+                                }
+                            } else {
+                                if ($cityName === "West Midlands") {
+                                    $cityName = "Birmingham";
+                                }
+
+                                if ($cityName === "Isle of Wight") {
+                                    $cityName = "Cowes  East Cowes  Newport  Ryde  Sandown  Shanklin";
+                                    $arrayofcityNames = explode("  ", $cityName);
+
+                                    foreach ($arrayofcityNames as $cityName) {
+                                        $provider = $this->load($cityName, self::COUNTRY_NAME);
+
+                                        if ($provider !== "") {
+                                            $existingCityProviders[] = $provider;
+                                        }
+                                    }
+                                }
+                                $provider = $this->load($cityName, self::COUNTRY_NAME);
+
+                                if ($provider !== "") {
+                                    $existingCityProviders[] = $provider;
+                                }
+                            }
                         }
                     }
                 }
