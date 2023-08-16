@@ -22,7 +22,6 @@ abstract class DataImporter
     public function __construct(
         protected Client $client,
         protected MapboxGeocodingService $mapboxService,
-        protected GoogleTranslate $translate,
     ) {}
 
     public function setImportInfo(int $importInfoId): static
@@ -52,7 +51,9 @@ abstract class DataImporter
 
     public function translate(string $word, $language): string
     {
-        return $this->translate->setTarget($language)->translate($word);
+        $translate = new GoogleTranslate($language);
+
+        return $translate->setTarget($language)->translate($word);
     }
 
     protected function countryNotFound(string $cityName, string $countryName): void
@@ -115,7 +116,7 @@ abstract class DataImporter
             $this->createProvider($cityId, self::getProviderName());
 
             return strval($cityId);
-        }  
+        }
         $country = Country::query()->where("name", $countryName)->orWhere("alternative_name", $countryName)->first();
 
         if ($country) {
@@ -136,7 +137,7 @@ abstract class DataImporter
             $this->createProvider($city->id, self::getProviderName());
 
             return strval($city->id);
-        }  
+        }
         $this->countryNotFound($cityName, $countryName);
         $this->createImportInfoDetails("420", self::getProviderName());
 
