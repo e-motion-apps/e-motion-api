@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Jobs\BeamDataImporterJob;
 use App\Jobs\BirdDataImporterJob;
 use App\Jobs\BitMobilityDataImporterJob;
 use App\Jobs\BoltDataImporterJob;
@@ -16,7 +17,6 @@ use App\Jobs\RydeDataImporterJob;
 use App\Jobs\SpinDataImporterJob;
 use App\Jobs\UrentDataImporterJob;
 use App\Jobs\VoiDataImporterJob;
-use App\Jobs\BeamDataImporterJob;
 use App\Jobs\ZwingsDataImporterJob;
 use App\Models\ImportInfo;
 use Illuminate\Support\Facades\Bus;
