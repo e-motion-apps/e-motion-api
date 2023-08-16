@@ -4,16 +4,11 @@ declare(strict_types=1);
 
 namespace App\Importers;
 
-use App\Models\City;
 use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Component\DomCrawler\Crawler;
 
 class BeamDataImporter extends DataImporter
 {
-    private string $countryName;
-
-    private bool $hasEscooters = false;
-
     protected Crawler $sections;
 
     public function extract(): static
@@ -49,26 +44,30 @@ class BeamDataImporter extends DataImporter
         $existingCityProviders = [];
 
         foreach ($this->sections as $section) {
-            $country = null;
             foreach ($section->childNodes as $node) {
                 if ($node->nodeName === "h4") {
-                    $this->countryName = $node->nodeValue;
+                    $countryName = $node->nodeValue;
                 }
                 if ($node->nodeName === "div") {
                     foreach ($node->childNodes as $div) {
                         if ($div->nodeName === "div") {
                             foreach ($div->childNodes as $city) {
                                 if ($city->nodeName === "img" && $city->getAttribute("src") === "https://uploads-ssl.webflow.com/63c4acbedbab5dea8b1b98cd/63d8a5b60da91e7d71298637_map-vehicle-saturn.png") {
-                                    $this->hasEscooters = true;
+                                    $hasEscooters = true;
                                 } elseif ($city->nodeName === "img" && $city->getAttribute("src") !== "https://uploads-ssl.webflow.com/63c4acbedbab5dea8b1b98cd/63d8a5b60da91e7d71298637_map-vehicle-saturn.png") {
-                                    $this->hasEscooters = false;
+                                    $hasEscooters = false;
                                 }
-                                if ($city->nodeName === "p" && $this->hasEscooters == true) {
+                                if ($city->nodeName === "p" && $hasEscooters == true) {
                                     $search = ["\u{00A0}", "\u{200D}"];
-                                    $cityName = str_replace($search, '', $city->nodeValue);
+                                    $valueToDelete = "Selangor";
                                     $cityName = str_replace("Prefecture", '', $city->nodeValue);
                                     $cityName = preg_replace('/[\p{Hiragana}\p{Katakana}\p{Han}]+/u', '', $cityName);
+                                    $cityName = str_replace($search, '', $cityName);
+                                    $cityName = preg_replace('/(?<=[^\s_\-])(?=[A-Z])/', '  ', $city->nodeValue);
                                     $arrayOfCitiesNames = explode("  ", $cityName);
+                                    $arrayOfCitiesNames = array_filter($arrayOfCitiesNames, function ($value) use ($valueToDelete) {
+                                        return $value !== $valueToDelete;
+                                    });
                                     $arrayOfCitiesNames = array_filter($arrayOfCitiesNames, function ($record) {
                                         return strlen($record) > 1;
                                     });
@@ -76,10 +75,18 @@ class BeamDataImporter extends DataImporter
                                         return strpos($record, "•") === false;
                                     });
                                     foreach ($arrayOfCitiesNames as $cityName) {
-                                        $cityName = trim($cityName);
-                                        $city = City::query()->where("name", $cityName)->first();
+                                        if ($cityName === "Selangor") {
+                                        } else {
+                                            $cityName = trim($cityName);
+                                            if ($countryName === "Korea") {
+                                                $countryName = "South Korea";
+                                            }
+                                            $provider = $this->load($cityName, $countryName);
+                                        }
+                                        if ($provider !== "") {
+                                            $existingCityProviders[] = $provider;
+                                        }
                                     }
-                                    $this->deleteMissingProviders(self::getProviderName(), $existingCityProviders);
                                 }
                             }
                         }
@@ -87,5 +94,6 @@ class BeamDataImporter extends DataImporter
                 }
             }
         }
+        $this->deleteMissingProviders(self::getProviderName(), $existingCityProviders);
     }
 }

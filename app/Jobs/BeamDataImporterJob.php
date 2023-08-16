@@ -8,9 +8,8 @@ use App\Importers\BeamDataImporter;
 
 class BeamDataImporterJob extends DataImporterJob
 {
-    public function handle(): void
+    public function handle(BeamDataImporter $importer): void
     {
-        $importer = new BeamDataImporter($this->importInfoId);
-        $importer->extract()->transform();
+        $importer->setImportInfo($this->importInfoId)->extract()->transform();
     }
 }
