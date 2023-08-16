@@ -26,7 +26,7 @@ class ProviderSeeder extends Seeder
     public function run(): void
     {
         $providers = [
-            ["name" => BerylDataImporter::getProviderName(), "color" => "#ff00ff"],
+            ["name" => BerylDataImporter::getProviderName(), "color" => "#00e3c2"],
             ["name" => BirdDataImporter::getProviderName(), "color" => "#26ccf0"],
             ["name" => BitMobilityDataImporter::getProviderName(), "color" => "#8da6e3"],
             ["name" => BoltDataImporter::getProviderName(), "color" => "#24f0a0"],
