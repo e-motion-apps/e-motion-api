@@ -9,6 +9,8 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class BinBinDataImporter extends DataImporter
 {
+    public const language = "en";
+
     protected Crawler $sections;
 
     public function extract(): static
@@ -47,26 +49,16 @@ class BinBinDataImporter extends DataImporter
         foreach ($this->sections as $section) {
             $data = explode("|", $section->nodeValue);
 
-            if (trim($data[1]) === "Türkiye") {
-                $countryName = "Turkey";
-            } else {
-                $countryName = $this->translate(trim($data[1]), "en");
-            }
+            if (trim($data[1]) === "Türkiye") $countryName = "Turkey"; else $countryName = $this->translate(trim($data[1]), self::language);
 
-            if (trim($data[0]) === "Uşak") {
-                $cityName = "Usak";
-            } elseif (trim($data[0]) === "Murter") {
-                continue;
-            } else {
-                $cityName = $this->translate(trim($data[0]), "en");
-            }
+            if (trim($data[0]) === "Uşak") $cityName = "Usak"; elseif (trim($data[0]) === "Murter") continue;
+            else $cityName = $this->translate(trim($data[0]), "en");
 
             $provider = $this->load($cityName, $countryName);
 
-            if ($provider !== "") {
-                $existingCityProviders[] = $provider;
-            }
+            if ($provider !== "") $existingCityProviders[] = $provider;
         }
+
         $this->deleteMissingProviders(self::getProviderName(), $existingCityProviders);
     }
 }

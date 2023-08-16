@@ -1,4 +1,23 @@
 ## 🛴 escooters
+### Available providers
+
+1. BinBin
+2. Bird  
+3. BitMobility
+4. Bolt
+5. Dott
+6. Hulaj
+7. Lime
+8. Link
+9. Neuron
+10. Quick
+11. Ryde
+12. Spin
+13. Tier
+13. Urent
+14. Voi
+15. Zwings
+
 ### Local development
 ```
 cp .env.example .env
