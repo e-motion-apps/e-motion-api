@@ -48,6 +48,7 @@ class BeamDataImporter extends DataImporter
                 if ($node->nodeName === "h4") {
                     $countryName = $node->nodeValue;
                 }
+
                 if ($node->nodeName === "div") {
                     foreach ($node->childNodes as $div) {
                         if ($div->nodeName === "div") {
@@ -57,32 +58,30 @@ class BeamDataImporter extends DataImporter
                                 } elseif ($city->nodeName === "img" && $city->getAttribute("src") !== "https://uploads-ssl.webflow.com/63c4acbedbab5dea8b1b98cd/63d8a5b60da91e7d71298637_map-vehicle-saturn.png") {
                                     $hasEscooters = false;
                                 }
-                                if ($city->nodeName === "p" && $hasEscooters == true) {
+
+                                if ($city->nodeName === "p" && $hasEscooters === true) {
                                     $search = ["\u{00A0}", "\u{200D}"];
                                     $valueToDelete = "Selangor";
-                                    $cityName = str_replace("Prefecture", '', $city->nodeValue);
-                                    $cityName = preg_replace('/[\p{Hiragana}\p{Katakana}\p{Han}]+/u', '', $cityName);
-                                    $cityName = str_replace($search, '', $cityName);
-                                    $cityName = preg_replace('/(?<=[^\s_\-])(?=[A-Z])/', '  ', $city->nodeValue);
+                                    $cityName = str_replace("Prefecture", "", $city->nodeValue);
+                                    $cityName = preg_replace('/[\p{Hiragana}\p{Katakana}\p{Han}]+/u', "", $cityName);
+                                    $cityName = str_replace($search, "", $cityName);
+                                    $cityName = preg_replace('/(?<=[^\s_\-])(?=[A-Z])/', "  ", $city->nodeValue);
                                     $arrayOfCitiesNames = explode("  ", $cityName);
-                                    $arrayOfCitiesNames = array_filter($arrayOfCitiesNames, function ($value) use ($valueToDelete) {
-                                        return $value !== $valueToDelete;
-                                    });
-                                    $arrayOfCitiesNames = array_filter($arrayOfCitiesNames, function ($record) {
-                                        return strlen($record) > 1;
-                                    });
-                                    $arrayOfCitiesNames  = array_filter($arrayOfCitiesNames, function ($record) {
-                                        return strpos($record, "•") === false;
-                                    });
+                                    $arrayOfCitiesNames = array_filter($arrayOfCitiesNames, fn($value) => $value !== $valueToDelete);
+                                    $arrayOfCitiesNames = array_filter($arrayOfCitiesNames, fn($record) => strlen($record) > 1);
+                                    $arrayOfCitiesNames = array_filter($arrayOfCitiesNames, fn($record) => strpos($record, "•") === false);
+
                                     foreach ($arrayOfCitiesNames as $cityName) {
                                         if ($cityName === "Selangor") {
                                         } else {
                                             $cityName = trim($cityName);
+
                                             if ($countryName === "Korea") {
                                                 $countryName = "South Korea";
                                             }
                                             $provider = $this->load($cityName, $countryName);
                                         }
+
                                         if ($provider !== "") {
                                             $existingCityProviders[] = $provider;
                                         }
