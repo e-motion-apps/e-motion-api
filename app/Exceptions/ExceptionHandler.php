@@ -6,6 +6,7 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
@@ -20,6 +21,10 @@ class ExceptionHandler extends Handler
 
     public function render($request, Throwable $e)
     {
+        if ($e instanceof ValidationException) {
+            return back()->withErrors($e->errors());
+        }
+
         $response = parent::render($request, $e);
         $statusCode = $response->status();
 
