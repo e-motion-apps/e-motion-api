@@ -22,6 +22,7 @@ abstract class DataImporter
     public function __construct(
         protected Client $client,
         protected MapboxGeocodingService $mapboxService,
+        protected GoogleTranslate $translate,
     ) {}
 
     public function setImportInfo(int $importInfoId): static
@@ -51,9 +52,7 @@ abstract class DataImporter
 
     public function translate(string $word, $language): string
     {
-        $translate = new GoogleTranslate($language);
-
-        return $translate->setTarget($language)->translate($word);
+        return $this->translate->setTarget($language)->translate($word);
     }
 
     protected function countryNotFound(string $cityName, string $countryName): void

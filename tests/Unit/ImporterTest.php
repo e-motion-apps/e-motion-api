@@ -17,6 +17,7 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\MockObject\Exception;
+use Stichoza\GoogleTranslate\GoogleTranslate;
 use Tests\TestCase;
 
 class ImporterTest extends TestCase
@@ -41,6 +42,8 @@ class ImporterTest extends TestCase
         $handlerStack = HandlerStack::create($mockHandler);
         $mockHttpClient = new Client(["handler" => $handlerStack]);
 
+        $mockGoogleTranslate = $this->createMock(GoogleTranslate::class);
+
         $mockMapboxService = $this->createMock(MapboxGeocodingService::class);
         $mockMapboxService->method("getPlaceFromApi")->willReturn(["Perth", "Australia"]);
         $mockMapboxService->method("getCoordinatesFromApi")
@@ -49,7 +52,7 @@ class ImporterTest extends TestCase
                 "longitude" => "mocked_longitude",
             ]);
 
-        $this->dataImporter = new class($mockHttpClient, $mockMapboxService) extends BirdDataImporter {
+        $this->dataImporter = new class($mockHttpClient, $mockMapboxService, $mockGoogleTranslate) extends BirdDataImporter {
             protected function createImportInfoDetails($code, $providerName): void
             {
             }
