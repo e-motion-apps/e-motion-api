@@ -30,10 +30,11 @@ class MapboxGeocodingService
             );
 
             $coordinates = json_decode($response->getBody()->getContents(), associative: true)["features"][0]["center"];
-        } catch (Throwable $exception) {
-        }
 
-        return [$coordinates[1] ?? null, $coordinates[0] ?? null];
+            return [$coordinates[1], $coordinates[0]];
+        } catch (Throwable $exception) {
+            throw new MapboxGeocodingServiceException(previous: $exception);
+        }
     }
 
     /**
