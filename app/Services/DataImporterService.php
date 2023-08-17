@@ -18,6 +18,7 @@ use App\Jobs\TierDataImporterJob;
 use App\Jobs\UrentDataImporterJob;
 use App\Jobs\VoiDataImporterJob;
 use App\Jobs\ZwingsDataImporterJob;
+use App\Jobs\WindDataImporterJob;
 use App\Models\ImportInfo;
 use Illuminate\Support\Facades\Bus;
 
@@ -35,20 +36,21 @@ class DataImporterService
         $this->importInfoId = $importInfo->id;
 
         Bus::batch([
-            new BirdDataImporterJob($this->importInfoId),
-            new BitMobilityDataImporterJob($this->importInfoId),
-            new BoltDataImporterJob($this->importInfoId),
-            new DottDataImporterJob($this->importInfoId),
-            new HulajDataImporterJob($this->importInfoId),
-            new LimeDataImporterJob($this->importInfoId),
-            new NeuronDataImporterJob($this->importInfoId),
-            new QuickDataImporterJob($this->importInfoId),
-            new RydeDataImporterJob($this->importInfoId),
-            new SpinDataImporterJob($this->importInfoId),
-            new TierDataImporterJob($this->importInfoId),
-            new UrentDataImporterJob($this->importInfoId),
-            new VoiDataImporterJob($this->importInfoId),
-            new ZwingsDataImporterJob($this->importInfoId),
+            //new BirdDataImporterJob($this->importInfoId),
+            //new BitMobilityDataImporterJob($this->importInfoId),
+            //new BoltDataImporterJob($this->importInfoId),
+            //new DottDataImporterJob($this->importInfoId),
+            //new HulajDataImporterJob($this->importInfoId),
+            //new LimeDataImporterJob($this->importInfoId),
+            //new NeuronDataImporterJob($this->importInfoId),
+            //new QuickDataImporterJob($this->importInfoId),
+            //new RydeDataImporterJob($this->importInfoId),
+            //new SpinDataImporterJob($this->importInfoId),
+            //new TierDataImporterJob($this->importInfoId),
+            //new UrentDataImporterJob($this->importInfoId),
+            //new VoiDataImporterJob($this->importInfoId),
+            //new ZwingsDataImporterJob($this->importInfoId),
+            new WindDataImporterJob($this->importInfoId),
         ])->finally(function (): void {
             ImportInfo::query()->where("id", $this->importInfoId)->update([
                 "status" => "finished",
