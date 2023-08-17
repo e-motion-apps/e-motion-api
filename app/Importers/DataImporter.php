@@ -18,12 +18,14 @@ abstract class DataImporter
 {
     protected bool $stopExecution = false;
     protected int $importInfoId;
+    protected GoogleTranslate $translate;
 
     public function __construct(
         protected Client $client,
         protected MapboxGeocodingService $mapboxService,
-        protected GoogleTranslate $translate,
-    ) {}
+    ) {
+        $this->translate = new GoogleTranslate();
+    }
 
     public function setImportInfo(int $importInfoId): static
     {

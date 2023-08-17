@@ -52,7 +52,7 @@ class ImporterTest extends TestCase
                 "longitude" => "mocked_longitude",
             ]);
 
-        $this->dataImporter = new class($mockHttpClient, $mockMapboxService, $mockGoogleTranslate) extends BirdDataImporter {
+        $this->dataImporter = new class($mockHttpClient, $mockMapboxService) extends BirdDataImporter {
             protected function createImportInfoDetails($code, $providerName): void
             {
             }
