@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Importers;
 
 use App\Models\City;
-use App\Models\CityAlternativeName;
 use App\Models\CityProvider;
 use App\Models\CityWithoutAssignedCountry;
 use App\Models\Country;
@@ -16,19 +15,29 @@ use Stichoza\GoogleTranslate\GoogleTranslate;
 
 abstract class DataImporter
 {
+    public const language = "en";
+
     protected bool $stopExecution = false;
     protected int $importInfoId;
+    protected GoogleTranslate $translate;
 
     public function __construct(
         protected Client $client,
         protected MapboxGeocodingService $mapboxService,
-    ) {}
+    ) {
+        $this->translate = new GoogleTranslate();
+    }
 
     public function setImportInfo(int $importInfoId): static
     {
         $this->importInfoId = $importInfoId;
 
         return $this;
+    }
+
+    public function translate(string $word, $language): string
+    {
+        return $this->translate->setTarget($language)->translate($word);
     }
 
     abstract public function extract(): static;
@@ -47,13 +56,6 @@ abstract class DataImporter
         $classNameParts = explode("@", $parted);
 
         return $classNameParts[0];
-    }
-
-    public function translate(string $word, $language): string
-    {
-        $translate = new GoogleTranslate($language);
-
-        return $translate->translate($word);
     }
 
     protected function countryNotFound(string $cityName, string $countryName): void
@@ -107,19 +109,21 @@ abstract class DataImporter
 
     protected function load(string $cityName, string $countryName, string $lat = "", string $long = ""): string
     {
-        $city = City::query()->where("name", $cityName)->first();
-        $alternativeCityName = CityAlternativeName::query()->where("name", $cityName)->first();
+        $cityName = $this->translate($cityName, self::language);
+        $countryName = $this->translate($countryName, self::language);
 
-        if ($city || $alternativeCityName) {
-            $cityId = $city ? $city->id : $alternativeCityName->city_id;
-
-            $this->createProvider($cityId, self::getProviderName());
-
-            return strval($cityId);
-        }  
         $country = Country::query()->where("name", $countryName)->orWhere("alternative_name", $countryName)->first();
 
         if ($country) {
+            $city = City::query()->where("name", $cityName)->where("country_id", $country->id)->first();
+
+            if ($city) {
+                $cityId = $city->id;
+                $this->createProvider($cityId, self::getProviderName());
+
+                return strval($cityId);
+            }
+
             $coordinates = $this->mapboxService->getCoordinatesFromApi($cityName, $countryName);
             $countCoordinates = count($coordinates);
 
