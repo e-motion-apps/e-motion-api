@@ -39,7 +39,7 @@ abstract class DataImporter
         return $this->stopExecution;
     }
 
-    public static function getProviderName(): string
+    protected function getProviderName(): string
     {
         $parted = explode("\\", static::class);
         $parted = str_replace("DataImporter", "", $parted[count($parted) - 1]);
@@ -107,7 +107,7 @@ abstract class DataImporter
 
             if ($city) {
                 $cityId = $city->id;
-                $this->createProvider($cityId, self::getProviderName());
+                $this->createProvider($cityId, $this->getProviderName());
 
                 return strval($cityId);
             } elseif ($alternativeCityName) {
