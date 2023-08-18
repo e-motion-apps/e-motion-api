@@ -64,9 +64,9 @@ class BerylDataImporter extends DataImporter
                             $cityName = trim($cityName);
 
                             if ($cityName === "Bournemouth Christchurch Poole") {
-                                $arrayofcityNames = explode(" ", $cityName);
+                                $arrayOfCityNames = explode(" ", $cityName);
 
-                                foreach ($arrayofcityNames as $cityName) {
+                                foreach ($arrayOfCityNames as $cityName) {
                                     $provider = $this->load($cityName, self::COUNTRY_NAME);
 
                                     if ($provider !== "") {
@@ -79,9 +79,9 @@ class BerylDataImporter extends DataImporter
                                 }
 
                                 if ($cityName === "Isle of Wight") {
-                                    $arrayofcityNames = ["Cowes", "East Cowes", "Newport", "Ryde", "Sandown", "Shanklin"];
+                                    $arrayOfCityNames = ["Cowes", "East Cowes", "Newport", "Ryde", "Sandown", "Shanklin"];
 
-                                    foreach ($arrayofcityNames as $cityName) {
+                                    foreach ($arrayOfCityNames as $cityName) {
                                         $provider = $this->load($cityName, self::COUNTRY_NAME);
 
                                         if ($provider !== "") {
