@@ -79,8 +79,7 @@ class BerylDataImporter extends DataImporter
                                 }
 
                                 if ($cityName === "Isle of Wight") {
-                                    $cityName = "Cowes  East Cowes  Newport  Ryde  Sandown  Shanklin";
-                                    $arrayofcityNames = explode("  ", $cityName);
+                                    $arrayofcityNames = array("Cowes", "East Cowes", "Newport", "Ryde", "Sandown", "Shanklin");
 
                                     foreach ($arrayofcityNames as $cityName) {
                                         $provider = $this->load($cityName, self::COUNTRY_NAME);
