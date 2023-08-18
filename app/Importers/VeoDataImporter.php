@@ -12,6 +12,18 @@ class VeoDataImporter extends DataImporter
     private const COUNTRY_NAME = "United States";
 
     protected Crawler $sections;
+    private $usaStates = [
+        "Alabama", "Alaska", "Arizona", "Arkansas", "California",
+        "Colorado", "Connecticut", "Delaware", "Florida", "Georgia",
+        "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas",
+        "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts",
+        "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana",
+        "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico",
+        "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma",
+        "Oregon", "Pennsylvania", "Rhode Island", "South Carolina",
+        "South Dakota", "Tennessee", "Texas", "Utah", "Vermont",
+        "Virginia", "Washington, DC", "West Virginia", "Wisconsin", "Wyoming",
+    ];
 
     public function extract(): static
     {
@@ -48,26 +60,14 @@ class VeoDataImporter extends DataImporter
         foreach ($this->sections as $section) {
             if ($section->nodeName === "div") {
                 foreach ($section->childNodes as $city) {
-                    $usaStates = [
-                        "Alabama", "Alaska", "Arizona", "Arkansas", "California",
-                        "Colorado", "Connecticut", "Delaware", "Florida", "Georgia",
-                        "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas",
-                        "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts",
-                        "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana",
-                        "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico",
-                        "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma",
-                        "Oregon", "Pennsylvania", "Rhode Island", "South Carolina",
-                        "South Dakota", "Tennessee", "Texas", "Utah", "Vermont",
-                        "Virginia", "Washington, DC", "West Virginia", "Wisconsin", "Wyoming",
-                    ];
                     $cityName = str_replace("\t", "", $city->nodeValue);
                     $cityName = str_replace("\n", " ", $cityName);
                     $cityName = str_replace("\u{200B}", "", $cityName);
                     $cityName = preg_replace('/\s{2,}/', "  ", $cityName);
                     $arrayOfCitiesNames = explode("  ", $cityName);
-                    $arrayOfCitiesNames = array_filter($arrayOfCitiesNames, fn($value) => (stripos($value, "University") === false) && (stripos($value, "College") === false));
+                    $arrayOfCitiesNames = array_filter($arrayOfCitiesNames, fn($value): bool => (stripos($value, "University") === false) && (stripos($value, "College") === false));
                     $arrayOfCitiesNames = array_filter($arrayOfCitiesNames);
-                    $arrayOfCitiesNames = array_diff($arrayOfCitiesNames, $usaStates);
+                    $arrayOfCitiesNames = array_diff($arrayOfCitiesNames, $this->usaStates);
 
                     foreach ($arrayOfCitiesNames as $cityName) {
                         $cityName = trim($cityName);
