@@ -10,8 +10,11 @@ import { debounce } from 'lodash/function'
 import Pagination from '@/Shared/Components/Pagination.vue'
 import PaginationInfo from '@/Shared/Components/PaginationInfo.vue'
 import PrimarySaveButton from '@/Shared/Components/PrimarySaveButton.vue'
+import { useToast } from 'vue-toastification'
+import { __ } from '@/translate'
 
 const page = usePage()
+const toast = useToast()
 
 const props = defineProps({
   cities: Object,
@@ -29,9 +32,11 @@ function storeCity() {
     onSuccess: () => {
       storeCityForm.reset()
       toggleStoreDialog()
+      toast.success(__('City created successfully.'))
     },
     onError: (errors) => {
       storeErrors.value = errors
+      toast.error(__('There was an error creating the city!'))
     },
   })
 }
@@ -54,7 +59,7 @@ function toggleStoreDialog() {
 function preventCommaInput(event) {
   if (event.key === ',') {
     event.preventDefault()
-    commaInputError.value = 'Use \'.\' instead of \',\''
+    commaInputError.value = __('Use `.` instead of `,`')
   }
 }
 

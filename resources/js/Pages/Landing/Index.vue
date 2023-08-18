@@ -9,6 +9,7 @@ import { XMarkIcon, MapIcon } from '@heroicons/vue/24/outline'
 import { usePage } from '@inertiajs/vue3'
 import axios from 'axios'
 import SearchPanelSkeleton from '@/Shared/Layout/SearchPanelSkeleton.vue'
+import { __ } from '@/translate'
 
 import { useFilterStore } from '@/Shared/Stores/FilterStore'
 const filterStore = useFilterStore()
@@ -90,7 +91,7 @@ const buttonIcon = computed(() => {
             />
           </svg>
           <p class="mt-4 text-xs font-medium text-gray-400">
-            {{ __('Filling map with providers') }}
+            {{ __('Filling map with providers.') }}
           </p>
         </div>
       </div>

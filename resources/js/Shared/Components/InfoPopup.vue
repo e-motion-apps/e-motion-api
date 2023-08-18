@@ -1,15 +1,17 @@
 <script setup>
-import { ref } from 'vue'
 import { HeartIcon as OutlineHeartIcon } from '@heroicons/vue/24/outline'
+import { useToast } from 'vue-toastification'
+import { __ } from '@/translate'
 
-const showDescription = ref(false)
+const showToast = () => {
+  const toast = useToast()
+  toast.info(__('Login to add to favorites.'))
+}
+
 </script>
 
 <template>
-  <div @mouseover="showDescription = true" @mouseout="showDescription = false">
-    <span><OutlineHeartIcon class="h-6 w-6 text-gray-500" /></span>
-    <div v-if="showDescription" class="absolute right-1 z-50 rounded-lg border border-gray-300 bg-white p-2 text-sm shadow-md sm:right-auto">
-      {{ __('Login to add to favorites') }}
-    </div>
-  </div>
+  <span @click="showToast">
+    <OutlineHeartIcon class="h-6 w-6 text-gray-500" />
+  </span>
 </template>
