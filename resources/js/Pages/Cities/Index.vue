@@ -11,7 +11,7 @@ import Pagination from '@/Shared/Components/Pagination.vue'
 import PaginationInfo from '@/Shared/Components/PaginationInfo.vue'
 import PrimarySaveButton from '@/Shared/Components/PrimarySaveButton.vue'
 import { useToast } from 'vue-toastification'
-import { __ } from '../../translate'
+import { __ } from '@/translate'
 
 const page = usePage()
 const toast = useToast()

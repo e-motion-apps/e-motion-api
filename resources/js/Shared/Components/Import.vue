@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue'
 import { ChevronDownIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 import { onClickOutside } from '@vueuse/core'
-import { __ } from '../../translate'
+import { __ } from '@/translate'
 
 const options = { hour: 'numeric', minute: 'numeric', second: 'numeric' }
 

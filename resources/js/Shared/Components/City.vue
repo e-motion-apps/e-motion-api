@@ -6,7 +6,7 @@ import ErrorMessage from '@/Shared/Components/ErrorMessage.vue'
 import { onClickOutside } from '@vueuse/core'
 import SecondarySaveButton from '@/Shared/Components/SecondarySaveButton.vue'
 import { useToast } from 'vue-toastification'
-import { __ } from '../../translate'
+import { __ } from '@/translate'
 
 const toast = useToast()
 const props = defineProps({

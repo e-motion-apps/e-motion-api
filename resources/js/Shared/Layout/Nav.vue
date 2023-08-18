@@ -7,7 +7,7 @@ import { onClickOutside } from '@vueuse/core'
 import { useForm } from '@inertiajs/vue3'
 import LanguageSwitch from '@/Shared/Components/LanguageSwitch.vue'
 import ErrorMessage from '@/Shared/Components/ErrorMessage.vue'
-import { __ } from '../../translate'
+import { __ } from '@/translate'
 
 const page = usePage()
 const isAuth = computed(() => page.props.auth.isAuth)

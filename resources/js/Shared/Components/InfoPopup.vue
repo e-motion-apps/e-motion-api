@@ -1,7 +1,7 @@
 <script setup>
 import { HeartIcon as OutlineHeartIcon } from '@heroicons/vue/24/outline'
 import { useToast } from 'vue-toastification'
-import { __ } from '../../translate'
+import { __ } from '@/translate'
 
 const showToast = () => {
   const toast = useToast()
