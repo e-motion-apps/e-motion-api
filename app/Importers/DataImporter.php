@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Importers;
 
 use App\Models\City;
+use App\Models\CityAlternativeName;
 use App\Models\CityProvider;
 use App\Models\CityWithoutAssignedCountry;
 use App\Models\Country;
@@ -109,19 +110,24 @@ abstract class DataImporter
 
     protected function load(string $cityName, string $countryName, string $lat = "", string $long = ""): string
     {
-        $cityName = $this->translate($cityName, self::language);
-        $countryName = $this->translate($countryName, self::language);
-
         $country = Country::query()->where("name", $countryName)->orWhere("alternative_name", $countryName)->first();
 
         if ($country) {
             $city = City::query()->where("name", $cityName)->where("country_id", $country->id)->first();
+            $alternativeCityName = CityAlternativeName::query()->where("name", $cityName)->first();
 
             if ($city) {
                 $cityId = $city->id;
                 $this->createProvider($cityId, self::getProviderName());
 
                 return strval($cityId);
+            } elseif ($alternativeCityName) {
+                $cityId = $alternativeCityName->city_id;
+                $city = City::query()->where("id", $cityId)->first();
+
+                if ($city->country_id === $country->id){
+                    $this->createProvider($cityId, self::getProviderName());
+                }
             }
 
             $coordinates = $this->mapboxService->getCoordinatesFromApi($cityName, $countryName);
@@ -141,7 +147,7 @@ abstract class DataImporter
             $this->createProvider($city->id, self::getProviderName());
 
             return strval($city->id);
-        }  
+        }
         $this->countryNotFound($cityName, $countryName);
         $this->createImportInfoDetails("420", self::getProviderName());
 
