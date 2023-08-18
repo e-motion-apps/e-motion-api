@@ -73,27 +73,25 @@ class BerylDataImporter extends DataImporter
                                         $existingCityProviders[] = $provider;
                                     }
                                 }
-                            } else {
-                                if ($cityName === "West Midlands") {
-                                    $cityName = "Birmingham";
-                                }
+                            } elseif ($cityName === "West Midlands") {
+                                $cityName = "Birmingham";
+                            }
 
-                                if ($cityName === "Isle of Wight") {
-                                    $arrayOfCityNames = ["Cowes", "East Cowes", "Newport", "Ryde", "Sandown", "Shanklin"];
+                            if ($cityName === "Isle of Wight") {
+                                $arrayOfCityNames = ["Cowes", "East Cowes", "Newport", "Ryde", "Sandown", "Shanklin"];
 
-                                    foreach ($arrayOfCityNames as $cityName) {
-                                        $provider = $this->load($cityName, self::COUNTRY_NAME);
+                                foreach ($arrayOfCityNames as $cityName) {
+                                    $provider = $this->load($cityName, self::COUNTRY_NAME);
 
-                                        if ($provider !== "") {
-                                            $existingCityProviders[] = $provider;
-                                        }
+                                    if ($provider !== "") {
+                                        $existingCityProviders[] = $provider;
                                     }
                                 }
-                                $provider = $this->load($cityName, self::COUNTRY_NAME);
+                            }
+                            $provider = $this->load($cityName, self::COUNTRY_NAME);
 
-                                if ($provider !== "") {
-                                    $existingCityProviders[] = $provider;
-                                }
+                            if ($provider !== "") {
+                                $existingCityProviders[] = $provider;
                             }
                         }
                     }
