@@ -41,7 +41,7 @@ class SortQuery extends Builder
             return $this->select("cities.*")
                 ->leftJoin("city_providers", "cities.id", "=", "city_providers.city_id")
                 ->groupBy("cities.id")
-                ->orderByRaw("COUNT(city_providers.provider_id) DESC")
+                ->orderByRaw("COUNT(city_providers.provider_name) DESC")
                 ->orderBy("cities.name");
         }
 
