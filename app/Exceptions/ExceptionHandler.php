@@ -25,7 +25,7 @@ class ExceptionHandler extends Handler
             return back()->withErrors($exception->errors());
         }
 
-        $response = parent::render($request, $e);
+        $response = parent::render($request, $exception);
         $statusCode = $response->status();
 
         app()->setLocale("en");
