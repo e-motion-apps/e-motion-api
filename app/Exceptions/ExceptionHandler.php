@@ -19,10 +19,10 @@ class ExceptionHandler extends Handler
         "password_confirmation",
     ];
 
-    public function render($request, Throwable $e)
+    public function render($request, Throwable $exception)
     {
-        if ($e instanceof ValidationException) {
-            return back()->withErrors($e->errors());
+        if ($exception instanceof ValidationException) {
+            return back()->withErrors($exception->errors());
         }
 
         $response = parent::render($request, $e);
