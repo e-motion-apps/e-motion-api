@@ -16,7 +16,7 @@ class WindDataImporter extends DataImporter
     public function extract(): static
     {
         try {
-            $response = $this->client->get("https://wind.yango.com/official-website/#/rider?lang=global");
+            $response = $this->client->get("https://wind.yango.com/official-website/#/rider?lang=gb");
             $html = $response->getBody()->getContents();
         } catch (GuzzleException) {
             $this->createImportInfoDetails("400", self::getProviderName());
@@ -28,9 +28,7 @@ class WindDataImporter extends DataImporter
 
         $crawler = new Crawler($html);
         $this->sections = $crawler->filter("body");
-
         if (count($this->sections) === 0) {
-            dump(123);
             $this->createImportInfoDetails("204", self::getProviderName());
             $this->stopExecution = true;
         }
@@ -47,11 +45,11 @@ class WindDataImporter extends DataImporter
         $existingCityProviders = [];
 
         foreach ($this->sections as $section) {
+            dump($section->nodeValue);
             foreach ($section->childNodes as $node) {
                 if ($node->nodeName === "div") {
-                    dump($node->nodeValue);
                     foreach ($node->childNodes as $city) {
-                        dump($city->nodeName);
+                        
                     }
                 }
             }
