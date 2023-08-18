@@ -16,17 +16,13 @@ use Stichoza\GoogleTranslate\GoogleTranslate;
 
 abstract class DataImporter
 {
-    public const language = "en";
-
     protected bool $stopExecution = false;
     protected int $importInfoId;
-    protected GoogleTranslate $translate;
 
     public function __construct(
         protected Client $client,
         protected MapboxGeocodingService $mapboxService,
     ) {
-        $this->translate = new GoogleTranslate();
     }
 
     public function setImportInfo(int $importInfoId): static
@@ -34,11 +30,6 @@ abstract class DataImporter
         $this->importInfoId = $importInfoId;
 
         return $this;
-    }
-
-    public function translate(string $word, $language): string
-    {
-        return $this->translate->setTarget($language)->translate($word);
     }
 
     abstract public function extract(): static;
