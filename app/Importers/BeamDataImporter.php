@@ -37,6 +37,8 @@ class BeamDataImporter extends DataImporter
 
     public function transform(): void
     {
+        $url = "https://uploads-ssl.webflow.com/63c4acbedbab5dea8b1b98cd/63d8a5b60da91e7d71298637_map-vehicle-saturn.png";
+
         if ($this->stopExecution) {
             return;
         }
@@ -53,9 +55,9 @@ class BeamDataImporter extends DataImporter
                     foreach ($node->childNodes as $div) {
                         if ($div->nodeName === "div") {
                             foreach ($div->childNodes as $city) {
-                                if ($city->nodeName === "img" && $city->getAttribute("src") === "https://uploads-ssl.webflow.com/63c4acbedbab5dea8b1b98cd/63d8a5b60da91e7d71298637_map-vehicle-saturn.png") {
+                                if ($city->nodeName === "img" && $city->getAttribute("src") === $url) {
                                     $hasEscooters = true;
-                                } elseif ($city->nodeName === "img" && $city->getAttribute("src") !== "https://uploads-ssl.webflow.com/63c4acbedbab5dea8b1b98cd/63d8a5b60da91e7d71298637_map-vehicle-saturn.png") {
+                                } elseif ($city->nodeName === "img" && $city->getAttribute("src") !== $url) {
                                     $hasEscooters = false;
                                 }
 
