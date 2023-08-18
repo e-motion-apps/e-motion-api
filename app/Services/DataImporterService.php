@@ -16,6 +16,7 @@ use App\Jobs\RydeDataImporterJob;
 use App\Jobs\SpinDataImporterJob;
 use App\Jobs\TierDataImporterJob;
 use App\Jobs\UrentDataImporterJob;
+use App\Jobs\VeoDataImporterJob;
 use App\Jobs\VoiDataImporterJob;
 use App\Jobs\ZwingsDataImporterJob;
 use App\Models\ImportInfo;
@@ -48,6 +49,7 @@ class DataImporterService
             new TierDataImporterJob($this->importInfoId),
             new UrentDataImporterJob($this->importInfoId),
             new VoiDataImporterJob($this->importInfoId),
+            new VeoDataImporterJob($this->importInfoId),
             new ZwingsDataImporterJob($this->importInfoId),
         ])->finally(function (): void {
             ImportInfo::query()->where("id", $this->importInfoId)->update([
