@@ -12,7 +12,7 @@ class VeoDataImporter extends DataImporter
     private const COUNTRY_NAME = "United States";
 
     protected Crawler $sections;
-    private $usaStates = [
+    private array $usaStates = [
         "Alabama", "Alaska", "Arizona", "Arkansas", "California",
         "Colorado", "Connecticut", "Delaware", "Florida", "Georgia",
         "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas",
@@ -65,7 +65,7 @@ class VeoDataImporter extends DataImporter
                     $cityName = str_replace("\u{200B}", "", $cityName);
                     $cityName = preg_replace('/\s{2,}/', "  ", $cityName);
                     $arrayOfCitiesNames = explode("  ", $cityName);
-                    $arrayOfCitiesNames = array_filter($arrayOfCitiesNames, fn($value): bool => (stripos($value, "University") === false) && (stripos($value, "College") === false));
+                    $arrayOfCitiesNames = array_filter($arrayOfCitiesNames, fn(string $value): bool => (stripos($value, "University") === false) && (stripos($value, "College") === false));
                     $arrayOfCitiesNames = array_filter($arrayOfCitiesNames);
                     $arrayOfCitiesNames = array_diff($arrayOfCitiesNames, $this->usaStates);
 
