@@ -35,17 +35,18 @@ createInertiaApp({
         closeButton: 'button',
         icon: true,
         rtl: false,
-        transition: "Vue-Toastification__bounce",
+        transition: 'Vue-Toastification__bounce',
         maxToasts: 3,
         newestOnTop: true,
         filterBeforeCreate: (toast, toasts) => {
           if (toasts.filter(
-            t => t.type === toast.type
+            t => t.type === toast.type,
           ).length !== 0) {
-            return false;
+            return false
           }
-          return toast;
-        }
+
+          return toast
+        },
       })
       .component('InertiaLink', Link)
       .component('InertiaHead', Head)
