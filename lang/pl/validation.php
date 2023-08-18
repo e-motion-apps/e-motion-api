@@ -82,7 +82,7 @@ return [
         "array" => "Pole :attribute musi mieć przynajmniej :min elementów.",
         "file" => "Pole :attribute musi mieć przynajmniej :min kilobajtów.",
         "numeric" => "Pole :attribute musi być nie mniejsze od :min.",
-        "string" => "Pole :attribute musi mieć przynajmniej :min znaki.",
+        "string" => "Pole :attribute musi mieć przynajmniej :min znaków.",
     ],
     "multiple_of" => "Pole :attribute musi być wielokrotnością wartości :value",
     "not_in" => "Zaznaczony :attribute jest nieprawidłowy.",
