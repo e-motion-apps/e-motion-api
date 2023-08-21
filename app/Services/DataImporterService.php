@@ -16,6 +16,7 @@ use App\Jobs\NeuronDataImporterJob;
 use App\Jobs\QuickDataImporterJob;
 use App\Jobs\RydeDataImporterJob;
 use App\Jobs\SpinDataImporterJob;
+use App\Jobs\TierDataImporterJob;
 use App\Jobs\UrentDataImporterJob;
 use App\Jobs\VoiDataImporterJob;
 use App\Jobs\ZwingsDataImporterJob;
@@ -48,6 +49,7 @@ class DataImporterService
             new QuickDataImporterJob($this->importInfoId),
             new RydeDataImporterJob($this->importInfoId),
             new SpinDataImporterJob($this->importInfoId),
+            new TierDataImporterJob($this->importInfoId),
             new UrentDataImporterJob($this->importInfoId),
             new VoiDataImporterJob($this->importInfoId),
             new ZwingsDataImporterJob($this->importInfoId),

@@ -2,6 +2,8 @@ import { createInertiaApp, Head, Link } from '@inertiajs/vue3'
 import { createApp, h } from 'vue'
 import '../css/app.css'
 import { createPinia } from 'pinia'
+import Toast from 'vue-toastification'
+import 'vue-toastification/dist/index.css'
 
 const pinia = createPinia()
 
@@ -20,19 +22,30 @@ createInertiaApp({
     return createApp({ render: () => h(App, props) })
       .use(plugin)
       .use(pinia)
-      .mixin({
-        methods: {
-          __(key, replace = {}) {
-            let translation = this.$page.props.language[key]
-              ? this.$page.props.language[key]
-              : key
+      .use(Toast, {
+        position: 'top-right',
+        timeout: 5000,
+        closeOnClick: true,
+        pauseOnFocusLoss: false,
+        pauseOnHover: true,
+        draggable: true,
+        draggablePercent: 0.6,
+        showCloseButtonOnHover: false,
+        hideProgressBar: true,
+        closeButton: 'button',
+        icon: true,
+        rtl: false,
+        transition: 'Vue-Toastification__bounce',
+        maxToasts: 3,
+        newestOnTop: true,
+        filterBeforeCreate: (toast, toasts) => {
+          if (toasts.filter(
+            t => t.type === toast.type,
+          ).length !== 0) {
+            return false
+          }
 
-            Object.keys(replace).forEach(function (key) {
-              translation = translation.replace(':' + key, replace[key])
-            })
-
-            return translation
-          },
+          return toast
         },
       })
       .component('InertiaLink', Link)

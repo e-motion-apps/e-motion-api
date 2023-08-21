@@ -20,10 +20,10 @@ class FavoritesController extends Controller
         );
 
         if ($favorite->wasRecentlyCreated) {
-            $session->flash("message", "City added to favorites!");
+            $session->flash("message", "City added to favorites.");
         } else {
             $favorite->delete();
-            $session->flash("message", "City removed from favorites!");
+            $session->flash("message", "City removed from favorites.");
         }
     }
 
