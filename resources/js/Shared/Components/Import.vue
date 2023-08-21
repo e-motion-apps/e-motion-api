@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue'
 import { ChevronDownIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 import { onClickOutside } from '@vueuse/core'
+import { __ } from '@/translate'
 
 const options = { hour: 'numeric', minute: 'numeric', second: 'numeric' }
 
@@ -56,7 +57,7 @@ function toggleImportDialog() {
           <div class="h-1.5 w-1.5 rounded-full bg-current" />
         </div>
         <div class="text-xs font-medium">
-          {{ status }}
+          {{ __(status) }}
         </div>
       </div>
     </td>
@@ -68,7 +69,7 @@ function toggleImportDialog() {
           <div class="h-1.5 w-1.5 rounded-full bg-current" />
         </div>
         <div class="text-xs font-medium capitalize">
-          {{ info.status }}
+          {{ __(info.status) }}
         </div>
       </div>
     </td>
@@ -115,10 +116,10 @@ function toggleImportDialog() {
               <div v-for="code in codes" :key="code.number">
                 <div v-if="detail.code === code.number" class="mt-1 text-sm text-gray-800">
                   <p class="font-normal">
-                    {{ code.description }}
+                    {{ __(code.description) }}
                   </p>
                   <InertiaLink v-if="detail.code === 419" href="/admin/cities?order=empty-coordinates" class="font-medium">
-                    Check list of cities with no coordinates.
+                    {{ __('Check list of cities with no coordinates.') }}
                   </InertiaLink>
                 </div>
               </div>

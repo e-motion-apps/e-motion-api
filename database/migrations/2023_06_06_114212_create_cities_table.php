@@ -17,7 +17,7 @@ return new class() extends Migration {
                 ->on("countries")
                 ->onDelete("cascade");
 
-            $table->string("name")->unique();
+            $table->string("name");
             $table->string("latitude")->nullable();
             $table->string("longitude")->nullable();
             $table->timestamps();
