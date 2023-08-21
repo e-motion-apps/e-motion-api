@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Jobs\BeamDataImporterJob;
 use App\Jobs\BerylDataImporterJob;
 use App\Jobs\BirdDataImporterJob;
 use App\Jobs\BitMobilityDataImporterJob;
@@ -36,6 +37,7 @@ class DataImporterService
         $this->importInfoId = $importInfo->id;
 
         Bus::batch([
+            new BeamDataImporterJob($this->importInfoId),
             new BirdDataImporterJob($this->importInfoId),
             new BitMobilityDataImporterJob($this->importInfoId),
             new BoltDataImporterJob($this->importInfoId),
