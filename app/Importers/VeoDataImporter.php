@@ -60,9 +60,8 @@ class VeoDataImporter extends DataImporter
         foreach ($this->sections as $section) {
             if ($section->nodeName === "div") {
                 foreach ($section->childNodes as $city) {
-                    $cityName = str_replace("\t", "", $city->nodeValue);
+                    $cityName = str_replace(["\t", "\u{200B}"], "", $city->nodeValue);
                     $cityName = str_replace("\n", " ", $cityName);
-                    $cityName = str_replace("\u{200B}", "", $cityName);
                     $cityName = preg_replace('/\s{2,}/', "  ", $cityName);
                     $arrayOfCitiesNames = explode("  ", $cityName);
                     $arrayOfCitiesNames = array_filter($arrayOfCitiesNames, fn(string $value): bool => (stripos($value, "University") === false) && (stripos($value, "College") === false));
