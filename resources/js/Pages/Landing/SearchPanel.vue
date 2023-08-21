@@ -5,6 +5,7 @@ import { usePage } from '@inertiajs/vue3'
 import { TrashIcon } from '@heroicons/vue/24/outline'
 import FavoriteButton from '@/Shared/Components/FavoriteButton.vue'
 import InfoPopup from '@/Shared/Components/InfoPopup.vue'
+import { __ } from '@/translate'
 
 const filterStore = useFilterStore()
 
@@ -200,7 +201,7 @@ function showCity(city) {
       </li>
     </ul>
     <p v-else class="mt-8 flex justify-center font-medium text-gray-800">
-      {{ __('Didn`t find any providers') }}
+      {{ __('Didn`t find any providers.') }}
     </p>
   </div>
 </template>

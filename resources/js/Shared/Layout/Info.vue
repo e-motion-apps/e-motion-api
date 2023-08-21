@@ -2,6 +2,7 @@
 import PrimaryButton from '@/Shared/Components/PrimaryButton.vue'
 import SecondaryButton from '@/Shared/Components/SecondaryButton.vue'
 import Footer from './Footer.vue'
+import { __ } from '@/translate'
 
 const emit = defineEmits(['try-it-out', 'create-account'])
 </script>

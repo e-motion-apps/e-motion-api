@@ -10,8 +10,11 @@ import { debounce } from 'lodash/function'
 import Pagination from '@/Shared/Components/Pagination.vue'
 import PaginationInfo from '@/Shared/Components/PaginationInfo.vue'
 import PrimarySaveButton from '@/Shared/Components/PrimarySaveButton.vue'
+import { useToast } from 'vue-toastification'
+import { __ } from '@/translate'
 
 const page = usePage()
+const toast = useToast()
 
 function storeCountry() {
   storeCountryForm.post('/admin/countries/', {
@@ -19,6 +22,10 @@ function storeCountry() {
       storeCountryForm.reset()
       toggleStoreDialog()
       commaInputError.value = ''
+      toast.success(__('Country created successfully.'))
+    },
+    onError: () => {
+      toast.error(__('There was an error creating the country!'))
     },
   })
 }
@@ -36,7 +43,7 @@ const commaInputError = ref('')
 function preventCommaInput(event) {
   if (event.key === ',') {
     event.preventDefault()
-    commaInputError.value = 'Use \'.\' instead of \',\''
+    commaInputError.value = __('Use `.` instead of `,`')
   }
 }
 
