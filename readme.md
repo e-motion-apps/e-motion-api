@@ -1,22 +1,25 @@
 ## 🛴 escooters
 ### Available providers
 
+1. Beam
+1. Beryl
 1. BinBin
-2. Bird  
-3. BitMobility
-4. Bolt
-5. Dott
-6. Hulaj
-7. Lime
-8. Link
-9. Neuron
-10. Quick
-11. Ryde
-12. Spin
-13. Tier
-13. Urent
-14. Voi
-15. Zwings
+1. Bird
+1. BitMobility
+1. Bolt
+1. Dott
+1. Hulaj
+1. Lime
+1. Link
+1. Neuron
+1. Quick
+1. Ryde
+1. Spin
+1. Tier
+1. Urent
+1. Veo
+1. Voi
+1. Zwings
 
 ### Local development
 ```
