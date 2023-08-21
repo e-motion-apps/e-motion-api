@@ -10,6 +10,7 @@ use App\Importers\BirdDataImporter;
 use App\Importers\BitMobilityDataImporter;
 use App\Importers\BoltDataImporter;
 use App\Importers\DottDataImporter;
+use App\Importers\HelbizDataImporter;
 use App\Importers\HulajDataImporter;
 use App\Importers\LimeDataImporter;
 use App\Importers\NeuronDataImporter;
@@ -35,6 +36,7 @@ class ProviderSeeder extends Seeder
             ["name" => BitMobilityDataImporter::getProviderName(), "color" => "#8da6e3"],
             ["name" => BoltDataImporter::getProviderName(), "color" => "#24f0a0"],
             ["name" => DottDataImporter::getProviderName(), "color" => "#f5c604"],
+            ["name" => HelbizDataImporter::getProviderName(), "color" => "#f5c604"],
             ["name" => HulajDataImporter::getProviderName(), "color" => "#d6213f"],
             ["name" => LimeDataImporter::getProviderName(), "color" => "#00de00"],
             ["name" => NeuronDataImporter::getProviderName(), "color" => "#445261"],
