@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Jobs\BerylDataImporterJob;
 use App\Jobs\BinBinDataImporterJob;
 use App\Jobs\BirdDataImporterJob;
 use App\Jobs\BitMobilityDataImporterJob;
@@ -53,6 +54,7 @@ class DataImporterService
             new UrentDataImporterJob($this->importInfoId),
             new VoiDataImporterJob($this->importInfoId),
             new ZwingsDataImporterJob($this->importInfoId),
+            new BerylDataImporterJob($this->importInfoId),
         ])->finally(function (): void {
             ImportInfo::query()->where("id", $this->importInfoId)->update([
                 "status" => "finished",

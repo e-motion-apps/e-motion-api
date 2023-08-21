@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Importers\BerylDataImporter;
 use App\Importers\BinBinDataImporter;
 use App\Importers\BirdDataImporter;
 use App\Importers\BitMobilityDataImporter;
@@ -28,6 +29,7 @@ class ProviderSeeder extends Seeder
     public function run(): void
     {
         $providers = [
+            ["name" => BerylDataImporter::getProviderName(), "color" => "#00e3c2"],
             ["name" => BinBinDataImporter::getProviderName(), "color" => "#3dbcc8"],
             ["name" => BirdDataImporter::getProviderName(), "color" => "#26ccf0"],
             ["name" => BitMobilityDataImporter::getProviderName(), "color" => "#8da6e3"],
