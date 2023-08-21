@@ -108,26 +108,32 @@ abstract class DataImporter
 
     protected function load(string $cityName, string $countryName, string $lat = "", string $long = ""): string
     {
-        $city = City::query()->where("name", $cityName)->first();
-        $alternativeCityName = CityAlternativeName::query()->where("name", $cityName)->first();
-
-        if ($city || $alternativeCityName) {
-            $cityId = $city ? $city->id : $alternativeCityName->city_id;
-
-            $this->createProvider($cityId, self::getProviderName());
-
-            return strval($cityId);
-        }
         $country = Country::query()->where("name", $countryName)->orWhere("alternative_name", $countryName)->first();
 
         if ($country) {
+            $city = City::query()->where("name", $cityName)->where("country_id", $country->id)->first();
+            $alternativeCityName = CityAlternativeName::query()->where("name", $cityName)->first();
+
+            if ($city) {
+                $cityId = $city->id;
+                $this->createProvider($cityId, self::getProviderName());
+
+                return strval($cityId);
+            } elseif ($alternativeCityName) {
+                $cityId = $alternativeCityName->city_id;
+                $city = City::query()->where("id", $cityId)->first();
+
+                if ($city->country_id === $country->id){
+                    $this->createProvider($cityId, self::getProviderName());
+                }
+            }
+
             $coordinates = $this->mapboxService->getCoordinatesFromApi($cityName, $countryName);
             $countCoordinates = count($coordinates);
 
             if (!$countCoordinates) {
                 $this->createImportInfoDetails("419", self::getProviderName());
             }
-
             $city = City::query()->create([
                 "name" => $cityName,
                 "latitude" => ($countCoordinates > 0) ? $coordinates[0] : null,

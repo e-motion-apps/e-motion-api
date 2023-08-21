@@ -5,7 +5,10 @@ import { PencilIcon, TrashIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 import ErrorMessage from '@/Shared/Components/ErrorMessage.vue'
 import { onClickOutside } from '@vueuse/core'
 import SecondarySaveButton from '@/Shared/Components/SecondarySaveButton.vue'
+import { useToast } from 'vue-toastification'
+import { __ } from '@/translate'
 
+const toast = useToast()
 const props = defineProps({
   city: Object,
   providers: Object,
@@ -13,12 +16,14 @@ const props = defineProps({
 
 function destroyCity(cityId) {
   router.delete(`/admin/cities/${cityId}`)
+  toast.success(__('City deleted successfully.'))
 }
 
 function updateCity(cityId) {
   updateCityForm.patch(`/admin/cities/${cityId}`, {
     onSuccess: () => {
       toggleEditDialog()
+      toast.success(__('City updated successfully.'))
     },
   })
 }
@@ -39,9 +44,11 @@ function storeAlternativeCityName(cityId) {
     onSuccess: () => {
       storeCityAlternativeNameForm.name = ''
       storeAlternativeCityNameErrors.value = []
+      toast.success(__('Alternative city name added successfully.'))
     },
     onError: (errors) => {
       storeAlternativeCityNameErrors.value = errors
+      toast.error(__('There was an error adding alternative city name.'))
     },
   })
 }
@@ -52,6 +59,7 @@ const storeCityAlternativeNameForm = reactive({
 
 function destroyAlternativeCityName(alternativeCityNameId) {
   router.delete(`/city-alternative-name/${alternativeCityNameId}`, { replace: true })
+  toast.success(__('Alternative city name deleted successfully.'))
 }
 
 const commaInputError = ref('')
@@ -59,7 +67,7 @@ const commaInputError = ref('')
 function preventCommaInput(event) {
   if (event.key === ',') {
     event.preventDefault()
-    commaInputError.value = 'Use \'.\' instead of \',\''
+    commaInputError.value = __('Use `.` instead of `,`')
   }
 }
 
@@ -98,6 +106,7 @@ function updateCityProviders(cityId) {
   }, {
     onSuccess: () => {
       toggleEditDialog()
+      toast.success(__('City providers updated successfully.'))
     },
   })
 }
@@ -270,7 +279,7 @@ function toggleProvidersForm() {
               @submit.prevent="storeAlternativeCityName(city.id)"
         >
           <div class="flex flex-col text-xs">
-            <label class="mb-1 mt-4 text-xs font-bold text-gray-600">Alternative name</label>
+            <label class="mb-1 mt-4 text-xs font-bold text-gray-600">{{ __('Alternative name') }}</label>
             <input v-model="storeCityAlternativeNameForm.name" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3"
                    type="text" required
             >
