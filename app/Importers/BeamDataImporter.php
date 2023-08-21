@@ -62,10 +62,9 @@ class BeamDataImporter extends DataImporter
                                 }
 
                                 if ($city->nodeName === "p" && $hasEscooters === true) {
-                                    $search = ["\u{00A0}", "\u{200D}"];
+                                    $search = ["\u{00A0}", "\u{200D}", "Prefecture"];
                                     $valueToDelete = "Selangor";
-                                    $cityName = str_replace("Prefecture", "", $city->nodeValue);
-                                    $cityName = preg_replace('/[\p{Hiragana}\p{Katakana}\p{Han}]+/u', "", $cityName);
+                                    $cityName = preg_replace('/[\p{Hiragana}\p{Katakana}\p{Han}]+/u', "", $city->nodeValue);
                                     $cityName = str_replace($search, "", $cityName);
                                     $cityName = preg_replace('/(?<=[^\s_\-])(?=[A-Z])/', "  ", $city->nodeValue);
                                     $arrayOfCitiesNames = explode("  ", $cityName);
