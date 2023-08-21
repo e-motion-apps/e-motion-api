@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Importers\BeamDataImporter;
 use App\Importers\BerylDataImporter;
 use App\Importers\BinBinDataImporter;
 use App\Importers\BirdDataImporter;
@@ -19,6 +20,7 @@ use App\Importers\RydeDataImporter;
 use App\Importers\SpinDataImporter;
 use App\Importers\TierDataImporter;
 use App\Importers\UrentDataImporter;
+use App\Importers\VeoDataImporter;
 use App\Importers\VoiDataImporter;
 use App\Importers\ZwingsDataImporter;
 use App\Models\Provider;
@@ -29,6 +31,7 @@ class ProviderSeeder extends Seeder
     public function run(): void
     {
         $providers = [
+            ["name" => BeamDataImporter::getProviderName(), "color" => "#7347ff"],
             ["name" => BerylDataImporter::getProviderName(), "color" => "#00e3c2"],
             ["name" => BinBinDataImporter::getProviderName(), "color" => "#3dbcc8"],
             ["name" => BirdDataImporter::getProviderName(), "color" => "#26ccf0"],
@@ -46,6 +49,7 @@ class ProviderSeeder extends Seeder
             ["name" => UrentDataImporter::getProviderName(), "color" => "#9400FF"],
             ["name" => ZwingsDataImporter::getProviderName(), "color" => "#abb8c3"],
             ["name" => RydeDataImporter::getProviderName(), "color" => "#4dcb1f"],
+            ["name" => VeoDataImporter::getProviderName(), "color" => "#000000"],
         ];
 
         foreach ($providers as $provider) {
