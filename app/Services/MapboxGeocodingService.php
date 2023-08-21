@@ -13,25 +13,27 @@ class MapboxGeocodingService
     protected string $city;
     protected string $country;
 
+    public function __construct(
+        protected Client $client,
+    ) {}
+
     /**
      * @throws MapboxGeocodingServiceException
      */
     public function getCoordinatesFromApi(string $cityName, string $countryName): array
     {
-        $client = new Client();
         $token = config("mapbox.token");
 
         try {
-            $response = $client->get(
+            $response = $this->client->get(
                 config("mapbox.api_url") . "/mapbox.places/$cityName,$countryName.json?access_token=$token&types=place",
             );
 
             $coordinates = json_decode($response->getBody()->getContents(), associative: true)["features"][0]["center"];
-
-            return [$coordinates[1], $coordinates[0]];
         } catch (Throwable $exception) {
-            throw new MapboxGeocodingServiceException(previous: $exception);
         }
+
+        return [$coordinates[1] ?? null, $coordinates[0] ?? null];
     }
 
     /**
@@ -39,11 +41,10 @@ class MapboxGeocodingService
      */
     public function getPlaceFromApi(string $lat, string $long): array
     {
-        $client = new Client();
         $token = config("mapbox.token");
 
         try {
-            $response = $client->get(
+            $response = $this->client->get(
                 config("mapbox.api_url") . "/mapbox.places/$long,$lat.json?access_token=$token",
             );
             $features = json_decode($response->getBody()->getContents(), associative: true)["features"];

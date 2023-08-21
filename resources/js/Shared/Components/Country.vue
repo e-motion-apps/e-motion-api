@@ -5,6 +5,10 @@ import { PencilIcon, TrashIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 import ErrorMessage from '@/Shared/Components/ErrorMessage.vue'
 import { onClickOutside } from '@vueuse/core'
 import SecondarySaveButton from '@/Shared/Components/SecondarySaveButton.vue'
+import { useToast } from 'vue-toastification'
+import { __ } from '@/translate'
+
+const toast = useToast()
 
 const props = defineProps({
   country: Object,
@@ -12,12 +16,14 @@ const props = defineProps({
 
 function destroyCountry(countryId) {
   router.delete(`/admin/countries/${countryId}`)
+  toast.success(__('Country deleted successfully'))
 }
 
 function updateCountry(countryId) {
   updateCountryForm.patch(`/admin/countries/${countryId}`, {
     onSuccess: () => {
       toggleEditDialog()
+      toast.success(__('Country updated successfully.'))
     },
   })
 }
@@ -35,7 +41,7 @@ const commaInputError = ref('')
 function preventCommaInput(event) {
   if (event.key === ',') {
     event.preventDefault()
-    commaInputError.value = 'Use \'.\' instead of \',\''
+    commaInputError.value = __('Use `.` instead of `,`')
   }
 }
 

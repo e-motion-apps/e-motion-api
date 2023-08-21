@@ -8,9 +8,8 @@ use App\Importers\LimeDataImporter;
 
 class LimeDataImporterJob extends DataImporterJob
 {
-    public function handle(): void
+    public function handle(LimeDataImporter $importer): void
     {
-        $importer = new LimeDataImporter($this->importInfoId);
-        $importer->extract()->transform();
+        $importer->setImportInfo($this->importInfoId)->extract()->transform();
     }
 }

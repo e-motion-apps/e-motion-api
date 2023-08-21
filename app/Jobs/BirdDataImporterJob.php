@@ -8,9 +8,8 @@ use App\Importers\BirdDataImporter;
 
 class BirdDataImporterJob extends DataImporterJob
 {
-    public function handle(): void
+    public function handle(BirdDataImporter $importer): void
     {
-        $importer = new BirdDataImporter($this->importInfoId);
-        $importer->extract()->transform();
+        $importer->setImportInfo($this->importInfoId)->extract()->transform();
     }
 }

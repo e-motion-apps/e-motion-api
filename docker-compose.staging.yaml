@@ -1,0 +1,75 @@
+version: "3.8"
+
+networks:
+    escooters-staging:
+        driver: bridge
+    traefik-proxy:
+        external: true
+
+volumes:
+    escooters-postgres-data:
+        name: escooters-postgres-data
+    escooters-redis-data:
+        name: escooters-redis-data
+
+services:
+    app:
+        build:
+            context: ./environment/staging/app
+            dockerfile: Dockerfile
+        labels:
+          - "traefik.enable=${TRAEFIK_ENABLED}"
+          - "traefik.http.routers.escooters.rule=Host(`${TRAEFIK_HOST}`)"
+          - "traefik.http.routers.escooters.entrypoints=websecure"
+          - "traefik.http.routers.escooters.tls=true"
+          - "traefik.http.routers.escooters.tls.certresolver=lets-encrypt-resolver"
+          - "traefik.http.routers.escooters.middlewares=response-gzip-compress@file"
+        container_name: escooters-app-staging
+        working_dir: /application
+        volumes:
+            - ./environment/staging/app/nginx.conf:/etc/nginx/nginx.conf:ro
+            - ./environment/staging/app/php.ini:/usr/local/etc/php/conf.d/zzz-overrides.ini:ro
+            - ./environment/staging/app/php-fpm.conf:/usr/local/etc/php-fpm.d/zzz-overrides.conf:ro
+            - ./environment/staging/app/supervisord.conf:/etc/supervisor/custom-supervisord.conf:ro
+            - .:/application
+        ports:
+            - ${DOCKER_APP_HOST_PORT:-3851}:80
+        networks:
+            - escooters-staging
+            - traefik-proxy
+        restart: unless-stopped
+        depends_on:
+            database:
+                condition: service_healthy
+
+    database:
+        image: postgres:15.2-alpine3.17
+        container_name: escooters-db-staging
+        environment:
+            - POSTGRES_USER=${DB_USERNAME}
+            - POSTGRES_PASSWORD=${DB_PASSWORD}
+            - POSTGRES_DB=${DB_DATABASE}
+            - PGDATA=/var/lib/postgresql/data
+        healthcheck:
+            test: [ "CMD-SHELL", "pg_isready --dbname ${DB_DATABASE} --username ${DB_USERNAME}"]
+            interval: 3s
+            timeout: 3s
+            retries: 5
+        ports:
+            - ${DOCKER_DATABASE_HOST_PORT:-3853}:5432
+        volumes:
+            - escooters-postgres-data:/var/lib/postgresql/data
+        networks:
+            - escooters-staging
+        restart: unless-stopped
+
+    redis:
+        image: redis:7.0.11-alpine3.17
+        container_name: escooters-redis-staging
+        ports:
+            - ${DOCKER_REDIS_HOST_PORT:-3852}:6379
+        volumes:
+            - escooters-redis-data:/data
+        networks:
+            - escooters-staging
+        restart: unless-stopped

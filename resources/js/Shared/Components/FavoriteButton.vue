@@ -2,8 +2,10 @@
 import { ref, onMounted } from 'vue'
 import { router } from '@inertiajs/vue3'
 import axios from 'axios'
+import { useToast } from 'vue-toastification'
 import { HeartIcon as SolidHeartIcon } from '@heroicons/vue/24/solid'
 import { HeartIcon as OutlineHeartIcon } from '@heroicons/vue/24/outline'
+import { __ } from '@/translate'
 
 const props = defineProps({
   cityid: {
@@ -12,6 +14,7 @@ const props = defineProps({
   },
 })
 
+const toast = useToast()
 const result = ref(null)
 const url = `/favorites/${props.cityid}`
 const intersectionTarget = ref(null)
@@ -21,7 +24,7 @@ const fetchData = async () => {
     const response = await axios.get(url)
     result.value = response.data
   } catch (error) {
-    console.error(error)
+    toast.error(__('There was an error fetching data'))
   }
 }
 
@@ -33,10 +36,18 @@ const toggleFavorite = async () => {
 
     await router.post('/favorites', {
       city_id: props.cityid,
+    }, {
+      preserveScroll: true,
     })
     result.value = !result.value
+
+    if (result.value === false) {
+      toast.success(__('City removed from favorites.'))
+    } else if (result.value === true) {
+      toast.success(__('City added to favorites.'))
+    }
   } catch (error) {
-    console.error(error)
+    toast.error('There was an error!')
   }
 }
 
@@ -63,9 +74,11 @@ onMounted(() => {
   <div ref="intersectionTarget">
     <button @click="toggleFavorite">
       <component :is="result ? SolidHeartIcon : OutlineHeartIcon" v-if="result !== null"
-                 class="h-6 w-6 text-red-500"
+                 class="h-6 w-6 text-rose-500"
       />
-      <span v-else>{{ __('Loading') }}...</span>
+      <span v-else class="animate-pulse text-rose-200">
+        <SolidHeartIcon class="h-6 w-6" />
+      </span>
     </button>
   </div>
 </template>

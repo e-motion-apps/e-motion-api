@@ -8,9 +8,8 @@ use App\Importers\SpinDataImporter;
 
 class SpinDataImporterJob extends DataImporterJob
 {
-    public function handle(): void
+    public function handle(SpinDataImporter $importer): void
     {
-        $importer = new SpinDataImporter($this->importInfoId);
-        $importer->extract()->transform();
+        $importer->setImportInfo($this->importInfoId)->extract()->transform();
     }
 }

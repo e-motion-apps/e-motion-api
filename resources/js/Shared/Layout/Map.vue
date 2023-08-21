@@ -97,7 +97,7 @@ function fillMap() {
     marker
       .addTo(markers.value)
       .on('click', () => window)
-      .bindTooltip(`${city.name} - ${city.country.name} <i class="${city.country.iso} flag flat"/>`)
+      .bindTooltip(`<i class="${city.country.iso} flat flag shadow"></i> ${city.name}, ${city.country.name}`)
   })
 
   markers.value.addTo(map.value)
