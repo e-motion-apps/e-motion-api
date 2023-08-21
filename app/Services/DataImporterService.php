@@ -39,6 +39,7 @@ class DataImporterService
 
         Bus::batch([
             new BeamDataImporterJob($this->importInfoId),
+            new BerylDataImporterJob($this->importInfoId),
             new BirdDataImporterJob($this->importInfoId),
             new BitMobilityDataImporterJob($this->importInfoId),
             new BoltDataImporterJob($this->importInfoId),
@@ -54,7 +55,6 @@ class DataImporterService
             new VoiDataImporterJob($this->importInfoId),
             new VeoDataImporterJob($this->importInfoId),
             new ZwingsDataImporterJob($this->importInfoId),
-            new BerylDataImporterJob($this->importInfoId),
         ])->finally(function (): void {
             ImportInfo::query()->where("id", $this->importInfoId)->update([
                 "status" => "finished",
