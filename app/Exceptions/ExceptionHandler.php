@@ -6,6 +6,7 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
@@ -18,9 +19,13 @@ class ExceptionHandler extends Handler
         "password_confirmation",
     ];
 
-    public function render($request, Throwable $e)
+    public function render($request, Throwable $exception)
     {
-        $response = parent::render($request, $e);
+        if ($exception instanceof ValidationException) {
+            return back()->withErrors($exception->errors());
+        }
+
+        $response = parent::render($request, $exception);
         $statusCode = $response->status();
 
         app()->setLocale("en");

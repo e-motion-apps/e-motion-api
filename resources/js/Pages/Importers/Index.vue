@@ -4,8 +4,11 @@ import { router, usePage } from '@inertiajs/vue3'
 import Import from '../../Shared/Components/Import.vue'
 import PaginationInfo from '@/Shared/Components/PaginationInfo.vue'
 import Pagination from '@/Shared/Components/Pagination.vue'
+import { useToast } from 'vue-toastification'
+import { __ } from '@/translate'
 
 const page = usePage()
+const toast = useToast()
 
 defineProps({
   importInfo: Object,
@@ -15,6 +18,7 @@ defineProps({
 
 function runImporters() {
   router.post('/run-importers', [])
+  toast.success(__('Importers started!'))
 }
 
 </script>
