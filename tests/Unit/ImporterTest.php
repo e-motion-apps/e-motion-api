@@ -17,6 +17,7 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\MockObject\Exception;
+use Stichoza\GoogleTranslate\GoogleTranslate;
 use Tests\TestCase;
 
 class ImporterTest extends TestCase
@@ -40,6 +41,8 @@ class ImporterTest extends TestCase
 
         $handlerStack = HandlerStack::create($mockHandler);
         $mockHttpClient = new Client(["handler" => $handlerStack]);
+
+        $mockGoogleTranslate = $this->createMock(GoogleTranslate::class);
 
         $mockMapboxService = $this->createMock(MapboxGeocodingService::class);
         $mockMapboxService->method("getPlaceFromApi")->willReturn(["Perth", "Australia"]);

@@ -9,6 +9,7 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class BinBinDataImporter extends DataImporter
 {
+    private const LANGUAGE = "en";
     protected Crawler $sections;
 
     public function extract(): static
@@ -50,7 +51,7 @@ class BinBinDataImporter extends DataImporter
             if (trim($data[1]) === "Türkiye") {
                 $countryName = "Turkey";
             } else {
-                $countryName = $this->translate(trim($data[1]), "en");
+                $countryName = $this->translate(trim($data[1]), self::LANGUAGE);
             }
 
             if (trim($data[0]) === "Uşak") {
@@ -62,6 +63,7 @@ class BinBinDataImporter extends DataImporter
             }
 
             $provider = $this->load($cityName, $countryName);
+
 
             if ($provider !== "") {
                 $existingCityProviders[] = $provider;
