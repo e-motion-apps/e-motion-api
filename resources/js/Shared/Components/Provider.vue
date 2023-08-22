@@ -8,9 +8,9 @@ import SecondarySaveButton from '@/Shared/Components/SecondarySaveButton.vue'
 import {useToast} from 'vue-toastification'
 import {__} from '@/translate'
 
+const toast = useToast()
 const props = defineProps({
   provider: Object,
-  // cities: Object,
 })
 
 function destroyProvider(providerId) {
@@ -49,40 +49,7 @@ onClickOutside(editDialog, () => (isEditDialogOpened.value = false))
 function toggleEditDialog() {
   isEditDialogOpened.value = !isEditDialogOpened.value
   commaInputError.value = ''
-  isProviderFormOpened.value = false
-  //isCitiesFormOpened.value = false
 }
-
-// const selectedCityProviders = reactive([])
-
-// onMounted(() => {
-//   props.provider.cityProviders.forEach(provider => {
-//     selectedCityProviders.push(provider.provider_name)
-//   })
-// })
-
-// function toggleProviderSelection(provider) {
-//   if (selectedCityProviders.includes(provider)) {
-//     const index = selectedCityProviders.indexOf(provider)
-//     selectedCityProviders.splice(index, 1)
-//   } else {
-//     selectedCityProviders.push(provider)
-//   }
-// }
-
-// function updateCityProviders(cityId) {
-//   router.patch(`/update-city-providers/${cityId}`, {
-//     providerNames: selectedCityProviders,
-//   }, {
-//     onSuccess: () => {
-//       toggleEditDialog()
-//     },
-//   })
-// }
-
-// const filteredSelectedCityProviders = computed(() => {
-//   return props.providers.filter(provider => selectedCityProviders.includes(provider.name))
-// })
 
 function goToWebsite(url) {
   if (!url.startsWith("http://") && !url.startsWith("https://")) {
@@ -93,37 +60,18 @@ function goToWebsite(url) {
 
 const isProviderFormOpened = ref(false)
 
-// function toggleCityForm() {
-//   isProviderFormOpened.value = !isCityFormOpened.value
-//
-//   isAlternativeCityNameFormOpened.value = false
-//   isProvidersFormOpened.value = false
-// }
-
-// const isAlternativeCityNameFormOpened = ref(false)
-
-// function toggleAlternativeCityNameForm() {
-//   isAlternativeCityNameFormOpened.value = !isAlternativeCityNameFormOpened.value
-//   isCityFormOpened.value = false
-//   isProvidersFormOpened.value = false
-// }
-
-function toggleProviderForm() {
-  isProviderFormOpened.value = !isProviderFormOpened.value
-
-  // isCityFormOpened.value = false
-  // isAlternativeCityNameFormOpened.value = false
-}
-
 </script>
 
 <template>
-  <td class="relative py-4 pl-4 text-sm sm:pl-6 sm:pr-3">
+  <td class="py-4 pl-4 text-sm sm:pl-6 sm:pr-3">
     <div class="flex items-center font-medium text-gray-800">
-      <div class="mb-2 mr-2 flex h-8 w-fit shrink-0 cursor-pointer items-center justify-center rounded-md  p-1" :style="{ 'background-color': provider.color }">
+      <div class="mr-2 flex h-8 w-fit shrink-0 items-center justify-center rounded-md p-1"
+           :style="{ 'background-color': provider.color }">
         <img class="w-8" :src="'/providers/' + provider.name.toLowerCase() + '.png'" alt="">
       </div>
-      {{ provider.name }}
+      <div>
+        {{ provider.name }}
+      </div>
     </div>
   </td>
   <td class="hidden break-all py-3.5 text-sm text-gray-500 lg:table-cell">
@@ -134,51 +82,6 @@ function toggleProviderForm() {
   <td class="hidden break-all py-3.5 text-sm text-gray-500 lg:table-cell">
     {{ provider.color }}
   </td>
-
-  <!--  <td class="py-3.5 text-sm text-gray-500 lg:table-cell">-->
-  <!--    <div class="flex lg:hidden">-->
-  <!--      <div v-if="selectedCityProviders.length > 0" class="m-1 flex h-5 w-fit items-center justify-center rounded border border-zinc-300 bg-zinc-300 p-1">-->
-  <!--        <div class="flex h-5 w-5 items-center justify-center text-xs text-gray-500">-->
-  <!--          {{ selectedCityProviders.length }}-->
-  <!--        </div>-->
-  <!--      </div>-->
-  <!--      <div v-else class="m-1 flex h-5 w-fit items-center justify-center p-1">-->
-  <!--        <div class="flex h-5 w-5 items-center justify-center text-xs text-gray-500">-->
-  <!--          - -->
-  <!--        </div>-->
-  <!--      </div>-->
-  <!--    </div>-->
-  <!--    <div class="hidden items-center lg:flex">-->
-  <!--      <div class="items-top flex h-1/2 flex-wrap items-center">-->
-  <!--        <div-->
-  <!--            v-for="provider in filteredSelectedCityProviders.slice(0, 4)"-->
-  <!--            :key="provider.name"-->
-  <!--            :style="{'background-color': selectedCityProviders.includes(provider.name) ? provider.color : ''}"-->
-  <!--            :class="selectedCityProviders.includes(provider.name) ? 'border-zinc-600 drop-shadow-lg' : 'hidden'"-->
-  <!--            class="m-1 flex h-5 w-fit items-center justify-center rounded  p-1 "-->
-  <!--        >-->
-  <!--          <img class="w-5" :src="'/providers/' + provider.name.toLowerCase() + '.png'" alt="">-->
-  <!--        </div>-->
-
-  <!--        <div-->
-  <!--            v-if="selectedCityProviders.length > 4 "-->
-  <!--            class="m-1 flex h-5 w-fit items-center justify-center rounded border border-zinc-300 bg-zinc-300 p-1"-->
-  <!--        >-->
-  <!--          <div class="flex h-5 w-5 items-center justify-center text-xs text-gray-500">-->
-  <!--            +{{ selectedCityProviders.length - 4 }}-->
-  <!--          </div>-->
-  <!--        </div>-->
-  <!--        <div-->
-  <!--            v-else-if="selectedCityProviders.length === 0"-->
-  <!--            class="m-1 flex h-5 w-fit items-center justify-center p-1"-->
-  <!--        >-->
-  <!--          <div class="flex h-5 w-5 items-center justify-center text-xs text-gray-500">-->
-  <!--            - -->
-  <!--          </div>-->
-  <!--        </div>-->
-  <!--      </div>-->
-  <!--    </div>-->
-  <!--  </td>-->
 
   <td class="relative table-cell justify-end border-t text-right text-xs font-medium sm:pl-3 md:pr-2">
     <span class="flex flex-wrap">
@@ -208,12 +111,7 @@ function toggleProviderForm() {
           </button>
         </div>
 
-        <button :class="isProviderFormOpened ? 'bg-blumilk-50' : ''"
-                class="mb-3 ml-6 rounded-lg bg-blumilk-25 px-3 py-1 text-sm font-bold text-gray-800 hover:bg-blumilk-50"
-                @click="toggleProvidersForm">
-          {{ __('Update provider') }}
-        </button>
-        <form v-if="isProviderFormOpened" class="flex flex-col rounded px-6 text-xs font-bold text-gray-600"
+        <form class="flex flex-col rounded px-6 text-xs font-bold text-gray-600"
               @submit.prevent="updateProvider(provider.id)"
         >
           <label class="mb-1 mt-4">{{ __('Name') }}</label>
@@ -235,6 +133,7 @@ function toggleProviderForm() {
                  class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3"
                  type="text"
                  required @keydown="preventCommaInput"
+                 pattern="#[0-9A-Fa-f]{6}"
           >
           <ErrorMessage :message="updateProviderForm.errors.color"/>
           <small class="text-rose-600">{{ commaInputError }}</small>

@@ -18,8 +18,6 @@ const toast = useToast()
 
 const props = defineProps({
   providers: Object,
- // cities: Object,
-//  countries: Object,
 })
 
 const commaInputError = ref('')
@@ -53,13 +51,6 @@ function toggleStoreDialog() {
   isStoreDialogOpened.value = !isStoreDialogOpened.value
 }
 
-function preventCommaInput(event) {
-  if (event.key === ',') {
-    event.preventDefault()
-    commaInputError.value = __('Use `.` instead of `,`')
-  }
-}
-
 const searchInput = ref('')
 
 
@@ -78,7 +69,6 @@ const sortingOptions = [
   { name: 'Latest', href: '/admin/providers?order=latest' },
   { name: 'Oldest', href: '/admin/providers?order=oldest' },
   { name: 'By name', href: '/admin/providers?order=name' },
- // { name: 'By cities', href: '/admin/providers?order=cities' },
 ]
 
 const isSortDialogOpened = ref(false)
@@ -117,9 +107,7 @@ function toggleSortDialog() {
                   <ErrorMessage :message="storeProviderForm.errors.name" />
 
                   <label class="mb-1 mt-4">{{ __('Url') }}</label>
-                  <input v-model="storeProviderForm.url" class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text"
-                         required @keydown="preventCommaInput"
-                  >
+                  <input v-model="storeProviderForm.url" class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text">
                   <ErrorMessage :message="storeProviderForm.errors.url" />
 
                   <label class="mb-1 mt-4">{{ __('Color') }}</label>
@@ -155,9 +143,9 @@ function toggleSortDialog() {
           </div>
 
           <div class="flex w-full flex-wrap items-center justify-between">
-<!--            <div v-if="props.providers.data.length" class="w-1/2">-->
-<!--              <PaginationInfo :meta="props.provider.meta" />-->
-<!--            </div>-->
+            <div v-if="props.providers.data.length" class="w-1/2">
+              <PaginationInfo :meta="props.providers.meta" />
+            </div>
 
             <div class="relative inline-block text-left">
               <div>
