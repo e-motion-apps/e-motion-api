@@ -136,50 +136,50 @@ function toggleSortDialog() {
             </div>
           </div>
 
-<!--          <div class="mb-3 mt-4 flex flex-wrap items-center justify-end md:justify-between">-->
-<!--            <button class="mr-1 rounded bg-blumilk-500 px-5 py-3 text-sm font-medium text-white shadow-md hover:bg-blumilk-400 md:py-2" @click="toggleStoreDialog">-->
-<!--              {{ __('Create provider') }}-->
-<!--            </button>-->
+          <div class="mb-3 mt-4 flex flex-wrap items-center justify-end md:justify-between">
+            <button class="mr-1 rounded bg-blumilk-500 px-5 py-3 text-sm font-medium text-white shadow-md hover:bg-blumilk-400 md:py-2" @click="toggleStoreDialog">
+              {{ __('Create provider') }}
+            </button>
 
-<!--            <div class="m-1 flex w-full rounded-md shadow-sm md:w-fit">-->
-<!--              <div class="relative flex grow items-stretch focus-within:z-10">-->
-<!--                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">-->
-<!--                  <MagnifyingGlassIcon class="h-5 w-5 text-gray-800" />-->
-<!--                </div>-->
-<!--                <input v-model.trim="searchInput" type="text" class="block w-full rounded border-0 py-3 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blumilk-300 sm:text-sm sm:leading-6 md:py-1.5" :placeholder="__('Search provider')">-->
-<!--              </div>-->
-<!--              <button v-if="searchInput.length" type="button" class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-800 ring-1 ring-inset ring-gray-300 hover:bg-blumilk-25" @click="clearInput">-->
-<!--                <XMarkIcon class="h-5 w-5" />-->
-<!--              </button>-->
-<!--            </div>-->
-<!--          </div>-->
+            <div class="m-1 flex w-full rounded-md shadow-sm md:w-fit">
+              <div class="relative flex grow items-stretch focus-within:z-10">
+                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                  <MagnifyingGlassIcon class="h-5 w-5 text-gray-800" />
+                </div>
+                <input v-model.trim="searchInput" type="text" class="block w-full rounded border-0 py-3 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blumilk-300 sm:text-sm sm:leading-6 md:py-1.5" :placeholder="__('Search provider')">
+              </div>
+              <button v-if="searchInput.length" type="button" class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-800 ring-1 ring-inset ring-gray-300 hover:bg-blumilk-25" @click="clearInput">
+                <XMarkIcon class="h-5 w-5" />
+              </button>
+            </div>
+          </div>
 
-<!--          <div class="flex w-full flex-wrap items-center justify-between">-->
+          <div class="flex w-full flex-wrap items-center justify-between">
 <!--            <div v-if="props.providers.data.length" class="w-1/2">-->
 <!--              <PaginationInfo :meta="props.provider.meta" />-->
 <!--            </div>-->
 
-<!--            <div class="relative inline-block text-left">-->
-<!--              <div>-->
-<!--                <button ref="sortDialog" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900" aria-expanded="false" aria-haspopup="true" @click="toggleSortDialog">-->
-<!--                  {{ __('Sort') }}-->
-<!--                  <ChevronDownIcon class="ml-1 h-5 w-5" />-->
-<!--                </button>-->
-<!--              </div>-->
+            <div class="relative inline-block text-left">
+              <div>
+                <button ref="sortDialog" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900" aria-expanded="false" aria-haspopup="true" @click="toggleSortDialog">
+                  {{ __('Sort') }}
+                  <ChevronDownIcon class="ml-1 h-5 w-5" />
+                </button>
+              </div>
 
-<!--              <div v-if="isSortDialogOpened" class="absolute right-1 z-10 mt-3.5 w-max rounded-md bg-white shadow-lg shadow-gray-300 ring-1 ring-gray-300 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">-->
-<!--                <div class="py-1" role="none">-->
-<!--                  <InertiaLink v-for="option in sortingOptions" :key="option.href"-->
-<!--                               :href="option.href" class="block px-4 py-2 text-sm text-gray-500 hover:text-blumilk-400" role="menuitem" tabindex="-1"-->
-<!--                  >-->
-<!--                    <span :class="{'font-medium text-blumilk-400': page.url.startsWith(option.href) || ((page.url === '/admin/providers' || page.url.startsWith('/admin/providers?search=') || page.url.startsWith('/admin/providers?page=')) && option.href.startsWith('/admin/providers?order=latest'))}">-->
-<!--                      {{ __(option.name) }}-->
-<!--                    </span>-->
-<!--                  </InertiaLink>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
+              <div v-if="isSortDialogOpened" class="absolute right-1 z-10 mt-3.5 w-max rounded-md bg-white shadow-lg shadow-gray-300 ring-1 ring-gray-300 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                <div class="py-1" role="none">
+                  <InertiaLink v-for="option in sortingOptions" :key="option.href"
+                               :href="option.href" class="block px-4 py-2 text-sm text-gray-500 hover:text-blumilk-400" role="menuitem" tabindex="-1"
+                  >
+                    <span :class="{'font-medium text-blumilk-400': page.url.startsWith(option.href) || ((page.url === '/admin/providers' || page.url.startsWith('/admin/providers?search=') || page.url.startsWith('/admin/providers?page=')) && option.href.startsWith('/admin/providers?order=latest'))}">
+                      {{ __(option.name) }}
+                    </span>
+                  </InertiaLink>
+                </div>
+              </div>
+            </div>
+          </div>
 
           <div v-if="props.providers.data.length" class="rounded-lg ring-gray-300 sm:ring-1">
             <table class="min-w-full">
