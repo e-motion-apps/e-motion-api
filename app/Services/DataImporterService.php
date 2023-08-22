@@ -39,8 +39,8 @@ class DataImporterService
         $this->importInfoId = $importInfo->id;
 
         Bus::batch([
-            new BeamDataImporterJob($this->importInfoId),
-            new BerylDataImporterJob($this->importInfoId),
+            //new BeamDataImporterJob($this->importInfoId),
+            //new BerylDataImporterJob($this->importInfoId),
             //new BirdDataImporterJob($this->importInfoId),
             //new BitMobilityDataImporterJob($this->importInfoId),
             //new BoltDataImporterJob($this->importInfoId),
@@ -54,7 +54,7 @@ class DataImporterService
             //new TierDataImporterJob($this->importInfoId),
             //new UrentDataImporterJob($this->importInfoId),
             //new VoiDataImporterJob($this->importInfoId),
-            new VeoDataImporterJob($this->importInfoId),
+            //new VeoDataImporterJob($this->importInfoId),
             //new ZwingsDataImporterJob($this->importInfoId),
             new WindDataImporterJob($this->importInfoId),
         ])->finally(function (): void {
