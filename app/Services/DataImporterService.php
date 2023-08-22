@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Jobs\BinBinDataImporterJob;
+use App\Jobs\BeamDataImporterJob;
 use App\Jobs\BerylDataImporterJob;
+use App\Jobs\BinBinDataImporterJob;
 use App\Jobs\BirdDataImporterJob;
 use App\Jobs\BitMobilityDataImporterJob;
 use App\Jobs\BoltDataImporterJob;
@@ -19,6 +20,7 @@ use App\Jobs\RydeDataImporterJob;
 use App\Jobs\SpinDataImporterJob;
 use App\Jobs\TierDataImporterJob;
 use App\Jobs\UrentDataImporterJob;
+use App\Jobs\VeoDataImporterJob;
 use App\Jobs\VoiDataImporterJob;
 use App\Jobs\ZwingsDataImporterJob;
 use App\Models\ImportInfo;
@@ -38,6 +40,8 @@ class DataImporterService
         $this->importInfoId = $importInfo->id;
 
         Bus::batch([
+            new BeamDataImporterJob($this->importInfoId),
+            new BerylDataImporterJob($this->importInfoId),
             new BinBinDataImporterJob($this->importInfoId),
             new BirdDataImporterJob($this->importInfoId),
             new BitMobilityDataImporterJob($this->importInfoId),
@@ -53,8 +57,8 @@ class DataImporterService
             new TierDataImporterJob($this->importInfoId),
             new UrentDataImporterJob($this->importInfoId),
             new VoiDataImporterJob($this->importInfoId),
+            new VeoDataImporterJob($this->importInfoId),
             new ZwingsDataImporterJob($this->importInfoId),
-            new BerylDataImporterJob($this->importInfoId),
         ])->finally(function (): void {
             ImportInfo::query()->where("id", $this->importInfoId)->update([
                 "status" => "finished",
