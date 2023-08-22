@@ -9,8 +9,6 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class WindDataImporter extends DataImporter
 {
-    private const COUNTRY_NAME = "United Kingdom";
-
     protected Crawler $sections;
 
     public function extract(): static
@@ -38,22 +36,24 @@ class WindDataImporter extends DataImporter
 
     public function transform(): void
     {
-        if ($this->stopExecution) {
-            return;
-        }
-
-        $existingCityProviders = [];
-
         foreach ($this->sections as $section) {
-            dump($section->nodeValue);
             foreach ($section->childNodes as $node) {
-                if ($node->nodeName === "div") {
-                    foreach ($node->childNodes as $city) {
-                        
-                    }
+                if ($node->nodeName === "script" && $node->hasAttribute('src')) {
+                    $scriptSrc = $node->getAttribute('src');
                 }
             }
-            $this->deleteMissingProviders(self::getProviderName(), $existingCityProviders);
+        }
+        $jsSrc = 'https://wind.yango.com/official-website/' . $scriptSrc;
+        $jsContent = file_get_contents($jsSrc);
+        $pattern = '/var\s+(\w+)\s*=\s*\[([^\]]+)\]/';
+        preg_match_all($pattern, $jsContent, $matches, PREG_SET_ORDER);
+
+        foreach ($matches as $match) {
+            $arrayName = $match[1];
+            $arrayContent = $match[2];
+
+            $arrayItems = explode(',', $arrayContent);
+            dump($arrayItems);
         }
     }
 }
