@@ -8,12 +8,12 @@ const emit = defineEmits(['try-it-out', 'create-account'])
 </script>
 
 <template>
-  <div class="flex h-full flex-col items-start justify-evenly bg-blumilk-25 px-6 md:px-10 lg:px-14">
+  <div class="flex h-full flex-col items-start justify-between bg-blumilk-25 px-6 md:px-10 lg:px-14">
     <div class="hidden md:flex md:w-7/12 lg:w-3/4 xl:w-7/12">
       <img class="h-auto max-w-full" src="@/assets/undraw_scooter.svg" alt="Man riding an e-scooter">
     </div>
 
-    <div class="lg:pb-16">
+    <div class="mt-16 md:mt-0 lg:pb-16">
       <h1 class="text-4xl font-bold tracking-tight text-gray-800 sm:text-5xl">
         {{ __('Looking for an e-scooter?') }}
       </h1>
@@ -25,7 +25,7 @@ const emit = defineEmits(['try-it-out', 'create-account'])
     </div>
 
     <div
-      class="flex w-full flex-wrap items-center justify-center space-y-5 sm:hidden sm:justify-between sm:space-y-0 md:flex"
+      class="my-4 flex w-full flex-wrap items-center justify-center space-y-5 sm:hidden sm:justify-between sm:space-y-0 md:flex"
     >
       <PrimaryButton class="h-fit w-11/12 px-2 py-5 sm:w-5/12" @click="emit('try-it-out')">
         {{ __('Try it out') }}
@@ -51,6 +51,8 @@ const emit = defineEmits(['try-it-out', 'create-account'])
         </SecondaryButton>
       </div>
     </div>
+    <div class="flex w-full justify-center">
+      <Footer />
+    </div>
   </div>
-  <Footer />
 </template>

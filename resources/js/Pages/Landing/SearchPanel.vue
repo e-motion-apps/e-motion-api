@@ -158,9 +158,6 @@ function showCity(city) {
       </button>
     </div>
 
-
-
-
     <ul v-if="filteredCities.length" role="list" class="mt-8 flex w-full flex-col divide-y divide-gray-300">
       <li v-for="city in filteredCities" :key="city.id"
           class="group flex cursor-pointer flex-col items-start justify-between gap-x-6 pb-1 pt-4 sm:flex-row sm:pb-4"
