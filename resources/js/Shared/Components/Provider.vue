@@ -120,7 +120,7 @@ function toggleProviderForm() {
 <template>
   <td class="relative py-4 pl-4 text-sm sm:pl-6 sm:pr-3">
     <div class="flex items-center font-medium text-gray-800">
-      <div class="mb-2 mr-2 flex h-8 w-fit shrink-0 cursor-pointer items-center justify-center rounded-md border border-zinc-300 p-1" :style="{ 'background-color': provider.color }">
+      <div class="mb-2 mr-2 flex h-8 w-fit shrink-0 cursor-pointer items-center justify-center rounded-md  p-1" :style="{ 'background-color': provider.color }">
         <img class="w-8" :src="'/providers/' + provider.name.toLowerCase() + '.png'" alt="">
       </div>
       {{ provider.name }}
@@ -155,7 +155,7 @@ function toggleProviderForm() {
   <!--            :key="provider.name"-->
   <!--            :style="{'background-color': selectedCityProviders.includes(provider.name) ? provider.color : ''}"-->
   <!--            :class="selectedCityProviders.includes(provider.name) ? 'border-zinc-600 drop-shadow-lg' : 'hidden'"-->
-  <!--            class="m-1 flex h-5 w-fit items-center justify-center rounded border border-zinc-300 bg-zinc-300 p-1 "-->
+  <!--            class="m-1 flex h-5 w-fit items-center justify-center rounded  p-1 "-->
   <!--        >-->
   <!--          <img class="w-5" :src="'/providers/' + provider.name.toLowerCase() + '.png'" alt="">-->
   <!--        </div>-->

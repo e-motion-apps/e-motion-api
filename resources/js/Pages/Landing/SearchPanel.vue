@@ -137,7 +137,7 @@ function showCity(city) {
     </h1>
     <ul role="list" class="scrollbar flex space-x-2 overflow-x-auto">
       <li v-for="provider in filteredProviders" :key="provider.name"
-          class="mb-2 flex h-8 w-fit shrink-0 cursor-pointer items-center justify-center rounded-md border border-zinc-300 p-1"
+          class="mb-2 flex h-8 w-fit shrink-0 cursor-pointer items-center justify-center rounded-md p-1"
           :style="{ 'background-color': provider.color }"
           :class="{ 'opacity-25': filterStore.selectedProviderName !== null && filterStore.selectedProviderName !== provider.name }"
           @click="filterProvider(provider.name)"
@@ -190,7 +190,7 @@ function showCity(city) {
           <div v-for="provider in filteredProviders" :key="provider.name">
             <div v-for="cityProvider in city.cityProviders" :key="cityProvider.provider_name">
               <div v-if="provider.name === cityProvider.provider_name" :style="{ 'background-color': provider.color }"
-                   class="m-1 flex h-6 w-fit shrink-0 items-center justify-center rounded-md border border-zinc-300 p-1 hover:opacity-75"
+                   class="m-1 flex h-6 w-fit shrink-0 items-center justify-center rounded-md p-1 hover:opacity-75"
                    @click="filterProvider(provider.name)"
               >
                 <img class="w-6" :src="'/providers/' + provider.name.toLowerCase() + '.png'" alt="">
