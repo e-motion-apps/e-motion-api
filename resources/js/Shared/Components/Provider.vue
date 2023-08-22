@@ -120,7 +120,7 @@ function toggleProviderForm() {
 <template>
   <td class="relative py-4 pl-4 text-sm sm:pl-6 sm:pr-3">
     <div class="flex items-center font-medium text-gray-800">
-      <div class="rounded p-1 mr-2" :style="{ 'background-color': provider.color }">
+      <div class="mb-2 mr-2 flex h-8 w-fit shrink-0 cursor-pointer items-center justify-center rounded-md border border-zinc-300 p-1" :style="{ 'background-color': provider.color }">
         <img class="w-8" :src="'/providers/' + provider.name.toLowerCase() + '.png'" alt="">
       </div>
       {{ provider.name }}
