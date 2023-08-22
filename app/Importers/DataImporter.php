@@ -52,7 +52,7 @@ abstract class DataImporter
         return $classNameParts[0];
     }
 
-    public function translate(string $word, $language): string
+    public function translate(string $word, string $language): string
     {
         return $this->translate->setTarget($language)->translate($word);
     }
