@@ -28,6 +28,8 @@ class ProviderSeeder extends Seeder
 {
     public function run(): void
     {
+
+        $providers = [
             ["name" => BinBinDataImporter::getProviderName(), "color" => "#3dbcc8"],
             ["name" => BerylDataImporter::getProviderName(), "color" => "#00e3c2"],
             ["name" => BirdDataImporter::getProviderName(), "color" => "#26ccf0"],

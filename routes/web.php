@@ -10,6 +10,7 @@ use App\Http\Controllers\CityProviderController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\FavoritesController;
 use App\Http\Controllers\ImportInfoController;
+use App\Http\Controllers\ProviderController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware("guest")->group(function (): void {
@@ -24,6 +25,7 @@ Route::middleware("auth")->group(function (): void {
 
     Route::middleware(["role:admin"])->group(function (): void {
         Route::get("/admin/importers", [ImportInfoController::class, "index"]);
+        Route::resource("/admin/providers", ProviderController::class);
         Route::resource("/admin/countries", CountryController::class);
         Route::resource("/admin/cities", CityController::class);
         Route::resource("/city-alternative-name", CityAlternativeNameController::class);

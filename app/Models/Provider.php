@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property string $name
@@ -17,7 +18,13 @@ class Provider extends Model
     protected $primaryKey = "name";
     protected $keyType = "string";
 
-    public function cityProvider()
+    protected $fillable = [
+        "name",
+        "url",
+        "color",
+    ];
+
+    public function cityProvider(): BelongsTo
     {
         return $this->belongsTo(CityProvider::class);
     }
