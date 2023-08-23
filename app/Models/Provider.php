@@ -16,4 +16,9 @@ class Provider extends Model
     public $incrementing = false;
     protected $primaryKey = "name";
     protected $keyType = "string";
+    protected $fillable = [
+        "name",
+        "url",
+        "color",
+    ];
 }

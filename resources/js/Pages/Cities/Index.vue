@@ -156,8 +156,6 @@ function toggleSortDialog() {
               {{ __('Create city') }}
             </button>
 
-<!--            powyżej jest przycisk create city, a nad nim okienko do tworzenia miasta-->
-
             <div class="m-1 flex w-full rounded-md shadow-sm md:w-fit">
               <div class="relative flex grow items-stretch focus-within:z-10">
                 <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -170,8 +168,6 @@ function toggleSortDialog() {
               </button>
             </div>
           </div>
-
-<!--          powyżej jest okienko do wyszukiwania miasta-->
 
           <div class="flex w-full flex-wrap items-center justify-between">
             <div v-if="props.cities.data.length" class="w-1/2">
@@ -200,8 +196,6 @@ function toggleSortDialog() {
             </div>
           </div>
 
-<!--          powyżej są opcje sortowania, a nad nimi okienko tekstu sort+ikonka-->
-
           <div v-if="props.cities.data.length" class="rounded-lg ring-gray-300 sm:ring-1">
             <table class="min-w-full">
               <thead>
@@ -219,12 +213,10 @@ function toggleSortDialog() {
                     {{ __('Providers') }}
                   </th>
                 </tr>
-<!--              tu są tytuły kolumn w tabeli-->
               </thead>
               <tbody>
                 <tr v-for="city in props.cities.data" :key="city.id" class="border-t">
                   <City :providers="providers" :city="city" />
-<!--                  to wyświetla wiersze tabeli-->
                 </tr>
               </tbody>
             </table>

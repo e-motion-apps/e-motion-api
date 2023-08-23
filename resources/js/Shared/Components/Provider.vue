@@ -1,5 +1,5 @@
 <script setup>
-import {computed, onMounted, reactive, ref} from 'vue'
+import {ref} from 'vue'
 import {router, useForm} from '@inertiajs/vue3'
 import {PencilIcon, TrashIcon, XMarkIcon} from '@heroicons/vue/24/outline'
 import ErrorMessage from '@/Shared/Components/ErrorMessage.vue'
@@ -13,13 +13,14 @@ const props = defineProps({
   provider: Object,
 })
 
-function destroyProvider(providerId) {
-  router.delete(`/admin/providers/${providerId}`)
+function destroyProvider(providerName) {
+  router.delete(`/admin/providers/${providerName}`)
   toast.success(__('Provider deleted successfully.'))
 }
 
-function updateProvider(providerId) {
-  updateProviderForm.patch(`/admin/providers/${providerId}`, {
+
+function updateProvider(providerName) {
+  updateProviderForm.patch(`/admin/providers/${providerName}`, {
     onSuccess: () => {
       toggleEditDialog()
       toast.success(__('Provider updated successfully.'))
@@ -27,20 +28,15 @@ function updateProvider(providerId) {
   })
 }
 
+const updatedColor = props.provider.color.startsWith("#") ? props.provider.color : `#${props.provider.color}`;
+
 const updateProviderForm = useForm({
   name: props.provider.name,
   url: props.provider.url,
-  color: props.provider.color,
-})
+  color: updatedColor,
+});
 
 const commaInputError = ref('')
-
-function preventCommaInput(event) {
-  if (event.key === ',') {
-    event.preventDefault()
-    commaInputError.value = __('Use `.` instead of `,`')
-  }
-}
 
 const isEditDialogOpened = ref(false)
 const editDialog = ref(null)
@@ -58,8 +54,6 @@ function goToWebsite(url) {
   window.open(url, "_blank");
 }
 
-const isProviderFormOpened = ref(false)
-
 </script>
 
 <template>
@@ -75,8 +69,11 @@ const isProviderFormOpened = ref(false)
     </div>
   </td>
   <td class="hidden break-all py-3.5 text-sm text-gray-500 lg:table-cell">
-    <p class="cursor-pointer break-all rounded hover:bg-blumilk-25" @click="goToWebsite(provider.url)">
+    <p v-if="provider.url" class="cursor-pointer break-all rounded text-blumilk-500 hover:bg-blumilk-25" @click="goToWebsite(provider.url)">
       {{ provider.url }}
+    </p>
+    <p v-else class="break-all rounded">
+      -
     </p>
   </td>
   <td class="hidden break-all py-3.5 text-sm text-gray-500 lg:table-cell">
@@ -94,7 +91,7 @@ const isProviderFormOpened = ref(false)
       </button>
 
       <button class="mx-0.5 mb-1 flex w-fit shrink-0 items-center rounded py-1 pr-2 text-rose-500 hover:bg-rose-100"
-              @click="destroyProvider(provider.id)"
+              @click="destroyProvider(provider.name)"
       >
         <TrashIcon class="h-5 w-8 text-rose-500"/>
         {{ __('Delete') }}
@@ -112,7 +109,7 @@ const isProviderFormOpened = ref(false)
         </div>
 
         <form class="flex flex-col rounded px-6 text-xs font-bold text-gray-600"
-              @submit.prevent="updateProvider(provider.id)"
+              @submit.prevent="updateProvider(provider.name)"
         >
           <label class="mb-1 mt-4">{{ __('Name') }}</label>
           <input v-model="updateProviderForm.name"
@@ -125,15 +122,12 @@ const isProviderFormOpened = ref(false)
           <input v-model="updateProviderForm.url"
                  class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3"
                  type="text"
-                 required @keydown="preventCommaInput"
           >
           <ErrorMessage :message="updateProviderForm.errors.url"/>
           <label class="mb-1 mt-4">{{ __('Color') }}</label>
-          <input v-model="updateProviderForm.color"
+          <input v-model="updatedColor"
                  class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3"
                  type="text"
-                 required @keydown="preventCommaInput"
-                 pattern="#[0-9A-Fa-f]{6}"
           >
           <ErrorMessage :message="updateProviderForm.errors.color"/>
           <small class="text-rose-600">{{ commaInputError }}</small>

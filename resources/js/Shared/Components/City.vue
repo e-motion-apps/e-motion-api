@@ -188,7 +188,7 @@ function toggleProvidersForm() {
           v-for="provider in filteredSelectedCityProviders.slice(0, 4)"
           :key="provider.name"
           :style="{'background-color': selectedCityProviders.includes(provider.name) ? provider.color : ''}"
-          :class="selectedCityProviders.includes(provider.name) ? 'border-zinc-600 drop-shadow-lg' : 'hidden'"
+          :class="selectedCityProviders.includes(provider.name) ? 'drop-shadow-lg' : 'hidden'"
           class="m-1 flex h-5 w-fit items-center justify-center rounded bg-zinc-300 p-1 "
         >
           <img class="w-5" :src="'/providers/' + provider.name.toLowerCase() + '.png'" alt="">
@@ -320,7 +320,7 @@ function toggleProvidersForm() {
               v-for="provider in props.providers"
               :key="provider.name"
               :style="{'background-color': selectedCityProviders.includes(provider.name) ? provider.color : ''}"
-              :class="selectedCityProviders.includes(provider.name) ? 'border-zinc-600 drop-shadow-lg' : ''"
+              :class="selectedCityProviders.includes(provider.name) ? 'drop-shadow-lg' : ''"
               class="mx-1 my-2 flex h-10 w-fit cursor-pointer items-center justify-center rounded-lg  bg-zinc-300 p-1 "
               @click="toggleProviderSelection(provider.name)"
             >
