@@ -26,6 +26,7 @@ class WindDataImporter extends DataImporter
 
         $crawler = new Crawler($html);
         $this->sections = $crawler->filter("body");
+
         if (count($this->sections) === 0) {
             $this->createImportInfoDetails("204", self::getProviderName());
             $this->stopExecution = true;
@@ -38,22 +39,47 @@ class WindDataImporter extends DataImporter
     {
         foreach ($this->sections as $section) {
             foreach ($section->childNodes as $node) {
-                if ($node->nodeName === "script" && $node->hasAttribute('src')) {
-                    $scriptSrc = $node->getAttribute('src');
+                if ($node->nodeName === "script" && $node->hasAttribute("src")) {
+                    $scriptSrc = $node->getAttribute("src");
                 }
             }
         }
-        $jsSrc = 'https://wind.yango.com/official-website/' . $scriptSrc;
+        $jsSrc = "https://wind.yango.com/official-website/" . $scriptSrc;
         $jsContent = file_get_contents($jsSrc);
-        $pattern = '/var\s+(\w+)\s*=\s*\[([^\]]+)\]/';
-        preg_match_all($pattern, $jsContent, $matches, PREG_SET_ORDER);
 
-        foreach ($matches as $match) {
-            $arrayName = $match[1];
-            $arrayContent = $match[2];
+        $subtring_start = strpos($jsContent, "YOUR SECRET SUPERPOWER?");
+        $subtring_start += strlen("YOUR SECRET SUPERPOWER?");
+        $size = strpos($jsContent, "Get the app now", $subtring_start) - $subtring_start;
+        $substring = substr($jsContent, $subtring_start, $size);
+        $patternCity = "/\[\"(.*?)\"\]/";
+        $patternCountry = '/:"(.*?)",/';
+        preg_match_all($patternCity, $substring, $matchesCities);
+        $extractedCities = $matchesCities[1];
+        preg_match_all($patternCountry, $substring, $matchesCountries);
+        $extractedCountries = $matchesCountries[1];
+        $extractedCities = str_replace('"', "", $extractedCities);
 
-            $arrayItems = explode(',', $arrayContent);
-            dump($arrayItems);
+        $resultArray = array_map(null, $extractedCities, $extractedCountries);
+
+        foreach ($resultArray as $result) {
+            $cityName = explode(",", $result[0]);
+            $countryName = $result[1];
+
+            foreach ($cityName as $city) {
+                if ($countryName === "UK") {
+                    $countryName = "United Kingdom";
+                }
+
+                if ($countryName === "Korea") {
+                    $countryName = "South Korea";
+                }
+                $provider = $this->load($city, ucfirst($countryName));
+
+                if ($provider !== "") {
+                    $existingCityProviders[] = $provider;
+                }
+            }
         }
+        $this->deleteMissingProviders(self::getProviderName(), $existingCityProviders);
     }
 }
