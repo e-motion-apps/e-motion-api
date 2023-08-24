@@ -47,10 +47,10 @@ class WindDataImporter extends DataImporter
         $jsSrc = "https://wind.yango.com/official-website/" . $scriptSrc;
         $jsContent = file_get_contents($jsSrc);
 
-        $subtring_start = strpos($jsContent, "YOUR SECRET SUPERPOWER?");
-        $subtring_start += strlen("YOUR SECRET SUPERPOWER?");
-        $size = strpos($jsContent, "Get the app now", $subtring_start) - $subtring_start;
-        $substring = substr($jsContent, $subtring_start, $size);
+        $substring_start = strpos($jsContent, "YOUR SECRET SUPERPOWER?");
+        $substring_start += strlen("YOUR SECRET SUPERPOWER?");
+        $size = strpos($jsContent, "Get the app now", $substring_start) - $substring_start;
+        $substring = substr($jsContent, $substring_start, $size);
         $patternCity = "/\[\"(.*?)\"\]/";
         $patternCountry = '/:"(.*?)",/';
         preg_match_all($patternCity, $substring, $matchesCities);
