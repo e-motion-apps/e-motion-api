@@ -24,6 +24,7 @@ const commaInputError = ref('')
 
 function storeProvider() {
   commaInputError.value = ''
+
   storeProviderForm.post('/admin/providers', {
     onSuccess: () => {
       storeProviderForm.reset()
@@ -35,6 +36,23 @@ function storeProvider() {
       toast.error(__('There was an error creating the provider!'))
     },
   })
+}
+
+function uploadAndSaveImage(imageFile, imagePath) {
+  const formData = new FormData();
+  formData.append('image', imageFile);
+
+  try {
+    const response = axios.post(imagePath, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+
+    console.log('Zdjęcie zostało przesłane i zapisane:', response.data);
+  } catch (error) {
+    throw error;
+  }
 }
 
 const storeProviderForm = useForm({
@@ -87,15 +105,29 @@ const formattedColor = computed({
         colorValue = colorValue.startsWith("#") ? colorValue : `#${colorValue}`;
         storeProviderForm.color = colorValue;
 
-        if(colorValue.length === 7) {
+        if (colorValue.length === 7) {
           storeProviderForm.errors.color = null;
-        }
-        else{
+        } else {
           storeProviderForm.errors.color = "Color must be 6 characters long.";
         }
       }
     }
 );
+
+function handleImageUpload(){
+  if (this.storeProviderForm.image) {
+    const imageName = this.storeProviderForm.name.toLowerCase() + '.png';
+    const imagePath = '/providers/' + imageName;
+
+    try {
+      this.uploadAndSaveImage(this.storeProviderForm.image, imagePath);
+    } catch (error) {
+      console.error('Błąd podczas przesyłania i zapisywania zdjęcia:', error);
+    }
+  }
+
+
+}
 
 </script>
 
@@ -138,6 +170,14 @@ const formattedColor = computed({
                          class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3"
                          type="text" pattern="{7}">
                   <ErrorMessage :message="storeProviderForm.errors.color"/>
+
+                  <label class="mb-1 mt-4">{{ __('Image') }}</label>
+                  <input
+                      type="file"
+                      accept="image/*"
+                      @change="handleImageUpload"
+                      class="mb-2"
+                  />
 
                   <div class="flex w-full justify-end">
                     <PrimarySaveButton>
