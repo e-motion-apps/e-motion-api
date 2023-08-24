@@ -20,11 +20,11 @@ class CityController extends Controller
     {
         $cities = City::query()
             ->with("cityAlternativeName", "cityProvider", "country")
+            ->orderByTimeRange()
             ->orderByProvidersCount()
-            ->search("name")
             ->orderByName()
             ->orderByCountry()
-            ->orderByTimeRange()
+            ->search("name")
             ->orderByEmptyCoordinates()
             ->paginate(15)
             ->withQueryString();

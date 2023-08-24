@@ -19,11 +19,11 @@ class SortQuery extends Builder
 
     public function orderByTimeRange(): self
     {
-        if (request()->input("order") === "latest") {
-            return $this->orderByDesc("created_at");
+        if (request()->input("order") === "oldest") {
+            return $this->orderBy("updated_at");
         }
-
-        return $this;
+  
+        return $this->orderByDesc("updated_at");
     }
 
     public function orderByName(): self

@@ -15,6 +15,8 @@ class ProviderController extends Controller
     public function index(): Response
     {
         $providers = Provider::query()
+            ->orderByTimeRange()
+            ->orderByName()
             ->paginate(15)
             ->withQueryString();
 

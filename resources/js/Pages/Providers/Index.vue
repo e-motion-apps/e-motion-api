@@ -10,8 +10,8 @@ import { debounce } from 'lodash/function'
 import Pagination from '@/Shared/Components/Pagination.vue'
 import PaginationInfo from '@/Shared/Components/PaginationInfo.vue'
 import PrimarySaveButton from '@/Shared/Components/PrimarySaveButton.vue'
-import {useToast} from "vue-toastification";
-import { __ } from '@/translate';
+import { useToast } from 'vue-toastification'
+import { __ } from '@/translate'
 
 const page = usePage()
 const toast = useToast()
@@ -172,22 +172,22 @@ function toggleSortDialog() {
           <div v-if="props.providers.data.length" class="rounded-lg ring-gray-300 sm:ring-1">
             <table class="min-w-full">
               <thead>
-              <tr>
-                <th scope="col" class="py-3.5 pl-5 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 lg:table-cell">
-                  {{ __('Name') }}
-                </th>
-                <th scope="col" class="hidden py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
-                  {{ __('Url') }}
-                </th>
-                <th scope="col" class="hidden py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
-                  {{ __('Color') }}
-                </th>
-              </tr>
+                <tr>
+                  <th scope="col" class="py-3.5 pl-5 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 lg:table-cell">
+                    {{ __('Name') }}
+                  </th>
+                  <th scope="col" class="hidden py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
+                    {{ __('Url') }}
+                  </th>
+                  <th scope="col" class="hidden py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
+                    {{ __('Color') }}
+                  </th>
+                </tr>
               </thead>
               <tbody>
-              <tr v-for="provider in props.providers.data" :key="provider.id" class="border-t">
-                <Provider  :provider="provider" />
-              </tr>
+                <tr v-for="provider in props.providers.data" :key="provider.id" class="border-t">
+                  <Provider :provider="provider" />
+                </tr>
               </tbody>
             </table>
           </div>
