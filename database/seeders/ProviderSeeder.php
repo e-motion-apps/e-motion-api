@@ -22,6 +22,7 @@ use App\Importers\TierDataImporter;
 use App\Importers\UrentDataImporter;
 use App\Importers\VeoDataImporter;
 use App\Importers\VoiDataImporter;
+use App\Importers\WindDataImporter;
 use App\Importers\ZwingsDataImporter;
 use App\Models\Provider;
 use Illuminate\Database\Seeder;
@@ -50,6 +51,7 @@ class ProviderSeeder extends Seeder
             ["name" => ZwingsDataImporter::getProviderName(), "color" => "#abb8c3"],
             ["name" => RydeDataImporter::getProviderName(), "color" => "#4dcb1f"],
             ["name" => VeoDataImporter::getProviderName(), "color" => "#000000"],
+            ["name" => WindDataImporter::getProviderName(), "color" => "#fffa00"],
         ];
 
         foreach ($providers as $provider) {
