@@ -37,6 +37,23 @@ function storeProvider() {
   })
 }
 
+function uploadAndSaveImage(imageFile, imagePath) {
+  const formData = new FormData();
+  formData.append('image', imageFile);
+
+  try {
+    const response = axios.post(imagePath, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+
+    console.log('Zdjęcie zostało przesłane i zapisane:', response.data);
+  } catch (error) {
+    throw error;
+  }
+}
+
 const storeProviderForm = useForm({
   name: '',
   url: '',
@@ -59,7 +76,7 @@ watch(searchInput, debounce(() => {
     preserveState: true,
     replace: true,
   })
-}, 300), { deep: true })
+}, 300), {deep: true})
 
 function clearInput() {
   searchInput.value = ''
@@ -77,6 +94,36 @@ onClickOutside(sortDialog, () => (isSortDialogOpened.value = false))
 
 function toggleSortDialog() {
   isSortDialogOpened.value = !isSortDialogOpened.value
+}
+
+const formattedColor = computed({
+      get() {
+        return storeProviderForm.color;
+      },
+      set: function (colorValue) {
+        colorValue = colorValue.startsWith("#") ? colorValue : `#${colorValue}`;
+        storeProviderForm.color = colorValue;
+
+        if (colorValue.length === 7) {
+          storeProviderForm.errors.color = null;
+        } else {
+          storeProviderForm.errors.color = "Color must be 6 characters long.";
+        }
+      }
+    }
+);
+
+function handleImageUpload(){
+  if (this.storeProviderForm.image) {
+    const imageName = this.storeProviderForm.name.toLowerCase() + '.png';
+    const imagePath = '/providers/' + imageName;
+
+    try {
+      this.uploadAndSaveImage(this.storeProviderForm.image, imagePath);
+    } catch (error) {
+      console.error('Błąd podczas przesyłania i zapisywania zdjęcia:', error);
+    }
+  }
 }
 
 </script>
@@ -107,12 +154,24 @@ function toggleSortDialog() {
                   <ErrorMessage :message="storeProviderForm.errors.name" />
 
                   <label class="mb-1 mt-4">{{ __('Url') }}</label>
-                  <input v-model="storeProviderForm.url" class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text">
-                  <ErrorMessage :message="storeProviderForm.errors.url" />
+                  <input v-model="storeProviderForm.url"
+                         class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3"
+                         type="text">
+                  <ErrorMessage :message="storeProviderForm.errors.url"/>
 
                   <label class="mb-1 mt-4">{{ __('Color') }}</label>
-                  <input v-model="storeProviderForm.color" class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text">
-                  <ErrorMessage :message="storeProviderForm.errors.color" />
+                  <input v-model="formattedColor"
+                         class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3"
+                         type="text" pattern="{7}">
+                  <ErrorMessage :message="storeProviderForm.errors.color"/>
+
+                  <label class="mb-1 mt-4">{{ __('Image') }}</label>
+                  <input
+                      type="file"
+                      accept="image/*"
+                      @change="handleImageUpload"
+                      class="mb-2"
+                  />
 
                   <div class="flex w-full justify-end">
                     <PrimarySaveButton>
@@ -125,42 +184,54 @@ function toggleSortDialog() {
           </div>
 
           <div class="mb-3 mt-4 flex flex-wrap items-center justify-end md:justify-between">
-            <button class="mr-1 rounded bg-blumilk-500 px-5 py-3 text-sm font-medium text-white shadow-md hover:bg-blumilk-400 md:py-2" @click="toggleStoreDialog">
+            <button
+                class="mr-1 rounded bg-blumilk-500 px-5 py-3 text-sm font-medium text-white shadow-md hover:bg-blumilk-400 md:py-2"
+                @click="toggleStoreDialog">
               {{ __('Create provider') }}
             </button>
 
             <div class="m-1 flex w-full rounded-md shadow-sm md:w-fit">
               <div class="relative flex grow items-stretch focus-within:z-10">
                 <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                  <MagnifyingGlassIcon class="h-5 w-5 text-gray-800" />
+                  <MagnifyingGlassIcon class="h-5 w-5 text-gray-800"/>
                 </div>
-                <input v-model.trim="searchInput" type="text" class="block w-full rounded border-0 py-3 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blumilk-300 sm:text-sm sm:leading-6 md:py-1.5" :placeholder="__('Search provider')">
+                <input v-model.trim="searchInput" type="text"
+                       class="block w-full rounded border-0 py-3 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blumilk-300 sm:text-sm sm:leading-6 md:py-1.5"
+                       :placeholder="__('Search provider')">
               </div>
-              <button v-if="searchInput.length" type="button" class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-800 ring-1 ring-inset ring-gray-300 hover:bg-blumilk-25" @click="clearInput">
-                <XMarkIcon class="h-5 w-5" />
+              <button v-if="searchInput.length" type="button"
+                      class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-800 ring-1 ring-inset ring-gray-300 hover:bg-blumilk-25"
+                      @click="clearInput">
+                <XMarkIcon class="h-5 w-5"/>
               </button>
             </div>
           </div>
 
           <div class="flex w-full flex-wrap items-center justify-between">
             <div v-if="props.providers.data.length" class="w-1/2">
-              <PaginationInfo :meta="props.providers.meta" />
+              <PaginationInfo :meta="props.providers.meta"/>
             </div>
 
             <div class="relative inline-block text-left">
               <div>
-                <button ref="sortDialog" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900" aria-expanded="false" aria-haspopup="true" @click="toggleSortDialog">
+                <button ref="sortDialog"
+                        class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900"
+                        aria-expanded="false" aria-haspopup="true" @click="toggleSortDialog">
                   {{ __('Sort') }}
-                  <ChevronDownIcon class="ml-1 h-5 w-5" />
+                  <ChevronDownIcon class="ml-1 h-5 w-5"/>
                 </button>
               </div>
 
-              <div v-if="isSortDialogOpened" class="absolute right-1 z-10 mt-3.5 w-max rounded-md bg-white shadow-lg shadow-gray-300 ring-1 ring-gray-300 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+              <div v-if="isSortDialogOpened"
+                   class="absolute right-1 z-10 mt-3.5 w-max rounded-md bg-white shadow-lg shadow-gray-300 ring-1 ring-gray-300 focus:outline-none"
+                   role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                 <div class="py-1" role="none">
                   <InertiaLink v-for="option in sortingOptions" :key="option.href"
-                               :href="option.href" class="block px-4 py-2 text-sm text-gray-500 hover:text-blumilk-400" role="menuitem" tabindex="-1"
+                               :href="option.href" class="block px-4 py-2 text-sm text-gray-500 hover:text-blumilk-400"
+                               role="menuitem" tabindex="-1"
                   >
-                    <span :class="{'font-medium text-blumilk-400': page.url.startsWith(option.href) || ((page.url === '/admin/providers' || page.url.startsWith('/admin/providers?search=') || page.url.startsWith('/admin/providers?page=')) && option.href.startsWith('/admin/providers?order=latest'))}">
+                    <span
+                        :class="{'font-medium text-blumilk-400': page.url.startsWith(option.href) || ((page.url === '/admin/providers' || page.url.startsWith('/admin/providers?search=') || page.url.startsWith('/admin/providers?page=')) && option.href.startsWith('/admin/providers?order=latest'))}">
                       {{ __(option.name) }}
                     </span>
                   </InertiaLink>
@@ -172,22 +243,23 @@ function toggleSortDialog() {
           <div v-if="props.providers.data.length" class="rounded-lg ring-gray-300 sm:ring-1">
             <table class="min-w-full">
               <thead>
-                <tr>
-                  <th scope="col" class="py-3.5 pl-5 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 lg:table-cell">
-                    {{ __('Name') }}
-                  </th>
-                  <th scope="col" class="hidden py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
-                    {{ __('Url') }}
-                  </th>
-                  <th scope="col" class="hidden py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
-                    {{ __('Color') }}
-                  </th>
-                </tr>
+              <tr>
+                <th scope="col"
+                    class="py-3.5 pl-5 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 lg:table-cell">
+                  {{ __('Name') }}
+                </th>
+                <th scope="col" class="hidden py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
+                  {{ __('Url') }}
+                </th>
+                <th scope="col" class="hidden py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
+                  {{ __('Color') }}
+                </th>
+              </tr>
               </thead>
               <tbody>
-                <tr v-for="provider in props.providers.data" :key="provider.id" class="border-t">
-                  <Provider :provider="provider" />
-                </tr>
+              <tr v-for="provider in props.providers.data" :key="provider.id" class="border-t">
+                <Provider :provider="provider"/>
+              </tr>
               </tbody>
             </table>
           </div>

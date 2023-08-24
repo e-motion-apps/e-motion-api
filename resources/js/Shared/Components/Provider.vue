@@ -27,20 +27,15 @@ function updateProvider(providerName) {
   })
 }
 
+const updatedColor = props.provider.color.startsWith("#") ? props.provider.color : `#${props.provider.color}`;
+
 const updateProviderForm = useForm({
   name: props.provider.name,
   url: props.provider.url,
-  color: props.provider.color,
-})
+  color: updatedColor,
+});
 
 const commaInputError = ref('')
-
-function preventCommaInput(event) {
-  if (event.key === ',') {
-    event.preventDefault()
-    commaInputError.value = __('Use `.` instead of `,`')
-  }
-}
 
 const isEditDialogOpened = ref(false)
 const editDialog = ref(null)
@@ -58,8 +53,6 @@ function goToWebsite(url) {
   window.open(url, '_blank')
 }
 
-const isProviderFormOpened = ref(false)
-
 </script>
 
 <template>
@@ -76,8 +69,11 @@ const isProviderFormOpened = ref(false)
     </div>
   </td>
   <td class="hidden break-all py-3.5 text-sm text-gray-500 lg:table-cell">
-    <p class="cursor-pointer break-all rounded hover:bg-blumilk-25" @click="goToWebsite(provider.url)">
+    <p v-if="provider.url" class="cursor-pointer break-all rounded text-blumilk-500 hover:bg-blumilk-25" @click="goToWebsite(provider.url)">
       {{ provider.url }}
+    </p>
+    <p v-else class="break-all rounded">
+      -
     </p>
   </td>
   <td class="hidden break-all py-3.5 text-sm text-gray-500 lg:table-cell">
@@ -126,11 +122,10 @@ const isProviderFormOpened = ref(false)
           <input v-model="updateProviderForm.url"
                  class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3"
                  type="text"
-                 required @keydown="preventCommaInput"
           >
           <ErrorMessage :message="updateProviderForm.errors.url" />
           <label class="mb-1 mt-4">{{ __('Color') }}</label>
-          <input v-model="updateProviderForm.color"
+          <input v-model="updatedColor"
                  class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3"
                  type="text"
                  required pattern="#[0-9A-Fa-f]{6}"
