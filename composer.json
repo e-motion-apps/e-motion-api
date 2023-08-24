@@ -7,7 +7,6 @@
     "require": {
         "php": "^8.2",
         "ext-pdo": "*",
-        "ammarfaizi2/googletranslate": "*",
         "guzzlehttp/guzzle": "^7.7",
         "inertiajs/inertia-laravel": "^0.6.9",
         "laravel/framework": "^10.13.0",
