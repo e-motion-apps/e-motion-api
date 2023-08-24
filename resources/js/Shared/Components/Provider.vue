@@ -27,13 +27,13 @@ function updateProvider(providerName) {
   })
 }
 
-const updatedColor = props.provider.color.startsWith("#") ? props.provider.color : `#${props.provider.color}`;
+const updatedColor = props.provider.color.startsWith('#') ? props.provider.color : `#${props.provider.color}`
 
 const updateProviderForm = useForm({
   name: props.provider.name,
   url: props.provider.url,
   color: updatedColor,
-});
+})
 
 const commaInputError = ref('')
 

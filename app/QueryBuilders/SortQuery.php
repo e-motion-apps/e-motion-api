@@ -22,7 +22,7 @@ class SortQuery extends Builder
         if (request()->input("order") === "oldest") {
             return $this->orderBy("updated_at");
         }
-  
+
         return $this->orderByDesc("updated_at");
     }
 
