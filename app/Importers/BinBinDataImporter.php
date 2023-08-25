@@ -49,11 +49,7 @@ class BinBinDataImporter extends DataImporter
         foreach ($this->sections as $section) {
             $data = explode("|", $section->nodeValue);
 
-            if (trim($data[1]) === "Türkiye") {
-                $countryName = "Turkey";
-            } else {
-                $countryName = $this->translate(trim($data[1]), self::LANGUAGE);
-            }
+            $countryName = $this->translate(trim($data[1]), self::LANGUAGE);
 
             if (trim($data[0]) === "Uşak") {
                 $cityName = "Usak";
