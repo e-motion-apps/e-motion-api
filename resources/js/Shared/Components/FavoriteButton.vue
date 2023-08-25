@@ -42,7 +42,7 @@ const toggleFavorite = async () => {
     result.value = !result.value
 
     if (result.value === false) {
-      toast.success(__('City removed from favorites.'))
+      toast.error(__('City removed from favorites.'))
     } else if (result.value === true) {
       toast.success(__('City added to favorites.'))
     }

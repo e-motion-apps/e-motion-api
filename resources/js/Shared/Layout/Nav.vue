@@ -8,7 +8,9 @@ import { useForm } from '@inertiajs/vue3'
 import LanguageSwitch from '@/Shared/Components/LanguageSwitch.vue'
 import ErrorMessage from '@/Shared/Components/ErrorMessage.vue'
 import { __ } from '@/translate'
+import { useToast } from 'vue-toastification'
 
+const toast = useToast()
 const page = usePage()
 const isAuth = computed(() => page.props.auth.isAuth)
 const isAdmin = computed(() => page.props.auth.isAdmin)
@@ -25,6 +27,7 @@ function register() {
     onSuccess: () => {
       toggleAuthDialog()
       registerForm.reset()
+      toast.success(__('You have registered successfully.'))
     },
   })
 }
@@ -41,6 +44,7 @@ function login() {
       loginForm.reset()
     },
   })
+  toast.success(__('You have logged in successfully.'))
 }
 
 const navigation = [
@@ -52,6 +56,7 @@ const navigation = [
 function logout() {
   router.post('/logout')
   isMobileMenuOpened.value = false
+  toast.success(__('You have logged out successfully.'))
 }
 
 const isMobileMenuOpened = ref(false)
