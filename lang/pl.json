@@ -103,10 +103,10 @@
     "Description: Session expired": "Ta strona wygasła. Zaloguj się ponownie.",
     "Description: Other": "Oj! Coś poszło nie tak. Spróbuj ponownie później.",
     "At least one city has not been assigned to any country.": "Przynajmniej jedno miasto nie zostało przypisane do żadnego kraju.",
-    "Are you sure you want to delete this record?": "Czy na pewno chcesz usunąć ten rekord?",
-    "Delete record": "Usuń rekord",
+    "Record will be permamently deleted.": "Rekord zostanie trwale usunięty.",
     "Cancel": "Anuluj",
-    "You have logged in successfully.": "Zalogowałeś się pomyślnie.",
-    "You have logged out successfully.": "Wylogowałeś się pomyślnie.",
-    "You have registered successfully.": "Zarejestrowałeś się pomyślnie."
+    "Delete record?": "Usunąć rekord?",
+    "You have logged in successfully.": "Zalogowano się pomyślnie.",
+    "You have logged out successfully.": "Wylogowano się pomyślnie.",
+    "You have registered successfully.": "Zarejestrowano się pomyślnie."
 }
