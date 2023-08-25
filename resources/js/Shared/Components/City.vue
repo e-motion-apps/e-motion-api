@@ -116,11 +116,11 @@ const filteredSelectedCityProviders = computed(() => {
 })
 
 function goToGoogleMaps(latitude, longitude) {
-    if (latitude != null || longitude != null) {
-        window.open('https://www.google.com/maps/search/' + latitude + ',' + longitude, '_blank')
-    } else {
-        window.open('https://www.google.com/maps/search/' + props.city.name)
-    }
+  if (latitude != null || longitude != null) {
+    window.open('https://www.google.com/maps/search/' + latitude + ',' + longitude, '_blank')
+  } else {
+    window.open('https://www.google.com/maps/search/' + props.city.name)
+  }
 }
 
 const isCityFormOpened = ref(false)

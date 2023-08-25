@@ -170,8 +170,9 @@ function toggleSortDialog() {
           </div>
 
           <div
-              :class="props.cities.data.length ? 'justify-between' : 'justify-end'"
-              class="flex w-full flex-wrap items-center">
+            :class="props.cities.data.length ? 'justify-between' : 'justify-end'"
+            class="flex w-full flex-wrap items-center"
+          >
             <div v-if="props.cities.data.length" class="w-1/2">
               <PaginationInfo :meta="props.cities.meta" />
             </div>

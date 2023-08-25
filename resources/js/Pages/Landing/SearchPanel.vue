@@ -1,11 +1,13 @@
 <script setup>
 import { useFilterStore } from '@/Shared/Stores/FilterStore'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { usePage } from '@inertiajs/vue3'
 import { TrashIcon } from '@heroicons/vue/24/outline'
 import FavoriteButton from '@/Shared/Components/FavoriteButton.vue'
 import InfoPopup from '@/Shared/Components/InfoPopup.vue'
 import { __ } from '@/translate'
+import { ChevronDownIcon, FlagIcon, TruckIcon, FunnelIcon } from '@heroicons/vue/24/outline'
+import { onClickOutside } from '@vueuse/core'
 
 const filterStore = useFilterStore()
 
@@ -90,6 +92,11 @@ function filterCountry(countryId) {
   } else {
     filterStore.changeSelectedCountry(countryId)
   }
+
+  if (!isIconFilterEnabled.value) {
+    toggleCountryList()
+  }
+
 }
 
 function filterProvider(providerName) {
@@ -97,6 +104,10 @@ function filterProvider(providerName) {
     filterStore.changeSelectedProvider(null)
   } else {
     filterStore.changeSelectedProvider(providerName)
+  }
+
+  if (!isIconFilterEnabled.value) {
+    toggleProviderList()
   }
 }
 
@@ -108,14 +119,39 @@ function clearFilters() {
 function showCity(city) {
   filterStore.changeSelectedCity(city)
 }
+
+const isCountryListOpened = ref(false)
+const countryList = ref(null)
+onClickOutside(countryList, () => (isCountryListOpened.value = false))
+
+function toggleCountryList() {
+  isCountryListOpened.value = !isCountryListOpened.value
+}
+
+const isProviderListOpened = ref(false)
+const providerList = ref(null)
+onClickOutside(providerList, () => (isProviderListOpened.value = false))
+
+
+function toggleProviderList() {
+  isProviderListOpened.value = !isProviderListOpened.value
+}
+
+const isIconFilterEnabled = ref(true)
+
+function changeFilter() {
+  isIconFilterEnabled.value = !isIconFilterEnabled.value
+}
+
 </script>
 
 <template>
   <div class="mx-auto mt-4 flex w-11/12 flex-col sm:mt-12 lg:w-5/6 ">
-    <h1 class="mb-1 text-[11px] font-medium text-gray-600">
+    <h1 v-if="isIconFilterEnabled" class="mb-1 text-[11px] font-medium text-gray-600">
       {{ __('Countries') }}
     </h1>
-    <ul role="list" class="scrollbar flex space-x-2 overflow-x-auto pb-2">
+
+    <ul v-if="isIconFilterEnabled" role="list" class="scrollbar flex space-x-2 overflow-x-auto pb-2">
       <li v-for="country in filteredCountries" :key="country.id" class="col-span-1 flex cursor-pointer rounded-md"
           :class="{ 'opacity-25': !country.hasProvider }" @click="filterCountry(country.id)"
       >
@@ -132,33 +168,131 @@ function showCity(city) {
       </li>
     </ul>
 
-    <h1 class="mb-1 mt-4 text-[11px] font-medium text-gray-600">
+    <h1 v-if="isIconFilterEnabled" class="mb-1 mt-4 text-[11px] font-medium text-gray-600">
       {{ __('Providers') }}
     </h1>
-    <ul role="list" class="scrollbar flex space-x-2 overflow-x-auto">
+
+    <ul v-if="isIconFilterEnabled" role="list" class="scrollbar flex space-x-2 overflow-x-auto pb-2">
       <li v-for="provider in filteredProviders" :key="provider.name"
-          class="mb-2 flex h-10 w-fit shrink-0 cursor-pointer items-center justify-center rounded-md border border-zinc-300 p-1"
-          :style="{ 'background-color': provider.color }"
+          class="col-span-1 flex cursor-pointer rounded-md"
           :class="{ 'opacity-25': filterStore.selectedProviderName !== null && filterStore.selectedProviderName !== provider.name }"
           @click="filterProvider(provider.name)"
       >
-        <img class="w-12" :src="'/providers/' + provider.name.toLowerCase() + '.png'" alt="">
+        <div
+          :style="{ 'background-color': provider.color }"
+          class="flex h-10 w-12 shrink-0 items-center justify-center rounded-l-md  px-2 py-3"
+        >
+          <img :src="'/providers/' + provider.name.toLowerCase() + '.png'" alt="">
+        </div>
+        <div
+          class="flex flex-1 items-center justify-between truncate rounded-r-md border-y border-r border-gray-100 bg-white"
+        >
+          <div class="flex-1 truncate px-3 text-sm">
+            <span class="text-xs font-medium text-gray-600">{{ provider.name }}</span>
+          </div>
+        </div>
       </li>
     </ul>
 
-    <div v-if="filterStore.selectedCountryId !== null || filterStore.selectedProviderName !== null"
-         class="flex justify-end sm:justify-start"
-    >
-      <button
-        class="mt-3 flex w-fit items-center rounded-lg bg-gray-50 px-3 py-1 text-[10px] font-medium text-gray-500 hover:bg-gray-100"
-        @click="clearFilters"
-      >
-        <TrashIcon class="mr-1 h-4 w-4" />
-        {{ __('Clear filters') }}
-      </button>
+    <div v-if="!isIconFilterEnabled" ref="countryList" class="relative">
+      <div class="cursor-pointer rounded border border-gray-200 bg-gray-50 px-2 py-1 hover:bg-gray-100" @click="toggleCountryList">
+        <div v-for="country in filteredCountries" :key="country.id">
+          <div v-if="country.isSelected" class="flex items-center p-2">
+            <i :class="country.iso" class="flat large flag" />
+            <span class="ml-2 text-sm">
+              {{ country.name }}
+            </span>
+          </div>
+        </div>
+
+        <div v-if="!filterStore.selectedCountryId" class="flex items-center px-2 py-3">
+          <FlagIcon class="h-4 w-4" />
+          <span class="ml-2 text-xs font-medium text-gray-600">
+            {{ __('Choose country') }}
+          </span>
+        </div>
+
+        <button type="button" class="absolute inset-y-0 right-0 flex items-center rounded-r-md pr-2 focus:outline-none">
+          <ChevronDownIcon class="h-4 w-4" />
+        </button>
+      </div>
+
+      <ul v-if="isCountryListOpened" class="scrollbar absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm" role="listbox">
+        <li v-for="country in filteredCountries" :key="country.id" class="relative flex cursor-default select-none items-center p-2 text-gray-900 hover:cursor-pointer hover:bg-gray-100"
+            role="option" tabindex="-1" @click="filterCountry(country.id)"
+        >
+          <i :class="country.iso"
+             class="flat flag !h-[18px] !w-[27px]"
+          />
+          <span class="ml-2 block truncate text-sm">{{ country.name }}</span>
+        </li>
+      </ul>
     </div>
 
-    <ul v-if="filteredCities.length" role="list" class="mt-8 flex w-full flex-col divide-y divide-gray-300">
+    <div v-if="!isIconFilterEnabled" ref="providerList" class="relative mt-4">
+      <div class="cursor-pointer rounded border border-gray-200 bg-gray-50 px-2 py-1 hover:bg-gray-100" @click="toggleProviderList">
+        <div v-if="filterStore.selectedProviderName" class="flex items-center p-2">
+          <div v-for="provider in filteredProviders" :key="provider.name">
+            <div v-if="provider.name === filterStore.selectedProviderName" :style="{ 'background-color': provider.color }"
+                 class="flex h-7 w-fit shrink-0 items-center justify-center rounded-md border border-zinc-300 p-1 hover:opacity-75"
+                 @click="filterProvider(provider.name)"
+            >
+              <img class="w-7" :src="'/providers/' + provider.name.toLowerCase() + '.png'" alt="">
+            </div>
+          </div>
+
+          <span class="ml-2 text-sm">
+            {{ filterStore.selectedProviderName }}
+          </span>
+        </div>
+
+
+        <div v-if="!filterStore.selectedProviderName" class="flex items-center px-2 py-3">
+          <TruckIcon class="h-4 w-4" />
+          <span class="ml-2 text-xs font-medium text-gray-600">
+            {{ __('Choose provider') }}
+          </span>
+        </div>
+
+        <button type="button" class="absolute inset-y-0 right-0 flex items-center rounded-r-md pr-2 focus:outline-none">
+          <ChevronDownIcon class="h-4 w-4" />
+        </button>
+      </div>
+
+      <ul v-if="isProviderListOpened" class="scrollbar absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm" role="listbox">
+        <li v-for="provider in filteredProviders" :key="provider.name" class="relative flex cursor-default select-none items-center p-2 text-gray-900 hover:cursor-pointer hover:bg-gray-100"
+            role="option" tabindex="-1" @click="filterProvider(provider.name)"
+        >
+          <div :style="{ 'background-color': provider.color }"
+               class="flex h-5 w-fit shrink-0 items-center justify-center rounded border border-zinc-300 p-1 hover:opacity-75"
+          >
+            <img class="w-5" :src="'/providers/' + provider.name.toLowerCase() + '.png'" alt="">
+          </div>
+          <span class="ml-2 block truncate text-sm">{{ provider.name }}</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="mt-2 flex w-full flex-wrap justify-between">
+      <button class="mr-1 mt-2 flex w-fit items-center rounded-lg border border-gray-300 px-4 py-2 text-[10px] font-medium text-gray-600 hover:bg-gray-50"
+              @click="changeFilter"
+      >
+        <FunnelIcon class="mr-1 h-4 w-4" />
+        {{ __('Change filters') }}
+      </button>
+
+      <div v-if="filterStore.selectedCountryId !== null || filterStore.selectedProviderName !== null">
+        <button
+          class="mt-2 flex w-fit items-center rounded-lg border border-gray-300 px-4 py-2 text-[10px] font-medium text-gray-600 hover:bg-gray-50"
+          @click="clearFilters"
+        >
+          <TrashIcon class="mr-1 h-4 w-4" />
+          {{ __('Clear filters') }}
+        </button>
+      </div>
+    </div>
+
+    <ul v-if="filteredCities.length" role="list" class="mt-8 flex w-full flex-col divide-y divide-gray-300 border-t">
       <li v-for="city in filteredCities" :key="city.id"
           class="group flex cursor-pointer flex-col items-start justify-between gap-x-6 pb-1 pt-4 sm:flex-row sm:pb-4"
           @click="showCity(city)"

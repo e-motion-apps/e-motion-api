@@ -157,9 +157,10 @@ function toggleSortDialog() {
             </div>
           </div>
 
-            <div
-                :class="props.countries.data.length ? 'justify-between' : 'justify-end'"
-                class="flex w-full flex-wrap items-center">
+          <div
+            :class="props.countries.data.length ? 'justify-between' : 'justify-end'"
+            class="flex w-full flex-wrap items-center"
+          >
             <div v-if="props.countries.data.length">
               <PaginationInfo :meta="props.countries.meta" />
             </div>
