@@ -24,7 +24,7 @@ createInertiaApp({
       .use(pinia)
       .use(Toast, {
         position: 'top-right',
-        timeout: 5000,
+        timeout: 2000,
         closeOnClick: true,
         pauseOnFocusLoss: false,
         pauseOnHover: true,
