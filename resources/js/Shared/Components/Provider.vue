@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import {computed, ref} from 'vue'
 import { router, useForm } from '@inertiajs/vue3'
 import { PencilIcon, TrashIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 import ErrorMessage from '@/Shared/Components/ErrorMessage.vue'
@@ -27,15 +27,27 @@ function updateProvider(providerName) {
   })
 }
 
-const updatedColor = props.provider.color.startsWith('#') ? props.provider.color : `#${props.provider.color}`
+const formattedColor = computed({
+      get() {
+        return updateProviderForm.color
+      },
+      set: function (colorValue) {
+       updateProviderForm.color  = colorValue.startsWith('#') ? colorValue : `#${colorValue}`
+
+        if (colorValue.length === 7) {
+          props.provider.errors.color = null
+        } else {
+          props.provider.errors.color = 'Color must be 6 characters long.'
+        }
+      },
+    },
+)
 
 const updateProviderForm = useForm({
   name: props.provider.name,
   url: props.provider.url,
-  color: updatedColor,
+  color: props.provider.color,
 })
-
-const commaInputError = ref('')
 
 const isEditDialogOpened = ref(false)
 const editDialog = ref(null)
@@ -43,7 +55,6 @@ onClickOutside(editDialog, () => (isEditDialogOpened.value = false))
 
 function toggleEditDialog() {
   isEditDialogOpened.value = !isEditDialogOpened.value
-  commaInputError.value = ''
 }
 
 function goToWebsite(url) {
@@ -125,14 +136,12 @@ function goToWebsite(url) {
           >
           <ErrorMessage :message="updateProviderForm.errors.url" />
           <label class="mb-1 mt-4">{{ __('Color') }}</label>
-          <input v-model="updatedColor"
+          <input v-model="formattedColor"
                  class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3"
                  type="text"
                  required pattern="#[0-9A-Fa-f]{6}"
-                 @keydown="preventCommaInput"
           >
           <ErrorMessage :message="updateProviderForm.errors.color" />
-          <small class="text-rose-600">{{ commaInputError }}</small>
 
           <div class="flex w-full justify-end">
             <SecondarySaveButton>
