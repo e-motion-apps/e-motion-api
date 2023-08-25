@@ -6,6 +6,7 @@ import { useFilterStore } from '../Stores/FilterStore'
 
 const props = defineProps({
   cities: Array,
+  countries: Array,
 })
 
 const filterStore = useFilterStore()

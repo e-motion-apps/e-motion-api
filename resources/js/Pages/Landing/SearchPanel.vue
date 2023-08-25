@@ -137,12 +137,12 @@ function showCity(city) {
     </h1>
     <ul role="list" class="scrollbar flex space-x-2 overflow-x-auto">
       <li v-for="provider in filteredProviders" :key="provider.name"
-          class="mb-2 flex h-8 w-fit shrink-0 cursor-pointer items-center justify-center rounded-md border border-zinc-300 p-1"
+          class="mb-2 flex h-10 w-fit shrink-0 cursor-pointer items-center justify-center rounded-md border border-zinc-300 p-1"
           :style="{ 'background-color': provider.color }"
           :class="{ 'opacity-25': filterStore.selectedProviderName !== null && filterStore.selectedProviderName !== provider.name }"
           @click="filterProvider(provider.name)"
       >
-        <img class="w-8" :src="'/providers/' + provider.name.toLowerCase() + '.png'" alt="">
+        <img class="w-12" :src="'/providers/' + provider.name.toLowerCase() + '.png'" alt="">
       </li>
     </ul>
 
@@ -198,7 +198,7 @@ function showCity(city) {
       </li>
     </ul>
     <p v-else class="mt-8 flex justify-center font-medium text-gray-800">
-      {{ __('Didn`t find any providers.') }}
+      {{ __(`Didn't find any providers.`) }}
     </p>
   </div>
 </template>

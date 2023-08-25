@@ -60,7 +60,7 @@ class SortQuery extends Builder
     public function orderByEmptyCoordinates()
     {
         if (request()->input("order") === "empty-coordinates") {
-            return $this->where("latitude", "");
+            return $this->where("latitude", null)->orWhere("longitude", null);
         }
 
         return $this;

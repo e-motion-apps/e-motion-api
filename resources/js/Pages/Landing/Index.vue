@@ -40,17 +40,20 @@ const data = reactive({
   countries: [],
 })
 
+const dataIsFetched = ref(false)
 
-async function fetchProviders() {
-  await axios.get('/api/providers').then(response => {
+function fetchData() {
+  axios.get('/api/providers').then(response => {
     data.cities = response.data.cities
     data.providers = response.data.providers
     data.countries = response.data.countries
+  }).finally(() => {
+    dataIsFetched.value = true
   })
 }
 
-onMounted(async () => {
-  await fetchProviders()
+onMounted(() => {
+  fetchData()
 })
 
 const shouldShowButton = computed(() => {
@@ -72,13 +75,13 @@ const buttonIcon = computed(() => {
         <Info v-if="showInfo && !isAuth" @create-account="nav.toggleCreateAccountOption()" @try-it-out="switchPanel" />
 
         <div v-else class="w-full">
-          <SearchPanel v-if="data.providers.length" :cities="data.cities" :providers="data.providers" :countries="data.countries" />
+          <SearchPanel v-if="dataIsFetched" :cities="data.cities" :providers="data.providers" :countries="data.countries" />
           <SearchPanelSkeleton v-else />
         </div>
       </div>
 
       <div v-if="isDesktop || shouldShowMap" class="relative h-full lg:w-1/2">
-        <Map v-if="data.providers.length" :key="`${filterStore.selectedCountryId}-${filterStore.selectedProviderName}`" :cities="data.cities" class="z-10" />
+        <Map v-if="dataIsFetched" :key="`${filterStore.selectedCountryId}-${filterStore.selectedProviderName}`" :cities="data.cities" :countries="data.countries" class="z-10" />
         <div v-else class="flex h-full flex-col items-center justify-center bg-blumilk-25" aria-label="Loading..." role="status">
           <svg class="h-24 w-24 animate-spin" viewBox="3 3 18 18">
             <path

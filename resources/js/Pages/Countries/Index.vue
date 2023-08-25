@@ -157,7 +157,9 @@ function toggleSortDialog() {
             </div>
           </div>
 
-          <div class="flex w-full items-center justify-between">
+            <div
+                :class="props.countries.data.length ? 'justify-between' : 'justify-end'"
+                class="flex w-full flex-wrap items-center">
             <div v-if="props.countries.data.length">
               <PaginationInfo :meta="props.countries.meta" />
             </div>
@@ -214,7 +216,7 @@ function toggleSortDialog() {
           </div>
           <div v-else>
             <p class="mt-6 text-lg font-medium text-gray-500">
-              {{ __('Sorry we couldn`t find any countries.') }}
+              {{ __(`Sorry we couldn't find any countries.`) }}
             </p>
           </div>
           <Pagination :meta="props.countries.meta" :links="props.countries.links" />

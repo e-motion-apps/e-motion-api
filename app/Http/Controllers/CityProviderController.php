@@ -21,6 +21,9 @@ class CityProviderController extends Controller
         $cities = CityResource::collection(
             City::with("cityAlternativeName", "cityProvider", "country")
                 ->has("cityProvider")
+                ->whereHas("cityProvider", function ($query): void {
+                    $query->whereNotNull("latitude")->whereNotNull("longitude");
+                })
                 ->get()
                 ->sortBy("name")
                 ->sortByDesc(fn(City $city): int => $city->cityProvider->count()),
@@ -29,7 +32,8 @@ class CityProviderController extends Controller
         $providers = ProviderResource::collection(Provider::all()->sortBy("name"));
         $countries = Country::whereHas("city.cityProvider")
             ->with(["city.cityAlternativeName", "city.cityProvider"])
-            ->get();
+            ->get()
+            ->sortBy("name");
 
         $countries = CountryResource::collection($countries);
 
