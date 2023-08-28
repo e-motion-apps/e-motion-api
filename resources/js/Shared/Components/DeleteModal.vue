@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineEmits } from 'vue'
+import { ref, defineEmits, computed } from 'vue'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ExclamationTriangleIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 import { __ } from '@/translate'
@@ -15,6 +15,14 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  type: {
+    type: String,
+    required: true,
+  },
+})
+
+const formattedType = computed(() => {
+  return props.type.charAt(0).toLowerCase() + props.type.slice(1)
 })
 </script>
 
@@ -38,7 +46,6 @@ const props = defineProps({
               class="relative overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
             >
               <button class="absolute right-2 top-2 text-gray-400 hover:text-gray-600" @click="closeModal">
-                <!-- XIcon for closing -->
                 <XMarkIcon class="h-5 w-5" aria-hidden="true" />
               </button>
               <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
@@ -50,11 +57,11 @@ const props = defineProps({
                   </div>
                   <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                     <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">
-                      {{ __('Delete?') }}
+                      {{ __('Delete1') }} {{ __(formattedType) }}{{ "?" }}
                     </DialogTitle>
                     <div class="mt-2">
                       <p class="text-sm text-gray-500">
-                        {{ props.name }} {{ __(' will be permamently deleted.') }}
+                        {{ __(props.type) }} {{ props.name }} {{ __(' will be permamently deleted.') }}
                       </p>
                     </div>
                   </div>
