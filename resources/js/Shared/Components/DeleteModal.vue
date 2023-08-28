@@ -37,7 +37,7 @@ const props = defineProps({
             <DialogPanel
               class="relative overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
             >
-            <button @click="closeModal" class="absolute top-2 right-2 text-gray-400 hover:text-gray-600">
+              <button class="absolute right-2 top-2 text-gray-400 hover:text-gray-600" @click="closeModal">
                 <!-- XIcon for closing -->
                 <XMarkIcon class="h-5 w-5" aria-hidden="true" />
               </button>
