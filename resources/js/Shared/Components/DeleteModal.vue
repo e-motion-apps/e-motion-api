@@ -1,7 +1,7 @@
 <script setup>
 import { ref, defineEmits } from 'vue'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { ExclamationTriangleIcon } from '@heroicons/vue/24/outline'
+import { ExclamationTriangleIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 import { __ } from '@/translate'
 
 const emits = defineEmits(['close', 'delete'])
@@ -37,6 +37,10 @@ const props = defineProps({
             <DialogPanel
               class="relative overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
             >
+            <button @click="closeModal" class="absolute top-2 right-2 text-gray-400 hover:text-gray-600">
+                <!-- XIcon for closing -->
+                <XMarkIcon class="h-5 w-5" aria-hidden="true" />
+              </button>
               <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                 <div class="sm:flex sm:items-start">
                   <div
