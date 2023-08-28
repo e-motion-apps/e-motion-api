@@ -46,7 +46,7 @@ const props = defineProps({
                   </div>
                   <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                     <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">
-                      {{ props.name }}
+                      {{ __('Delete?') }}
                     </DialogTitle>
                     <div class="mt-2">
                       <p class="text-sm text-gray-500">
