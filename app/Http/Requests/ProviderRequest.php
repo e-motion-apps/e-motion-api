@@ -14,7 +14,6 @@ class ProviderRequest extends FormRequest
     {
         return [
             "name" => ["required", "string", "regex:/^[A-Z\s]/", "max:100", $this->uniqueRuleForProvider("name")],
-            "url" => ["string"],
             "color" => ["required", "string"],
         ];
     }

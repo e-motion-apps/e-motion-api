@@ -38,23 +38,6 @@ function storeProvider() {
   })
 }
 
-function uploadAndSaveImage(imageFile, imagePath) {
-  const formData = new FormData()
-  formData.append('image', imageFile)
-
-  try {
-    const response = axios.post(imagePath, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
-
-    console.log('Zdjęcie zostało przesłane i zapisane:', response.data)
-  } catch (error) {
-    throw error
-  }
-}
-
 const storeProviderForm = useForm({
   name: '',
   url: '',
@@ -113,20 +96,28 @@ const formattedColor = computed({
   },
 },
 )
+const isImageUploaded = ref(false)
 
-function handleImageUpload() {
-  if (this.storeProviderForm.image) {
-    const imageName = this.storeProviderForm.name.toLowerCase() + '.png'
-    const imagePath = '/providers/' + imageName
-
-    try {
-      this.uploadAndSaveImage(this.storeProviderForm.image, imagePath)
-    } catch (error) {
-      console.error('Błąd podczas przesyłania i zapisywania zdjęcia:', error)
-    }
-  }
+function imageUploaded(){
+  isImageUploaded.value = !isImageUploaded.value
 }
 
+function uploadImage(event) {
+  let image = event.target.files[0];
+  let formData = new FormData();
+  const imageName = storeProviderForm.name.toLowerCase() + '.png'
+
+  formData.append('image', image);
+
+  axios.post(`/upload-image/${imageName}`, formData)
+      .then(response => {
+        imageUploaded()
+        toast.success(__('Image added successfully.'))
+      })
+      .catch(error => {
+        toast.error(__('Image should be: \n • 64px per 64 px \n • max 40 kb \n • .png'))
+      });
+}
 </script>
 
 <template>
@@ -169,15 +160,11 @@ function handleImageUpload() {
                   <ErrorMessage :message="storeProviderForm.errors.color" />
 
                   <label class="mb-1 mt-4">{{ __('Image') }}</label>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    class="mb-2"
-                    @change="handleImageUpload"
-                  >
+                  <input type="file" accept="image/png" class="mb-2" @change="uploadImage" required>
 
                   <div class="flex w-full justify-end">
                     <PrimarySaveButton>
+<!--                     :disabled="!isImageUploaded">-->
                       {{ __('Save') }}
                     </PrimarySaveButton>
                   </div>
