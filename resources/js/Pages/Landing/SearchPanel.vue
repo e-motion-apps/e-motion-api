@@ -8,6 +8,7 @@ import InfoPopup from '@/Shared/Components/InfoPopup.vue'
 import { __ } from '@/translate'
 import { ChevronDownIcon, FlagIcon, TruckIcon, FunnelIcon } from '@heroicons/vue/24/outline'
 import { onClickOutside } from '@vueuse/core'
+import { DynamicScroller, DynamicScrollerItem } from 'vue-virtual-scroller'
 
 const filterStore = useFilterStore()
 
@@ -34,7 +35,7 @@ const filteredCities = computed(() => {
   } else {
     return props.cities.filter(city =>
       city.country.id === selectedCountryId &&
-      city.cityProviders.some(cityProvider => cityProvider.provider_name === selectedProviderName),
+            city.cityProviders.some(cityProvider => cityProvider.provider_name === selectedProviderName),
     )
   }
 })
@@ -292,47 +293,59 @@ function changeFilter() {
       </div>
     </div>
 
-    <ul v-if="filteredCities.length" role="list" class="mt-8 flex w-full flex-col divide-y divide-gray-300 border-t">
-      <li v-for="city in filteredCities" :key="city.id"
-          class="group flex cursor-pointer flex-col items-start justify-between gap-x-6 pb-1 pt-4 sm:flex-row sm:pb-4"
-          @click="showCity(city)"
-      >
-        <div class="flex w-full justify-between sm:flex-col sm:justify-start">
-          <div class="flex w-max items-center">
-            <i :class="city.country.iso" class="flat flag huge shrink-0" @click="filterCountry(city.country.id)" />
+    <DynamicScroller
+      page-mode
+      class="mt-8"
+      :items="filteredCities"
+      :min-item-size="100"
 
-            <div class="ml-3 flex flex-col justify-start">
-              <p class="mr-2 break-all font-bold text-gray-900 group-hover:text-gray-500">
-                {{ city.name }}
-              </p>
-              <p class="break-all text-xs font-semibold text-blumilk-500">
-                {{ city.country.name }}
-              </p>
+      key-field="id"
+      :buffer="100"
+    >
+      <template #default="{ item, active }">
+        <DynamicScrollerItem :size-dependencies="[item.name]"
+                             :item="item" :active="active" class="group flex cursor-pointer flex-col items-start justify-between gap-x-6 pb-1 pt-4 sm:flex-row sm:pb-4"
+                             @click="showCity(item)"
+        >
+          <div class="flex w-full justify-between sm:flex-col sm:justify-start">
+            <div class="flex w-max items-center">
+              <i :class="item.country.iso" class="flat flag huge shrink-0" @click="filterCountry(item.country.id)" />
+
+              <div class="ml-3 flex flex-col justify-start">
+                <p class="mr-2 break-all font-bold text-gray-900 group-hover:text-gray-500">
+                  {{ item.name }}
+                </p>
+                <p class="break-all text-xs font-semibold text-blumilk-500">
+                  {{ item.country.name }}
+                </p>
+              </div>
+            </div>
+
+            <div class="mt-0 flex w-fit items-center justify-end sm:ml-[64px] sm:mt-1 sm:justify-start">
+              <FavoriteButton v-if="isAuth" :cityid="item.id" />
+              <InfoPopup v-else />
             </div>
           </div>
 
-          <div class="mt-0 flex w-fit items-center justify-end sm:ml-[64px] sm:mt-1 sm:justify-start">
-            <FavoriteButton v-if="isAuth" :cityid="city.id" />
-            <InfoPopup v-else />
-          </div>
-        </div>
-
-        <div class="mt-4 flex w-fit flex-row-reverse flex-wrap items-center justify-end sm:mt-0 sm:justify-start">
-          <div v-for="provider in filteredProviders" :key="provider.name">
-            <div v-for="cityProvider in city.cityProviders" :key="cityProvider.provider_name">
-              <div v-if="provider.name === cityProvider.provider_name" :style="{ 'background-color': provider.color }"
-                   class="m-1 flex h-6 w-fit shrink-0 items-center justify-center rounded-md border border-zinc-300 p-1 hover:opacity-75"
-                   @click="filterProvider(provider.name)"
-              >
-                <img class="w-6" :src="'/providers/' + provider.name.toLowerCase() + '.png'" alt="">
+          <div class="mt-4 flex w-fit flex-row-reverse flex-wrap items-center justify-end sm:mt-0 sm:justify-start">
+            <div v-for="provider in filteredProviders" :key="provider.name">
+              <div v-for="cityProvider in item.cityProviders" :key="cityProvider.provider_name">
+                <div v-if="provider.name === cityProvider.provider_name" :style="{ 'background-color': provider.color }"
+                     class="m-1 flex h-6 w-fit shrink-0 items-center justify-center rounded-md border border-zinc-300 p-1 hover:opacity-75"
+                     @click="filterProvider(provider.name)"
+                >
+                  <img class="w-6" :src="'/providers/' + provider.name.toLowerCase() + '.png'" alt="">
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </li>
-    </ul>
-    <p v-else class="mt-8 flex justify-center font-medium text-gray-800">
-      {{ __(`Didn't find any providers.`) }}
-    </p>
+        </DynamicScrollerItem>
+      </template>
+    </DynamicScroller>
+
+
+    <!--    <p v-else class="mt-8 flex justify-center font-medium text-gray-800">-->
+    <!--      {{ __(`Didn't find any providers.`) }}-->
+    <!--    </p>-->
   </div>
 </template>

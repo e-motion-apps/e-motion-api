@@ -4,6 +4,10 @@ import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import { useFilterStore } from '../Stores/FilterStore'
 
+defineOptions({
+  inheritAttrs: false,
+})
+
 const props = defineProps({
   cities: Array,
   countries: Array,
@@ -87,6 +91,8 @@ function fillMap() {
     }
   })
 
+
+
   filteredCities.forEach(city => {
     const marker = L.circleMarker([city.latitude, city.longitude], {
       radius: 5,
@@ -106,13 +112,6 @@ function fillMap() {
 </script>
 
 <template>
-  <div id="mapContainer" ref="mapContainer" />
+  <div id="mapContainer" ref="mapContainer" class="fixed h-full w-full lg:w-1/2" />
 </template>
 
-<style scoped>
-#mapContainer {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-}
-</style>

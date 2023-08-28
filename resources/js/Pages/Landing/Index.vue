@@ -70,7 +70,7 @@ const buttonIcon = computed(() => {
   <div class="flex h-screen flex-col">
     <Nav ref="nav" class="z-30" />
 
-    <div class="relative mt-16 flex grow flex-col lg:flex-row">
+    <div class="mt-16 flex grow flex-col lg:flex-row">
       <div v-if="isDesktop || !shouldShowMap" class="grow lg:w-1/2">
         <Info v-if="showInfo && !isAuth" @create-account="nav.toggleCreateAccountOption()" @try-it-out="switchPanel" />
 
@@ -80,7 +80,7 @@ const buttonIcon = computed(() => {
         </div>
       </div>
 
-      <div v-if="isDesktop || shouldShowMap" class="relative h-full lg:w-1/2">
+      <div v-if="isDesktop || shouldShowMap" class="h-full lg:w-1/2">
         <Map v-if="dataIsFetched" :key="`${filterStore.selectedCountryId}-${filterStore.selectedProviderName}`" :cities="data.cities" :countries="data.countries" class="z-10" />
         <div v-else class="flex h-full flex-col items-center justify-center bg-blumilk-25" aria-label="Loading..." role="status">
           <svg class="h-24 w-24 animate-spin" viewBox="3 3 18 18">
