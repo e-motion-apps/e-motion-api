@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\File;
 
 class ImageRequest extends FormRequest
 {
@@ -13,8 +15,10 @@ class ImageRequest extends FormRequest
         return [
             "image" => [
                 "required",
-                "dimensions:width=64,height=64",
-                "max:40960",
+                "mimes:png",
+                File::image()
+                ->max(40 * 1024)
+                ->dimensions(Rule::dimensions()->width(64)->height(64))
             ],
         ];
     }

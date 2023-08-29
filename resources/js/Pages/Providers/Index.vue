@@ -109,11 +109,11 @@ function uploadImage(event) {
         if (response.status === 200 && response.data.success) {
           toast.success(__('Image added successfully.'));
         } else {
-          toast.error(__('Image should be: \n • 64px per 64 px \n • max 40 kb \n • .png'));
+          toast.error(__('Image should be: \n • 64px per 64 px \n • max 40 kb \n • .png')); //
         }
       })
       .catch(error => {
-        toast.error(__('Sth went wrong'));
+        toast.error(__('Something went wrong on our side. Try again later.'));
       });
 }
 </script>
