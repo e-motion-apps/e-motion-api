@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineEmits, computed } from 'vue'
+import { ref, computed } from 'vue'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ExclamationTriangleIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 import { __ } from '@/translate'
@@ -24,6 +24,18 @@ const props = defineProps({
 const formattedType = computed(() => {
   return props.type.charAt(0).toLowerCase() + props.type.slice(1)
 })
+
+const renderText = () => {
+  let translationKey = ''
+
+  if (props.type === 'City') {
+    translationKey = 'City :name will be permanently deleted.'
+  } else {
+    translationKey = 'Country :name will be permanently deleted.'
+  }
+
+  return __(translationKey, { name: props.name })
+}
 </script>
 
 <template>
@@ -61,7 +73,7 @@ const formattedType = computed(() => {
                     </DialogTitle>
                     <div class="mt-2">
                       <p class="text-sm text-gray-500">
-                        {{ __(props.type) }} {{ props.name }} {{ __(' will be permamently deleted.') }}
+                        {{ __(renderText()) }}
                       </p>
                     </div>
                   </div>
