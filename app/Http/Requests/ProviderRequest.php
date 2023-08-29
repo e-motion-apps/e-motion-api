@@ -6,6 +6,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\File;
 use Illuminate\Validation\Rules\Unique;
 
 class ProviderRequest extends FormRequest
@@ -15,6 +16,13 @@ class ProviderRequest extends FormRequest
         return [
             "name" => ["required", "string", "regex:/^[A-Z\s]/", "max:100", $this->uniqueRuleForProvider("name")],
             "color" => ["required", "string"],
+            "image" => [
+                "required",
+                "mimes:png",
+                File::image()
+                    ->max(40 * 1024)
+                    ->dimensions(Rule::dimensions()->width(64)->height(64)),
+            ],
         ];
     }
 

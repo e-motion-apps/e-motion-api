@@ -7,8 +7,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProviderRequest;
 use App\Http\Resources\ProviderResource;
 use App\Models\Provider;
+use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Facades\Storage;
 
 class ProviderController extends Controller
 {
@@ -25,9 +27,17 @@ class ProviderController extends Controller
         ]);
     }
 
-    public function store(ProviderRequest $request): void
+    public function store(ProviderRequest $request): RedirectResponse
     {
         Provider::query()->create($request->validated());
+
+        $fileName = $request['name'] . '.png';// . $request->file('file')->getClientOriginalExtension();
+        $fileContents = $request->file('file')->get();
+
+        Storage::disk('local')->put('public/providers/' . $fileName, $fileContents);
+
+        return redirect()->back()
+            ->with("success", __("Provider created successfully."));
     }
 
     public function update(ProviderRequest $request, Provider $provider): void

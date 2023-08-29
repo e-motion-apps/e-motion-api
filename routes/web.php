@@ -9,7 +9,6 @@ use App\Http\Controllers\CityController;
 use App\Http\Controllers\CityProviderController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\FavoritesController;
-use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ImportInfoController;
 use App\Http\Controllers\ProviderController;
 use Illuminate\Support\Facades\Route;
@@ -26,8 +25,6 @@ Route::middleware("auth")->group(function (): void {
 
     Route::middleware(["role:admin"])->group(function (): void {
         Route::get("/admin/importers", [ImportInfoController::class, "index"]);
-        Route::post("/image/upload/{imageName}", [ImageController::class, "upload"]);
-        Route::post("/image/delete/{imageName}", [ImageController::class, "destroy"]);
         Route::resource("/admin/providers", ProviderController::class);
         Route::resource("/admin/countries", CountryController::class);
         Route::resource("/admin/cities", CityController::class);

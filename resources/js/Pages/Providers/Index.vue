@@ -24,15 +24,12 @@ const props = defineProps({
 const commaInputError = ref('')
 
 function storeProvider() {
-  commaInputError.value = ''
   storeProviderForm.post('/admin/providers', {
     onSuccess: () => {
       storeProviderForm.reset()
       toggleStoreDialog()
-      toast.success(__('Provider created successfully.'))
     },
-    onError: (errors) => {
-      storeErrors.value = errors
+    onError: () => {
       toast.error(__('There was an error creating the provider!'))
     },
   })
@@ -42,6 +39,7 @@ const storeProviderForm = useForm({
   name: '',
   url: '',
   color: '',
+  file: '',
 })
 
 const isStoreDialogOpened = ref(false)
@@ -171,7 +169,9 @@ function uploadImage(event) {
                   <ErrorMessage :message="storeProviderForm.errors.color"/>
 
                   <label class="mb-1 mt-4">{{ __('Image') }}</label>
-                  <input type="file" accept="image/png" class="mb-2" @change="uploadImage" required>
+                  <input type="file" accept="image/png" class="mb-2"
+                         @input="storeProviderForm.file = $event.target.files[0]" required>
+                  <ErrorMessage :message="storeProviderForm.errors.file"/>
 
                   <div class="flex w-full justify-end">
                     <PrimarySaveButton>
