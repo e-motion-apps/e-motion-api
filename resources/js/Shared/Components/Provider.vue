@@ -7,6 +7,7 @@ import { onClickOutside } from '@vueuse/core'
 import SecondarySaveButton from '@/Shared/Components/SecondarySaveButton.vue'
 import { useToast } from 'vue-toastification'
 import { __ } from '@/translate'
+import axios from "axios";
 
 const toast = useToast()
 const props = defineProps({
@@ -15,6 +16,9 @@ const props = defineProps({
 
 function destroyProvider(providerName) {
   router.delete(`/admin/providers/${providerName}`)
+
+  let imageName = providerName.toLowerCase() + '.png' ;
+  axios.post(`/image/delete/${imageName}`);
   toast.success(__('Provider deleted successfully.'))
 }
 

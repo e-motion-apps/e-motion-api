@@ -22,11 +22,12 @@ Route::middleware("guest")->group(function (): void {
 Route::middleware("auth")->group(function (): void {
     Route::post("/logout", [AuthController::class, "logout"])->name("logout");
     Route::post("/favorites", [FavoritesController::class, "store"]);
-    Route::post('/upload-image/{imageName}', [ImageController::class, "upload"]);
     Route::get("/favorites/{city_id}", [FavoritesController::class, "check"]);
 
     Route::middleware(["role:admin"])->group(function (): void {
         Route::get("/admin/importers", [ImportInfoController::class, "index"]);
+        Route::post("/image/upload/{imageName}", [ImageController::class, "upload"]);
+        Route::post("/image/delete/{imageName}", [ImageController::class, "destroy"]);
         Route::resource("/admin/providers", ProviderController::class);
         Route::resource("/admin/countries", CountryController::class);
         Route::resource("/admin/cities", CityController::class);

@@ -104,7 +104,7 @@ function uploadImage(event) {
 
   formData.append('image', image);
 
-  axios.post(`/upload-image/${imageName}`, formData)
+  axios.post(`/image/upload/${imageName}`, formData)
       .then(response => {
         if (response.status === 200 && response.data.success) {
           toast.success(__('Image added successfully.'));
