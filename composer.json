@@ -12,6 +12,7 @@
         "laravel/framework": "^10.13.0",
         "laravel/sanctum": "^3.2.5",
         "laravel/tinker": "^2.8.1",
+        "sentry/sentry-laravel": "^3.7.3",
         "spatie/laravel-permission": "^5.10",
         "stichoza/google-translate-php": "^5.1",
         "symfony/dom-crawler": "^6.3"
