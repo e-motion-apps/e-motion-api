@@ -68,6 +68,26 @@ function goToWebsite(url) {
   window.open(url, '_blank')
 }
 
+function updateImage(event) {
+  let image = event.target.files[0];
+  let formData = new FormData();
+  const imageName = updateProviderForm.name.toLowerCase() + '.png'
+
+  formData.append('image', image);
+
+  axios.post(`/image/upload/${imageName}`, formData)
+      .then(response => {
+        if (response.status === 200 && response.data.success) {
+          toast.success(__('Image added successfully.'));
+        } else {
+          toast.error(__('Image should be: \n • 64px per 64 px \n • max 40 kb \n • .png')); //
+        }
+      })
+      .catch(error => {
+        toast.error(__('Something went wrong on our side. Try again later.'));
+      });
+}
+
 </script>
 
 <template>
@@ -146,6 +166,9 @@ function goToWebsite(url) {
                  required pattern="#[0-9A-Fa-f]{6}"
           >
           <ErrorMessage :message="updateProviderForm.errors.color" />
+
+          <label class="mb-1 mt-4">{{ __('Image') }}</label>
+          <input type="file" accept="image/png" class="mb-2" @change="updateImage" required>
 
           <div class="flex w-full justify-end">
             <SecondarySaveButton>
