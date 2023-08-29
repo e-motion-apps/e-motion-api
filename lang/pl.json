@@ -106,7 +106,7 @@
     "Description: Other": "Oj! Coś poszło nie tak. Spróbuj ponownie później.",
     "At least one city has not been assigned to any country.": "Przynajmniej jedno miasto nie zostało przypisane do żadnego kraju.",
     "City :name will be permanently deleted.": "Miasto :name zostanie bezpowrotnie usunięte.",
-    "Country :name will be permanently deleted.": "Kraj :name zostanie bezpowrotnie usunięty.",
+    "Country :name and its cities will be permanently deleted.": "Kraj :name i jego miasta zostaną bezpowrotnie usunięte.",
     "Cancel": "Anuluj",
     "Delete1": "Usunąć",
     "You have logged in successfully.": "Zalogowano się pomyślnie.",

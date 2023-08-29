@@ -31,7 +31,7 @@ const renderText = () => {
   if (props.type === 'City') {
     translationKey = 'City :name will be permanently deleted.'
   } else {
-    translationKey = 'Country :name will be permanently deleted.'
+    translationKey = 'Country :name and its cities will be permanently deleted.'
   }
 
   return __(translationKey, { name: props.name })
