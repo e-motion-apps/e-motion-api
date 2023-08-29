@@ -16,7 +16,7 @@ class ProviderRequest extends FormRequest
         return [
             "name" => ["required", "string", "regex:/^[A-Z\s]/", "max:100", $this->uniqueRuleForProvider("name")],
             "color" => ["required", "string"],
-            "image" => [
+            "file" => [
                 "required",
                 "mimes:png",
                 File::image()

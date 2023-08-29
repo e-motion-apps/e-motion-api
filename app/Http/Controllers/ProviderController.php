@@ -8,9 +8,9 @@ use App\Http\Requests\ProviderRequest;
 use App\Http\Resources\ProviderResource;
 use App\Models\Provider;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
-use Illuminate\Support\Facades\Storage;
 
 class ProviderController extends Controller
 {
@@ -31,10 +31,10 @@ class ProviderController extends Controller
     {
         Provider::query()->create($request->validated());
 
-        $fileName = $request['name'] . '.png';// . $request->file('file')->getClientOriginalExtension();
-        $fileContents = $request->file('file')->get();
+        $fileName = strtolower($request["name"]) . "." . $request->file("file")->getClientOriginalExtension();
+        $fileContents = $request->file("file")->get();
 
-        Storage::disk('local')->put('public/providers/' . $fileName, $fileContents);
+        Storage::disk("public")->put("providers/" . $fileName, $fileContents);
 
         return redirect()->back()
             ->with("success", __("Provider created successfully."));
