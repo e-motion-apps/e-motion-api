@@ -25,6 +25,13 @@ const formattedType = computed(() => {
   return props.type.charAt(0).toLowerCase() + props.type.slice(1)
 })
 
+const renderHeader = () => {
+  let translationKey = ''
+  translationKey = 'Delete ' + formattedType.value
+
+  return __(translationKey, { type: props.type })
+}
+
 const renderText = () => {
   let translationKey = ''
 
@@ -69,11 +76,11 @@ const renderText = () => {
                   </div>
                   <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                     <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">
-                      {{ __('Delete1') }} {{ __(formattedType) }}{{ "?" }}
+                      {{ renderHeader() }}
                     </DialogTitle>
                     <div class="mt-2">
                       <p class="text-sm text-gray-500">
-                        {{ __(renderText()) }}
+                        {{ renderText() }}
                       </p>
                     </div>
                   </div>
