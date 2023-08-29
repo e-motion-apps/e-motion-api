@@ -108,8 +108,8 @@
     "City :name will be permanently deleted.": "Miasto :name zostanie bezpowrotnie usunięte.",
     "Country :name and its cities will be permanently deleted.": "Kraj :name i jego miasta zostaną bezpowrotnie usunięte.",
     "Cancel": "Anuluj",
-    "Delete city": "Usunąć miasto",
-    "Delete country": "Usunąć kraj",
+    "Delete city?": "Usunąć miasto?",
+    "Delete country?": "Usunąć kraj?",
     "You have logged in successfully.": "Zalogowano się pomyślnie.",
     "You have logged out successfully.": "Wylogowano się pomyślnie.",
     "You have registered successfully.": "Zarejestrowano się pomyślnie."

@@ -27,7 +27,7 @@ const formattedType = computed(() => {
 
 const renderHeader = () => {
   let translationKey = ''
-  translationKey = 'Delete ' + formattedType.value
+  translationKey = 'Delete ' + formattedType.value + '?'
 
   return __(translationKey, { type: props.type })
 }
