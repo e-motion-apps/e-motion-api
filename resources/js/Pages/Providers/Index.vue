@@ -97,6 +97,16 @@ const formattedColor = computed({
     },
 )
 
+const formattedName = computed({
+  get() {
+    return storeProviderForm.name;
+  },
+  set: function (nameValue) {
+    nameValue = nameValue.charAt(0).toUpperCase() + nameValue.slice(1);
+    storeProviderForm.name = nameValue;
+  },
+});
+
 function uploadImage(event) {
   let image = event.target.files[0];
   let formData = new FormData();
@@ -141,7 +151,7 @@ function uploadImage(event) {
 
                 <form class="flex flex-col text-xs font-bold text-gray-600" @submit.prevent="storeProvider">
                   <label class="mb-1 mt-4">{{ __('Name') }}</label>
-                  <input v-model="storeProviderForm.name"
+                  <input v-model="formattedName"
                          class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 md:p-3"
                          type="text" required>
                   <ErrorMessage :message="storeProviderForm.errors.name"/>

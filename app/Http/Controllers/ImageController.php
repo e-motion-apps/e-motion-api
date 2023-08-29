@@ -17,7 +17,7 @@ class ImageController extends Controller
         if ($image->move(public_path("providers"), $imageName)) {
             return response()->json(data: ["success" => true]);
         }
-  
+
         return response()->json(data: ["success" => false]);
     }
 
