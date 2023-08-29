@@ -13,10 +13,8 @@ class ImageRequest extends FormRequest
         return [
             "image" => [
                 "required",
-                "image",
                 "dimensions:width=64,height=64",
                 "max:40960",
-                "ends_with:.png",
             ],
         ];
     }
