@@ -4,15 +4,15 @@ export const useFilterStore = defineStore('useFilterStore', {
   state: () => ({
     selectedCity: null,
 
-    selectedCountryId: null,
+    selectedCountry: null,
     selectedProviderName: null,
   }),
   actions: {
     changeSelectedCity(city) {
       this.selectedCity = city
     },
-    changeSelectedCountry(countryId) {
-      this.selectedCountryId = countryId
+    changeSelectedCountry(country) {
+      this.selectedCountry = country
     },
     changeSelectedProvider(providerName) {
       this.selectedProviderName = providerName

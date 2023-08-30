@@ -64,6 +64,10 @@ const buttonIcon = computed(() => {
   return shouldShowMap.value ? XMarkIcon : MapIcon
 })
 
+const buttonAnimation = computed(() => {
+  return filterStore.selectedCity && buttonIcon.value === MapIcon ? 'animate-bounce' : ''
+})
+
 </script>
 
 <template>
@@ -81,7 +85,7 @@ const buttonIcon = computed(() => {
       </div>
 
       <div v-if="isDesktop || shouldShowMap" class="h-full lg:w-1/2">
-        <Map v-if="dataIsFetched" :key="`${filterStore.selectedCountryId}-${filterStore.selectedProviderName}`" :cities="data.cities" :countries="data.countries" class="z-10" />
+        <Map v-if="dataIsFetched" :key="`${filterStore.selectedCountry}-${filterStore.selectedProviderName}`" :cities="data.cities" class="z-10" />
         <div v-else class="flex h-full flex-col items-center justify-center bg-blumilk-25" aria-label="Loading..." role="status">
           <svg class="h-24 w-24 animate-spin" viewBox="3 3 18 18">
             <path
@@ -100,7 +104,7 @@ const buttonIcon = computed(() => {
       </div>
 
       <div v-if="shouldShowButton" class="flex justify-center">
-        <button class="hover:blumilk-600 fixed bottom-5 z-20 flex items-center justify-center rounded-full bg-blumilk-500 px-2 py-1.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" @click="switchMap">
+        <button :class="buttonAnimation" class="hover:blumilk-600 fixed bottom-5 z-20 flex items-center justify-center rounded-full bg-blumilk-500 px-2 py-1.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" @click="switchMap">
           <component :is="buttonIcon" class="h-6 w-6" />
         </button>
       </div>

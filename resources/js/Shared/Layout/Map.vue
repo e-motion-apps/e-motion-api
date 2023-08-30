@@ -10,7 +10,6 @@ defineOptions({
 
 const props = defineProps({
   cities: Array,
-  countries: Array,
 })
 
 const filterStore = useFilterStore()
@@ -19,28 +18,62 @@ const mapContainer = ref(null)
 const map = ref(null)
 const markers = ref(null)
 
-watch(() => filterStore.selectedCity, () => {
+
+function centerToSelectedCity() {
   if (filterStore.selectedCity) {
     map.value.setView(
       [filterStore.selectedCity.latitude, filterStore.selectedCity.longitude],
       12,
     )
+  } else {
+    refreshMapCenter()
   }
-})
+}
 
-watch(() => props.cities, () => {
-  fillMap()
-})
+function centerToSelectedCountry() {
+  if (filterStore.selectedCountry) {
+    map.value.setView(
+      [filterStore.selectedCountry.latitude, filterStore.selectedCountry.longitude],
+      6,
+    )
+  } else {
+    refreshMapCenter()
+  }
+}
+
+
+function refreshMapCenter() {
+  if (filterStore.selectedCountry) {
+    centerToSelectedCountry()
+  } else {
+    map.value.setView([0, 0], 2)
+  }
+}
 
 onMounted(async () => {
   await nextTick()
   buildMap()
-  getUserLocation()
   fillMap()
+  centerToSelectedCity()
+
+  watch(() => filterStore.selectedCountry, () => {
+    centerToSelectedCountry()
+    clearMap()
+    fillMap()
+  })
+
+  watch(() => filterStore.selectedCity, () => {
+    centerToSelectedCity()
+  })
 })
 
+function clearMap() {
+  markers.value.clearLayers()
+}
+
 function buildMap() {
-  map.value = L.map(mapContainer.value).setView([50, 30], 4)
+  map.value = L.map(mapContainer.value)
+  refreshMapCenter()
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
@@ -51,29 +84,10 @@ function buildMap() {
   map.value.invalidateSize()
 }
 
-const userLocation = ref(null)
-
-function getUserLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      position => {
-        const { latitude, longitude } = position.coords
-        userLocation.value = L.latLng(latitude, longitude)
-        map.value.setView(userLocation.value, 18)
-      },
-      () => {
-        console.error('Error getting user location.')
-      },
-    )
-  } else {
-    console.error('Geolocation is not supported by this browser.')
-  }
-}
-
 function fillMap() {
   markers.value = L.featureGroup()
 
-  const selectedCountryId = filterStore.selectedCountryId
+  const selectedCountryId = filterStore.selectedCountry ? filterStore.selectedCountry.id : null
   const selectedProviderName = filterStore.selectedProviderName
 
   const filteredCities = props.cities.filter(city => {
@@ -91,8 +105,6 @@ function fillMap() {
     }
   })
 
-
-
   filteredCities.forEach(city => {
     const marker = L.circleMarker([city.latitude, city.longitude], {
       radius: 5,
@@ -103,12 +115,35 @@ function fillMap() {
     })
     marker
       .addTo(markers.value)
-      .on('click', () => window)
+      .on('click', () => {
+        filterStore.changeSelectedCity(city)
+      })
       .bindTooltip(`<i class="${city.country.iso} flat flag shadow"></i> ${city.name}, ${city.country.name}`)
   })
 
   markers.value.addTo(map.value)
 }
+
+
+// const userLocation = ref(null)
+
+// function centerToUserLocation() {
+//   if (navigator.geolocation) {
+//     navigator.geolocation.getCurrentPosition(
+//       position => {
+//         const { latitude, longitude } = position.coords
+//         userLocation.value = L.latLng(latitude, longitude)
+//         map.value.setView(userLocation.value, 16)
+//       },
+//       () => {
+//         console.error('Error getting user location.')
+//       },
+//     )
+//   } else {
+//     console.error('Geolocation is not supported by this browser.')
+//   }
+// }
+
 </script>
 
 <template>
