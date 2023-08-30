@@ -8,6 +8,7 @@ use App\Http\Controllers\CityAlternativeNameController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\CityProviderController;
 use App\Http\Controllers\CountryController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FavoritesController;
 use App\Http\Controllers\ImportInfoController;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +27,7 @@ Route::middleware("auth")->group(function (): void {
         Route::get("/admin/importers", [ImportInfoController::class, "index"]);
         Route::resource("/admin/countries", CountryController::class);
         Route::resource("/admin/cities", CityController::class);
+        Route::resource("/admin/dashboard", DashboardController::class);
         Route::resource("/city-alternative-name", CityAlternativeNameController::class);
         Route::patch("/update-city-providers/{city}", [CityProviderController::class, "update"]);
 
