@@ -8,6 +8,7 @@ import SecondarySaveButton from '@/Shared/Components/SecondarySaveButton.vue'
 import { useToast } from 'vue-toastification'
 import { __ } from '@/translate'
 import axios from "axios";
+import UploadFileButton from "./UploadFileButton.vue";
 
 const toast = useToast()
 const props = defineProps({
@@ -28,6 +29,9 @@ function updateProvider(providerName) {
       toggleEditDialog()
       toast.success(__('Provider updated successfully.'))
     },
+    onError: () => {
+      toast.error(__('There was an error creating the provider.'))
+    },
   })
 }
 
@@ -37,12 +41,6 @@ const formattedColor = computed({
       },
       set: function (colorValue) {
        updateProviderForm.color  = colorValue.startsWith('#') ? colorValue : `#${colorValue}`
-
-        if (colorValue.length === 7) {
-          props.provider.errors.color = null
-        } else {
-          props.provider.errors.color = 'Color must be 6 characters long.'
-        }
       },
     },
 )
@@ -51,6 +49,7 @@ const updateProviderForm = useForm({
   name: props.provider.name,
   url: props.provider.url,
   color: props.provider.color,
+  file: props.provider.file,
 })
 
 const isEditDialogOpened = ref(false)
@@ -66,26 +65,6 @@ function goToWebsite(url) {
     url = 'https://' + url
   }
   window.open(url, '_blank')
-}
-
-function updateImage(event) {
-  let image = event.target.files[0];
-  let formData = new FormData();
-  const imageName = updateProviderForm.name.toLowerCase() + '.png'
-
-  formData.append('image', image);
-
-  axios.post(`/image/upload/${imageName}`, formData)
-      .then(response => {
-        if (response.status === 200 && response.data.success) {
-          toast.success(__('Image added successfully.'));
-        } else {
-          toast.error(__('Image should be: \n • 64px per 64 px \n • max 40 kb \n • .png')); //
-        }
-      })
-      .catch(error => {
-        toast.error(__('Something went wrong on our side. Try again later.'));
-      });
 }
 
 </script>
@@ -150,7 +129,6 @@ function updateImage(event) {
           <input v-model="updateProviderForm.name"
                  class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3"
                  type="text"
-                 required
           >
           <ErrorMessage :message="updateProviderForm.errors.name" />
           <label class="mb-1 mt-4">{{ __('Url') }}</label>
@@ -163,12 +141,14 @@ function updateImage(event) {
           <input v-model="formattedColor"
                  class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3"
                  type="text"
-                 required pattern="#[0-9A-Fa-f]{6}"
+                 pattern="#[0-9A-Fa-f]{6}"
           >
           <ErrorMessage :message="updateProviderForm.errors.color" />
 
-          <label class="mb-1 mt-4">{{ __('Image') }}</label>
-          <input type="file" accept="image/png" class="mb-2" @change="updateImage" required>
+          <label class="mb-1 mt-4">{{ __('Logo') }}</label>
+          <UploadFileButton type="file" accept="image/png"
+                            @input="updateProviderForm.file = $event.target.files[0]"/>
+          <ErrorMessage :message="updateProviderForm.errors.file" />
 
           <div class="flex w-full justify-end">
             <SecondarySaveButton>

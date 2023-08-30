@@ -12,7 +12,7 @@ import PaginationInfo from '@/Shared/Components/PaginationInfo.vue'
 import PrimarySaveButton from '@/Shared/Components/PrimarySaveButton.vue'
 import {useToast} from 'vue-toastification'
 import {__} from '@/translate'
-import axios from 'axios'
+import UploadFileButton from "../../Shared/Components/UploadFileButton.vue";
 
 const page = usePage()
 const toast = useToast()
@@ -21,16 +21,15 @@ const props = defineProps({
   providers: Object,
 })
 
-const commaInputError = ref('')
-
 function storeProvider() {
   storeProviderForm.post('/admin/providers', {
     onSuccess: () => {
       storeProviderForm.reset()
+      toast.success(__("Provider created successfully."))
       toggleStoreDialog()
     },
     onError: () => {
-      toast.error(__('There was an error creating the provider!'))
+      toast.error(__('There was an error creating the provider.'))
     },
   })
 }
@@ -51,7 +50,6 @@ function toggleStoreDialog() {
 }
 
 const searchInput = ref('')
-
 
 watch(searchInput, debounce(() => {
   router.get(`/admin/providers?search=${searchInput.value}`, {}, {
@@ -85,12 +83,6 @@ const formattedColor = computed({
       set: function (colorValue) {
         colorValue = colorValue.startsWith('#') ? colorValue : `#${colorValue}`
         storeProviderForm.color = colorValue
-
-        if (colorValue.length === 7) {
-          storeProviderForm.errors.color = null
-        } else {
-          storeProviderForm.errors.color = 'Color must be 6 characters long.'
-        }
       },
     },
 )
@@ -104,26 +96,6 @@ const formattedName = computed({
     storeProviderForm.name = nameValue;
   },
 });
-
-function uploadImage(event) {
-  let image = event.target.files[0];
-  let formData = new FormData();
-  const imageName = storeProviderForm.name.toLowerCase() + '.png'
-
-  formData.append('image', image);
-
-  axios.post(`/image/upload/${imageName}`, formData)
-      .then(response => {
-        if (response.status === 200 && response.data.success) {
-          toast.success(__('Image added successfully.'));
-        } else {
-          toast.error(__('Image should be: \n • 64px per 64 px \n • max 40 kb \n • .png')); //
-        }
-      })
-      .catch(error => {
-        toast.error(__('Something went wrong on our side. Try again later.'));
-      });
-}
 </script>
 
 <template>
@@ -151,7 +123,7 @@ function uploadImage(event) {
                   <label class="mb-1 mt-4">{{ __('Name') }}</label>
                   <input v-model="formattedName"
                          class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 md:p-3"
-                         type="text" required>
+                         type="text">
                   <ErrorMessage :message="storeProviderForm.errors.name"/>
 
                   <label class="mb-1 mt-4">{{ __('Url') }}</label>
@@ -168,9 +140,9 @@ function uploadImage(event) {
                   >
                   <ErrorMessage :message="storeProviderForm.errors.color"/>
 
-                  <label class="mb-1 mt-4">{{ __('Image') }}</label>
-                  <input type="file" accept="image/png" class="mb-2"
-                         @input="storeProviderForm.file = $event.target.files[0]" required>
+                  <label class="mb-1 mt-4">{{ __('Logo') }}</label>
+                  <UploadFileButton type="file" accept="image/png"
+                         @input="storeProviderForm.file = $event.target.files[0]"/>
                   <ErrorMessage :message="storeProviderForm.errors.file"/>
 
                   <div class="flex w-full justify-end">

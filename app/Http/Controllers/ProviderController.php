@@ -37,7 +37,7 @@ class ProviderController extends Controller
         Storage::disk("public")->put("providers/" . $fileName, $fileContents);
 
         return redirect()->back()
-            ->with("success", __("Provider created successfully."));
+            ->with("success");
     }
 
     public function update(ProviderRequest $request, Provider $provider): void
