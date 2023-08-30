@@ -42,9 +42,9 @@ function login() {
     onSuccess: () => {
       toggleAuthDialog()
       loginForm.reset()
+      toast.success(__('You have logged in successfully.'))
     },
   })
-  toast.success(__('You have logged in successfully.'))
 }
 
 const navigation = [
@@ -105,13 +105,17 @@ defineExpose({
         <span class="ml-3 hidden text-2xl font-semibold text-gray-800 sm:flex">e&#8209;scooters</span>
       </InertiaLink>
       <div class="flex md:hidden">
-        <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700" @click="toggleMobileMenu">
+        <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+                @click="toggleMobileMenu"
+        >
           <span class="sr-only">{{ __('Open main menu') }}</span>
           <Bars3Icon class="h-6 w-6" aria-hidden="true" />
         </button>
       </div>
       <div class="hidden items-center md:flex md:gap-x-12">
-        <InertiaLink v-for="item in navigation" :key="item.name" :href="item.href" class="text-sm font-medium leading-6 text-gray-800 lg:text-base">
+        <InertiaLink v-for="item in navigation" :key="item.name" :href="item.href"
+                     class="text-sm font-medium leading-6 text-gray-800 lg:text-base"
+        >
           {{ __(item.name) }}
         </InertiaLink>
         <InertiaLink v-if="isAdmin" href="/admin/cities">

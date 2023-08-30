@@ -17,9 +17,12 @@ const props = defineProps({
 })
 
 const destroyCity = (cityId) => {
-  router.delete(`/admin/cities/${cityId}`)
-  toast.success(__('City deleted successfully.'))
-  showDeleteModal.value = false
+  router.delete(`/admin/cities/${cityId}`, {
+    onSuccess: () => {
+      toast.success(__('City deleted successfully.'))
+      showDeleteModal.value = false
+    },
+  })
 }
 
 function updateCity(cityId) {

@@ -16,9 +16,12 @@ const props = defineProps({
 })
 
 const destroyCountry = (countryId) => {
-  router.delete(`/admin/countries/${countryId}`)
-  toast.success(__('Country deleted successfully'))
-  showDeleteModal.value = false
+  router.delete(`/admin/countries/${countryId}`, {
+    onSuccess: () => {
+      toast.success(__('Country deleted successfully'))
+      showDeleteModal.value = false
+    },
+  })
 }
 
 function updateCountry(countryId) {
