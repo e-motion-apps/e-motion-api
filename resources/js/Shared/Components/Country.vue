@@ -106,7 +106,7 @@ function toggleEditDialog() {
         {{ __('Delete') }}
       </button>
 
-      <DeleteModal v-if="showDeleteModal" :name="country.name" :type="&quot;Country&quot;" @close="showDeleteModal = false" @delete="destroyCountry(country.id)" />
+      <DeleteModal v-if="showDeleteModal" :name="country.name" :type="'Country'" @close="showDeleteModal = false" @delete="destroyCountry(country.id)" />
 
     </span>
   </td>

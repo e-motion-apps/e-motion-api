@@ -29,19 +29,14 @@ const renderHeader = () => {
   let translationKey = ''
   translationKey = 'Delete ' + formattedType.value + '?'
 
-  return __(translationKey, { type: props.type })
+  return __(translationKey)
 }
 
 const renderText = () => {
   let translationKey = ''
+  translationKey = ':type :name will be permanently deleted.'
 
-  if (props.type === 'City') {
-    translationKey = 'City :name will be permanently deleted.'
-  } else {
-    translationKey = 'Country :name and its cities will be permanently deleted.'
-  }
-
-  return __(translationKey, { name: props.name })
+  return __(translationKey, { type: __(props.type), name: props.name })
 }
 </script>
 

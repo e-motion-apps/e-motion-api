@@ -234,7 +234,7 @@ function toggleProvidersForm() {
         {{ __('Delete') }}
       </button>
 
-      <DeleteModal v-if="showDeleteModal" :name="city.name" :type="&quot;City&quot;" @close="showDeleteModal = false" @delete="destroyCity(city.id)" />
+      <DeleteModal v-if="showDeleteModal" :name="city.name" :type="'City'" @close="showDeleteModal = false" @delete="destroyCity(city.id)" />
 
     </span>
   </td>
