@@ -23,18 +23,6 @@ function destroyProvider(providerName) {
   toast.success(__('Provider deleted successfully.'))
 }
 
-function updateProvider(providerName) {
-  updateProviderForm.patch(`/admin/providers/${providerName}`, {
-    onSuccess: () => {
-      toggleEditDialog()
-      toast.success(__('Provider updated successfully.'))
-    },
-    onError: () => {
-      toast.error(__('There was an error updating the provider.'))
-    },
-  })
-}
-
 const formattedColor = computed({
       get() {
         return updateProviderForm.color
@@ -44,6 +32,20 @@ const formattedColor = computed({
       },
     },
 )
+
+function updateProvider(providerName) {
+  console.log(providerName)
+  updateProviderForm.patch(`/admin/providers/${providerName}`, {
+    onSuccess: () => {
+      toggleEditDialog()
+      toast.success(__('Provider updated successfully.'))
+    },
+    onError: () => {
+      console.log(updateProviderForm);
+      toast.error(__('There was an error updating the provider.'))
+    },
+  })
+}
 
 const updateProviderForm = useForm({
   name: props.provider.name,
@@ -65,11 +67,6 @@ function goToWebsite(url) {
     url = 'https://' + url
   }
   window.open(url, '_blank')
-}
-
-function getProviderLogoUrl(providerName) {
-  // Construct the URL using the route and provider name
-  return `/images/providers/${providerName.toLowerCase()}.png`;
 }
 </script>
 
