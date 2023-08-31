@@ -42,6 +42,7 @@ class ProviderController extends Controller
 
     public function update(ProviderRequest $request, Provider $provider): void
     {
+        dd($request->all());
         $provider->update($request->validated());
     }
 

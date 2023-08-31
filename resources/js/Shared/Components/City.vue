@@ -191,7 +191,7 @@ function toggleProvidersForm() {
           :class="selectedCityProviders.includes(provider.name) ? 'drop-shadow-lg' : 'hidden'"
           class="m-1 flex h-5 w-fit items-center justify-center rounded bg-zinc-300 p-1 "
         >
-          <img class="w-5" :src="'/providers/' + provider.name.toLowerCase() + '.png'" alt="">
+          <img class="w-5" :src="`/images/providers/${provider.name.toLowerCase()}.png`" alt="">
         </div>
 
         <div
@@ -330,7 +330,7 @@ function toggleProvidersForm() {
                 type="checkbox"
               >
               <label class="cursor-pointer">
-                <img class="w-10" :src="'/providers/' + provider.name.toLowerCase() + '.png'" alt="">
+                <img class="w-10" :src="`/images/providers/${provider.name.toLowerCase()}.png`" alt="">
               </label>
             </div>
           </div>

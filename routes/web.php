@@ -11,6 +11,7 @@ use App\Http\Controllers\CountryController;
 use App\Http\Controllers\FavoritesController;
 use App\Http\Controllers\ImportInfoController;
 use App\Http\Controllers\ProviderController;
+use App\Http\Controllers\ProviderImageController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware("guest")->group(function (): void {
@@ -38,3 +39,5 @@ Route::middleware("auth")->group(function (): void {
 Route::post("/language/{locale}", ChangeLocaleController::class);
 
 Route::inertia("/", "Landing/Index")->name("home");
+
+Route::get("/images/providers/{filename}", ProviderImageController::class);

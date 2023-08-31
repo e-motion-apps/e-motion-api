@@ -142,7 +142,7 @@ function showCity(city) {
           :class="{ 'opacity-25': filterStore.selectedProviderName !== null && filterStore.selectedProviderName !== provider.name }"
           @click="filterProvider(provider.name)"
       >
-        <img class="w-8" :src="'/providers/' + provider.name.toLowerCase() + '.png'" alt="">
+        <img class="w-8" :src="`/images/providers/${provider.name.toLowerCase()}.png`" alt="">
       </li>
     </ul>
 
@@ -193,7 +193,7 @@ function showCity(city) {
                    class="m-1 flex h-6 w-fit shrink-0 items-center justify-center rounded-md p-1 hover:opacity-75"
                    @click="filterProvider(provider.name)"
               >
-                <img class="w-6" :src="'/providers/' + provider.name.toLowerCase() + '.png'" alt="">
+                <img class="w-6" :src="`/images/providers/${provider.name.toLowerCase()}.png`" alt="">
               </div>
             </div>
           </div>

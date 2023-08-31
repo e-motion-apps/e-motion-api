@@ -30,7 +30,7 @@ function updateProvider(providerName) {
       toast.success(__('Provider updated successfully.'))
     },
     onError: () => {
-      toast.error(__('There was an error creating the provider.'))
+      toast.error(__('There was an error updating the provider.'))
     },
   })
 }
@@ -67,6 +67,10 @@ function goToWebsite(url) {
   window.open(url, '_blank')
 }
 
+function getProviderLogoUrl(providerName) {
+  // Construct the URL using the route and provider name
+  return `/images/providers/${providerName.toLowerCase()}.png`;
+}
 </script>
 
 <template>
@@ -75,7 +79,7 @@ function goToWebsite(url) {
       <div class="mr-2 flex h-8 w-fit shrink-0 items-center justify-center rounded-md p-1"
            :style="{ 'background-color': provider.color }"
       >
-        <img class="w-8" :src="'/providers/' + provider.name.toLowerCase() + '.png'" alt="">
+        <img class="w-8" :src="`/images/providers/${provider.name.toLowerCase()}.png`" alt="">
       </div>
       <div>
         {{ provider.name }}
