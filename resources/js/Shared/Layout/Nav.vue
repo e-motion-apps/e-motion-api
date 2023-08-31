@@ -54,7 +54,7 @@ const navigation = [
 ]
 
 function logout() {
-  router.post('/logout')
+  router.post('/logout', {})
   isMobileMenuOpened.value = false
   toast.success(__('You have logged out successfully.'))
 }
