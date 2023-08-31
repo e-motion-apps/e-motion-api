@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Resources\CityResource;
@@ -15,15 +17,15 @@ class CityPageController extends Controller
     {
         $selectedCity = City::query()
             ->whereBelongsTo($country)
-            ->where('id', $city->id)
+            ->where("id", $city->id)
             ->with("cityProviders", "country")
             ->firstOrFail();
 
         $providers = Provider::all();
 
-        return Inertia::render('City/Index', [
+        return Inertia::render("City/Index", [
             "city" => CityResource::make($selectedCity),
-            "providers" => ProviderResource::collection($providers)
+            "providers" => ProviderResource::collection($providers),
         ]);
     }
 }

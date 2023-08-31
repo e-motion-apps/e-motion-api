@@ -337,16 +337,16 @@ function goToCityPage(city) {
         </div>
 
         <div class="mt-0 flex w-fit items-center justify-end sm:mt-1 sm:justify-start">
-          <div class="mt-2 flex rounded-full sm:ml-[64px] text-gray-600">
-                <FavoriteButton v-if="isAuth" class="flex rounded-full py-0.5 hover:bg-gray-200" :cityid="filterStore.selectedCity.id" />
-                <InfoPopup v-else class="flex rounded-full py-0.5 hover:bg-gray-200" />
+          <div class="mt-2 flex rounded-full text-gray-600 sm:ml-[64px]">
+            <FavoriteButton v-if="isAuth" class="flex rounded-full py-0.5 hover:bg-gray-200" :cityid="filterStore.selectedCity.id" />
+            <InfoPopup v-else class="flex rounded-full py-0.5 hover:bg-gray-200" />
 
-                <div class="ml-2 sm:ml-1 sm:px-1 flex items-center rounded-full py-0.5 text-blumilk-500 hover:bg-gray-200" @click.stop="goToCityPage(filterStore.selectedCity)">
-                    <InformationCircleIcon class="h-8 w-8 sm:h-6 sm:w-6" />
-                    <p class="ml-1 hidden text-xs font-medium sm:flex">
-                        {{ __('Check details') }}
-                    </p>
-                </div>
+            <div class="ml-2 flex items-center rounded-full py-0.5 text-blumilk-500 hover:bg-gray-200 sm:ml-1 sm:px-1" @click.stop="goToCityPage(filterStore.selectedCity)">
+              <InformationCircleIcon class="h-8 w-8 sm:h-6 sm:w-6" />
+              <p class="ml-1 hidden text-xs font-medium sm:flex">
+                {{ __('Check details') }}
+              </p>
+            </div>
           </div>
         </div>
       </div>

@@ -17,6 +17,20 @@ class SortQuery extends Builder
         return $this;
     }
 
+    public function searchCityNames(): self
+    {
+        if (request()->has("search")) {
+            return $this->where(function ($query): void {
+                $query->where("name", "ilike", request("search") . "%")
+                    ->orWhereHas("cityAlternativeNames", function ($subQuery): void {
+                        $subQuery->where("name", "ilike", request("search") . "%");
+                    });
+            });
+        }
+
+        return $this;
+    }
+
     public function orderByTimeRange(): self
     {
         if (request()->input("order") === "oldest") {

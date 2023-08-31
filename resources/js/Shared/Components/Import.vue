@@ -80,7 +80,7 @@ function toggleImportDialog() {
 
   <div v-if="isImportDialogOpened" class="flex flex-col">
     <div class="fixed inset-0 z-10 flex items-center bg-black/50 py-8">
-      <div ref="importDialog" class="mx-auto h-fit max-h-full w-11/12 overflow-y-auto rounded-lg bg-white pb-6 sm:w-5/6 md:w-3/4 lg:w-1/2 xl:w-1/3">
+      <div ref="importDialog" class="scrollbar mx-auto h-fit max-h-full w-11/12 overflow-y-auto rounded-lg bg-white pb-6 sm:w-5/6 md:w-3/4 lg:w-1/2 xl:w-1/3">
         <div class="flex w-full justify-end">
           <button class="px-4 pt-4" @click="toggleImportDialog">
             <XMarkIcon class="h-6 w-6" />
@@ -120,6 +120,10 @@ function toggleImportDialog() {
                   </p>
                   <InertiaLink v-if="detail.code === 419" href="/admin/cities?order=empty-coordinates" class="font-medium">
                     {{ __('Check list of cities with no coordinates.') }}
+                  </InertiaLink>
+
+                  <InertiaLink v-if="detail.code === 420" href="/admin/cities" class="font-medium">
+                    {{ __('Check list of cities with no country assigned') }}
                   </InertiaLink>
                 </div>
               </div>

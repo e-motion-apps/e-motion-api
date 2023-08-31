@@ -178,7 +178,7 @@ function toggleSortDialog() {
                   <InertiaLink v-for="option in sortingOptions" :key="option.href"
                                :href="option.href" class="block px-4 py-2 text-sm text-gray-500 hover:text-blumilk-400" role="menuitem" tabindex="-1"
                   >
-                    <span :class="{'font-medium text-blumilk-400': page.url.startsWith(option.href) || ((page.url === '/admin/countries' || page.url.startsWith('/admin/countries?search=') || page.url.startsWith('/admin/countries?page=')) && option.href.startsWith('/admin/countries?order=oldest'))}">
+                    <span :class="{'font-medium text-blumilk-400': page.url.startsWith(option.href) || ((page.url === '/admin/countries' || page.url.startsWith('/admin/countries?search=') || page.url.startsWith('/admin/countries?page=')) && option.href.startsWith('/admin/countries?order=latest'))}">
                       {{ __(option.name) }}
                     </span>
                   </InertiaLink>

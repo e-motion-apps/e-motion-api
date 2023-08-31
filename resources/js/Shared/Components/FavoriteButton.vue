@@ -74,7 +74,7 @@ onMounted(() => {
   <div ref="intersectionTarget">
     <button @click.stop="toggleFavorite">
       <component :is="result ? SolidHeartIcon : OutlineHeartIcon" v-if="result !== null"
-                 class="h-8 w-8 sm:h-6 sm:w-6 text-rose-500"
+                 class="h-8 w-8 text-rose-500 sm:h-6 sm:w-6"
       />
       <span v-else class="animate-pulse text-rose-200">
         <SolidHeartIcon class="h-8 w-8 sm:h-6 sm:w-6" />

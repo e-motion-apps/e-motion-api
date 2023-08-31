@@ -11,7 +11,7 @@ const showToast = () => {
 </script>
 
 <template>
-  <span @click="showToast">
-    <OutlineHeartIcon class="h-8 w-8 sm:h-6 sm:w-6 text-gray-500" />
+  <span @click.stop="showToast">
+    <OutlineHeartIcon class="h-8 w-8 text-gray-500 sm:h-6 sm:w-6" />
   </span>
 </template>

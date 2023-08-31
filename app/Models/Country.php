@@ -31,13 +31,6 @@ class Country extends Model
         "iso",
     ];
 
-    protected static function booted()
-    {
-        static::creating(function ($country) {
-            $country->slug = Str::slug($country->name);
-        });
-    }
-
     public function cities(): HasMany
     {
         return $this->hasMany(City::class);
@@ -51,5 +44,12 @@ class Country extends Model
     public function newEloquentBuilder($query): SortQuery
     {
         return new SortQuery($query);
+    }
+
+    protected static function booted(): void
+    {
+        static::creating(function ($country): void {
+            $country->slug = Str::slug($country->name);
+        });
     }
 }

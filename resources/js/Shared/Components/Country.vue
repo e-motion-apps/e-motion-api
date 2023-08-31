@@ -99,7 +99,6 @@ function toggleEditDialog() {
     </span>
   </td>
 
-
   <div v-if="isEditDialogOpened" class="flex flex-col overflow-y-auto">
     <div class="fixed inset-0 z-10 flex items-center overflow-y-auto bg-black/50">
       <div ref="editDialog" class="mx-auto w-11/12 rounded-lg bg-white pb-6 sm:w-5/6 md:w-3/4 lg:w-1/2 xl:w-1/3">

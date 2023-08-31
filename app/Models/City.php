@@ -30,13 +30,6 @@ class City extends Model
         "country_id",
     ];
 
-    protected static function booted()
-    {
-        static::creating(function ($city) {
-            $city->slug = Str::slug($city->name);
-        });
-    }
-
     public function cityAlternativeNames(): HasMany
     {
         return $this->hasMany(CityAlternativeName::class);
@@ -60,5 +53,12 @@ class City extends Model
     public function newEloquentBuilder($query): SortQuery
     {
         return new SortQuery($query);
+    }
+
+    protected static function booted(): void
+    {
+        static::creating(function ($city): void {
+            $city->slug = Str::slug($city->name);
+        });
     }
 }
