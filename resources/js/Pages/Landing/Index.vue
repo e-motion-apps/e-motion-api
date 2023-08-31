@@ -1,6 +1,6 @@
 <script setup>
 import Map from '@/Shared/Layout/Map.vue'
-import {computed, onMounted, reactive, ref, watch} from 'vue'
+import { computed, onMounted, reactive, ref, watch } from 'vue'
 import Info from '@/Shared/Layout/Info.vue'
 import SearchPanel from './SearchPanel.vue'
 import Nav from '@/Shared/Layout/Nav.vue'
@@ -34,29 +34,27 @@ const page = usePage()
 const isAuth = computed(() => page.props.auth.isAuth)
 
 
-const data = reactive({
-  cities: [],
-  providers: [],
-  countries: [],
-})
-
 const dataIsFetched = ref(false)
 
 function fetchData() {
-  axios.get('/api/providers').then(response => {
-    data.cities = response.data.cities
-    data.providers = response.data.providers
-    data.countries = response.data.countries
-  }).finally(() => {
+  if (!filterStore.citiesWithProviders.providers.length) {
+    axios.get('/api/providers').then(response => {
+      filterStore.saveCitiesWithProviders(response)
+    }).finally(() => {
+      dataIsFetched.value = true
+    })
+  } else {
     dataIsFetched.value = true
-  })
+  }
 }
+
+const data = reactive(filterStore.citiesWithProviders)
 
 onMounted(() => {
   fetchData()
-    watch(() => filterStore.selectedCity, () => {
-        window.scrollTo(0,0)
-    })
+  watch(() => filterStore.selectedCity, () => {
+    window.scrollTo(0, 0)
+  })
 })
 
 const shouldShowButton = computed(() => {
