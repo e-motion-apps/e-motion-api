@@ -40,4 +40,4 @@ Route::post("/language/{locale}", ChangeLocaleController::class);
 
 Route::inertia("/", "Landing/Index")->name("home");
 
-Route::get("/images/providers/{filename}", ProviderImageController::class);
+Route::get("/images/providers/{filename}", [ProviderController::class, "showLogo"]);

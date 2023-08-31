@@ -171,7 +171,7 @@ function toggleProvidersForm() {
 
   <td class="py-3.5 text-sm text-gray-500 lg:table-cell">
     <div class="flex lg:hidden">
-      <div v-if="selectedCityProviders.length > 0" class="m-1 flex h-5 w-fit items-center justify-center rounded border border-zinc-300 bg-zinc-300 p-1">
+      <div v-if="selectedCityProviders.length > 0" class="m-1 flex h-5 w-fit items-center justify-center rounded bg-zinc-300 p-1">
         <div class="flex h-5 w-5 items-center justify-center text-xs text-gray-500">
           {{ selectedCityProviders.length }}
         </div>
@@ -196,7 +196,7 @@ function toggleProvidersForm() {
 
         <div
           v-if="selectedCityProviders.length > 4 "
-          class="m-1 flex h-5 w-fit items-center justify-center rounded border border-zinc-300 bg-zinc-300 p-1"
+          class="m-1 flex h-5 w-fit items-center justify-center rounded bg-zinc-300 p-1"
         >
           <div class="flex h-5 w-5 items-center justify-center text-xs text-gray-500">
             +{{ selectedCityProviders.length - 4 }}

@@ -11,6 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Facades\File;
 
 class ProviderController extends Controller
 {
@@ -48,5 +49,18 @@ class ProviderController extends Controller
     public function destroy(Provider $provider): void
     {
         $provider->delete();
+        $filePath = storage_path("app/public/providers/" . strtolower($provider["name"]).".png");
+        File::delete($filePath);
+    }
+
+    public function showLogo(string $filename): \Illuminate\Http\Response
+    {
+        $imagePath = storage_path("app/public/providers/" . $filename);
+
+        if (!file_exists($imagePath)) {
+            $imagePath =  storage_path("app/public/providers/unknown.png");
+        }
+
+        return response(file_get_contents($imagePath), 200, ["Content-Type" => "image/png"]);
     }
 }

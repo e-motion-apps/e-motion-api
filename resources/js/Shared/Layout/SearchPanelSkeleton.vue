@@ -16,10 +16,10 @@
           </div>
         </div>
         <div class="flex w-full flex-row-reverse flex-wrap items-center">
-          <div class="m-1 flex h-7 w-10 shrink-0 items-center justify-center rounded-md border border-zinc-300 bg-zinc-300 p-1"
+          <div class="m-1 flex h-7 w-10 shrink-0 items-center justify-center rounded-md bg-zinc-300 p-1"
                style="background-color: #80ff80"
           />
-          <div class="m-1 flex h-7 w-10 shrink-0 items-center justify-center rounded-md border border-zinc-300 bg-zinc-300 p-1"
+          <div class="m-1 flex h-7 w-10 shrink-0 items-center justify-center rounded-md bg-zinc-300 p-1"
                style="background-color: #4444aa"
           />
         </div>
@@ -36,13 +36,13 @@
           </div>
         </div>
         <div class="flex w-full flex-row-reverse flex-wrap items-center">
-          <div class="m-1 flex h-7 w-10 shrink-0 items-center justify-center rounded-md border border-zinc-300 bg-zinc-300 p-1"
+          <div class="m-1 flex h-7 w-10 shrink-0 items-center justify-center rounded-md bg-zinc-300 p-1"
                style="background-color: #34d186"
           />
-          <div class="m-1 flex h-7 w-10 shrink-0 items-center justify-center rounded-md border border-zinc-300 bg-zinc-300 p-1"
+          <div class="m-1 flex h-7 w-10 shrink-0 items-center justify-center rounded-md bg-zinc-300 p-1"
                style="background-color: #26ccf0"
           />
-          <div class="m-1 flex h-7 w-10 shrink-0 items-center justify-center rounded-md border border-zinc-300 bg-zinc-300 p-1"
+          <div class="m-1 flex h-7 w-10 shrink-0 items-center justify-center rounded-md bg-zinc-300 p-1"
                style="background-color: #f5c604"
           />
         </div>
@@ -59,7 +59,7 @@
           </div>
         </div>
         <div class="flex w-full flex-row-reverse flex-wrap items-center">
-          <div class="m-1 flex h-7 w-10 shrink-0 items-center justify-center rounded-md border border-zinc-300 bg-zinc-300 p-1"
+          <div class="m-1 flex h-7 w-10 shrink-0 items-center justify-center rounded-md bg-zinc-300 p-1"
                style="background-color: #f46c63"
           />
         </div>
@@ -76,10 +76,10 @@
           </div>
         </div>
         <div class="flex w-full flex-row-reverse flex-wrap items-center">
-          <div class="m-1 flex h-7 w-10 shrink-0 items-center justify-center rounded-md border border-zinc-300 bg-zinc-300 p-1 "
+          <div class="m-1 flex h-7 w-10 shrink-0 items-center justify-center rounded-md bg-zinc-300 p-1 "
                style="background-color: #80ff80"
           />
-          <div class="m-1 flex h-7 w-10 shrink-0 items-center justify-center rounded-md border border-zinc-300 bg-zinc-300 p-1 "
+          <div class="m-1 flex h-7 w-10 shrink-0 items-center justify-center rounded-md bg-zinc-300 p-1 "
                style="background-color: #34d186"
           />
         </div>
@@ -96,10 +96,10 @@
           </div>
         </div>
         <div class="flex w-full flex-row-reverse flex-wrap items-center">
-          <div class="m-1 flex h-7 w-10 shrink-0 items-center justify-center rounded-md border border-zinc-300 bg-zinc-300 p-1"
+          <div class="m-1 flex h-7 w-10 shrink-0 items-center justify-center rounded-md bg-zinc-300 p-1"
                style="background-color: #f5c604"
           />
-          <div class="m-1 flex h-7 w-10 shrink-0 items-center justify-center rounded-md border border-zinc-300 bg-zinc-300 p-1"
+          <div class="m-1 flex h-7 w-10 shrink-0 items-center justify-center rounded-md bg-zinc-300 p-1"
                style="background-color: #34d186"
           />
         </div>

@@ -106,7 +106,7 @@ function toggleImportDialog() {
                 <div v-if="detail.provider_name === provider.name">
                   <div
                     :style="{'background-color': provider.color}"
-                    class="mr-2 flex h-9 w-fit items-center justify-center rounded border border-zinc-300 p-1"
+                    class="mr-2 flex h-9 w-fit items-center justify-center rounded p-1"
                   >
                     <img :src="`/images/providers/${provider.name.toLowerCase()}.png`" alt="" class="w-12">
                   </div>
