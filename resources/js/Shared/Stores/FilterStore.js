@@ -9,7 +9,7 @@ export const useFilterStore = defineStore('useFilterStore', {
   }),
   actions: {
     changeSelectedCity(city) {
-      this.selectedCity = city
+        this.selectedCity = city
     },
     changeSelectedCountry(country) {
       this.selectedCountry = country

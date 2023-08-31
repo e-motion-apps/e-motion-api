@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\CityRequest;
 use App\Http\Resources\CityResource;
 use App\Http\Resources\CountryResource;
@@ -19,7 +20,7 @@ class CityController extends Controller
     public function index(): Response
     {
         $cities = City::query()
-            ->with("cityAlternativeName", "cityProvider", "country")
+            ->with("cityAlternativeNames", "cityProviders", "country")
             ->orderByProvidersCount()
             ->search("name")
             ->orderByName()

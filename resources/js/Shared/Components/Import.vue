@@ -13,7 +13,7 @@ const props = defineProps({
 })
 
 const status = computed(() => {
-  const importDetails = props.info.import_info_detail
+  const importDetails = props.info.import_info_details
 
   if (importDetails.length === 0) {
     return 'Success'
@@ -98,7 +98,7 @@ function toggleImportDialog() {
               </p>
             </div>
 
-            <div v-for="detail in info.import_info_detail" :key="detail.id"
+            <div v-for="detail in info.import_info_details" :key="detail.id"
                  :class="detail.code === 400 ? 'border-red-600 bg-red-100' : 'border-orange-500 bg-orange-100'"
                  class="mb-4 flex flex-col justify-center rounded border p-2 font-light"
             >

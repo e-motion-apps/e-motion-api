@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 
 /**
  * @property int $id
@@ -30,7 +31,14 @@ class Country extends Model
         "iso",
     ];
 
-    public function city(): HasMany
+    protected static function booted()
+    {
+        static::creating(function ($country) {
+            $country->slug = Str::slug($country->name);
+        });
+    }
+
+    public function cities(): HasMany
     {
         return $this->hasMany(City::class);
     }

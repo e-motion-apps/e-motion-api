@@ -10,6 +10,7 @@ defineOptions({
 
 const props = defineProps({
   cities: Array,
+  isCityPage: Boolean
 })
 
 const filterStore = useFilterStore()
@@ -26,7 +27,7 @@ function centerToSelectedCity() {
       12,
     )
   } else {
-    refreshMapCenter()
+      refreshMapCenter()
   }
 }
 
@@ -50,11 +51,18 @@ function refreshMapCenter() {
   }
 }
 
+function centerToSingleCity() {
+    if (props.isCityPage) {
+        map.value.setView([props.cities[0].latitude, props.cities[0].longitude], 6)
+    }
+}
+
 onMounted(async () => {
   await nextTick()
   buildMap()
   fillMap()
   centerToSelectedCity()
+  centerToSingleCity()
 
   watch(() => filterStore.selectedCountry, () => {
     centerToSelectedCountry()
@@ -116,7 +124,11 @@ function fillMap() {
     marker
       .addTo(markers.value)
       .on('click', () => {
-        filterStore.changeSelectedCity(city)
+          if (filterStore.selectedCity && filterStore.selectedCity.id === city.id) {
+              filterStore.changeSelectedCity(null)
+          } else {
+              filterStore.changeSelectedCity(city)
+          }
       })
       .bindTooltip(`<i class="${city.country.iso} flat flag shadow"></i> ${city.name}, ${city.country.name}`)
   })

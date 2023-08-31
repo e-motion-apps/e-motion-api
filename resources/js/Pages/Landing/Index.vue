@@ -1,6 +1,6 @@
 <script setup>
 import Map from '@/Shared/Layout/Map.vue'
-import { computed, onMounted, reactive, ref } from 'vue'
+import {computed, onMounted, reactive, ref, watch} from 'vue'
 import Info from '@/Shared/Layout/Info.vue'
 import SearchPanel from './SearchPanel.vue'
 import Nav from '@/Shared/Layout/Nav.vue'
@@ -54,6 +54,9 @@ function fetchData() {
 
 onMounted(() => {
   fetchData()
+    watch(() => filterStore.selectedCity, () => {
+        window.scrollTo(0,0)
+    })
 })
 
 const shouldShowButton = computed(() => {
@@ -98,7 +101,7 @@ const buttonAnimation = computed(() => {
             />
           </svg>
           <p class="mt-4 text-xs font-medium text-gray-400">
-            {{ __('Filling map with providers.') }}
+            {{ __('Filling map with providers...') }}
           </p>
         </div>
       </div>

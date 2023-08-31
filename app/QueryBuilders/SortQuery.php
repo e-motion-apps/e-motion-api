@@ -20,7 +20,7 @@ class SortQuery extends Builder
     public function orderByTimeRange(): self
     {
         if (request()->input("order") === "latest") {
-            return $this->orderByDesc("created_at");
+            return $this->orderByDesc("updated_at");
         }
 
         return $this;

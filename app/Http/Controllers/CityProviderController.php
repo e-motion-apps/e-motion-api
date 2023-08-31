@@ -19,19 +19,19 @@ class CityProviderController extends Controller
     public function index(): array
     {
         $cities = CityResource::collection(
-            City::with("cityAlternativeName", "cityProvider", "country")
-                ->has("cityProvider")
-                ->whereHas("cityProvider", function ($query): void {
+            City::with("cityAlternativeNames", "cityProviders", "country")
+                ->has("cityProviders")
+                ->whereHas("cityProviders", function ($query): void {
                     $query->whereNotNull("latitude")->whereNotNull("longitude");
                 })
                 ->get()
                 ->sortBy("name")
-                ->sortByDesc(fn(City $city): int => $city->cityProvider->count()),
+                ->sortByDesc(fn(City $city): int => $city->cityProviders->count()),
         );
 
         $providers = ProviderResource::collection(Provider::all()->sortBy("name"));
-        $countries = Country::whereHas("city.cityProvider")
-            ->with(["city.cityAlternativeName", "city.cityProvider"])
+        $countries = Country::whereHas("cities.cityProviders")
+            ->with(["cities.cityAlternativeNames", "cities.cityProviders"])
             ->get()
             ->sortBy("name");
 
