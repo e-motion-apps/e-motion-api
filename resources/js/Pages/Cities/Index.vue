@@ -277,30 +277,30 @@ const filteredCitiesWithoutCountry = computed(() => {
                     </div>
 
 
-                      <div v-if="filteredCitiesWithoutCountry.length">
-                          <div v-for="city in filteredCitiesWithoutCountry" :key="city.id"
-                               class="mb-4 flex flex-col justify-center rounded border p-2 font-light"
-                          >
-                              <p class="cursor-pointer font-bold text-gray-800 hover:text-gray-500" @click="goToGoogleMaps(city)">
-                                  {{ city.city_name }}
-                              </p>
-                              <p class="text-sm font-medium text-blumilk-500">
-                                  {{ city.country_name }}
-                              </p>
-                              <div class="flex justify-end">
-                                  <button class="rounded-full p-1 hover:bg-gray-100">
-                                      <XMarkIcon class="h-7 w-7 sm:h-5 sm:w-5" @click="deleteCityWithoutAssignedCountry(city)" />
-                                  </button>
+                    <div v-if="filteredCitiesWithoutCountry.length">
+                      <div v-for="city in filteredCitiesWithoutCountry" :key="city.id"
+                           class="mb-4 flex flex-col justify-center rounded border p-2 font-light"
+                      >
+                        <p class="cursor-pointer font-bold text-gray-800 hover:text-gray-500" @click="goToGoogleMaps(city)">
+                          {{ city.city_name }}
+                        </p>
+                        <p class="text-sm font-medium text-blumilk-500">
+                          {{ city.country_name }}
+                        </p>
+                        <div class="flex justify-end">
+                          <button class="rounded-full p-1 hover:bg-gray-100">
+                            <XMarkIcon class="h-7 w-7 sm:h-5 sm:w-5" @click="deleteCityWithoutAssignedCountry(city)" />
+                          </button>
 
-                                  <button class="ml-2 rounded-full p-1 hover:bg-gray-100">
-                                      <MagnifyingGlassIcon class="h-7 w-7 sm:h-5 sm:w-5" @click="searchCity(city)" />
-                                  </button>
-                                  <button class="ml-2 rounded-full p-1 hover:bg-gray-100">
-                                      <PlusCircleIcon class="h-7 w-7 sm:h-5 sm:w-5" @click="sendCityToCreateForm(city)" />
-                                  </button>
-                              </div>
-                          </div>
+                          <button class="ml-2 rounded-full p-1 hover:bg-gray-100">
+                            <MagnifyingGlassIcon class="h-7 w-7 sm:h-5 sm:w-5" @click="searchCity(city)" />
+                          </button>
+                          <button class="ml-2 rounded-full p-1 hover:bg-gray-100">
+                            <PlusCircleIcon class="h-7 w-7 sm:h-5 sm:w-5" @click="sendCityToCreateForm(city)" />
+                          </button>
+                        </div>
                       </div>
+                    </div>
 
                     <p v-else class="mt-6 flex text-sm font-medium text-gray-500">
                       {{ __(`Didn't find anything. Just empty space.`) }}
