@@ -1,14 +1,18 @@
 <script setup>
 import { useFilterStore } from '@/Shared/Stores/FilterStore'
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { router, usePage } from '@inertiajs/vue3'
-import { TrashIcon } from '@heroicons/vue/24/outline'
+import { TrashIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 import FavoriteButton from '@/Shared/Components/FavoriteButton.vue'
 import InfoPopup from '@/Shared/Components/InfoPopup.vue'
 import { __ } from '@/translate'
-import { ChevronDownIcon, FlagIcon, TruckIcon, FunnelIcon, InformationCircleIcon } from '@heroicons/vue/24/outline'
-import { onClickOutside } from '@vueuse/core'
+import { FlagIcon, TruckIcon, FunnelIcon, InformationCircleIcon } from '@heroicons/vue/24/outline'
+import { breakpointsTailwind, onClickOutside, useBreakpoints } from '@vueuse/core'
 import { DynamicScroller, DynamicScrollerItem } from 'vue-virtual-scroller'
+
+const breakpoints = useBreakpoints(breakpointsTailwind)
+const isDesktop = ref(breakpoints.greaterOrEqual('lg'))
+
 
 const filterStore = useFilterStore()
 
@@ -78,9 +82,15 @@ const filteredCountries = computed(() => {
 })
 
 function filterCountry(country) {
-  filterStore.changeSelectedProvider(null)
   filterStore.changeSelectedCity(null)
-  filterStore.changeSelectedCountry(country)
+
+  if (filterStore.selectedCountry && filterStore.selectedCountry.id === country.id) {
+    filterStore.changeSelectedCountry(null)
+  } else {
+    filterStore.changeSelectedCountry(country)
+    filterStore.changeSelectedProvider(null)
+  }
+
 
   if (!isIconFilterEnabled.value) {
     toggleCountryList()
@@ -132,7 +142,7 @@ function toggleProviderList() {
   isProviderListOpened.value = !isProviderListOpened.value
 }
 
-const isIconFilterEnabled = ref(true)
+const isIconFilterEnabled = ref(false)
 
 function changeFilter() {
   isIconFilterEnabled.value = !isIconFilterEnabled.value
@@ -152,6 +162,77 @@ function goToCityPage(city) {
   router.get(`/${city.country.slug}/${city.slug}`)
 }
 
+function isCityShown(city) {
+  return !filterStore.selectedCity || city.id !== filterStore.selectedCity.id
+}
+
+const providerAutocomplete = ref('')
+const countryAutocomplete = ref('')
+
+onMounted(() => {
+  watch(() => filterStore.selectedProviderName, () => {
+    if (filterStore.selectedProviderName) {
+      providerAutocomplete.value = filterStore.selectedProviderName
+    } else {
+      providerAutocomplete.value = ''
+    }
+  })
+
+  watch(() => filterStore.selectedCountry, () => {
+    if (filterStore.selectedCountry) {
+      countryAutocomplete.value = filterStore.selectedCountry.name
+    } else {
+      countryAutocomplete.value = ''
+    }
+  })
+
+  watch(() => providerAutocomplete.value, () => {
+    if (providerAutocomplete.value === '') {
+      filterStore.changeSelectedProvider(null)
+    }
+  })
+
+  watch(() => countryAutocomplete.value, () => {
+    if (countryAutocomplete.value === '') {
+      filterStore.changeSelectedCountry(null)
+    }
+  })
+})
+
+function clearProviderAutocompleteInput() {
+  providerAutocomplete.value = ''
+  toggleProviderList()
+}
+
+function clearCountryAutocompleteInput() {
+  countryAutocomplete.value = ''
+  toggleCountryList()
+}
+
+const filteredProviderSuggestions = computed(() => {
+  return filteredProviders.value.filter(provider =>
+    provider.name.toLowerCase().includes(providerAutocomplete.value.toLowerCase()),
+  )
+})
+
+const filteredCountrySuggestions = computed(() => {
+  return filteredCountries.value.filter(country =>
+    country.name.toLowerCase().includes(countryAutocomplete.value.toLowerCase()),
+  )
+})
+
+function selectProvider(provider) {
+  providerAutocomplete.value = provider.name
+  filterProvider(provider.name)
+  toggleProviderList()
+}
+
+function selectCountry(country) {
+  providerAutocomplete.value = ''
+  countryAutocomplete.value = country.name
+  filterCountry(country)
+  toggleCountryList()
+}
 </script>
 
 <template>
@@ -205,94 +286,87 @@ function goToCityPage(city) {
       </ul>
     </div>
 
-    <div class="px-2 lg:px-3">
-      <div v-if="!isIconFilterEnabled" ref="countryList" class="relative">
-        <div
-          class="cursor-pointer rounded border border-gray-200 bg-gray-50 px-2 py-1 hover:bg-gray-100" @click="toggleCountryList"
-        >
-          <div v-for="country in filteredCountries" :key="country.id">
-            <div v-if="country.isSelected" class="flex items-center p-2">
-              <i :class="country.iso" class="flat large flag" />
-              <span class="ml-2 text-sm">
-                {{ country.name }}
-              </span>
+    <div v-if="!isIconFilterEnabled" class="px-2 lg:px-3">
+      <div ref="countryList" class="relative">
+        <div class="cursor-pointer rounded" @click="toggleCountryList">
+          <div class="m flex w-full rounded-xl shadow-sm">
+            <div class="relative flex grow items-stretch focus-within:z-10">
+              <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                <i v-if="filterStore.selectedCountry" class="flat flag !h-[18px] !w-[27px]" :class="filterStore.selectedCountry.iso" />
+                <FlagIcon v-else class="h-5 w-5 text-gray-800" />
+              </div>
+              <input v-model.trim="countryAutocomplete" type="text" class="block w-full rounded border-0 py-4 pl-12 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blumilk-300 sm:py-3 sm:text-sm sm:leading-6"
+                     :placeholder="__('Search country')"
+              >
             </div>
+            <button v-if="countryAutocomplete.length" type="button" class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-800 ring-1 ring-inset ring-gray-300 hover:bg-blumilk-25" @click="clearCountryAutocompleteInput">
+              <XMarkIcon class="h-5 w-5" />
+            </button>
           </div>
 
-          <div v-if="!filterStore.selectedCountry" class="flex items-center px-2 py-3">
-            <FlagIcon class="h-4 w-4" />
-            <span class="ml-2 text-xs font-medium text-gray-600">
-              {{ __('Choose country') }}
-            </span>
-          </div>
-
-          <button type="button" class="absolute inset-y-0 right-0 flex items-center rounded-r-md pr-2 focus:outline-none">
-            <ChevronDownIcon class="h-4 w-4" />
-          </button>
-        </div>
-
-        <ul v-if="isCountryListOpened" class="scrollbar absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm" role="listbox">
-          <li v-for="country in filteredCountries" :key="country.id"
+          <ul v-if="isCountryListOpened" class="scrollbar absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm" role="listbox">
+            <li
+              v-for="country in filteredCountrySuggestions"
+              :key="country.id"
               :class="{ 'opacity-25': !country.hasProvider }"
               class="relative flex cursor-default select-none items-center p-2 text-gray-900 hover:cursor-pointer hover:bg-gray-100"
-              role="option" tabindex="-1" @click="filterCountry(country)"
-          >
-            <i :class="country.iso"
-               class="flat flag !h-[18px] !w-[27px]"
-            />
-            <span class="ml-2 block truncate text-sm">{{ country.name }}</span>
-          </li>
-        </ul>
+              role="option"
+              tabindex="-1"
+              @click="selectCountry(country)"
+            >
+              <i :class="country.iso" class="flat flag !h-[18px] !w-[27px]" />
+              <span class="ml-2 block truncate text-sm">{{ country.name }}</span>
+            </li>
+          </ul>
+        </div>
       </div>
 
       <div v-if="!isIconFilterEnabled" ref="providerList" class="relative mt-4">
-        <div class="cursor-pointer rounded border border-gray-200 bg-gray-50 px-2 py-1 hover:bg-gray-100" @click="toggleProviderList">
-          <div v-if="filterStore.selectedProviderName" class="flex items-center p-2">
-            <div v-for="provider in filteredProviders" :key="provider.name">
-              <div v-if="provider.name === filterStore.selectedProviderName" :style="{ 'background-color': provider.color }"
-                   class="flex h-7 w-fit shrink-0 items-center justify-center rounded-md border border-zinc-300 p-1 hover:opacity-75"
-                   @click="filterProvider(provider.name)"
-              >
-                <img loading="lazy" class="w-7" :src="'/providers/' + provider.name.toLowerCase() + '.png'" alt="">
+        <div class="cursor-pointer rounded" @click="toggleProviderList">
+          <div class="m flex w-full rounded-xl shadow-sm">
+            <div class="relative flex grow items-stretch focus-within:z-10">
+              <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                <div v-if="filterStore.selectedProviderName" :style="{ 'background-color': getProviderColor(filterStore.selectedProviderName) }"
+                     class="flex h-5 w-fit shrink-0 items-center justify-center rounded px-1"
+                >
+                  <img loading="lazy" class="w-5" :src="'/providers/' + filterStore.selectedProviderName.toLowerCase() + '.png'" alt="">
+                </div>
+
+                <TruckIcon v-else class="h-5 w-5 text-gray-800" />
               </div>
+              <input v-model.trim="providerAutocomplete" type="text" class="block w-full rounded border-0 py-4 pl-12 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blumilk-300 sm:py-3 sm:text-sm sm:leading-6"
+                     :placeholder="__('Search provider')"
+              >
             </div>
-
-            <span class="ml-2 text-sm">
-              {{ filterStore.selectedProviderName }}
-            </span>
+            <button v-if="providerAutocomplete.length" type="button" class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-800 ring-1 ring-inset ring-gray-300 hover:bg-blumilk-25" @click="clearProviderAutocompleteInput">
+              <XMarkIcon class="h-5 w-5" />
+            </button>
           </div>
 
-
-          <div v-if="!filterStore.selectedProviderName" class="flex items-center px-2 py-3">
-            <TruckIcon class="h-4 w-4" />
-            <span class="ml-2 text-xs font-medium text-gray-600">
-              {{ __('Choose provider') }}
-            </span>
-          </div>
-
-          <button type="button" class="absolute inset-y-0 right-0 flex items-center rounded-r-md pr-2 focus:outline-none">
-            <ChevronDownIcon class="h-4 w-4" />
-          </button>
-        </div>
-
-        <ul v-if="isProviderListOpened" class="scrollbar absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm" role="listbox">
-          <li v-for="provider in filteredProviders" :key="provider.name" class="relative flex cursor-default select-none items-center p-2 text-gray-900 hover:cursor-pointer hover:bg-gray-100"
-              role="option" tabindex="-1" @click="filterProvider(provider.name)"
-          >
-            <div :style="{ 'background-color': provider.color }"
-                 class="flex h-5 w-fit shrink-0 items-center justify-center rounded border border-zinc-300 p-1 hover:opacity-75"
+          <ul v-if="isProviderListOpened" class="scrollbar absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm" role="listbox">
+            <li
+              v-for="provider in filteredProviderSuggestions"
+              :key="provider.name"
+              class="relative flex cursor-default select-none items-center p-2 text-gray-900 hover:cursor-pointer hover:bg-gray-100"
+              role="option"
+              tabindex="-1"
+              @click="selectProvider(provider)"
             >
-              <img loading="lazy" class="w-5" :src="'/providers/' + provider.name.toLowerCase() + '.png'" alt="">
-            </div>
-            <span class="ml-2 block truncate text-sm">{{ provider.name }}</span>
-          </li>
-        </ul>
+              <div :style="{ 'background-color': provider.color }" class="flex h-5 w-fit shrink-0 items-center justify-center rounded border border-zinc-300 p-1 hover:opacity-75">
+                <img loading="lazy" class="w-5" :src="'/providers/' + provider.name.toLowerCase() + '.png'" alt="">
+              </div>
+              <span class="ml-2 block truncate text-sm">{{ provider.name }}</span>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
 
 
-    <div class="mb-8 mt-2 flex w-full flex-wrap justify-between px-2 lg:px-3">
-      <button v-if="filteredCities.length" class="mr-1 mt-2 flex h-fit w-fit items-center rounded-lg border border-gray-300 px-4 py-2 text-[10px] font-medium text-gray-600 hover:bg-gray-50"
+    <div :class="isDesktop ? 'justify-between' : 'justify-end'"
+         class="mb-8 mt-2 flex w-full flex-wrap px-2 lg:px-3"
+    >
+      <button v-if="isDesktop && filteredCities.length" class="mr-1 mt-2 flex h-fit w-fit items-center rounded-lg border border-gray-300 px-4 py-2 text-[10px] font-medium text-gray-600 hover:bg-gray-50"
               @click="changeFilter"
       >
         <FunnelIcon class="mr-1 h-4 w-4" />
@@ -319,10 +393,10 @@ function goToCityPage(city) {
       </div>
     </div>
 
-    <div v-if="filterStore.selectedCity" class="group flex origin-left cursor-pointer flex-col items-start justify-between gap-x-6 border-t px-2 py-6 pb-1 transition-all duration-500 ease-out hover:bg-gray-50 sm:flex-row sm:pb-4 lg:px-3"
+    <div v-if="filterStore.selectedCity" class="ggroup flex origin-left cursor-pointer flex-col justify-between gap-x-6 border-b transition-all duration-500 ease-out hover:bg-gray-50 sm:flex-row md:items-center"
          @click="showCity(filterStore.selectedCity)"
     >
-      <div class="flex w-full justify-between sm:flex-col sm:justify-start">
+      <div class="flex w-full justify-between px-2 py-6 pb-1 sm:flex-col sm:justify-start sm:pb-4 lg:px-3">
         <div class="flex w-max items-center">
           <i :class="filterStore.selectedCity.country.iso" class="flat flag huge shrink-0" />
 
@@ -372,11 +446,11 @@ function goToCityPage(city) {
       <template #default="{ item, active }">
         <DynamicScrollerItem :size-dependencies="[item.name]"
                              :item="item" :active="active"
-                             :class="filterStore.selectedCity && filterStore.selectedCity ? 'opacity-25' : ''"
-                             class="group flex origin-left cursor-pointer flex-col items-start justify-between gap-x-6 border-t px-2 py-6 pb-1 transition-all duration-500 ease-out hover:bg-gray-50 sm:flex-row sm:pb-4 lg:px-3"
+                             :class="filterStore.selectedCity ? 'opacity-25' : ''"
+                             class="group flex origin-left cursor-pointer flex-col justify-between gap-x-6 border-b transition-all duration-500 ease-out hover:bg-gray-50 sm:flex-row md:items-center"
                              @click="showCity(item)"
         >
-          <div class="flex w-full justify-between sm:flex-col sm:justify-start">
+          <div v-if="isCityShown(item)" class="flex w-full justify-between px-2 py-6 pb-1 sm:flex-col sm:justify-start sm:pb-4 lg:px-3">
             <div class="flex w-max items-center">
               <i :class="item.country.iso" class="flat flag huge shrink-0" />
 
@@ -390,7 +464,7 @@ function goToCityPage(city) {
               </div>
             </div>
 
-            <div class="mt-0 flex w-fit items-center justify-end sm:ml-[64px] sm:mt-1 sm:justify-start">
+            <div v-if="isCityShown(item)" class="mt-0 flex w-fit items-center justify-end sm:ml-[64px] sm:mt-1 sm:justify-start">
               <FavoriteButton v-if="isAuth" class="flex rounded-full py-0.5 hover:bg-gray-200" :cityid="item.id" />
               <InfoPopup v-else class="flex rounded-full py-0.5 hover:bg-gray-200" />
 
@@ -400,12 +474,12 @@ function goToCityPage(city) {
             </div>
           </div>
 
-          <div class="mb-2 mt-4 flex w-fit flex-row-reverse flex-wrap items-center justify-end sm:mt-0 sm:justify-start">
+          <div v-if="isCityShown(item)" class="mb-2 mt-4 flex w-fit flex-row-reverse flex-wrap items-center justify-end sm:mt-0 sm:justify-start">
             <div v-for="cityProvider in item.cityProviders" :key="cityProvider.provider_name">
               <div :style="{ 'background-color': getProviderColor(cityProvider.provider_name) }"
-                   class="m-1 flex h-6 w-fit shrink-0 items-center justify-center rounded-md border border-zinc-300 p-1"
+                   class="m-1 flex h-7 w-fit shrink-0 items-center justify-center rounded-md border border-zinc-300 p-1 lg:h-8"
               >
-                <img loading="lazy" class="w-6" :src="'/providers/' + cityProvider.provider_name.toLowerCase() + '.png'" alt="">
+                <img loading="lazy" class="w-7 lg:w-8" :src="'/providers/' + cityProvider.provider_name.toLowerCase() + '.png'" alt="">
               </div>
             </div>
           </div>

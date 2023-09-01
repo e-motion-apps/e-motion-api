@@ -3,7 +3,7 @@ import City from '../../Shared/Components/City.vue'
 import { useForm, usePage, router } from '@inertiajs/vue3'
 import { computed, ref, watch } from 'vue'
 import AdminNavigation from '@/Shared/Layout/AdminNavigation.vue'
-import { XMarkIcon, MagnifyingGlassIcon, ChevronDownIcon, PlusCircleIcon, PencilSquareIcon } from '@heroicons/vue/24/outline'
+import { TrashIcon, MagnifyingGlassIcon, ChevronDownIcon, PlusCircleIcon, PencilSquareIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 import ErrorMessage from '@/Shared/Components/ErrorMessage.vue'
 import { onClickOutside } from '@vueuse/core'
 import { debounce } from 'lodash/function'
@@ -84,7 +84,6 @@ function clearInput() {
 const sortingOptions = [
   { name: 'Latest', href: '/admin/cities?order=latest' },
   { name: 'Oldest', href: '/admin/cities?order=oldest' },
-  { name: 'Empty coordinates', href: '/admin/cities?order=empty-coordinates' },
   { name: 'By name', href: '/admin/cities?order=name' },
   { name: 'By providers', href: '/admin/cities?order=providers' },
   { name: 'By country', href: '/admin/cities?order=country' },
@@ -235,14 +234,14 @@ const filteredCitiesWithoutCountry = computed(() => {
           <div v-if="countCitiesWithoutAssignedCountry" class="scrollbar mt-3 flex w-full justify-start overflow-auto">
             <button class="flex items-center rounded border border-rose-500 bg-white p-2 text-sm font-medium text-rose-500 hover:bg-rose-50" @click="toggleCityWithoutCountriesListDialog">
               <PencilSquareIcon class="mr-1 h-5 w-5" />
-              {{ __('Cities with no country assigned:') }} {{ countCitiesWithoutAssignedCountry }}
+              {{ __('Cities with no country assigned') }}: {{ countCitiesWithoutAssignedCountry }}
             </button>
           </div>
 
           <div v-if="countCitiesWithoutCoordinates" class="scrollbar my-2 flex w-full justify-start overflow-auto">
             <InertiaLink :href="'/admin/cities?order=empty-coordinates'" class="flex items-center rounded border border-rose-500 bg-white p-2 text-sm font-medium text-rose-500 hover:bg-rose-50">
               <PencilSquareIcon class="mr-1 h-5 w-5" />
-              {{ __('Cities with no coordinates assigned:') }} {{ countCitiesWithoutCoordinates }}
+              {{ __('Cities with no coordinates assigned') }}: {{ countCitiesWithoutCoordinates }}
             </InertiaLink>
           </div>
 
@@ -254,10 +253,12 @@ const filteredCitiesWithoutCountry = computed(() => {
                     <XMarkIcon class="h-6 w-6" />
                   </button>
                 </div>
-
-                <div class="mt-6 flex flex-col">
+                <div class="flex flex-col">
                   <div class="h-full w-full flex-col px-6">
-                    <div class="mb-2 flex w-full rounded-md shadow-sm">
+                    <h1 class="text-xl font-bold text-gray-800">
+                      {{ __('Cities with no country assigned') }}:
+                    </h1>
+                    <div class="mb-2 mt-6 flex w-full rounded-md shadow-sm">
                       <div class="relative flex grow items-stretch focus-within:z-10">
                         <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                           <MagnifyingGlassIcon class="h-5 w-5 text-gray-800" />
@@ -271,11 +272,10 @@ const filteredCitiesWithoutCountry = computed(() => {
 
                     <div v-if="filteredCitiesWithoutCountry.length" class="flex justify-end">
                       <button class="my-2 flex items-center rounded border border-rose-500 p-2 text-xs font-medium text-rose-500 hover:bg-rose-100" @click="deleteAllCitiesWithoutCountry">
-                        <XMarkIcon class="h-5 w-5" />
-                        {{ __('Delete all') }}
+                        <TrashIcon class="mr-1 h-4 w-4 shrink-0" />
+                        {{ __('Delete all cities with no country assigned') }}
                       </button>
                     </div>
-
 
                     <div v-if="filteredCitiesWithoutCountry.length">
                       <div v-for="city in filteredCitiesWithoutCountry" :key="city.id"
@@ -289,7 +289,7 @@ const filteredCitiesWithoutCountry = computed(() => {
                         </p>
                         <div class="flex justify-end">
                           <button class="rounded-full p-1 hover:bg-gray-100">
-                            <XMarkIcon class="h-7 w-7 sm:h-5 sm:w-5" @click="deleteCityWithoutAssignedCountry(city)" />
+                            <TrashIcon class="h-7 w-7 sm:h-5 sm:w-5" @click="deleteCityWithoutAssignedCountry(city)" />
                           </button>
 
                           <button class="ml-2 rounded-full p-1 hover:bg-gray-100">
@@ -310,7 +310,6 @@ const filteredCitiesWithoutCountry = computed(() => {
               </div>
             </div>
           </div>
-
 
           <div
             :class="props.cities.data.length ? 'justify-between' : 'justify-end'"

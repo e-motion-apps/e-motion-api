@@ -8,6 +8,7 @@
     "Open menu": "Otwórz menu",
     "Search city": "Szukaj miasta",
     "Search country": "Szukaj kraju",
+    "Search provider": "Szukaj dostawcy",
     "Register": "Zarejestruj",
     "Name": "Nazwa",
     "Email": "E-mail",
@@ -116,7 +117,7 @@
     "Your session has expired. Please log in and try again.": "Ta strona wygasła. Zaloguj się ponownie.",
     "Oops. Something went wrong. Try again later.": "Oj! Coś poszło nie tak. Spróbuj ponownie później.",
 
-    "Cities with no country assigned:": "Miasta bez przypisanego kraju:",
-    "Cities with no coordinates assigned:": "Miasta bez przypisanych współrzędnych: ",
-    "Delete all": "Usuń wszystko"
+    "Cities with no country assigned": "Miasta bez przypisanego kraju",
+    "Cities with no coordinates assigned": "Miasta bez przypisanych współrzędnych",
+    "Delete all cities with no country assigned": "Usuń wszystkie miasta bez przypisanego kraju"
 }

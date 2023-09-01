@@ -49,11 +49,20 @@ function login() {
   })
 }
 
-const navigation = [
-  { name: 'My cities', href: '#' },
-  { name: 'Prices', href: '#' },
-  { name: 'Rules', href: '#' },
-]
+const navigation = computed(() => {
+  if (isAuth.value) {
+    return [
+      { name: 'My cities', href: '#' },
+      { name: 'Prices', href: '#' },
+      { name: 'Rules', href: '#' },
+    ]
+  } else {
+    return [
+      { name: 'Prices', href: '#' },
+      { name: 'Rules', href: '#' },
+    ]
+  }
+})
 
 function logout() {
   router.post('/logout', {})
