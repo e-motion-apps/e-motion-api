@@ -26,7 +26,7 @@ class CityProvider extends Model
         return $this->belongsTo(City::class);
     }
 
-    public function provider(): HasMany
+    public function providers(): HasMany
     {
         return $this->hasMany(Provider::class);
     }

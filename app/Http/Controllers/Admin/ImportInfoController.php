@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Resources\ImportInfoResource;
 use App\Models\Code;
 use App\Models\ImportInfo;
@@ -15,7 +16,7 @@ class ImportInfoController extends Controller
     public function index()
     {
         $importInfo = ImportInfo::query()
-            ->with("importInfoDetail")
+            ->with("importInfoDetails")
             ->orderByDesc("created_at")
             ->paginate(15)
             ->withQueryString();

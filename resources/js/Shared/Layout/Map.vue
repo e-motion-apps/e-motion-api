@@ -1,11 +1,11 @@
 <script setup>
-import { ref, onMounted, nextTick, watch } from 'vue'
+import { ref, onMounted, nextTick, watch, defineProps } from 'vue'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import { useFilterStore } from '../Stores/FilterStore'
 
-const props = defineProps({
-  cities: Array,
+defineOptions({
+  inheritAttrs: false,
 })
 
 const filterStore = useFilterStore()
@@ -14,77 +14,76 @@ const mapContainer = ref(null)
 const map = ref(null)
 const markers = ref(null)
 
-watch(() => filterStore.selectedCity, () => {
-  if (filterStore.selectedCity) {
-    map.value.setView(
-      [filterStore.selectedCity.latitude, filterStore.selectedCity.longitude],
-      12,
-    )
-  }
-})
-
-watch(() => props.cities, () => {
-  fillMap()
+const props = defineProps({
+  cities: Array,
+  isCityPage: Boolean,
 })
 
 onMounted(async () => {
   await nextTick()
   buildMap()
-  getUserLocation()
   fillMap()
+  centerToSelectedCountry()
+  centerToSelectedCity()
+  centerToSingleCity()
+
+
+  watch(() => filterStore.selectedCountry, () => {
+    centerToSelectedCountry()
+    clearMap()
+    fillMap()
+  })
+
+  watch(() => filterStore.selectedCity, () => {
+    centerToSelectedCity()
+  })
 })
 
+function centerToSelectedCity() {
+  centerToLocation(filterStore.selectedCity, 12)
+}
+
+function centerToSelectedCountry() {
+  centerToLocation(filterStore.selectedCountry, 6)
+}
+
+function centerToLocation(location, zoom) {
+  if (location) {
+    map.value.setView([location.latitude, location.longitude], zoom)
+  } else {
+    if (filterStore.selectedCountry) {
+      centerToSelectedCountry()
+    } else {
+      map.value.setView([0, 0], 2)
+    }
+  }
+}
+
+function centerToSingleCity() {
+  if (props.isCityPage && props.cities.length) {
+    centerToLocation(props.cities[0], 12)
+  }
+}
+
+function clearMap() {
+  markers.value.clearLayers()
+}
+
 function buildMap() {
-  map.value = L.map(mapContainer.value).setView([50, 30], 4)
+  map.value = L.map(mapContainer.value)
+  map.value.setView([0, 0], 2)
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
     maxZoom: 18,
-    center: [0, 0],
   }).addTo(map.value)
-
-  map.value.invalidateSize()
-}
-
-const userLocation = ref(null)
-
-function getUserLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      position => {
-        const { latitude, longitude } = position.coords
-        userLocation.value = L.latLng(latitude, longitude)
-        map.value.setView(userLocation.value, 18)
-      },
-      () => {
-        console.error('Error getting user location.')
-      },
-    )
-  } else {
-    console.error('Geolocation is not supported by this browser.')
-  }
 }
 
 function fillMap() {
   markers.value = L.featureGroup()
 
-  const selectedCountryId = filterStore.selectedCountryId
-  const selectedProviderName = filterStore.selectedProviderName
-
-  const filteredCities = props.cities.filter(city => {
-    if (selectedCountryId !== null && selectedProviderName === null) {
-      return city.country.id === selectedCountryId
-    } else if (selectedCountryId === null && selectedProviderName !== null) {
-      return city.cityProviders.some(cityProvider => cityProvider.provider_name === selectedProviderName)
-    } else if (selectedCountryId !== null && selectedProviderName !== null) {
-      return (
-        city.country.id === selectedCountryId &&
-                city.cityProviders.some(cityProvider => cityProvider.provider_name === selectedProviderName)
-      )
-    } else {
-      return true
-    }
-  })
+  const { selectedCountry, selectedProviderName } = filterStore
+  const filteredCities = filterCities(props.cities, selectedCountry, selectedProviderName)
 
   filteredCities.forEach(city => {
     const marker = L.circleMarker([city.latitude, city.longitude], {
@@ -94,24 +93,34 @@ function fillMap() {
       fillColor: '#527ABA',
       fillOpacity: 1,
     })
+
     marker
       .addTo(markers.value)
-      .on('click', () => window)
+      .on('click', () => {
+        const selectedCity = filterStore.selectedCity
+
+        if (selectedCity && selectedCity.id === city.id) {
+          filterStore.changeSelectedCity(null)
+        } else {
+          filterStore.changeSelectedCity(city)
+        }
+      })
       .bindTooltip(`<i class="${city.country.iso} flat flag shadow"></i> ${city.name}, ${city.country.name}`)
   })
 
   markers.value.addTo(map.value)
 }
+
+function filterCities(cities, selectedCountry, selectedProviderName) {
+  return cities.filter(city => {
+    const matchCountry = !selectedCountry || city.country.id === selectedCountry.id
+    const matchProvider = !selectedProviderName || city.cityProviders.some(cityProvider => cityProvider.provider_name === selectedProviderName)
+
+    return matchCountry && matchProvider
+  })
+}
 </script>
 
 <template>
-  <div id="mapContainer" ref="mapContainer" />
+  <div id="mapContainer" ref="mapContainer" class="fixed h-full w-full lg:w-1/2" />
 </template>
-
-<style scoped>
-#mapContainer {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-}
-</style>
