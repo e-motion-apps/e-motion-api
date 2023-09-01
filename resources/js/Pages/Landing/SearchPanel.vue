@@ -169,21 +169,32 @@ function isCityShown(city) {
 const providerAutocomplete = ref('')
 const countryAutocomplete = ref('')
 
+function rememberProviderAutocompleteValue() {
+  if (filterStore.selectedProviderName) {
+    providerAutocomplete.value = filterStore.selectedProviderName
+  } else {
+    providerAutocomplete.value = ''
+  }
+}
+
+function rememberCountryAutocompleteValue() {
+  if (filterStore.selectedCountry) {
+    countryAutocomplete.value = filterStore.selectedCountry.name
+  } else {
+    countryAutocomplete.value = ''
+  }
+}
+
 onMounted(() => {
+  rememberProviderAutocompleteValue()
+  rememberCountryAutocompleteValue()
+
   watch(() => filterStore.selectedProviderName, () => {
-    if (filterStore.selectedProviderName) {
-      providerAutocomplete.value = filterStore.selectedProviderName
-    } else {
-      providerAutocomplete.value = ''
-    }
+    rememberProviderAutocompleteValue()
   })
 
   watch(() => filterStore.selectedCountry, () => {
-    if (filterStore.selectedCountry) {
-      countryAutocomplete.value = filterStore.selectedCountry.name
-    } else {
-      countryAutocomplete.value = ''
-    }
+    rememberCountryAutocompleteValue()
   })
 
   watch(() => providerAutocomplete.value, () => {
@@ -295,9 +306,11 @@ function selectCountry(country) {
                 <i v-if="filterStore.selectedCountry" class="flat flag !h-[18px] !w-[27px]" :class="filterStore.selectedCountry.iso" />
                 <FlagIcon v-else class="h-5 w-5 text-gray-800" />
               </div>
-              <input v-model.trim="countryAutocomplete" type="text" class="block w-full rounded border-0 py-4 pl-12 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blumilk-300 sm:py-3 sm:text-sm sm:leading-6"
-                     :placeholder="__('Search country')"
-              >
+              <keep-alive>
+                <input v-model.trim="countryAutocomplete" type="text" class="block w-full rounded border-0 py-4 pl-12 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blumilk-300 sm:py-3 sm:text-sm sm:leading-6"
+                       :placeholder="__('Search country')"
+                >
+              </keep-alive>
             </div>
             <button v-if="countryAutocomplete.length" type="button" class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-800 ring-1 ring-inset ring-gray-300 hover:bg-blumilk-25" @click="clearCountryAutocompleteInput">
               <XMarkIcon class="h-5 w-5" />

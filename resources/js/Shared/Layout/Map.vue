@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, nextTick, watch, defineProps } from 'vue'
+import { ref, onMounted, nextTick, watch } from 'vue'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import { useFilterStore } from '../Stores/FilterStore'
@@ -27,7 +27,6 @@ onMounted(async () => {
   centerToSelectedCity()
   centerToSingleCity()
 
-
   watch(() => filterStore.selectedCountry, () => {
     centerToSelectedCountry()
     clearMap()
@@ -44,7 +43,18 @@ function centerToSelectedCity() {
 }
 
 function centerToSelectedCountry() {
-  centerToLocation(filterStore.selectedCountry, 6)
+  if (filterStore.selectedCountry) {
+    switch (filterStore.selectedCountry.name) {
+    case 'Australia':
+    case 'Canada':
+    case 'China':
+    case 'Russia':
+      centerToLocation(filterStore.selectedCountry, 2)
+      break
+    default:
+      centerToLocation(filterStore.selectedCountry, 6)
+    }
+  }
 }
 
 function centerToLocation(location, zoom) {
