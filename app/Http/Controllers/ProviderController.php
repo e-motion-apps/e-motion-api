@@ -8,10 +8,10 @@ use App\Http\Requests\ProviderRequest;
 use App\Http\Resources\ProviderResource;
 use App\Models\Provider;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
-use Illuminate\Support\Facades\File;
 
 class ProviderController extends Controller
 {
@@ -28,7 +28,7 @@ class ProviderController extends Controller
         ]);
     }
 
-    public function store(ProviderRequest $request): RedirectResponse
+    public function store(ProviderRequest $request): void
     {
         Provider::query()->create($request->validated());
 
@@ -36,21 +36,31 @@ class ProviderController extends Controller
         $fileContents = $request->file("file")->get();
 
         Storage::disk("public")->put("providers/" . $fileName, $fileContents);
-
-        return redirect()->back()
-            ->with("success");
     }
 
     public function update(ProviderRequest $request, Provider $provider): void
     {
         $provider->update($request->validated());
+
+        $imageName = strtolower($provider["name"]) . ".png";
+        $storageImagePath = storage_path("app/public/providers/" . $imageName);
+        $resourceImagePath = resource_path("providers/" . $imageName);
+        $imageContents = $request->file("file")->get();
+
+        if (file_exists($resourceImagePath)) {
+            file_put_contents($resourceImagePath, $imageContents);
+            Storage::put($storageImagePath, file_get_contents($imageContents)); //storage
+        } else {
+            Storage::put($storageImagePath, file_get_contents($imageContents)); //storage
+        }
+
     }
 
     public function destroy(Provider $provider): void
     {
         $provider->delete();
-        $filePath = storage_path("app/public/providers/" . strtolower($provider["name"]).".png");
-        File::delete($filePath);
+        $imagePath = storage_path("app/public/providers/" . strtolower($provider["name"]) . ".png");
+        File::delete($imagePath);
     }
 
     public function showLogo(string $filename): \Illuminate\Http\Response
@@ -58,7 +68,7 @@ class ProviderController extends Controller
         $imagePath = storage_path("app/public/providers/" . $filename);
 
         if (!file_exists($imagePath)) {
-            $imagePath =  storage_path("app/public/providers/unknown.png");
+            $imagePath = storage_path("app/public/providers/unknown.png");
         }
 
         return response(file_get_contents($imagePath), 200, ["Content-Type" => "image/png"]);

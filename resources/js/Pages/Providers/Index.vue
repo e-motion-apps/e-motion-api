@@ -1,9 +1,9 @@
 <script setup>
 import Provider from '../../Shared/Components/Provider.vue'
-import {useForm, usePage, router} from '@inertiajs/vue3'
+import {router, useForm, usePage} from '@inertiajs/vue3'
 import {computed, ref, watch} from 'vue'
 import AdminNavigation from '@/Shared/Layout/AdminNavigation.vue'
-import {XMarkIcon, MagnifyingGlassIcon, ChevronDownIcon} from '@heroicons/vue/24/outline'
+import {ChevronDownIcon, MagnifyingGlassIcon, XMarkIcon} from '@heroicons/vue/24/outline'
 import ErrorMessage from '@/Shared/Components/ErrorMessage.vue'
 import {onClickOutside} from '@vueuse/core'
 import {debounce} from 'lodash/function'
@@ -84,18 +84,19 @@ const formattedColor = computed({
         colorValue = colorValue.startsWith('#') ? colorValue : `#${colorValue}`
         storeProviderForm.color = colorValue
       },
-    },
+    }
 )
 
 const formattedName = computed({
-  get() {
-    return storeProviderForm.name;
-  },
-  set: function (nameValue) {
-    nameValue = nameValue.charAt(0).toUpperCase() + nameValue.slice(1);
-    storeProviderForm.name = nameValue;
-  },
-});
+      get() {
+        return storeProviderForm.name;
+      },
+      set: function (nameValue) {
+        nameValue = nameValue.charAt(0).toUpperCase() + nameValue.slice(1);
+        storeProviderForm.name = nameValue;
+      },
+    }
+)
 </script>
 
 <template>
@@ -142,7 +143,7 @@ const formattedName = computed({
 
                   <label class="mb-1 mt-4">{{ __('Logo') }}</label>
                   <UploadFileButton type="file" accept="image/png"
-                         @input="storeProviderForm.file = $event.target.files[0]"/>
+                                    @input="storeProviderForm.file = $event.target.files[0]"/>
                   <ErrorMessage :message="storeProviderForm.errors.file"/>
 
                   <div class="flex w-full justify-end">

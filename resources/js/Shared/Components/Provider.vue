@@ -7,7 +7,6 @@ import { onClickOutside } from '@vueuse/core'
 import SecondarySaveButton from '@/Shared/Components/SecondarySaveButton.vue'
 import { useToast } from 'vue-toastification'
 import { __ } from '@/translate'
-import axios from "axios";
 import UploadFileButton from "./UploadFileButton.vue";
 
 const toast = useToast()
@@ -18,8 +17,6 @@ const props = defineProps({
 function destroyProvider(providerName) {
   router.delete(`/admin/providers/${providerName}`)
 
-  let imageName = providerName.toLowerCase() + '.png' ;
-  axios.post(`/image/delete/${imageName}`);
   toast.success(__('Provider deleted successfully.'))
 }
 
@@ -30,7 +27,18 @@ const formattedColor = computed({
       set: function (colorValue) {
        updateProviderForm.color  = colorValue.startsWith('#') ? colorValue : `#${colorValue}`
       },
-    },
+    }
+)
+
+const formattedName = computed({
+      get() {
+        return updateProviderForm.name;
+      },
+      set: function (nameValue) {
+        nameValue = nameValue.charAt(0).toUpperCase() + nameValue.slice(1);
+        updateProviderForm.name = nameValue;
+      },
+    }
 )
 
 function updateProvider(providerName) {
@@ -127,7 +135,7 @@ function goToWebsite(url) {
               @submit.prevent="updateProvider(provider.name)"
         >
           <label class="mb-1 mt-4">{{ __('Name') }}</label>
-          <input v-model="updateProviderForm.name"
+          <input v-model="formattedName"
                  class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3"
                  type="text"
           >
