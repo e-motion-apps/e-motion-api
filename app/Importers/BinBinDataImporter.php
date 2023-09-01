@@ -61,7 +61,9 @@ class BinBinDataImporter extends DataImporter
 
             $provider = $this->load($cityName, $countryName);
 
-            if ($provider !== "") $existingCityProviders[] = $provider;
+            if ($provider !== "") {
+                $existingCityProviders[] = $provider;
+            }
         }
 
         $this->deleteMissingProviders(self::getProviderName(), $existingCityProviders);

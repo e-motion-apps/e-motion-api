@@ -125,7 +125,7 @@ abstract class DataImporter
                 $cityId = $alternativeCityName->city_id;
                 $city = City::query()->where("id", $cityId)->first();
 
-                if ($city->country_id === $country->id){
+                if ($city->country_id === $country->id) {
                     $this->createProvider($cityId, self::getProviderName());
                 }
             }

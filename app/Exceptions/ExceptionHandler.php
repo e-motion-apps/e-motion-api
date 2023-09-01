@@ -8,6 +8,7 @@ use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
+use Sentry\Laravel\Integration;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
@@ -18,6 +19,13 @@ class ExceptionHandler extends Handler
         "password",
         "password_confirmation",
     ];
+
+    public function register(): void
+    {
+        $this->reportable(function (Throwable $exception): void {
+            Integration::captureUnhandledException($exception);
+        });
+    }
 
     public function render($request, Throwable $exception)
     {
