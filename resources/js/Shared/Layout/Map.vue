@@ -23,8 +23,10 @@ onMounted(async () => {
   await nextTick()
   buildMap()
   fillMap()
+  centerToSelectedCountry()
   centerToSelectedCity()
   centerToSingleCity()
+
 
   watch(() => filterStore.selectedCountry, () => {
     centerToSelectedCountry()
@@ -38,27 +40,28 @@ onMounted(async () => {
 })
 
 function centerToSelectedCity() {
-  const selectedCity = filterStore.selectedCity
-  centerToLocation(selectedCity)
+  centerToLocation(filterStore.selectedCity, 12)
 }
 
 function centerToSelectedCountry() {
-  const selectedCountry = filterStore.selectedCountry
-  centerToLocation(selectedCountry)
+  centerToLocation(filterStore.selectedCountry, 6)
 }
 
-function centerToLocation(location) {
+function centerToLocation(location, zoom) {
   if (location) {
-    map.value.setView([location.latitude, location.longitude], location.zoom || 6)
+    map.value.setView([location.latitude, location.longitude], zoom)
   } else {
-    map.value.setView([0, 0], 2)
+    if (filterStore.selectedCountry) {
+      centerToSelectedCountry()
+    } else {
+      map.value.setView([0, 0], 2)
+    }
   }
 }
 
 function centerToSingleCity() {
   if (props.isCityPage && props.cities.length) {
-    const firstCity = props.cities[0]
-    map.value.setView([firstCity.latitude, firstCity.longitude], 6)
+    centerToLocation(props.cities[0], 12)
   }
 }
 
@@ -94,7 +97,9 @@ function fillMap() {
     marker
       .addTo(markers.value)
       .on('click', () => {
-        if (filterStore.selectedCity && filterStore.selectedCity.id === city.id) {
+        const selectedCity = filterStore.selectedCity
+
+        if (selectedCity && selectedCity.id === city.id) {
           filterStore.changeSelectedCity(null)
         } else {
           filterStore.changeSelectedCity(city)

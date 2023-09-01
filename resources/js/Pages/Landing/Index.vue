@@ -86,7 +86,7 @@ const buttonAnimation = computed(() => {
       </div>
 
       <div v-if="isDesktop || shouldShowMap" class="h-full lg:w-1/2">
-        <Map v-if="dataIsFetched" :key="`${filterStore.selectedCountry}-${filterStore.selectedProviderName}`" :cities="data.cities" class="z-10" />
+        <Map v-if="dataIsFetched" :cities="data.cities" class="z-10" />
         <div v-else class="flex h-full flex-col items-center justify-center bg-blumilk-25" aria-label="Loading..." role="status">
           <svg class="h-24 w-24 animate-spin" viewBox="3 3 18 18">
             <path
