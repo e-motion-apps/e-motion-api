@@ -237,7 +237,7 @@ const formattedName = computed({
               </tr>
               </thead>
               <tbody>
-              <tr v-for="provider in props.providers.data" :key="provider.id" class="border-t">
+              <tr v-for="provider in props.providers.data" :key="provider.name" class="border-t">
                 <Provider :provider="provider"/>
               </tr>
               </tbody>

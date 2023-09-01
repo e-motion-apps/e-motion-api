@@ -1,12 +1,12 @@
 <script setup>
 import {computed, ref} from 'vue'
-import { router, useForm } from '@inertiajs/vue3'
-import { PencilIcon, TrashIcon, XMarkIcon } from '@heroicons/vue/24/outline'
+import {router, useForm} from '@inertiajs/vue3'
+import {PencilIcon, TrashIcon, XMarkIcon} from '@heroicons/vue/24/outline'
 import ErrorMessage from '@/Shared/Components/ErrorMessage.vue'
-import { onClickOutside } from '@vueuse/core'
+import {onClickOutside} from '@vueuse/core'
 import SecondarySaveButton from '@/Shared/Components/SecondarySaveButton.vue'
-import { useToast } from 'vue-toastification'
-import { __ } from '@/translate'
+import {useToast} from 'vue-toastification'
+import {__} from '@/translate'
 import UploadFileButton from "./UploadFileButton.vue";
 
 const toast = useToast()
@@ -25,7 +25,7 @@ const formattedColor = computed({
         return updateProviderForm.color
       },
       set: function (colorValue) {
-       updateProviderForm.color  = colorValue.startsWith('#') ? colorValue : `#${colorValue}`
+        updateProviderForm.color = colorValue.startsWith('#') ? colorValue : `#${colorValue}`
       },
     }
 )
@@ -43,7 +43,7 @@ const formattedName = computed({
 
 function updateProvider(providerName) {
   console.log(providerName)
-  updateProviderForm.patch(`/admin/providers/${providerName}`, {
+  updateProviderForm.put(`/admin/providers/${providerName}`, {
     onSuccess: () => {
       toggleEditDialog()
       toast.success(__('Provider updated successfully.'))
@@ -92,7 +92,8 @@ function goToWebsite(url) {
     </div>
   </td>
   <td class="hidden break-all py-3.5 text-sm text-gray-500 lg:table-cell">
-    <p v-if="provider.url" class="cursor-pointer break-all rounded text-blumilk-500 hover:bg-blumilk-25" @click="goToWebsite(provider.url)">
+    <p v-if="provider.url" class="cursor-pointer break-all rounded text-blumilk-500 hover:bg-blumilk-25"
+       @click="goToWebsite(provider.url)">
       {{ provider.url }}
     </p>
     <p v-else class="break-all rounded">
@@ -106,17 +107,17 @@ function goToWebsite(url) {
   <td class="relative table-cell justify-end border-t text-right text-xs font-medium sm:pl-3 md:pr-2">
     <span class="flex flex-wrap">
       <button
-        class="mx-0.5 mb-1 flex w-fit shrink-0 items-center rounded py-1 pr-2 text-blumilk-500 hover:bg-blumilk-25"
-        @click="toggleEditDialog"
+          class="mx-0.5 mb-1 flex w-fit shrink-0 items-center rounded py-1 pr-2 text-blumilk-500 hover:bg-blumilk-25"
+          @click="toggleEditDialog"
       >
-        <PencilIcon class="h-5 w-8 text-blumilk-500" />
+        <PencilIcon class="h-5 w-8 text-blumilk-500"/>
         {{ __('Edit') }}
       </button>
 
       <button class="mx-0.5 mb-1 flex w-fit shrink-0 items-center rounded py-1 pr-2 text-rose-500 hover:bg-rose-100"
               @click="destroyProvider(provider.name)"
       >
-        <TrashIcon class="h-5 w-8 text-rose-500" />
+        <TrashIcon class="h-5 w-8 text-rose-500"/>
         {{ __('Delete') }}
       </button>
     </span>
@@ -127,37 +128,39 @@ function goToWebsite(url) {
       <div ref="editDialog" class="mx-auto w-11/12 rounded-lg bg-white pb-6 sm:w-5/6 md:w-3/4 lg:w-1/2 xl:w-1/3">
         <div class="flex w-full justify-end">
           <button class="px-4 pt-4" @click="toggleEditDialog">
-            <XMarkIcon class="h-6 w-6" />
+            <XMarkIcon class="h-6 w-6"/>
           </button>
         </div>
 
         <form class="flex flex-col rounded px-6 text-xs font-bold text-gray-600"
               @submit.prevent="updateProvider(provider.name)"
         >
+          <h1 class="mb-3 text-lg font-bold text-gray-800">
+            {{ __('Update provider') }}
+          </h1>
           <label class="mb-1 mt-4">{{ __('Name') }}</label>
           <input v-model="formattedName"
                  class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3"
                  type="text"
           >
-          <ErrorMessage :message="updateProviderForm.errors.name" />
+          <ErrorMessage :message="updateProviderForm.errors.name"/>
           <label class="mb-1 mt-4">{{ __('Url') }}</label>
           <input v-model="updateProviderForm.url"
                  class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3"
                  type="text"
           >
-          <ErrorMessage :message="updateProviderForm.errors.url" />
+          <ErrorMessage :message="updateProviderForm.errors.url"/>
           <label class="mb-1 mt-4">{{ __('Color') }}</label>
           <input v-model="formattedColor"
                  class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3"
                  type="text"
-                 pattern="#[0-9A-Fa-f]{6}"
           >
-          <ErrorMessage :message="updateProviderForm.errors.color" />
+          <ErrorMessage :message="updateProviderForm.errors.color"/>
 
           <label class="mb-1 mt-4">{{ __('Logo') }}</label>
           <UploadFileButton type="file" accept="image/png"
                             @input="updateProviderForm.file = $event.target.files[0]"/>
-          <ErrorMessage :message="updateProviderForm.errors.file" />
+          <ErrorMessage :message="updateProviderForm.errors.file"/>
 
           <div class="flex w-full justify-end">
             <SecondarySaveButton>

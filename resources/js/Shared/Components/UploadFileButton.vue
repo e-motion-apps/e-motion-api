@@ -24,6 +24,6 @@ const handleFileChange = (event) => {
 
       <input id="dropzone-file" type="file" class="hidden" @change="handleFileChange"/>
     </label>
-    <p class="text-xs text-gray-600 pt-1 pl-1">PNG, max. 64x64px, 40 kB</p>
+    <p class="text-xs text-gray-600 pt-1 pl-1">PNG, 150x100px, 10 kB</p>
   </div>
 </template>

@@ -42,7 +42,7 @@ class ProviderController extends Controller
     {
         $provider->update($request->validated());
 
-        $imageName = strtolower($provider["name"]) . ".png";
+        $imageName = strtolower($request["name"]) . "." . $request->file("file")->getClientOriginalExtension();
         $storageImagePath = storage_path("app/public/providers/" . $imageName);
         $resourceImagePath = resource_path("providers/" . $imageName);
         $imageContents = $request->file("file")->get();
