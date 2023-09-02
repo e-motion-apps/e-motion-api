@@ -9,8 +9,8 @@ import { __ } from '@/translate'
 import { FlagIcon, TruckIcon, FunnelIcon, InformationCircleIcon } from '@heroicons/vue/24/outline'
 import { breakpointsTailwind, onClickOutside, useBreakpoints } from '@vueuse/core'
 import { DynamicScroller, DynamicScrollerItem } from 'vue-virtual-scroller'
-import SelectedCity from '../../Shared/Components/SelectedCity.vue'
-import ProviderIcons from '../../Shared/Components/ProviderIcons.vue'
+import SelectedCity from '@/Shared/Components/SelectedCity.vue'
+import ProviderIcons from '@/Shared/Components/ProviderIcons.vue'
 
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const isDesktop = ref(breakpoints.greaterOrEqual('lg'))
@@ -387,7 +387,6 @@ function selectCountry(country) {
       </div>
     </div>
 
-
     <div :class="isDesktop ? 'justify-between' : 'justify-end'"
          class="mb-4 mt-2 flex w-full flex-wrap px-2 lg:px-3"
     >
@@ -466,7 +465,6 @@ function selectCountry(country) {
         </DynamicScrollerItem>
       </template>
     </DynamicScroller>
-
 
     <p v-else class="mt-8 flex justify-center font-medium text-gray-800">
       {{ __(`Didn't find any providers.`) }}

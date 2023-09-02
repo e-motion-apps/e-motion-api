@@ -24,7 +24,7 @@ Route::middleware("auth")->group(function (): void {
     Route::post("/logout", [AuthController::class, "logout"])->name("logout");
     Route::post("/favorites", [FavoritesController::class, "store"]);
     Route::get("/favorites/{city_id}", [FavoritesController::class, "check"]);
-    Route::get("/my-cities", [FavoritesPageController::class, "index"]);
+    Route::get("/favorite-cities", [FavoritesPageController::class, "index"]);
 
     Route::middleware(["role:admin"])->group(function (): void {
         Route::get("/admin/importers", [ImportInfoController::class, "index"]);
