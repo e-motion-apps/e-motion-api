@@ -119,6 +119,10 @@ onUnmounted(() => {
               </DynamicScrollerItem>
             </template>
           </DynamicScroller>
+
+          <p v-else class="mt-3 flex px-2 text-lg font-medium text-gray-500">
+            {{ __(`Didn't find anything. Just empty space.`) }}
+          </p>
         </div>
       </div>
 
