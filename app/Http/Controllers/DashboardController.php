@@ -33,7 +33,7 @@ class DashboardController extends Controller
             "cityCount" => $cityIdCount,
             "countryCount" => $countryIdCount,
             "countriesWithCitiesWithProvidersCount" => $countriesWithCitiesWithProviders,
-            "providersCount" => $providersCount
+            "providersCount" => $providersCount,
         ]);
     }
 }
