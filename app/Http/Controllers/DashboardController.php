@@ -20,10 +20,12 @@ class DashboardController extends Controller
         $cityWithProviders = CityProvider::distinct("city_id")->get();
         $cityId = $cityWithProviders->unique()->pluck("city_id");
         $cityIdCount = $cityId->count();
-        
+
         $countryId = City::whereIn("id", $cityId)->distinct()->pluck("country_id");
         $countryIdCount = $countryId->count();
         $countriesWithCitiesWithProviders = Country::whereIn("id", $countryId)->count();
+
+        $providersCount = $cityWithProviders->pluck("provider_name")->countBy();
 
         return Inertia::render("Dashboard/Index", [
             "userCount" => $userCount,
@@ -31,6 +33,7 @@ class DashboardController extends Controller
             "cityCount" => $cityIdCount,
             "countryCount" => $countryIdCount,
             "countriesWithCitiesWithProvidersCount" => $countriesWithCitiesWithProviders,
+            "providersCount" => $providersCount
         ]);
     }
 }
