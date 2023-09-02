@@ -1,6 +1,6 @@
 <script setup>
 import Map from '@/Shared/Layout/Map.vue'
-import { computed, onMounted, reactive, ref, watch } from 'vue'
+import { computed, onMounted, onUnmounted, reactive, ref, watch } from 'vue'
 import Info from '@/Shared/Layout/Info.vue'
 import SearchPanel from './SearchPanel.vue'
 import Nav from '@/Shared/Layout/Nav.vue'
@@ -67,6 +67,10 @@ const buttonIcon = computed(() => {
 
 const buttonAnimation = computed(() => {
   return filterStore.selectedCity && buttonIcon.value === MapIcon ? 'animate-bounce' : ''
+})
+
+onUnmounted(() => {
+  filterStore.changeSelectedCity(null)
 })
 
 </script>

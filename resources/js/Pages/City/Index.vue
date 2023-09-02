@@ -2,8 +2,11 @@
 import Nav from '@/Shared/Layout/Nav.vue'
 import Map from '@/Shared/Layout/Map.vue'
 import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
-import { computed, ref } from 'vue'
+import { computed, onUnmounted, ref } from 'vue'
 import { MapIcon, XMarkIcon } from '@heroicons/vue/24/outline'
+import { useFilterStore } from '@/Shared/Stores/FilterStore'
+import FavoriteButton from '@/Shared/Components/FavoriteButton.vue'
+import ProviderIcons from '@/Shared/Components/ProviderIcons.vue'
 
 const props = defineProps({
   city: Object,
@@ -24,12 +27,11 @@ const buttonIcon = computed(() => {
   return shouldShowMap.value ? XMarkIcon : MapIcon
 })
 
-function getProviderColor(providerName) {
-  const provider = props.providers.find(provider => provider.name === providerName)
+const filterStore = useFilterStore()
 
-  return provider ? provider.color : ''
-}
-
+onUnmounted(() => {
+  filterStore.changeSelectedCity(null)
+})
 </script>
 
 <template>
@@ -39,29 +41,25 @@ function getProviderColor(providerName) {
     <div class="mt-16 flex grow flex-col lg:flex-row">
       <div v-if="isDesktop || !shouldShowMap" class="grow lg:w-1/2">
         <div class="mx-auto mt-4 flex w-11/12 flex-col sm:mt-12">
-          <h1 class="text-5xl font-bold">
-            {{ city.name }}
-          </h1>
+          <div class="flex items-end justify-between md:items-center">
+            <h1 class="flex text-4xl font-bold md:text-5xl">
+              {{ city.name }}
+            </h1>
+            <div class="hover:drop-shadow">
+              <FavoriteButton :cityid="city.id" :grow-up="true" class="ml-3 flex hover:drop-shadow" />
+            </div>
+          </div>
+
           <div class="mt-3 flex items-center">
-            <i class="flat flag large" :class="city.country.iso" />
+            <i class="flat flag large ml-1" :class="city.country.iso" />
             <h2 class="ml-2 text-xl font-medium text-blumilk-500">
               {{ city.country.name }}
             </h2>
           </div>
-
-
-          <h2 class="mt-1 text-sm text-gray-400 ">
+          <h2 class="ml-1 mt-1 text-sm text-gray-400 ">
             {{ city.latitude }}, {{ city.longitude }}
           </h2>
-          <div class="flex w-fit flex-row-reverse flex-wrap items-center justify-end pt-8 sm:mt-0 sm:justify-start">
-            <div v-for="cityProvider in city.cityProviders" :key="cityProvider.provider_name">
-              <div :style="{ 'background-color': getProviderColor(cityProvider.provider_name) }"
-                   class="m-1 flex h-9 w-fit shrink-0 items-center justify-center rounded-md border border-zinc-300 p-1"
-              >
-                <img loading="lazy" class="w-12" :src="'/providers/' + cityProvider.provider_name.toLowerCase() + '.png'" alt="">
-              </div>
-            </div>
-          </div>
+          <ProviderIcons class="pt-4" :item="city" :providers="props.providers" />
         </div>
       </div>
 

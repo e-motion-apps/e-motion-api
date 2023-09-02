@@ -2,13 +2,15 @@
 import { useFilterStore } from '@/Shared/Stores/FilterStore'
 import { computed, onMounted, ref, watch } from 'vue'
 import { router, usePage } from '@inertiajs/vue3'
-import { TrashIcon, XMarkIcon } from '@heroicons/vue/24/outline'
+import { TrashIcon, XMarkIcon, MapIcon } from '@heroicons/vue/24/outline'
 import FavoriteButton from '@/Shared/Components/FavoriteButton.vue'
 import InfoPopup from '@/Shared/Components/InfoPopup.vue'
 import { __ } from '@/translate'
 import { FlagIcon, TruckIcon, FunnelIcon, InformationCircleIcon } from '@heroicons/vue/24/outline'
 import { breakpointsTailwind, onClickOutside, useBreakpoints } from '@vueuse/core'
 import { DynamicScroller, DynamicScrollerItem } from 'vue-virtual-scroller'
+import SelectedCity from '../../Shared/Components/SelectedCity.vue'
+import ProviderIcons from '../../Shared/Components/ProviderIcons.vue'
 
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const isDesktop = ref(breakpoints.greaterOrEqual('lg'))
@@ -162,10 +164,6 @@ function goToCityPage(city) {
   router.get(`/${city.country.slug}/${city.slug}`)
 }
 
-function isCityShown(city) {
-  return !filterStore.selectedCity || city.id !== filterStore.selectedCity.id
-}
-
 const providerAutocomplete = ref('')
 const countryAutocomplete = ref('')
 
@@ -300,17 +298,17 @@ function selectCountry(country) {
     <div v-if="!isIconFilterEnabled" class="px-2 lg:px-3">
       <div ref="countryList" class="relative">
         <div class="cursor-pointer rounded" @click="toggleCountryList">
-          <div class="m flex w-full rounded-xl shadow-sm">
+          <div class="flex w-full rounded-xl shadow-sm">
             <div class="relative flex grow items-stretch focus-within:z-10">
               <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                 <i v-if="filterStore.selectedCountry" class="flat flag !h-[18px] !w-[27px]" :class="filterStore.selectedCountry.iso" />
-                <FlagIcon v-else class="h-5 w-5 text-gray-800" />
+                <FlagIcon v-else class="ml-1 h-6 w-6 text-gray-800" />
               </div>
-              <keep-alive>
-                <input v-model.trim="countryAutocomplete" type="text" class="block w-full rounded border-0 py-4 pl-12 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blumilk-300 sm:py-3 sm:text-sm sm:leading-6"
-                       :placeholder="__('Search country')"
-                >
-              </keep-alive>
+              <input v-model.trim="countryAutocomplete" type="text"
+                     :class="countryAutocomplete.length ? 'rounded-l-lg' : 'rounded-lg'"
+                     class="block w-full border-0 py-4 pl-12 font-medium text-gray-800 ring-1 ring-inset ring-gray-300 placeholder:text-sm placeholder:font-normal placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blumilk-300 sm:py-3 sm:text-sm sm:leading-6"
+                     :placeholder="__('Search country')"
+              >
             </div>
             <button v-if="countryAutocomplete.length" type="button" class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-800 ring-1 ring-inset ring-gray-300 hover:bg-blumilk-25" @click="clearCountryAutocompleteInput">
               <XMarkIcon class="h-5 w-5" />
@@ -330,13 +328,19 @@ function selectCountry(country) {
               <i :class="country.iso" class="flat flag !h-[18px] !w-[27px]" />
               <span class="ml-2 block truncate text-sm">{{ country.name }}</span>
             </li>
+            <li
+              v-if="!filteredCountrySuggestions.length"
+              class="relative flex cursor-default select-none items-center p-2 text-gray-900"
+            >
+              {{ __(`Didn't find anything. Just empty space.`) }}
+            </li>
           </ul>
         </div>
       </div>
 
       <div v-if="!isIconFilterEnabled" ref="providerList" class="relative mt-4">
         <div class="cursor-pointer rounded" @click="toggleProviderList">
-          <div class="m flex w-full rounded-xl shadow-sm">
+          <div class="flex w-full rounded-xl shadow-sm">
             <div class="relative flex grow items-stretch focus-within:z-10">
               <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                 <div v-if="filterStore.selectedProviderName" :style="{ 'background-color': getProviderColor(filterStore.selectedProviderName) }"
@@ -345,9 +349,11 @@ function selectCountry(country) {
                   <img loading="lazy" class="w-5" :src="'/providers/' + filterStore.selectedProviderName.toLowerCase() + '.png'" alt="">
                 </div>
 
-                <TruckIcon v-else class="h-5 w-5 text-gray-800" />
+                <TruckIcon v-else class="ml-1 h-6 w-6 text-gray-800" />
               </div>
-              <input v-model.trim="providerAutocomplete" type="text" class="block w-full rounded border-0 py-4 pl-12 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blumilk-300 sm:py-3 sm:text-sm sm:leading-6"
+              <input v-model.trim="providerAutocomplete" type="text"
+                     :class="providerAutocomplete.length ? 'rounded-l-lg' : 'rounded-lg'"
+                     class="block w-full border-0 py-4 pl-12 font-medium text-gray-800 ring-1 ring-inset ring-gray-300 placeholder:text-sm placeholder:font-normal placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blumilk-300 sm:py-3 sm:text-sm sm:leading-6"
                      :placeholder="__('Search provider')"
               >
             </div>
@@ -370,6 +376,12 @@ function selectCountry(country) {
               </div>
               <span class="ml-2 block truncate text-sm">{{ provider.name }}</span>
             </li>
+            <li
+              v-if="!filteredProviderSuggestions.length"
+              class="relative flex cursor-default select-none items-center p-2 text-gray-900"
+            >
+              {{ __(`Didn't find anything. Just empty space.`) }}
+            </li>
           </ul>
         </div>
       </div>
@@ -377,7 +389,7 @@ function selectCountry(country) {
 
 
     <div :class="isDesktop ? 'justify-between' : 'justify-end'"
-         class="mb-8 mt-2 flex w-full flex-wrap px-2 lg:px-3"
+         class="mb-4 mt-2 flex w-full flex-wrap px-2 lg:px-3"
     >
       <button v-if="isDesktop && filteredCities.length" class="mr-1 mt-2 flex h-fit w-fit items-center rounded-lg border border-gray-300 px-4 py-2 text-[10px] font-medium text-gray-600 hover:bg-gray-50"
               @click="changeFilter"
@@ -386,13 +398,15 @@ function selectCountry(country) {
         {{ __('Change filters') }}
       </button>
 
-      <div class="flex flex-col">
+      <div :class="[isDesktop ? 'flex-col' : 'w-full', filterStore.selectedCity ? 'justify-between' : 'justify-end']"
+           class="flex"
+      >
         <button
           v-if="filterStore.selectedCity !== null"
           class="mt-2 flex w-fit items-center rounded-lg border border-gray-300 px-4 py-2 text-[10px] font-medium text-gray-600 hover:bg-gray-50"
           @click="clearMap"
         >
-          <TrashIcon class="mr-1 h-4 w-4" />
+          <MapIcon class="mr-1 h-4 w-4" />
           {{ __('Clear map') }}
         </button>
         <button
@@ -406,48 +420,7 @@ function selectCountry(country) {
       </div>
     </div>
 
-    <div v-if="filterStore.selectedCity" class="ggroup flex origin-left cursor-pointer flex-col justify-between gap-x-6 border-b transition-all duration-500 ease-out hover:bg-gray-50 sm:flex-row md:items-center"
-         @click="showCity(filterStore.selectedCity)"
-    >
-      <div class="flex w-full justify-between px-2 py-6 pb-1 sm:flex-col sm:justify-start sm:pb-4 lg:px-3">
-        <div class="flex w-max items-center">
-          <i :class="filterStore.selectedCity.country.iso" class="flat flag huge shrink-0" />
-
-          <div class="ml-3 flex flex-col justify-start">
-            <p class="mr-2 origin-left break-all rounded-full font-bold transition-all duration-500 ease-out group-hover:text-gray-500">
-              {{ filterStore.selectedCity.name }}
-            </p>
-            <p class="break-all text-xs font-semibold text-blumilk-500">
-              {{ filterStore.selectedCity.country.name }}
-            </p>
-          </div>
-        </div>
-
-        <div class="mt-0 flex w-fit items-center justify-end sm:mt-1 sm:justify-start">
-          <div class="mt-2 flex rounded-full text-gray-600 sm:ml-[64px]">
-            <FavoriteButton v-if="isAuth" class="flex rounded-full py-0.5 hover:bg-gray-200" :cityid="filterStore.selectedCity.id" />
-            <InfoPopup v-else class="flex rounded-full py-0.5 hover:bg-gray-200" />
-
-            <div class="ml-2 flex items-center rounded-full py-0.5 text-blumilk-500 hover:bg-gray-200 sm:ml-1 sm:px-1" @click.stop="goToCityPage(filterStore.selectedCity)">
-              <InformationCircleIcon class="h-8 w-8 sm:h-6 sm:w-6" />
-              <p class="ml-1 hidden text-xs font-medium sm:flex">
-                {{ __('Check details') }}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="mb-2 mt-4 flex w-fit flex-row-reverse flex-wrap items-center justify-end sm:mt-0 sm:justify-start">
-        <div v-for="cityProvider in filterStore.selectedCity.cityProviders" :key="cityProvider.provider_name">
-          <div :style="{ 'background-color': getProviderColor(cityProvider.provider_name) }"
-               class="m-1 flex h-6 w-fit shrink-0 items-center justify-center rounded-md border border-zinc-300 p-1"
-          >
-            <img loading="lazy" class="w-6" :src="'/providers/' + cityProvider.provider_name.toLowerCase() + '.png'" alt="">
-          </div>
-        </div>
-      </div>
-    </div>
+    <SelectedCity :providers="props.providers" />
 
     <DynamicScroller
       v-if="filteredCities.length"
@@ -459,11 +432,11 @@ function selectCountry(country) {
       <template #default="{ item, active }">
         <DynamicScrollerItem :size-dependencies="[item.name]"
                              :item="item" :active="active"
-                             :class="filterStore.selectedCity ? 'opacity-25' : ''"
-                             class="group flex origin-left cursor-pointer flex-col justify-between gap-x-6 border-b transition-all duration-500 ease-out hover:bg-gray-50 sm:flex-row md:items-center"
+                             :class="filterStore.selectedCity ? 'opacity-25 saturate-50' : ''"
+                             class="group flex origin-left cursor-pointer flex-col justify-between gap-x-6 border-b transition-all duration-500 ease-out hover:brightness-105 hover:drop-shadow-xl sm:flex-row md:items-center"
                              @click="showCity(item)"
         >
-          <div v-if="isCityShown(item)" class="flex w-full justify-between px-2 py-6 pb-1 sm:flex-col sm:justify-start sm:pb-4 lg:px-3">
+          <div class="flex w-full justify-between px-2 py-6 pb-1 sm:flex-col sm:justify-start sm:pb-4 lg:px-3">
             <div class="flex w-max items-center">
               <i :class="item.country.iso" class="flat flag huge shrink-0" />
 
@@ -477,25 +450,19 @@ function selectCountry(country) {
               </div>
             </div>
 
-            <div v-if="isCityShown(item)" class="mt-0 flex w-fit items-center justify-end sm:ml-[64px] sm:mt-1 sm:justify-start">
-              <FavoriteButton v-if="isAuth" class="flex rounded-full py-0.5 hover:bg-gray-200" :cityid="item.id" />
-              <InfoPopup v-else class="flex rounded-full py-0.5 hover:bg-gray-200" />
+            <div class="mt-0 flex w-fit items-center justify-end sm:ml-[64px] sm:mt-1 sm:justify-start">
+              <div class="hover:drop-shadow">
+                <FavoriteButton v-if="isAuth" class="flex rounded-full py-0.5 hover:drop-shadow" :cityid="item.id" />
+                <InfoPopup v-else class="flex rounded-full py-0.5 hover:drop-shadow" />
+              </div>
 
-              <div class="ml-2 flex rounded-full py-0.5 text-blumilk-500 hover:bg-gray-200" @click.stop="goToCityPage(item)">
-                <InformationCircleIcon class="h-8 w-8 sm:h-6 sm:w-6" />
+
+              <div class="ml-2 flex rounded-full py-0.5 text-blumilk-500 hover:drop-shadow" @click.stop="goToCityPage(item)">
+                <InformationCircleIcon class="h-8 w-8 hover:drop-shadow sm:h-6 sm:w-6" />
               </div>
             </div>
           </div>
-
-          <div v-if="isCityShown(item)" class="mb-2 mt-4 flex w-fit flex-row-reverse flex-wrap items-center justify-end sm:mt-0 sm:justify-start">
-            <div v-for="cityProvider in item.cityProviders" :key="cityProvider.provider_name">
-              <div :style="{ 'background-color': getProviderColor(cityProvider.provider_name) }"
-                   class="m-1 flex h-7 w-fit shrink-0 items-center justify-center rounded-md border border-zinc-300 p-1 lg:h-8"
-              >
-                <img loading="lazy" class="w-7 lg:w-8" :src="'/providers/' + cityProvider.provider_name.toLowerCase() + '.png'" alt="">
-              </div>
-            </div>
-          </div>
+          <ProviderIcons :item="item" :providers="props.providers" />
         </DynamicScrollerItem>
       </template>
     </DynamicScroller>
