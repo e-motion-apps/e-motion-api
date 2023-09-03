@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProviderResource;
 use App\Models\City;
 use App\Models\CityProvider;
 use App\Models\Country;
@@ -27,11 +28,28 @@ class DashboardController extends Controller
 
         $providersCount = Provider::count();
 
+        $providerCitiesCount = $citiesWithProviders
+            ->pluck("provider_name")
+            ->countBy()
+            ->map(function ($count, $name) {
+                return [
+                    "name" => $name,
+                    "count" => $count,
+                ];
+            })
+            ->sortByDesc("count")
+            ->values()
+            ->all();
+
+        $providers = ProviderResource::collection(Provider::all());
+
         return Inertia::render("Dashboard/Index", [
             "usersCount" => $usersCount,
             "citiesWithProvidersCount" => $citiesWithProvidersCount,
             "countriesWithCitiesWithProvidersCount" => $countriesWithCitiesWithProvidersCount,
             "providersCount" => $providersCount,
+            "providerCitiesCount" => $providerCitiesCount,
+            "providers" => $providers,
         ]);
     }
 }

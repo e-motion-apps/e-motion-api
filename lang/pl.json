@@ -102,6 +102,8 @@
     "Error": "Błąd",
     "Success": "Sukces",
     "Users count": "Liczba użytkowników",
+    "Providers count": "Liczba dostawców",
+    "Cities by provider": "Liczba miast dostawców",
     "Number of cities where the provider is available": "Liczba miast, w których dostępny jest dany dostawca",
     "Cities with providers": "Liczba miast z dostawcami",
     "Countries with providers": "Liczba krajów z dostawcami",
