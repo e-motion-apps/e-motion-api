@@ -30,7 +30,7 @@ class Country extends Model
         "iso",
     ];
 
-    public function city(): HasMany
+    public function cities(): HasMany
     {
         return $this->hasMany(City::class);
     }
