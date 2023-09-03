@@ -45,6 +45,11 @@ class City extends Model
         return $this->belongsTo(Country::class);
     }
 
+    public function cityOpinions(): HasMany
+    {
+        return $this->hasMany(CityOpinion::class);
+    }
+
     public static function query(): Builder
     {
         return parent::query();

@@ -8,11 +8,11 @@ use App\Http\Controllers\Admin\CountryController;
 use App\Http\Controllers\Admin\ImportInfoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChangeLocaleController;
+use App\Http\Controllers\CityOpinionController;
 use App\Http\Controllers\CityPageController;
 use App\Http\Controllers\CityProviderController;
 use App\Http\Controllers\CityWithoutAssignedCountryController;
 use App\Http\Controllers\FavoritesController;
-use App\Http\Controllers\FavoritesPageController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware("guest")->group(function (): void {
@@ -22,9 +22,12 @@ Route::middleware("guest")->group(function (): void {
 
 Route::middleware("auth")->group(function (): void {
     Route::post("/logout", [AuthController::class, "logout"])->name("logout");
+
     Route::post("/favorites", [FavoritesController::class, "store"]);
     Route::get("/favorites/{city_id}", [FavoritesController::class, "check"]);
-    Route::get("/favorite-cities", [FavoritesPageController::class, "index"]);
+    Route::get("/favorite-cities", [FavoritesController::class, "index"]);
+
+    Route::post("/opinions", [CityOpinionController::class, "store"]);
 
     Route::middleware(["role:admin"])->group(function (): void {
         Route::get("/admin/importers", [ImportInfoController::class, "index"]);

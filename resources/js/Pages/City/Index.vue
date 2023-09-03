@@ -3,14 +3,22 @@ import Nav from '@/Shared/Layout/Nav.vue'
 import Map from '@/Shared/Layout/Map.vue'
 import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 import { computed, onUnmounted, ref } from 'vue'
-import { MapIcon, XMarkIcon } from '@heroicons/vue/24/outline'
+import { MapIcon, XMarkIcon, StarIcon, PaperAirplaneIcon } from '@heroicons/vue/24/outline'
 import { useFilterStore } from '@/Shared/Stores/FilterStore'
 import FavoriteButton from '@/Shared/Components/FavoriteButton.vue'
 import ProviderIcons from '@/Shared/Components/ProviderIcons.vue'
+import { __ } from '@/translate'
+import { useForm } from '@inertiajs/vue3'
+import ErrorMessage from '@/Shared/Components/ErrorMessage.vue'
+import { useToast } from 'vue-toastification'
+import Pagination from '../../Shared/Components/Pagination.vue'
+
+const toast = useToast()
 
 const props = defineProps({
   city: Object,
-  providers: Array,
+  providers: Object,
+  cityOpinions: Object,
 })
 
 const breakpoints = useBreakpoints(breakpointsTailwind)
@@ -32,6 +40,38 @@ const filterStore = useFilterStore()
 onUnmounted(() => {
   filterStore.changeSelectedCity(null)
 })
+
+const opinionForm = useForm({
+  rating: 0,
+  content: '',
+  city_id: props.city.id,
+})
+
+const maxRating = 5
+
+function setRating(starIndex) {
+  opinionForm.rating = starIndex
+}
+
+const emptyRatingError = ref('')
+
+function createOpinion() {
+  if (opinionForm.rating === 0) {
+    emptyRatingError.value = __('Please, rate that city')
+  } else {
+    opinionForm.post('/opinions', {
+      onSuccess: () => {
+        opinionForm.reset()
+        toast.success(__('Opinion added successfully!'))
+        emptyRatingError.value = ''
+      },
+      onError: () => {
+        toast.error(__('There was an error adding your opinion!'))
+      },
+    })
+  }
+}
+
 </script>
 
 <template>
@@ -60,6 +100,58 @@ onUnmounted(() => {
             {{ city.latitude }}, {{ city.longitude }}
           </h2>
           <ProviderIcons class="pt-4" :item="city" :providers="props.providers" />
+
+          <form class="mt-8 flex flex-col" @submit.prevent="createOpinion">
+            <p class="mb-2 text-xs font-medium text-gray-700">
+              {{ __('Add opinion') }}
+            </p>
+            <div class="mb-2 flex items-center space-x-1">
+              <StarIcon
+                v-for="index in maxRating"
+                :key="index"
+                class="h-6 w-6 cursor-pointer text-yellow-400"
+                :class="{ 'fill-yellow-400': index <= opinionForm.rating }"
+                @click="setRating(index)"
+              />
+            </div>
+            <textarea v-model.trim="opinionForm.content" required class="h-32 w-full rounded-lg border border-gray-300" />
+
+            <div class="mt-1 flex flex-col">
+              <ErrorMessage :message="emptyRatingError" />
+              <ErrorMessage :message="opinionForm.errors.rating" />
+              <ErrorMessage :message="opinionForm.errors.content" />
+              <ErrorMessage :message="opinionForm.errors.city_id" />
+            </div>
+
+            <button class="mt-2 flex w-full items-center justify-center rounded-lg bg-emerald-500 p-3 text-xs font-medium text-white hover:bg-emerald-600 sm:w-fit sm:px-4 sm:py-2">
+              {{ __('Send') }}
+              <PaperAirplaneIcon class="ml-2 h-4 w-4" />
+            </button>
+          </form>
+
+
+          <div v-if="props.cityOpinions.length" class="mt-6">
+            <p class="mb-2 text-xs font-medium text-gray-700">
+              {{ __(`Users' opinions`) }}
+            </p>
+            <div v-for="opinion in props.cityOpinions.data" :key="opinion.id" class="mb-3 flex flex-col rounded-lg border border-gray-300 px-2 py-1">
+              <div class="flex items-center">
+                <p class="mr-1 text-xs font-medium text-blumilk-500">
+                  {{ opinion.user.name }}
+                </p>
+                <StarIcon v-for="index in maxRating"
+                          :key="index"
+                          :class="{ 'fill-yellow-400': index <= opinion.rating }" class="h-4 w-4 text-yellow-400"
+                />
+              </div>
+
+              <div class="mt-1 text-sm text-gray-700">
+                {{ opinion.content }}
+              </div>
+            </div>
+          </div>
+
+          <Pagination :meta="props.cityOpinions.meta" :links="props.cityOpinions.links" />
         </div>
       </div>
 
