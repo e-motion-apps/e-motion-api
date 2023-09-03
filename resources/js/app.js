@@ -4,6 +4,8 @@ import '../css/app.css'
 import { createPinia } from 'pinia'
 import Toast from 'vue-toastification'
 import 'vue-toastification/dist/index.css'
+import VueVirtualScroller from 'vue-virtual-scroller'
+import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 
 const pinia = createPinia()
 
@@ -22,9 +24,10 @@ createInertiaApp({
     return createApp({ render: () => h(App, props) })
       .use(plugin)
       .use(pinia)
+      .use(VueVirtualScroller)
       .use(Toast, {
         position: 'top-right',
-        timeout: 5000,
+        timeout: 2000,
         closeOnClick: true,
         pauseOnFocusLoss: false,
         pauseOnHover: true,
@@ -36,7 +39,7 @@ createInertiaApp({
         icon: true,
         rtl: false,
         transition: 'Vue-Toastification__bounce',
-        maxToasts: 3,
+        maxToasts: 10,
         newestOnTop: true,
         filterBeforeCreate: (toast, toasts) => {
           if (toasts.filter(

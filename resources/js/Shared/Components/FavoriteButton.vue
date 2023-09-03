@@ -42,7 +42,7 @@ const toggleFavorite = async () => {
     result.value = !result.value
 
     if (result.value === false) {
-      toast.success(__('City removed from favorites.'))
+      toast.info(__('City removed from favorites.'))
     } else if (result.value === true) {
       toast.success(__('City added to favorites.'))
     }
@@ -72,12 +72,12 @@ onMounted(() => {
 
 <template>
   <div ref="intersectionTarget">
-    <button @click="toggleFavorite">
+    <button @click.stop="toggleFavorite">
       <component :is="result ? SolidHeartIcon : OutlineHeartIcon" v-if="result !== null"
-                 class="h-6 w-6 text-rose-500"
+                 class="h-8 w-8 text-rose-500 sm:h-6 sm:w-6"
       />
       <span v-else class="animate-pulse text-rose-200">
-        <SolidHeartIcon class="h-6 w-6" />
+        <SolidHeartIcon class="h-8 w-8 sm:h-6 sm:w-6" />
       </span>
     </button>
   </div>

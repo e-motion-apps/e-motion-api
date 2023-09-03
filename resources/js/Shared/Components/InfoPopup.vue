@@ -5,13 +5,13 @@ import { __ } from '@/translate'
 
 const showToast = () => {
   const toast = useToast()
-  toast.info(__('Login to add to favorites.'))
+  toast.info(__('Log in to add to favorites.'))
 }
 
 </script>
 
 <template>
-  <span @click="showToast">
-    <OutlineHeartIcon class="h-6 w-6 text-gray-500" />
+  <span @click.stop="showToast">
+    <OutlineHeartIcon class="h-8 w-8 text-gray-500 sm:h-6 sm:w-6" />
   </span>
 </template>

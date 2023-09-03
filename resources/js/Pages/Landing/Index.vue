@@ -1,6 +1,6 @@
 <script setup>
 import Map from '@/Shared/Layout/Map.vue'
-import { computed, onMounted, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref, watch } from 'vue'
 import Info from '@/Shared/Layout/Info.vue'
 import SearchPanel from './SearchPanel.vue'
 import Nav from '@/Shared/Layout/Nav.vue'
@@ -34,23 +34,27 @@ const page = usePage()
 const isAuth = computed(() => page.props.auth.isAuth)
 
 
-const data = reactive({
-  cities: [],
-  providers: [],
-  countries: [],
-})
+const dataIsFetched = ref(false)
 
-
-async function fetchProviders() {
-  await axios.get('/api/providers').then(response => {
-    data.cities = response.data.cities
-    data.providers = response.data.providers
-    data.countries = response.data.countries
-  })
+function fetchData() {
+  if (!filterStore.citiesWithProviders.providers.length) {
+    axios.get('/api/providers').then(response => {
+      filterStore.saveCitiesWithProviders(response)
+    }).finally(() => {
+      dataIsFetched.value = true
+    })
+  } else {
+    dataIsFetched.value = true
+  }
 }
 
-onMounted(async () => {
-  await fetchProviders()
+const data = reactive(filterStore.citiesWithProviders)
+
+onMounted(() => {
+  fetchData()
+  watch(() => filterStore.selectedCity, () => {
+    window.scrollTo(0, 0)
+  })
 })
 
 const shouldShowButton = computed(() => {
@@ -61,24 +65,28 @@ const buttonIcon = computed(() => {
   return shouldShowMap.value ? XMarkIcon : MapIcon
 })
 
+const buttonAnimation = computed(() => {
+  return filterStore.selectedCity && buttonIcon.value === MapIcon ? 'animate-bounce' : ''
+})
+
 </script>
 
 <template>
   <div class="flex h-screen flex-col">
     <Nav ref="nav" class="z-30" />
 
-    <div class="relative mt-16 flex grow flex-col lg:flex-row">
+    <div class="mt-16 flex grow flex-col lg:flex-row">
       <div v-if="isDesktop || !shouldShowMap" class="grow lg:w-1/2">
         <Info v-if="showInfo && !isAuth" @create-account="nav.toggleCreateAccountOption()" @try-it-out="switchPanel" />
 
         <div v-else class="w-full">
-          <SearchPanel v-if="data.providers.length" :cities="data.cities" :providers="data.providers" :countries="data.countries" />
+          <SearchPanel v-if="dataIsFetched" :cities="data.cities" :providers="data.providers" :countries="data.countries" />
           <SearchPanelSkeleton v-else />
         </div>
       </div>
 
-      <div v-if="isDesktop || shouldShowMap" class="relative h-full lg:w-1/2">
-        <Map v-if="data.providers.length" :key="`${filterStore.selectedCountryId}-${filterStore.selectedProviderName}`" :cities="data.cities" class="z-10" />
+      <div v-if="isDesktop || shouldShowMap" class="h-full lg:w-1/2">
+        <Map v-if="dataIsFetched" :key="filterStore.selectedProviderName" :cities="data.cities" class="z-10" />
         <div v-else class="flex h-full flex-col items-center justify-center bg-blumilk-25" aria-label="Loading..." role="status">
           <svg class="h-24 w-24 animate-spin" viewBox="3 3 18 18">
             <path
@@ -91,13 +99,13 @@ const buttonIcon = computed(() => {
             />
           </svg>
           <p class="mt-4 text-xs font-medium text-gray-400">
-            {{ __('Filling map with providers.') }}
+            {{ __('Filling map with providers...') }}
           </p>
         </div>
       </div>
 
       <div v-if="shouldShowButton" class="flex justify-center">
-        <button class="hover:blumilk-600 fixed bottom-5 z-20 flex items-center justify-center rounded-full bg-blumilk-500 px-2 py-1.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" @click="switchMap">
+        <button :class="buttonAnimation" class="hover:blumilk-600 fixed bottom-5 z-20 flex items-center justify-center rounded-full bg-blumilk-500 px-2 py-1.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" @click="switchMap">
           <component :is="buttonIcon" class="h-6 w-6" />
         </button>
       </div>

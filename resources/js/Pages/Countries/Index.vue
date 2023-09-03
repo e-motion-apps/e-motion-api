@@ -157,7 +157,10 @@ function toggleSortDialog() {
             </div>
           </div>
 
-          <div class="flex w-full items-center justify-between">
+          <div
+            :class="props.countries.data.length ? 'justify-between' : 'justify-end'"
+            class="flex w-full flex-wrap items-center"
+          >
             <div v-if="props.countries.data.length">
               <PaginationInfo :meta="props.countries.meta" />
             </div>
@@ -175,7 +178,7 @@ function toggleSortDialog() {
                   <InertiaLink v-for="option in sortingOptions" :key="option.href"
                                :href="option.href" class="block px-4 py-2 text-sm text-gray-500 hover:text-blumilk-400" role="menuitem" tabindex="-1"
                   >
-                    <span :class="{'font-medium text-blumilk-400': page.url.startsWith(option.href) || ((page.url === '/admin/countries' || page.url.startsWith('/admin/countries?search=') || page.url.startsWith('/admin/countries?page=')) && option.href.startsWith('/admin/countries?order=oldest'))}">
+                    <span :class="{'font-medium text-blumilk-400': page.url.startsWith(option.href) || ((page.url === '/admin/countries' || page.url.startsWith('/admin/countries?search=') || page.url.startsWith('/admin/countries?page=')) && option.href.startsWith('/admin/countries?order=latest'))}">
                       {{ __(option.name) }}
                     </span>
                   </InertiaLink>
@@ -214,7 +217,7 @@ function toggleSortDialog() {
           </div>
           <div v-else>
             <p class="mt-6 text-lg font-medium text-gray-500">
-              {{ __('Sorry we couldn`t find any countries.') }}
+              {{ __(`Sorry we couldn't find any countries.`) }}
             </p>
           </div>
           <Pagination :meta="props.countries.meta" :links="props.countries.links" />

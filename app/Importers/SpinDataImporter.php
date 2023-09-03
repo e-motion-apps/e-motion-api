@@ -87,7 +87,7 @@ class SpinDataImporter extends DataImporter
             $this->createProvider($cityId, self::getProviderName());
 
             return strval($cityId);
-        }  
+        }
         switch ($countryName) {
             case str_contains($countryName, "US"):
                 $country = Country::query()->where("name", "United States")->first();
@@ -104,21 +104,21 @@ class SpinDataImporter extends DataImporter
 
             $countCoordinates = count($coordinates);
 
-            if (!$countCoordinates) {
+            if ($countCoordinates === 0 || $coordinates[0] === null || $coordinates[1] === null) {
                 $this->createImportInfoDetails("419", self::getProviderName());
             }
 
             $city = City::query()->create([
                 "name" => $cityName,
-                "latitude" => ($countCoordinates > 0) ? $coordinates[0] : null,
-                "longitude" => ($countCoordinates > 0) ? $coordinates[1] : null,
+                "latitude" => $coordinates[0] ?? null,
+                "longitude" => $coordinates[1] ?? null,
                 "country_id" => $country->id,
             ]);
 
             $this->createProvider($city->id, self::getProviderName());
 
             return strval($city->id);
-        }  
+        }
         $this->countryNotFound($cityName, $countryName);
         $this->createImportInfoDetails("420", self::getProviderName());
 

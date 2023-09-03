@@ -19,7 +19,7 @@ class ImportInfoDetail extends Model
         return $this->belongsTo(ImportInfo::class);
     }
 
-    public function code()
+    public function codes()
     {
         return $this->hasMany(Code::class);
     }

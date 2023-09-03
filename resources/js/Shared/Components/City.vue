@@ -7,16 +7,22 @@ import { onClickOutside } from '@vueuse/core'
 import SecondarySaveButton from '@/Shared/Components/SecondarySaveButton.vue'
 import { useToast } from 'vue-toastification'
 import { __ } from '@/translate'
+import DeleteModal from '@/Shared/Components/DeleteModal.vue'
 
+const showDeleteModal = ref(false)
 const toast = useToast()
 const props = defineProps({
   city: Object,
   providers: Object,
 })
 
-function destroyCity(cityId) {
-  router.delete(`/admin/cities/${cityId}`)
-  toast.success(__('City deleted successfully.'))
+const destroyCity = (cityId) => {
+  router.delete(`/admin/cities/${cityId}`, {
+    onSuccess: () => {
+      toast.success(__('City deleted successfully.'))
+      showDeleteModal.value = false
+    },
+  })
 }
 
 function updateCity(cityId) {
@@ -116,7 +122,11 @@ const filteredSelectedCityProviders = computed(() => {
 })
 
 function goToGoogleMaps(latitude, longitude) {
-  window.open('https://www.google.com/maps/search/' + latitude + ',' + longitude, '_blank')
+  if (latitude != null || longitude != null) {
+    window.open('https://www.google.com/maps/search/' + latitude + ',' + longitude, '_blank')
+  } else {
+    window.open('https://www.google.com/maps/search/' + props.city.name)
+  }
 }
 
 const isCityFormOpened = ref(false)
@@ -151,7 +161,9 @@ function toggleProvidersForm() {
   <td class="relative py-4 pl-4 text-sm sm:pl-6 sm:pr-3">
     <div class="flex items-center font-medium text-gray-800">
       <i :class="city.country.iso" class="flat flag large mr-2 shrink-0" />
-      <p class="cursor-pointer break-all rounded hover:bg-blumilk-25" @click="goToGoogleMaps(city.latitude, city.longitude)">
+      <p class="cursor-pointer break-all rounded hover:bg-blumilk-25"
+         @click="goToGoogleMaps(city.latitude, city.longitude)"
+      >
         {{ city.name }}
       </p>
     </div>
@@ -171,7 +183,9 @@ function toggleProvidersForm() {
 
   <td class="py-3.5 text-sm text-gray-500 lg:table-cell">
     <div class="flex lg:hidden">
-      <div v-if="selectedCityProviders.length > 0" class="m-1 flex h-5 w-fit items-center justify-center rounded border border-zinc-300 bg-zinc-300 p-1">
+      <div v-if="selectedCityProviders.length > 0"
+           class="m-1 flex h-5 w-fit items-center justify-center rounded border border-zinc-300 bg-zinc-300 p-1"
+      >
         <div class="flex h-5 w-5 items-center justify-center text-xs text-gray-500">
           {{ selectedCityProviders.length }}
         </div>
@@ -184,28 +198,22 @@ function toggleProvidersForm() {
     </div>
     <div class="hidden items-center lg:flex">
       <div class="items-top flex h-1/2 flex-wrap items-center">
-        <div
-          v-for="provider in filteredSelectedCityProviders.slice(0, 4)"
-          :key="provider.name"
-          :style="{'background-color': selectedCityProviders.includes(provider.name) ? provider.color : ''}"
-          :class="selectedCityProviders.includes(provider.name) ? 'border-zinc-600 drop-shadow-lg' : 'hidden'"
-          class="m-1 flex h-5 w-fit items-center justify-center rounded border border-zinc-300 bg-zinc-300 p-1 "
+        <div v-for="provider in filteredSelectedCityProviders.slice(0, 4)" :key="provider.name"
+             :style="{ 'background-color': selectedCityProviders.includes(provider.name) ? provider.color : '' }"
+             :class="selectedCityProviders.includes(provider.name) ? 'border-zinc-600 drop-shadow-lg' : 'hidden'"
+             class="m-1 flex h-5 w-fit items-center justify-center rounded border border-zinc-300 bg-zinc-300 p-1 "
         >
           <img class="w-5" :src="'/providers/' + provider.name.toLowerCase() + '.png'" alt="">
         </div>
 
-        <div
-          v-if="selectedCityProviders.length > 4 "
-          class="m-1 flex h-5 w-fit items-center justify-center rounded border border-zinc-300 bg-zinc-300 p-1"
+        <div v-if="selectedCityProviders.length > 4"
+             class="m-1 flex h-5 w-fit items-center justify-center rounded border border-zinc-300 bg-zinc-300 p-1"
         >
           <div class="flex h-5 w-5 items-center justify-center text-xs text-gray-500">
             +{{ selectedCityProviders.length - 4 }}
           </div>
         </div>
-        <div
-          v-else-if="selectedCityProviders.length === 0"
-          class="m-1 flex h-5 w-fit items-center justify-center p-1"
-        >
+        <div v-else-if="selectedCityProviders.length === 0" class="m-1 flex h-5 w-fit items-center justify-center p-1">
           <div class="flex h-5 w-5 items-center justify-center text-xs text-gray-500">
             -
           </div>
@@ -224,11 +232,14 @@ function toggleProvidersForm() {
       </button>
 
       <button class="mx-0.5 mb-1 flex w-fit shrink-0 items-center rounded py-1 pr-2 text-rose-500 hover:bg-rose-100"
-              @click="destroyCity(city.id)"
+              @click="showDeleteModal = true"
       >
         <TrashIcon class="h-5 w-8 text-rose-500" />
         {{ __('Delete') }}
       </button>
+
+      <DeleteModal v-if="showDeleteModal" :name="city.name" :type="'City'" @close="showDeleteModal = false" @delete="destroyCity(city.id)" />
+
     </span>
   </td>
 
@@ -241,24 +252,30 @@ function toggleProvidersForm() {
           </button>
         </div>
 
-        <button :class="isCityFormOpened ? 'bg-blumilk-50' : ''" class="mb-3 ml-6 rounded-lg bg-blumilk-25 px-3 py-1 text-sm font-bold text-gray-800 hover:bg-blumilk-50" @click="toggleCityForm">
+        <button :class="isCityFormOpened ? 'bg-blumilk-50' : ''"
+                class="mb-3 ml-6 rounded-lg bg-blumilk-25 px-3 py-1 text-sm font-bold text-gray-800 hover:bg-blumilk-50"
+                @click="toggleCityForm"
+        >
           {{ __('Update city') }}
         </button>
         <form v-if="isCityFormOpened" class="flex flex-col rounded px-6 text-xs font-bold text-gray-600"
               @submit.prevent="updateCity(city.id)"
         >
           <label class="mb-1 mt-4">{{ __('Name') }}</label>
-          <input v-model="updateCityForm.name" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text"
+          <input v-model="updateCityForm.name"
+                 class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text"
                  required
           >
           <ErrorMessage :message="updateCityForm.errors.name" />
           <label class="mb-1 mt-4">{{ __('Latitude') }}</label>
-          <input v-model="updateCityForm.latitude" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text"
+          <input v-model="updateCityForm.latitude"
+                 class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text"
                  required @keydown="preventCommaInput"
           >
           <ErrorMessage :message="updateCityForm.errors.latitude" />
           <label class="mb-1 mt-4">{{ __('Longitude') }}</label>
-          <input v-model="updateCityForm.longitude" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text"
+          <input v-model="updateCityForm.longitude"
+                 class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text"
                  required @keydown="preventCommaInput"
           >
           <ErrorMessage :message="updateCityForm.errors.longitude" />
@@ -272,7 +289,10 @@ function toggleProvidersForm() {
         </form>
 
         <br>
-        <button :class="isAlternativeCityNameFormOpened ? 'bg-blumilk-50' : ''" class="mb-3 ml-6 rounded-lg bg-blumilk-25 px-3 py-1 text-sm font-bold text-gray-800 hover:bg-blumilk-50" @click="toggleAlternativeCityNameForm">
+        <button :class="isAlternativeCityNameFormOpened ? 'bg-blumilk-50' : ''"
+                class="mb-3 ml-6 rounded-lg bg-blumilk-25 px-3 py-1 text-sm font-bold text-gray-800 hover:bg-blumilk-50"
+                @click="toggleAlternativeCityNameForm"
+        >
           {{ __('Add alternative name') }}
         </button>
         <form v-if="isAlternativeCityNameFormOpened" class="flex flex-col rounded p-6"
@@ -280,8 +300,9 @@ function toggleProvidersForm() {
         >
           <div class="flex flex-col text-xs">
             <label class="mb-1 mt-4 text-xs font-bold text-gray-600">{{ __('Alternative name') }}</label>
-            <input v-model="storeCityAlternativeNameForm.name" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3"
-                   type="text" required
+            <input v-model="storeCityAlternativeNameForm.name"
+                   class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text"
+                   required
             >
             <ErrorMessage :message="storeAlternativeCityNameErrors.name" />
             <div class="flex w-full justify-end">
@@ -294,8 +315,9 @@ function toggleProvidersForm() {
 
         <div v-if="isAlternativeCityNameFormOpened" class="flex flex-wrap">
           <div v-for="alternativeName in props.city.city_alternative_names" :key="alternativeName.id" class="ml-6">
-            <div class="group flex w-fit cursor-pointer break-all rounded py-1 pl-1 pr-3 text-sm font-bold text-zinc-500 hover:bg-blumilk-25"
-                 @click="destroyAlternativeCityName(alternativeName.id)"
+            <div
+              class="group flex w-fit cursor-pointer break-all rounded py-1 pl-1 pr-3 text-sm font-bold text-zinc-500 hover:bg-blumilk-25"
+              @click="destroyAlternativeCityName(alternativeName.id)"
             >
               <p class="mr-1">
                 {{ alternativeName.name }}
@@ -310,25 +332,22 @@ function toggleProvidersForm() {
         <hr v-if="isAlternativeCityNameFormOpened" class="mx-6 my-2 h-px border-0 bg-gray-300">
 
         <br>
-        <button :class="isProvidersFormOpened ? 'bg-blumilk-50' : ''" class="ml-6 flex rounded-lg bg-blumilk-25 px-3 py-1 text-sm font-bold text-gray-800 hover:bg-blumilk-50" @click="toggleProvidersForm">
+        <button :class="isProvidersFormOpened ? 'bg-blumilk-50' : ''"
+                class="ml-6 flex rounded-lg bg-blumilk-25 px-3 py-1 text-sm font-bold text-gray-800 hover:bg-blumilk-50"
+                @click="toggleProvidersForm"
+        >
           {{ __('Providers') }}
         </button>
 
         <div v-if="isProvidersFormOpened" class="mt-4 flex flex-col rounded border-blumilk-100 px-6">
           <div class="flex flex-wrap">
-            <div
-              v-for="provider in props.providers"
-              :key="provider.name"
-              :style="{'background-color': selectedCityProviders.includes(provider.name) ? provider.color : ''}"
-              :class="selectedCityProviders.includes(provider.name) ? 'border-zinc-600 drop-shadow-lg' : ''"
-              class="mx-1 my-2 flex h-10 w-fit cursor-pointer items-center justify-center rounded-lg border border-zinc-300 bg-zinc-300 p-1 "
-              @click="toggleProviderSelection(provider.name)"
+            <div v-for="provider in props.providers" :key="provider.name"
+                 :style="{ 'background-color': selectedCityProviders.includes(provider.name) ? provider.color : '' }"
+                 :class="selectedCityProviders.includes(provider.name) ? 'border-zinc-600 drop-shadow-lg' : ''"
+                 class="mx-1 my-2 flex h-10 w-fit cursor-pointer items-center justify-center rounded-lg border border-zinc-300 bg-zinc-300 p-1 "
+                 @click="toggleProviderSelection(provider.name)"
             >
-              <input
-                v-model="selectedCityProviders"
-                class="hidden"
-                type="checkbox"
-              >
+              <input v-model="selectedCityProviders" class="hidden" type="checkbox">
               <label class="cursor-pointer">
                 <img class="w-10" :src="'/providers/' + provider.name.toLowerCase() + '.png'" alt="">
               </label>
