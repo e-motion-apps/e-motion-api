@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\CountryRequest;
 use App\Http\Resources\CountryResource;
 use App\Models\Country;
@@ -29,11 +30,6 @@ class CountryController extends Controller
     public function store(CountryRequest $request): void
     {
         Country::query()->create($request->validated());
-    }
-
-    public function show(Country $country): CountryResource
-    {
-        return CountryResource::make($country);
     }
 
     public function update(CountryRequest $request, Country $country): void

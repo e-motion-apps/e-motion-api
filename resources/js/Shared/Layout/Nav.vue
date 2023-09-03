@@ -1,17 +1,21 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { Dialog, DialogPanel } from '@headlessui/vue'
-import { Bars3Icon, XMarkIcon, UserCircleIcon, ArrowRightOnRectangleIcon, ComputerDesktopIcon } from '@heroicons/vue/24/outline'
+import { Bars3Icon, XMarkIcon, UserCircleIcon, ArrowRightOnRectangleIcon, ComputerDesktopIcon, MapPinIcon, FlagIcon } from '@heroicons/vue/24/outline'
 import { router, usePage } from '@inertiajs/vue3'
 import { onClickOutside } from '@vueuse/core'
 import { useForm } from '@inertiajs/vue3'
 import LanguageSwitch from '@/Shared/Components/LanguageSwitch.vue'
 import ErrorMessage from '@/Shared/Components/ErrorMessage.vue'
 import { __ } from '@/translate'
+import { useToast } from 'vue-toastification'
 
+const toast = useToast()
 const page = usePage()
 const isAuth = computed(() => page.props.auth.isAuth)
 const isAdmin = computed(() => page.props.auth.isAdmin)
+const countCitiesWithoutAssignedCountry = computed(() => page.props.countCitiesWithoutAssignedCountry)
+const countCitiesWithoutCoordinates = computed(() => page.props.countCitiesWithoutCoordinates)
 
 const registerForm = useForm({
   name: '',
@@ -25,6 +29,7 @@ function register() {
     onSuccess: () => {
       toggleAuthDialog()
       registerForm.reset()
+      toast.success(__('You have registered successfully.'))
     },
   })
 }
@@ -39,19 +44,30 @@ function login() {
     onSuccess: () => {
       toggleAuthDialog()
       loginForm.reset()
+      toast.success(__('You have logged in successfully.'))
     },
   })
 }
 
-const navigation = [
-  { name: 'Prices', href: '#' },
-  { name: 'Find a ride', href: '#' },
-  { name: 'Rules', href: '#' },
-]
+const navigation = computed(() => {
+  if (isAuth.value) {
+    return [
+      { name: 'My cities', href: '#' },
+      { name: 'Prices', href: '#' },
+      { name: 'Rules', href: '#' },
+    ]
+  } else {
+    return [
+      { name: 'Prices', href: '#' },
+      { name: 'Rules', href: '#' },
+    ]
+  }
+})
 
 function logout() {
-  router.post('/logout')
+  router.post('/logout', {})
   isMobileMenuOpened.value = false
+  toast.success(__('You have logged out successfully.'))
 }
 
 const isMobileMenuOpened = ref(false)
@@ -100,15 +116,32 @@ defineExpose({
         <span class="ml-3 hidden text-2xl font-semibold text-gray-800 sm:flex">e&#8209;scooters</span>
       </InertiaLink>
       <div class="flex md:hidden">
-        <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700" @click="toggleMobileMenu">
+        <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+                @click="toggleMobileMenu"
+        >
           <span class="sr-only">{{ __('Open main menu') }}</span>
           <Bars3Icon class="h-6 w-6" aria-hidden="true" />
         </button>
       </div>
       <div class="hidden items-center md:flex md:gap-x-12">
-        <InertiaLink v-for="item in navigation" :key="item.name" :href="item.href" class="text-sm font-medium leading-6 text-gray-800 lg:text-base">
+        <InertiaLink v-for="item in navigation" :key="item.name" :href="item.href"
+                     :class="isAdmin ? 'hidden lg:flex' : ''"
+                     class="text-sm font-medium leading-6 text-gray-800 lg:text-base"
+        >
           {{ __(item.name) }}
         </InertiaLink>
+
+        <div v-if="countCitiesWithoutAssignedCountry || countCitiesWithoutCoordinates" class="flex items-center text-xs font-bold text-rose-500">
+          <InertiaLink v-if="countCitiesWithoutAssignedCountry" href="/admin/cities" class="flex animate-pulse items-center rounded-full border border-rose-500 bg-rose-50 px-2 py-1">
+            <FlagIcon class="mr-1 h-4 w-4 shrink-0" />
+            {{ countCitiesWithoutAssignedCountry }}
+          </InertiaLink>
+          <InertiaLink v-if="countCitiesWithoutCoordinates" href="/admin/cities?order=empty-coordinates" class="ml-2 flex animate-pulse items-center rounded-full border border-rose-500 bg-rose-50 px-2 py-1">
+            <MapPinIcon class="mr-1 h-4 w-4 shrink-0" />
+            {{ countCitiesWithoutCoordinates }}
+          </InertiaLink>
+        </div>
+
         <InertiaLink v-if="isAdmin" href="/admin/cities">
           <ComputerDesktopIcon class="h-6 w-6" />
         </InertiaLink>
@@ -217,7 +250,7 @@ defineExpose({
         </div>
         <div class="mt-6 flow-root">
           <div class="-my-6 divide-y divide-gray-500/10">
-            <div class="space-y-4 py-6">
+            <div class="space-y-4 pt-6">
               <div class="space-y-2 py-6">
                 <InertiaLink v-for="item in navigation" :key="item.name" :href="item.href"
                              class=" -mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-800 hover:bg-blumilk-25"
@@ -225,7 +258,22 @@ defineExpose({
                   {{ __(item.name) }}
                 </InertiaLink>
               </div>
-              <div class="py-6">
+
+
+              <div v-if="countCitiesWithoutAssignedCountry || countCitiesWithoutCoordinates" class="flex flex-col items-start text-sm font-bold text-rose-500">
+                <InertiaLink v-if="countCitiesWithoutAssignedCountry" href="/admin/cities" class="flex items-center">
+                  <FlagIcon class="mr-2 h-5 w-5 shrink-0" />
+                  {{ __('Cities with no country assigned:') }}
+                  {{ countCitiesWithoutAssignedCountry }}
+                </InertiaLink>
+                <InertiaLink v-if="countCitiesWithoutCoordinates" href="/admin/cities?order=empty-coordinates" class="mt-5 flex items-center">
+                  <MapPinIcon class="mr-2 h-5 w-5 shrink-0" />
+                  {{ __('Cities with no coordinates assigned:') }}
+                  {{ countCitiesWithoutCoordinates }}
+                </InertiaLink>
+              </div>
+
+              <div class="pb-6">
                 <button v-if="isAdmin" class="-mx-3 mb-4 flex w-full font-semibold text-gray-800">
                   <InertiaLink v-if="isAdmin" class="flex w-full items-center rounded px-3 py-2.5 hover:bg-blumilk-25"
                                href="/admin/cities"

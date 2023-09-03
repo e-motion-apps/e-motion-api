@@ -2,13 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\CityRequest;
 use App\Http\Resources\CityResource;
+use App\Http\Resources\CityWithoutAssignedCountryResource;
 use App\Http\Resources\CountryResource;
 use App\Http\Resources\ProviderResource;
 use App\Models\City;
+use App\Models\CityWithoutAssignedCountry;
 use App\Models\Country;
 use App\Models\Provider;
 use Inertia\Inertia;
@@ -19,9 +22,9 @@ class CityController extends Controller
     public function index(): Response
     {
         $cities = City::query()
-            ->with("cityAlternativeName", "cityProvider", "country")
+            ->with("cityAlternativeNames", "cityProviders", "country")
             ->orderByProvidersCount()
-            ->search("name")
+            ->searchCityNames()
             ->orderByName()
             ->orderByCountry()
             ->orderByTimeRange()
@@ -32,10 +35,13 @@ class CityController extends Controller
         $providers = Provider::all();
         $countries = Country::all();
 
+        $citiesWithoutAssignedCountry = CityWithoutAssignedCountry::all();
+
         return Inertia::render("Cities/Index", [
             "cities" => CityResource::collection($cities),
             "providers" => ProviderResource::collection($providers),
             "countries" => CountryResource::collection($countries),
+            "citiesWithoutAssignedCountry" => CityWithoutAssignedCountryResource::collection($citiesWithoutAssignedCountry),
         ]);
     }
 

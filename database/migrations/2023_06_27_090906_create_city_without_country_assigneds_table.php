@@ -13,6 +13,7 @@ return new class() extends Migration {
             $table->id();
             $table->string("city_name");
             $table->string("country_name");
+            $table->softDeletes();
             $table->timestamps();
         });
     }

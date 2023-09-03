@@ -7,16 +7,21 @@ import { onClickOutside } from '@vueuse/core'
 import SecondarySaveButton from '@/Shared/Components/SecondarySaveButton.vue'
 import { useToast } from 'vue-toastification'
 import { __ } from '@/translate'
+import DeleteModal from '@/Shared/Components/DeleteModal.vue'
 
+const showDeleteModal = ref(false)
 const toast = useToast()
-
 const props = defineProps({
   country: Object,
 })
 
-function destroyCountry(countryId) {
-  router.delete(`/admin/countries/${countryId}`)
-  toast.success(__('Country deleted successfully'))
+const destroyCountry = (countryId) => {
+  router.delete(`/admin/countries/${countryId}`, {
+    onSuccess: () => {
+      toast.success(__('Country deleted successfully'))
+      showDeleteModal.value = false
+    },
+  })
 }
 
 function updateCountry(countryId) {
@@ -87,18 +92,24 @@ function toggleEditDialog() {
 
   <td class="relative table-cell justify-end border-t text-right text-xs font-medium sm:pl-3 md:pr-2 xl:pr-0">
     <span class="flex flex-wrap">
-      <button class="mx-0.5 mb-1 flex w-fit shrink-0 items-center rounded py-1 pr-2 text-blumilk-500 hover:bg-blumilk-25" @click="toggleEditDialog">
+      <button class="mx-0.5 mb-1 flex w-fit shrink-0 items-center rounded py-1 pr-2 text-blumilk-500 hover:bg-blumilk-25"
+              @click="toggleEditDialog"
+      >
         <PencilIcon class="h-5 w-8 text-blumilk-500" />
         {{ __('Edit') }}
       </button>
 
-      <button class="mx-0.5 mb-1 flex w-fit shrink-0 items-center rounded py-1 pr-2 text-rose-500 hover:bg-rose-100" @click="destroyCountry(country.id)">
+      <button class="mx-0.5 mb-1 flex w-fit shrink-0 items-center rounded py-1 pr-2 text-rose-500 hover:bg-rose-100"
+              @click="showDeleteModal = true"
+      >
         <TrashIcon class="h-5 w-8 text-rose-500" />
         {{ __('Delete') }}
       </button>
+
+      <DeleteModal v-if="showDeleteModal" :name="country.name" :type="'Country'" @close="showDeleteModal = false" @delete="destroyCountry(country.id)" />
+
     </span>
   </td>
-
 
   <div v-if="isEditDialogOpened" class="flex flex-col overflow-y-auto">
     <div class="fixed inset-0 z-10 flex items-center overflow-y-auto bg-black/50">
@@ -109,23 +120,39 @@ function toggleEditDialog() {
           </button>
         </div>
 
-        <form class="flex flex-col rounded px-6 text-xs font-bold text-gray-600" @submit.prevent="updateCountry(country.id)">
+        <form class="flex flex-col rounded px-6 text-xs font-bold text-gray-600"
+              @submit.prevent="updateCountry(country.id)"
+        >
           <label class="mb-1">{{ __('Name') }}</label>
-          <input v-model="updateCountryForm.name" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text" required>
+          <input v-model="updateCountryForm.name"
+                 class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text"
+                 required
+          >
           <ErrorMessage :message="updateCountryForm.errors.name" />
           <label class="mb-1 mt-4">{{ __('Alternative name') }}</label>
-          <input v-model="updateCountryForm.alternativeName" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text">
+          <input v-model="updateCountryForm.alternativeName"
+                 class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text"
+          >
           <ErrorMessage :message="updateCountryForm.errors.alternativeName" />
 
           <label class="mb-1 mt-4">{{ __('Latitude') }}</label>
-          <input v-model="updateCountryForm.latitude" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text" required @keydown="preventCommaInput">
+          <input v-model="updateCountryForm.latitude"
+                 class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text"
+                 required @keydown="preventCommaInput"
+          >
           <ErrorMessage :message="updateCountryForm.errors.latitude" />
 
           <label class="mb-1 mt-4">{{ __('Longitude') }}</label>
-          <input v-model="updateCountryForm.longitude" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text" required @keydown="preventCommaInput">
+          <input v-model="updateCountryForm.longitude"
+                 class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text"
+                 required @keydown="preventCommaInput"
+          >
           <ErrorMessage :message="updateCountryForm.errors.longitude" />
           <label class="mb-1 mt-4">ISO</label>
-          <input v-model="updateCountryForm.iso" class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text" required>
+          <input v-model="updateCountryForm.iso"
+                 class="rounded border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3" type="text"
+                 required
+          >
           <ErrorMessage :message="updateCountryForm.errors.iso" />
           <small class="text-rose-600">{{ commaInputError }}</small>
 
