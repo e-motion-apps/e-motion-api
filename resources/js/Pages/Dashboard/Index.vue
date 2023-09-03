@@ -8,6 +8,7 @@ defineProps({
   usersCount: Number,
   citiesWithProvidersCount: Number,
   countriesWithCitiesWithProvidersCount: Number,
+  providersCount: Number,
 })
 </script>
 
@@ -17,7 +18,7 @@ defineProps({
     <div class="flex w-full md:justify-end">
       <div class="mt-16 flex h-full w-full flex-col justify-between md:mt-0 md:w-2/3 lg:w-3/4 xl:w-5/6">
         <div class="p-2">
-          <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
+          <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-4">
             <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
               <dt class="truncate text-sm font-medium text-blumilk-500">
                 Users
@@ -40,6 +41,14 @@ defineProps({
               </dt>
               <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900">
                 {{ countriesWithCitiesWithProvidersCount }}
+              </dd>
+            </div>
+            <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+              <dt class="truncate text-sm font-medium text-blumilk-500">
+                Providers
+              </dt>
+              <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900">
+                {{ providersCount }}
               </dd>
             </div>
           </dl>

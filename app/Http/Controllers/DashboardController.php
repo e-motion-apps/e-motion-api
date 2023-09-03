@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Models\City;
 use App\Models\CityProvider;
 use App\Models\Country;
+use App\Models\Provider;
 use App\Models\User;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -24,10 +25,13 @@ class DashboardController extends Controller
         $countriesWithCitiesWithProvidersIds = City::whereIn("id", $citiesWithProvidersIds)->distinct()->pluck("country_id");
         $countriesWithCitiesWithProvidersCount = Country::whereIn("id", $countriesWithCitiesWithProvidersIds)->count();
 
+        $providersCount = Provider::count();
+
         return Inertia::render("Dashboard/Index", [
             "usersCount" => $usersCount,
             "citiesWithProvidersCount" => $citiesWithProvidersCount,
             "countriesWithCitiesWithProvidersCount" => $countriesWithCitiesWithProvidersCount,
+            "providersCount" => $providersCount,
         ]);
     }
 }
