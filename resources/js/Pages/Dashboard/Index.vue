@@ -61,10 +61,16 @@ onMounted(() => {
 
 
 const chartOptions = {
+
   responsive: true,
   maintainAspectRatio: false,
   aspectRatio: 2 / 3,
   animation: false,
+  plugins: {
+    legend: {
+      display: false,
+    },
+  },
 }
 
 </script>
@@ -76,7 +82,7 @@ const chartOptions = {
       <div class="mt-16 flex h-full w-full flex-col md:mt-0 md:w-2/3 lg:w-3/4 xl:w-5/6">
         <div class="p-4">
           <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-4">
-            <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+            <div class="overflow-hidden rounded-lg border bg-white px-4 py-5 sm:p-6">
               <dt class="truncate text-sm font-medium text-blumilk-500">
                 {{ __('Users count') }}
               </dt>
@@ -84,7 +90,7 @@ const chartOptions = {
                 {{ usersCount }}
               </dd>
             </div>
-            <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+            <div class="overflow-hidden rounded-lg border bg-white px-4 py-5 sm:p-6">
               <dt class="truncate text-sm font-medium text-blumilk-500">
                 {{ __('Cities with providers') }}
               </dt>
@@ -92,7 +98,7 @@ const chartOptions = {
                 {{ citiesWithProvidersCount }}
               </dd>
             </div>
-            <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+            <div class="overflow-hidden rounded-lg border bg-white px-4 py-5 sm:p-6">
               <dt class="truncate text-sm font-medium text-blumilk-500">
                 {{ __('Countries with providers') }}
               </dt>
@@ -100,7 +106,7 @@ const chartOptions = {
                 {{ countriesWithCitiesWithProvidersCount }}
               </dd>
             </div>
-            <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+            <div class="overflow-hidden rounded-lg border bg-white px-4 py-5 shadow sm:p-6">
               <dt class="truncate text-sm font-medium text-blumilk-500">
                 {{ __('Providers count') }}
               </dt>
