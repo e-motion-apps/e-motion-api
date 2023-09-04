@@ -8,12 +8,16 @@ import { useFilterStore } from '@/Shared/Stores/FilterStore'
 import FavoriteButton from '@/Shared/Components/FavoriteButton.vue'
 import ProviderIcons from '@/Shared/Components/ProviderIcons.vue'
 import { __ } from '@/translate'
-import { useForm } from '@inertiajs/vue3'
+import { useForm, usePage } from '@inertiajs/vue3'
 import ErrorMessage from '@/Shared/Components/ErrorMessage.vue'
 import { useToast } from 'vue-toastification'
 import Pagination from '../../Shared/Components/Pagination.vue'
+import InfoPopup from '../../Shared/Components/InfoPopup.vue'
 
 const toast = useToast()
+
+const page = usePage()
+const isAuth = computed(() => page.props.auth.isAuth)
 
 const props = defineProps({
   city: Object,
@@ -67,6 +71,7 @@ function createOpinion() {
       },
       onError: () => {
         toast.error(__('There was an error adding your opinion!'))
+        emptyRatingError.value = ''
       },
     })
   }
@@ -86,7 +91,8 @@ function createOpinion() {
               {{ city.name }}
             </h1>
             <div class="hover:drop-shadow">
-              <FavoriteButton :cityid="city.id" :grow-up="true" class="ml-3 flex hover:drop-shadow" />
+              <FavoriteButton v-if="isAuth" :cityid="city.id" :grow-up="true" class="ml-3 flex hover:drop-shadow" />
+              <InfoPopup v-else class="flex rounded-full hover:drop-shadow" />
             </div>
           </div>
 
@@ -101,7 +107,7 @@ function createOpinion() {
           </h2>
           <ProviderIcons class="pt-4" :item="city" :providers="props.providers" />
 
-          <form class="mt-8 flex flex-col" @submit.prevent="createOpinion">
+          <form v-if="isAuth" class="mt-8 flex flex-col" @submit.prevent="createOpinion">
             <p class="mb-2 text-xs font-medium text-gray-700">
               {{ __('Add opinion') }}
             </p>
@@ -130,7 +136,7 @@ function createOpinion() {
           </form>
 
 
-          <div v-if="props.cityOpinions.length" class="mt-6">
+          <div v-if="props.cityOpinions.data.length" class="mt-6">
             <p class="mb-2 text-xs font-medium text-gray-700">
               {{ __(`Users' opinions`) }}
             </p>
@@ -151,7 +157,7 @@ function createOpinion() {
             </div>
           </div>
 
-          <Pagination :meta="props.cityOpinions.meta" :links="props.cityOpinions.links" />
+          <Pagination class="mb-6" :meta="props.cityOpinions.meta" :links="props.cityOpinions.links" />
         </div>
       </div>
 
