@@ -20,6 +20,7 @@ class CityResource extends JsonResource
             "city_alternative_names" => $this->cityAlternativeNames,
             "cityProviders" => $this->cityProviders,
             "country" => $this->country,
+            "cityOpinions" => $this->cityOpinions,
         ];
     }
 }

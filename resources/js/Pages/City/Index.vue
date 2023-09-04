@@ -2,12 +2,27 @@
 import Nav from '@/Shared/Layout/Nav.vue'
 import Map from '@/Shared/Layout/Map.vue'
 import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
-import { computed, ref } from 'vue'
-import { MapIcon, XMarkIcon } from '@heroicons/vue/24/outline'
+import { computed, onUnmounted, ref } from 'vue'
+import { MapIcon, XMarkIcon, StarIcon, PaperAirplaneIcon } from '@heroicons/vue/24/outline'
+import { useFilterStore } from '@/Shared/Stores/FilterStore'
+import FavoriteButton from '@/Shared/Components/FavoriteButton.vue'
+import ProviderIcons from '@/Shared/Components/ProviderIcons.vue'
+import { __ } from '@/translate'
+import { useForm, usePage } from '@inertiajs/vue3'
+import ErrorMessage from '@/Shared/Components/ErrorMessage.vue'
+import { useToast } from 'vue-toastification'
+import Pagination from '../../Shared/Components/Pagination.vue'
+import InfoPopup from '../../Shared/Components/InfoPopup.vue'
+
+const toast = useToast()
+
+const page = usePage()
+const isAuth = computed(() => page.props.auth.isAuth)
 
 const props = defineProps({
   city: Object,
-  providers: Array,
+  providers: Object,
+  cityOpinions: Object,
 })
 
 const breakpoints = useBreakpoints(breakpointsTailwind)
@@ -24,10 +39,50 @@ const buttonIcon = computed(() => {
   return shouldShowMap.value ? XMarkIcon : MapIcon
 })
 
-function getProviderColor(providerName) {
-  const provider = props.providers.find(provider => provider.name === providerName)
+const filterStore = useFilterStore()
 
-  return provider ? provider.color : ''
+onUnmounted(() => {
+  filterStore.changeSelectedCity(null)
+})
+
+const opinionForm = useForm({
+  rating: 0,
+  content: '',
+  city_id: props.city.id,
+})
+
+const maxRating = 5
+
+function setRating(starIndex) {
+  opinionForm.rating = starIndex
+}
+
+const emptyRatingError = ref('')
+
+function createOpinion() {
+  if (opinionForm.rating === 0) {
+    emptyRatingError.value = __('Please, rate that city')
+  } else {
+    opinionForm.post('/opinions', {
+      onSuccess: () => {
+        opinionForm.reset()
+        toast.success(__('Opinion added successfully!'))
+        emptyRatingError.value = ''
+      },
+      onError: () => {
+        toast.error(__('There was an error adding your opinion!'))
+        emptyRatingError.value = ''
+      },
+    })
+  }
+}
+
+const dateOptions = {
+  year: 'numeric',
+  month: 'numeric',
+  day: 'numeric',
+  hour: '2-digit',
+  minute: '2-digit',
 }
 
 </script>
@@ -39,29 +94,81 @@ function getProviderColor(providerName) {
     <div class="mt-16 flex grow flex-col lg:flex-row">
       <div v-if="isDesktop || !shouldShowMap" class="grow lg:w-1/2">
         <div class="mx-auto mt-4 flex w-11/12 flex-col sm:mt-12">
-          <h1 class="text-5xl font-bold">
-            {{ city.name }}
-          </h1>
+          <div class="flex items-end justify-between md:items-center">
+            <h1 class="flex text-4xl font-bold md:text-5xl">
+              {{ city.name }}
+            </h1>
+            <div class="hover:drop-shadow">
+              <FavoriteButton v-if="isAuth" :cityid="city.id" :grow-up="true" class="ml-3 flex hover:drop-shadow" />
+              <InfoPopup v-else class="flex rounded-full hover:drop-shadow" />
+            </div>
+          </div>
+
           <div class="mt-3 flex items-center">
-            <i class="flat flag large" :class="city.country.iso" />
+            <i class="flat flag large ml-1" :class="city.country.iso" />
             <h2 class="ml-2 text-xl font-medium text-blumilk-500">
               {{ city.country.name }}
             </h2>
           </div>
-
-
-          <h2 class="mt-1 text-sm text-gray-400 ">
+          <h2 class="ml-1 mt-1 text-sm text-gray-400 ">
             {{ city.latitude }}, {{ city.longitude }}
           </h2>
-          <div class="flex w-fit flex-row-reverse flex-wrap items-center justify-end pt-8 sm:mt-0 sm:justify-start">
-            <div v-for="cityProvider in city.cityProviders" :key="cityProvider.provider_name">
-              <div :style="{ 'background-color': getProviderColor(cityProvider.provider_name) }"
-                   class="m-1 flex h-9 w-fit shrink-0 items-center justify-center rounded-md border border-zinc-300 p-1"
-              >
-                <img loading="lazy" class="w-12" :src="'/providers/' + cityProvider.provider_name.toLowerCase() + '.png'" alt="">
+          <ProviderIcons class="pt-4" :item="city" :providers="props.providers" />
+
+          <form v-if="isAuth" class="mt-8 flex flex-col" @submit.prevent="createOpinion">
+            <p class="mb-2 text-xs font-medium text-gray-700">
+              {{ __('Add opinion') }}
+            </p>
+            <div class="mb-2 flex items-center space-x-1">
+              <StarIcon
+                v-for="index in maxRating"
+                :key="index"
+                class="h-6 w-6 cursor-pointer text-yellow-400"
+                :class="{ 'fill-yellow-400': index <= opinionForm.rating }"
+                @click="setRating(index)"
+              />
+            </div>
+            <textarea v-model.trim="opinionForm.content" required class="h-32 w-full rounded-lg border border-gray-300" />
+
+            <div class="mt-1 flex flex-col">
+              <ErrorMessage :message="emptyRatingError" />
+              <ErrorMessage :message="opinionForm.errors.rating" />
+              <ErrorMessage :message="opinionForm.errors.content" />
+              <ErrorMessage :message="opinionForm.errors.city_id" />
+            </div>
+
+            <button class="mt-2 flex w-full items-center justify-center rounded-lg bg-emerald-500 p-3 text-xs font-medium text-white hover:bg-emerald-600 sm:w-fit sm:px-4 sm:py-2">
+              {{ __('Send') }}
+              <PaperAirplaneIcon class="ml-2 h-4 w-4" />
+            </button>
+          </form>
+
+
+          <div v-if="props.cityOpinions.data.length" class="mt-6">
+            <p class="mb-2 text-xs font-medium text-gray-700">
+              {{ __(`Users' opinions`) }}
+            </p>
+            <div v-for="opinion in props.cityOpinions.data" :key="opinion.id" class="mb-3 flex flex-col rounded-lg border border-gray-300 p-2">
+              <div class="flex items-center">
+                <p class="mr-1 text-xs font-medium text-blumilk-500">
+                  {{ opinion.user.name }}
+                </p>
+                <StarIcon v-for="index in maxRating"
+                          :key="index"
+                          :class="{ 'fill-yellow-400': index <= opinion.rating }" class="h-4 w-4 text-yellow-400"
+                />
+              </div>
+              <p class="mr-1 text-xs font-light text-blumilk-500">
+                {{ new Date(opinion.updated_at).toLocaleString("pl-PL", dateOptions) }}
+              </p>
+
+              <div class="mt-1 text-sm text-gray-700">
+                {{ opinion.content }}
               </div>
             </div>
           </div>
+
+          <Pagination class="mb-6" :meta="props.cityOpinions.meta" :links="props.cityOpinions.links" />
         </div>
       </div>
 

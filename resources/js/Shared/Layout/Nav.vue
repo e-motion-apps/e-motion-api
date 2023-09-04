@@ -52,7 +52,7 @@ function login() {
 const navigation = computed(() => {
   if (isAuth.value) {
     return [
-      { name: 'My cities', href: '#' },
+      { name: 'Favorite cities', href: '/favorite-cities' },
       { name: 'Prices', href: '#' },
       { name: 'Rules', href: '#' },
     ]
