@@ -140,7 +140,7 @@ function createOpinion() {
             <p class="mb-2 text-xs font-medium text-gray-700">
               {{ __(`Users' opinions`) }}
             </p>
-            <div v-for="opinion in props.cityOpinions.data" :key="opinion.id" class="mb-3 flex flex-col rounded-lg border border-gray-300 px-2 py-1">
+            <div v-for="opinion in props.cityOpinions.data" :key="opinion.id" class="mb-3 flex flex-col rounded-lg border border-gray-300 p-2">
               <div class="flex items-center">
                 <p class="mr-1 text-xs font-medium text-blumilk-500">
                   {{ opinion.user.name }}
@@ -150,6 +150,9 @@ function createOpinion() {
                           :class="{ 'fill-yellow-400': index <= opinion.rating }" class="h-4 w-4 text-yellow-400"
                 />
               </div>
+              <p class="mr-1 text-xs font-light text-blumilk-500">
+                {{ new Date(opinion.updated_at).toLocaleDateString("pl-PL", options) }}
+              </p>
 
               <div class="mt-1 text-sm text-gray-700">
                 {{ opinion.content }}

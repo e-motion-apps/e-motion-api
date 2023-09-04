@@ -15,6 +15,7 @@ class CityOpinionResource extends JsonResource
             "id" => $this->id,
             "rating" => $this->rating,
             "content" => $this->content,
+            "updated_at" => $this->updated_at,
             "user" => $this->user,
         ];
     }
