@@ -20,7 +20,6 @@ function runImporters() {
   router.post('/run-importers', [])
   toast.success(__('Importers started!'))
 }
-
 </script>
 
 <template>
@@ -53,9 +52,8 @@ function runImporters() {
             </tbody>
           </table>
         </div>
-
-        <p v-else class="mt-8 flex font-medium text-gray-800">
-          {{ __('Didn`t find anything. Just empty space.') }}
+        <p v-else class="mt-6 flex text-lg font-medium text-gray-500">
+          {{ __(`Didn't find anything. Just empty space.`) }}
         </p>
 
         <Pagination :meta="importInfo.meta" :links="importInfo.links" />

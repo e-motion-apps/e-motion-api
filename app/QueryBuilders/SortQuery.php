@@ -17,13 +17,27 @@ class SortQuery extends Builder
         return $this;
     }
 
-    public function orderByTimeRange(): self
+    public function searchCityNames(): self
     {
-        if (request()->input("order") === "latest") {
-            return $this->orderByDesc("created_at");
+        if (request()->has("search")) {
+            return $this->where(function ($query): void {
+                $query->where("name", "ilike", request("search") . "%")
+                    ->orWhereHas("cityAlternativeNames", function ($subQuery): void {
+                        $subQuery->where("name", "ilike", request("search") . "%");
+                    });
+            });
         }
 
         return $this;
+    }
+
+    public function orderByTimeRange(): self
+    {
+        if (request()->input("order") === "oldest") {
+            return $this->orderBy("updated_at");
+        }
+
+        return $this->orderByDesc("updated_at");
     }
 
     public function orderByName(): self
@@ -60,7 +74,7 @@ class SortQuery extends Builder
     public function orderByEmptyCoordinates()
     {
         if (request()->input("order") === "empty-coordinates") {
-            return $this->where("latitude", "");
+            return $this->where("latitude", null)->orWhere("longitude", null);
         }
 
         return $this;

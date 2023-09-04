@@ -1,6 +1,6 @@
 <script setup>
 import { Dialog, DialogPanel } from '@headlessui/vue'
-import { ChartBarIcon, ClipboardIcon, FlagIcon, MapPinIcon, PlayCircleIcon } from '@heroicons/vue/24/solid'
+import { ClipboardIcon, FlagIcon, MapPinIcon, PlayCircleIcon } from '@heroicons/vue/24/solid'
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 import { ref } from 'vue'
 import LanguageSwitch from '@/Shared/Components/LanguageSwitch.vue'
@@ -11,7 +11,6 @@ const navigation = [
   { name: 'Importers', href: '/admin/importers', icon: PlayCircleIcon },
   { name: 'Countries', href: '/admin/countries', icon: FlagIcon },
   { name: 'Cities', href: '/admin/cities', icon: MapPinIcon },
-  { name: 'Statistics', href: '/admin/statistics', icon: ChartBarIcon },
 ]
 
 const isMobileMenuOpened = ref(false)

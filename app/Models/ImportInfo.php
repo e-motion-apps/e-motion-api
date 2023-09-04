@@ -13,7 +13,7 @@ class ImportInfo extends Model
         "status",
     ];
 
-    public function importInfoDetail()
+    public function importInfoDetails()
     {
         return $this->hasMany(ImportInfoDetail::class);
     }

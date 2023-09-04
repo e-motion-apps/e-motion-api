@@ -12,6 +12,8 @@ const props = defineProps({
     type: Number,
     required: true,
   },
+  isFavoriteCitiesPage: Boolean,
+  growUp: Boolean,
 })
 
 const toast = useToast()
@@ -60,24 +62,29 @@ const onIntersection = async (entries) => {
 }
 
 onMounted(() => {
-  if (intersectionTarget.value) {
+  if (intersectionTarget.value && !props.isFavoriteCitiesPage) {
     const observer = new IntersectionObserver(onIntersection, {
       root: null,
       threshold: 0.5,
     })
     observer.observe(intersectionTarget.value)
+  } else {
+    result.value = true
   }
 })
 </script>
 
 <template>
   <div ref="intersectionTarget">
-    <button @click="toggleFavorite">
+    <button @click.stop="toggleFavorite">
       <component :is="result ? SolidHeartIcon : OutlineHeartIcon" v-if="result !== null"
-                 class="h-6 w-6 text-rose-500"
+                 class="text-rose-500"
+                 :class="growUp ? 'h-10 w-10 sm:h-9 sm:w-9' : 'h-8 w-8 sm:h-6 sm:w-6'"
       />
       <span v-else class="animate-pulse text-rose-200">
-        <SolidHeartIcon class="h-6 w-6" />
+        <SolidHeartIcon
+          :class="growUp ? 'h-10 w-10 sm:h-9 sm:w-9' : 'h-8 w-8 sm:h-6 sm:w-6'"
+        />
       </span>
     </button>
   </div>
