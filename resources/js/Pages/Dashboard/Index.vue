@@ -106,7 +106,7 @@ const chartOptions = {
                 {{ countriesWithCitiesWithProvidersCount }}
               </dd>
             </div>
-            <div class="overflow-hidden rounded-lg border bg-white px-4 py-5 shadow sm:p-6">
+            <div class="overflow-hidden rounded-lg border bg-white px-4 py-5 sm:p-6">
               <dt class="truncate text-sm font-medium text-blumilk-500">
                 {{ __('Providers count') }}
               </dt>
