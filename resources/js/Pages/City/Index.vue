@@ -77,6 +77,14 @@ function createOpinion() {
   }
 }
 
+const dateOptions = {
+  year: 'numeric',
+  month: 'numeric',
+  day: 'numeric',
+  hour: '2-digit',
+  minute: '2-digit',
+}
+
 </script>
 
 <template>
@@ -151,7 +159,7 @@ function createOpinion() {
                 />
               </div>
               <p class="mr-1 text-xs font-light text-blumilk-500">
-                {{ new Date(opinion.updated_at).toLocaleDateString("pl-PL", options) }}
+                {{ new Date(opinion.updated_at).toLocaleString("pl-PL", dateOptions) }}
               </p>
 
               <div class="mt-1 text-sm text-gray-700">
