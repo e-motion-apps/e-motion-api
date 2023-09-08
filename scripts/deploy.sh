@@ -23,3 +23,6 @@ docker-compose -f $FILE exec -T app php artisan migrate --force &&
     docker-compose -f $FILE exec -T app php artisan config:cache &&
     docker-compose -f $FILE exec -T app php artisan route:cache &&
     docker-compose -f $FILE exec -T app php artisan view:cache
+
+echo "Restart app container"
+docker-compose -f $FILE restart app
