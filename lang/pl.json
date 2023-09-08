@@ -129,7 +129,10 @@
 
     "Opinion added successfully!": "Opinia dodana pomyślnie!",
     "There was an error adding your opinion!": "Wystąpił błąd podczas dodawania opinii!",
+    "Opinion edited successfully!": "Opinia zaktualizowana pomyślnie!",
+    "There was an error editing your opinion!": "Wystąpił błąd podczas edytowania opinii!",
     "Add opinion": "Dodaj opinię",
+    "Edit opinion": "Edytuj opinię",
     "Send": "Wyślij",
     "Users' opinions": "Opinie użytkowników",
 
