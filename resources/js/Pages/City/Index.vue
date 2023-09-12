@@ -67,11 +67,11 @@ function createOpinion() {
     opinionForm.post('/opinions', {
       onSuccess: () => {
         opinionForm.reset()
-        toast.success(__('Opinion added successfully!'))
+        toast.success(__('Opinion added successfully.'))
         emptyRatingError.value = ''
       },
       onError: () => {
-        toast.error(__('There was an error adding your opinion!'))
+        toast.error(__('There was an error adding your opinion.'))
         emptyRatingError.value = ''
       },
     })

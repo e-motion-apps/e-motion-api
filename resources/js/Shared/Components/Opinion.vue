@@ -29,11 +29,11 @@ function updateOpinion(opinionId) {
   } else {
     updateOpinionForm.patch(`/opinions/${opinionId}`, {
       onSuccess: () => {
-        toast.success(__('Opinion updated successfully!'))
+        toast.success(__('Opinion edited successfully.'))
         toggleUpdateOpinionDialog()
       },
       onError: () => {
-        toast.error(__('There was an error updating your opinion!'))
+        toast.error(__('There was an error editing your opinion.'))
       },
     })
   }
@@ -54,7 +54,7 @@ function deleteOpinion(opinionId) {
       toast.success(__('Opinion removed successfully!'))
     },
     onError: () => {
-      toast.error(__('There was an error removing your opinion!'))
+      toast.error(__('There was an error removing your opinion.'))
     },
     preserveScroll: true,
   })

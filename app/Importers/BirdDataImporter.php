@@ -102,7 +102,6 @@ class BirdDataImporter extends DataImporter
             return strval($city->id);
         }
         $this->countryNotFound($cityName, $countryName);
-        $this->createImportInfoDetails("420", self::getProviderName());
 
         return "";
     }
