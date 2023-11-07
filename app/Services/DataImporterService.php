@@ -23,6 +23,7 @@ use App\Jobs\UrentDataImporterJob;
 use App\Jobs\VeoDataImporterJob;
 use App\Jobs\VoiDataImporterJob;
 use App\Jobs\WindDataImporterJob;
+use App\Jobs\WheeMoveDataImporterJob;
 use App\Jobs\ZwingsDataImporterJob;
 use App\Models\ImportInfo;
 use Illuminate\Support\Facades\Bus;
@@ -60,6 +61,7 @@ class DataImporterService
             new VoiDataImporterJob($this->importInfoId),
             new VeoDataImporterJob($this->importInfoId),
             new WindDataImporterJob($this->importInfoId),
+            new WheeMoveDataImporterJob($this->importInfoId),
             new ZwingsDataImporterJob($this->importInfoId),
         ])->finally(function (): void {
             ImportInfo::query()->where("id", $this->importInfoId)->update([
