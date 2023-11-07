@@ -9,6 +9,8 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class WheeMoveDataImporter extends DataImporter
 {
+    private const COUNTRY_NAME = "Spain";
+
     protected Crawler $sections;
 
     public function extract(): static
@@ -37,13 +39,12 @@ class WheeMoveDataImporter extends DataImporter
     public function transform(): void
     {
         $existingCityProviders = [];
-        $this->extract();
 
         if ($this->stopExecution) {
             return;
         }
         $cityNames = [];
-        
+
         $firstSectionNames = $this->sections->first()->filter('span[class="elementor-icon-list-text"]');
         $lastSectionNames = $this->sections->last()->filter('span[class="elementor-icon-list-text"]');
 
@@ -54,7 +55,7 @@ class WheeMoveDataImporter extends DataImporter
         }
 
         foreach ($cityNames as $name) {
-            $provider = $this->load($name, "Spain");
+            $provider = $this->load($name, self::COUNTRY_NAME);
 
             if ($provider !== "") {
                 $existingCityProviders[] = $provider;
