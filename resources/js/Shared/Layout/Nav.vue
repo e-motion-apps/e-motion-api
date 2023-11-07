@@ -89,7 +89,7 @@ function toggleAuthDialog() {
 const isPasswordVisible = ref(false)
 
 function togglePasswordVisibility() {
-    isPasswordVisible.value = !isPasswordVisible.value
+  isPasswordVisible.value = !isPasswordVisible.value
 }
 
 const isLoginFormSelected = ref(true)
@@ -174,13 +174,13 @@ defineExpose({
               >
             </div>
             <div class="relative">
-              <label class="w-full mb-1 block text-sm font-semibold text-gray-800">{{ __('Password') }}</label>
-              <input v-model="loginForm.password" :type="isPasswordVisible ? 'text' : 'password'"  class="w-full rounded-lg border-blumilk-200 py-3 md:p-2"
+              <label class="mb-1 block w-full text-sm font-semibold text-gray-800">{{ __('Password') }}</label>
+              <input v-model="loginForm.password" :type="isPasswordVisible ? 'text' : 'password'" class="w-full rounded-lg border-blumilk-200 py-3 md:p-2"
                      required
               >
-              <button type="button" class="absolute right-2 bottom-2" @click="togglePasswordVisibility">
-                <component :is="!isPasswordVisible ? EyeIcon : EyeSlashIcon" class="text-blumilk-400 h-6 w-6" />
-                </button>
+              <button type="button" class="absolute bottom-2 right-2" @click="togglePasswordVisibility">
+                <component :is="!isPasswordVisible ? EyeIcon : EyeSlashIcon" class="h-6 w-6 text-blumilk-400" />
+              </button>
               <ErrorMessage :message="loginForm.errors.loginError" />
             </div>
             <div class="flex w-full md:w-fit">
@@ -218,9 +218,9 @@ defineExpose({
               <input v-model="registerForm.password" :type="isPasswordVisible ? 'text' : 'password'"
                      class="w-full rounded-lg border-blumilk-200 py-3 md:p-2" required
               >
-                <button type="button" class="absolute right-2 bottom-2" @click="togglePasswordVisibility">
-                    <component :is="!isPasswordVisible ? EyeIcon : EyeSlashIcon" class="text-blumilk-400 h-6 w-6" />
-                </button>
+              <button type="button" class="absolute bottom-2 right-2" @click="togglePasswordVisibility">
+                <component :is="!isPasswordVisible ? EyeIcon : EyeSlashIcon" class="h-6 w-6 text-blumilk-400" />
+              </button>
             </div>
             <div>
               <label class="mb-1 block text-sm font-semibold text-gray-800">{{ __('Confirm password') }}</label>
