@@ -43,16 +43,14 @@ class WheeMoveDataImporter extends DataImporter
             return;
         }
         $cityNames = [];
+        
+        $firstSectionNames = $this->sections->first()->filter('span[class="elementor-icon-list-text"]');
+        $lastSectionNames = $this->sections->last()->filter('span[class="elementor-icon-list-text"]');
 
-        $names_temp = $this->sections->first()->filter('span[class="elementor-icon-list-text"]');
-
-        foreach ($names_temp as $name) {
-            $cityNames[] = $name->nodeValue;
-        }
-        $names_temp = $this->sections->last()->filter('span[class="elementor-icon-list-text"]');
-
-        foreach ($names_temp as $name) {
-            $cityNames[] = $name->nodeValue;
+        foreach ([$firstSectionNames, $lastSectionNames] as $sectionNames) {
+            foreach ($sectionNames as $name) {
+                $cityNames[] = $name->nodeValue;
+            }
         }
 
         foreach ($cityNames as $name) {
