@@ -19,6 +19,7 @@
 1. Urent
 1. Veo
 1. Voi
+1. WheeMove
 1. Zwings
 
 ### Local development
