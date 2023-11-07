@@ -178,7 +178,7 @@ defineExpose({
               <input v-model="loginForm.password" :type="isPasswordVisible ? 'text' : 'password'" class="w-full rounded-lg border-blumilk-200 py-3 md:p-2"
                      required
               >
-              <button type="button" class="absolute bottom-2 right-2" @click="togglePasswordVisibility">
+              <button type="button" class="absolute bottom-3 right-2 md:bottom-2" @click="togglePasswordVisibility">
                 <component :is="!isPasswordVisible ? EyeIcon : EyeSlashIcon" class="h-6 w-6 text-blumilk-400" />
               </button>
               <ErrorMessage :message="loginForm.errors.loginError" />
@@ -218,7 +218,7 @@ defineExpose({
               <input v-model="registerForm.password" :type="isPasswordVisible ? 'text' : 'password'"
                      class="w-full rounded-lg border-blumilk-200 py-3 md:p-2" required
               >
-              <button type="button" class="absolute bottom-2 right-2" @click="togglePasswordVisibility">
+              <button type="button" class="absolute bottom-3 right-2 md:bottom-2" @click="togglePasswordVisibility">
                 <component :is="!isPasswordVisible ? EyeIcon : EyeSlashIcon" class="h-6 w-6 text-blumilk-400" />
               </button>
             </div>
