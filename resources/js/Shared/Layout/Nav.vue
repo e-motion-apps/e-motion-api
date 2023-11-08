@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { Dialog, DialogPanel } from '@headlessui/vue'
-import { Bars3Icon, XMarkIcon, UserCircleIcon, ArrowRightOnRectangleIcon, ComputerDesktopIcon, MapPinIcon, FlagIcon } from '@heroicons/vue/24/outline'
+import { Bars3Icon, XMarkIcon, UserCircleIcon, ArrowRightOnRectangleIcon, ComputerDesktopIcon, MapPinIcon, FlagIcon, EyeIcon, EyeSlashIcon } from '@heroicons/vue/24/outline'
 import { router, usePage } from '@inertiajs/vue3'
 import { onClickOutside } from '@vueuse/core'
 import { useForm } from '@inertiajs/vue3'
@@ -21,7 +21,6 @@ const registerForm = useForm({
   name: '',
   email: '',
   password: '',
-  password_confirmation: '',
 })
 
 function register() {
@@ -84,6 +83,12 @@ function toggleAuthDialog() {
   isLoginFormSelected.value = true
   isAuthDialogOpened.value = !isAuthDialogOpened.value
   isMobileMenuOpened.value = false
+}
+
+const isPasswordVisible = ref(false)
+
+function togglePasswordVisibility() {
+  isPasswordVisible.value = !isPasswordVisible.value
 }
 
 const isLoginFormSelected = ref(true)
@@ -167,13 +172,16 @@ defineExpose({
                      required
               >
             </div>
-            <div>
-              <label class="mb-1 block text-sm font-semibold text-gray-800">{{ __('Password') }}</label>
-              <input v-model="loginForm.password" type="password" class="w-full rounded-lg border-blumilk-200 py-3 md:p-2"
+            <div class="relative">
+              <label class="mb-1 block w-full text-sm font-semibold text-gray-800">{{ __('Password') }}</label>
+              <input v-model="loginForm.password" :type="isPasswordVisible ? 'text' : 'password'" class="w-full rounded-lg border-blumilk-200 py-3 md:p-2"
                      required
               >
-              <ErrorMessage :message="loginForm.errors.loginError" />
+              <button type="button" class="absolute bottom-3 right-2 md:bottom-2" @click="togglePasswordVisibility">
+                <component :is="!isPasswordVisible ? EyeIcon : EyeSlashIcon" class="h-6 w-6 text-blumilk-400" />
+              </button>
             </div>
+            <ErrorMessage :message="loginForm.errors.loginError" />
             <div class="flex w-full md:w-fit">
               <button type="submit"
                       class="w-full rounded-lg bg-blumilk-500 p-4 font-semibold text-white hover:bg-blumilk-600 md:py-2"
@@ -204,19 +212,16 @@ defineExpose({
               >
               <ErrorMessage :message="registerForm.errors.email" />
             </div>
-            <div>
+            <div class="relative">
               <label class="mb-1 block text-sm font-semibold text-gray-800">{{ __('Password') }}</label>
-              <input v-model="registerForm.password" type="password"
+              <input v-model="registerForm.password" :type="isPasswordVisible ? 'text' : 'password'"
                      class="w-full rounded-lg border-blumilk-200 py-3 md:p-2" required
               >
+              <button type="button" class="absolute bottom-3 right-2 md:bottom-2" @click="togglePasswordVisibility">
+                <component :is="!isPasswordVisible ? EyeIcon : EyeSlashIcon" class="h-6 w-6 text-blumilk-400" />
+              </button>
             </div>
-            <div>
-              <label class="mb-1 block text-sm font-semibold text-gray-800">{{ __('Confirm password') }}</label>
-              <input v-model="registerForm.password_confirmation" type="password"
-                     class="w-full rounded-lg border-blumilk-200 py-3 md:p-2" required
-              >
-              <ErrorMessage :message="registerForm.errors.password" />
-            </div>
+            <ErrorMessage :message="registerForm.errors.password" />
             <div class="flex w-full md:w-fit">
               <button type="submit"
                       class="w-full rounded-lg bg-blumilk-500 p-4 font-semibold text-white hover:bg-blumilk-600 md:py-2"
