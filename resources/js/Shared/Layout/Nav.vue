@@ -180,8 +180,8 @@ defineExpose({
               <button type="button" class="absolute bottom-3 right-2 md:bottom-2" @click="togglePasswordVisibility">
                 <component :is="!isPasswordVisible ? EyeIcon : EyeSlashIcon" class="h-6 w-6 text-blumilk-400" />
               </button>
-              <ErrorMessage :message="loginForm.errors.loginError" />
             </div>
+            <ErrorMessage :message="loginForm.errors.loginError" />
             <div class="flex w-full md:w-fit">
               <button type="submit"
                       class="w-full rounded-lg bg-blumilk-500 p-4 font-semibold text-white hover:bg-blumilk-600 md:py-2"
@@ -220,8 +220,8 @@ defineExpose({
               <button type="button" class="absolute bottom-3 right-2 md:bottom-2" @click="togglePasswordVisibility">
                 <component :is="!isPasswordVisible ? EyeIcon : EyeSlashIcon" class="h-6 w-6 text-blumilk-400" />
               </button>
-              <ErrorMessage :message="registerForm.errors.password" />
             </div>
+            <ErrorMessage :message="registerForm.errors.password" />
             <div class="flex w-full md:w-fit">
               <button type="submit"
                       class="w-full rounded-lg bg-blumilk-500 p-4 font-semibold text-white hover:bg-blumilk-600 md:py-2"

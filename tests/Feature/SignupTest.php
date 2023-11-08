@@ -15,7 +15,6 @@ class SignupTest extends TestCase
             "name" => "Test",
             "email" => "test@example.com",
             "password" => "123456789",
-            "password_confirmation" => "123456789",
         ];
 
         $this->post(uri: "/register", data: $user);
@@ -29,7 +28,6 @@ class SignupTest extends TestCase
             "name" => Str::random(256),
             "email" => "email@example.com",
             "password" => "123456789",
-            "password_confirmation" => "123456789",
         ]);
 
         $response->assertSessionHasErrors(["name"]);
