@@ -21,7 +21,6 @@ const registerForm = useForm({
   name: '',
   email: '',
   password: '',
-  password_confirmation: '',
 })
 
 function register() {
@@ -221,12 +220,6 @@ defineExpose({
               <button type="button" class="absolute bottom-3 right-2 md:bottom-2" @click="togglePasswordVisibility">
                 <component :is="!isPasswordVisible ? EyeIcon : EyeSlashIcon" class="h-6 w-6 text-blumilk-400" />
               </button>
-            </div>
-            <div>
-              <label class="mb-1 block text-sm font-semibold text-gray-800">{{ __('Confirm password') }}</label>
-              <input v-model="registerForm.password_confirmation" :type="isPasswordVisible ? 'text' : 'password'"
-                     class="w-full rounded-lg border-blumilk-200 py-3 md:p-2" required
-              >
               <ErrorMessage :message="registerForm.errors.password" />
             </div>
             <div class="flex w-full md:w-fit">
