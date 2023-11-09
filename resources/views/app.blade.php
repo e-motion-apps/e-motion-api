@@ -6,6 +6,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/krzysztofrewak/flat-flags-iconset@latest/style.css" integrity="sha384-typL+psvFGLzSJiF9ka5WmyYwYhYltLSIOJoXOf+ey7UKwkijRwY6YQIGqwOW2Io" crossorigin="anonymous">
     @vite('resources/js/app.js')
     @inertiaHead
+    <style>
+        html {
+            -webkit-tap-highlight-color: transparent;
+        }
+    </style>
 </head>
 <body>
     @inertia

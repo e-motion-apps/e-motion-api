@@ -18,6 +18,7 @@ return new class() extends Migration {
                 ->onDelete("cascade");
 
             $table->string("name");
+            $table->string("slug");
             $table->string("latitude")->nullable();
             $table->string("longitude")->nullable();
             $table->timestamps();

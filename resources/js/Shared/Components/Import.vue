@@ -13,7 +13,7 @@ const props = defineProps({
 })
 
 const status = computed(() => {
-  const importDetails = props.info.import_info_detail
+  const importDetails = props.info.import_info_details
 
   if (importDetails.length === 0) {
     return 'Success'
@@ -80,7 +80,7 @@ function toggleImportDialog() {
 
   <div v-if="isImportDialogOpened" class="flex flex-col">
     <div class="fixed inset-0 z-10 flex items-center bg-black/50 py-8">
-      <div ref="importDialog" class="mx-auto h-fit max-h-full w-11/12 overflow-y-auto rounded-lg bg-white pb-6 sm:w-5/6 md:w-3/4 lg:w-1/2 xl:w-1/3">
+      <div ref="importDialog" class="scrollbar mx-auto h-fit max-h-full w-11/12 overflow-y-auto rounded-lg bg-white pb-6 sm:w-5/6 md:w-3/4 lg:w-1/2 xl:w-1/3">
         <div class="flex w-full justify-end">
           <button class="px-4 pt-4" @click="toggleImportDialog">
             <XMarkIcon class="h-6 w-6" />
@@ -98,7 +98,7 @@ function toggleImportDialog() {
               </p>
             </div>
 
-            <div v-for="detail in info.import_info_detail" :key="detail.id"
+            <div v-for="detail in info.import_info_details" :key="detail.id"
                  :class="detail.code === 400 ? 'border-red-600 bg-red-100' : 'border-orange-500 bg-orange-100'"
                  class="mb-4 flex flex-col justify-center rounded border p-2 font-light"
             >
@@ -120,6 +120,10 @@ function toggleImportDialog() {
                   </p>
                   <InertiaLink v-if="detail.code === 419" href="/admin/cities?order=empty-coordinates" class="font-medium">
                     {{ __('Check list of cities with no coordinates.') }}
+                  </InertiaLink>
+
+                  <InertiaLink v-if="detail.code === 420" href="/admin/cities" class="font-medium">
+                    {{ __('Check list of cities with no country assigned') }}
                   </InertiaLink>
                 </div>
               </div>

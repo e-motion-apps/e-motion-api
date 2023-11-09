@@ -59,16 +59,18 @@ abstract class DataImporter
 
     protected function countryNotFound(string $cityName, string $countryName): void
     {
-        CityWithoutAssignedCountry::query()->updateOrCreate(
-            [
-                "city_name" => $cityName,
-                "country_name" => $countryName,
-            ],
-            [
-                "city_name" => $cityName,
-                "country_name" => $countryName,
-            ],
-        );
+        CityWithoutAssignedCountry::query()
+            ->withTrashed()
+            ->updateOrCreate(
+                [
+                    "city_name" => $cityName,
+                    "country_name" => $countryName,
+                ],
+                [
+                    "city_name" => $cityName,
+                    "country_name" => $countryName,
+                ],
+            );
     }
 
     protected function createProvider(int $cityId, string $providerName): void
@@ -131,13 +133,14 @@ abstract class DataImporter
             $coordinates = $this->mapboxService->getCoordinatesFromApi($cityName, $countryName);
             $countCoordinates = count($coordinates);
 
-            if (!$countCoordinates) {
+            if ($countCoordinates === 0 || $coordinates[0] === null || $coordinates[1] === null) {
                 $this->createImportInfoDetails("419", self::getProviderName());
             }
+
             $city = City::query()->create([
                 "name" => $cityName,
-                "latitude" => ($countCoordinates > 0) ? $coordinates[0] : null,
-                "longitude" => ($countCoordinates > 0) ? $coordinates[1] : null,
+                "latitude" => $coordinates[0] ?? null,
+                "longitude" => $coordinates[1] ?? null,
                 "country_id" => $country->id,
             ]);
 

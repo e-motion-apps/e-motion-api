@@ -14,11 +14,13 @@ class CityResource extends JsonResource
         return [
             "id" => $this->id,
             "name" => $this->name,
+            "slug" => $this->slug,
             "latitude" => $this->latitude,
             "longitude" => $this->longitude,
-            "city_alternative_names" => $this->cityAlternativeName,
-            "cityProviders" => $this->cityProvider,
+            "city_alternative_names" => $this->cityAlternativeNames,
+            "cityProviders" => $this->cityProviders,
             "country" => $this->country,
+            "cityOpinions" => $this->cityOpinions,
         ];
     }
 }

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 
 /**
  * @property int $id
@@ -30,7 +31,7 @@ class Country extends Model
         "iso",
     ];
 
-    public function city(): HasMany
+    public function cities(): HasMany
     {
         return $this->hasMany(City::class);
     }
@@ -43,5 +44,12 @@ class Country extends Model
     public function newEloquentBuilder($query): SortQuery
     {
         return new SortQuery($query);
+    }
+
+    protected static function booted(): void
+    {
+        static::creating(function ($country): void {
+            $country->slug = Str::slug($country->name);
+        });
     }
 }
