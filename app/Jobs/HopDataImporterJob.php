@@ -13,6 +13,3 @@ class HopDataImporterJob extends DataImporterJob
         $importer->setImportInfo($this->importInfoId)->extract()->transform();
     }
 }
-{
-
-}

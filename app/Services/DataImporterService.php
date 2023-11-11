@@ -11,6 +11,7 @@ use App\Jobs\BirdDataImporterJob;
 use App\Jobs\BitMobilityDataImporterJob;
 use App\Jobs\BoltDataImporterJob;
 use App\Jobs\DottDataImporterJob;
+use App\Jobs\HopDataImporterJob;
 use App\Jobs\HulajDataImporterJob;
 use App\Jobs\LimeDataImporterJob;
 use App\Jobs\LinkDataImporterJob;
@@ -25,7 +26,6 @@ use App\Jobs\VoiDataImporterJob;
 use App\Jobs\WheeMoveDataImporterJob;
 use App\Jobs\WindDataImporterJob;
 use App\Jobs\ZwingsDataImporterJob;
-use App\Jobs\HopDataImporterJob;
 use App\Models\ImportInfo;
 use Illuminate\Support\Facades\Bus;
 

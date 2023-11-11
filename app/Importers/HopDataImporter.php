@@ -9,7 +9,6 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class HopDataImporter extends DataImporter
 {
-
     protected Crawler $sections;
 
     public function extract(): static
@@ -31,7 +30,6 @@ class HopDataImporter extends DataImporter
 
             $this->stopExecution = true;
         }
-
 
         return $this;
     }
@@ -55,17 +53,17 @@ class HopDataImporter extends DataImporter
 
             foreach ($cities as $city) {
                 $locations[] = [
-                    'country' => $country->textContent,
-                    'city' => $city->textContent
+                    "country" => $country->textContent,
+                    "city" => $city->textContent,
                 ];
-
             }
         }
-        foreach ($locations as $location) {
-            $location['country'] = preg_replace('/\s+/', '', $location['country']);
-            $location['city'] = preg_replace('/\s+/', '', $location['city']);
 
-            $provider = $this->load($location['city'], $location['country']);
+        foreach ($locations as $location) {
+            $location["country"] = preg_replace('/\s+/', "", $location["country"]);
+            $location["city"] = preg_replace('/\s+/', "", $location["city"]);
+
+            $provider = $this->load($location["city"], $location["country"]);
 
             if ($provider !== "") {
                 $existingCityProviders[] = $provider;
