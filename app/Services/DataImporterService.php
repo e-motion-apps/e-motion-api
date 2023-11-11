@@ -25,6 +25,7 @@ use App\Jobs\VoiDataImporterJob;
 use App\Jobs\WheeMoveDataImporterJob;
 use App\Jobs\WindDataImporterJob;
 use App\Jobs\ZwingsDataImporterJob;
+use App\Jobs\HopDataImporterJob;
 use App\Models\ImportInfo;
 use Illuminate\Support\Facades\Bus;
 
@@ -63,6 +64,7 @@ class DataImporterService
             new WindDataImporterJob($this->importInfoId),
             new WheeMoveDataImporterJob($this->importInfoId),
             new ZwingsDataImporterJob($this->importInfoId),
+            new HopDataImporterJob($this->importInfoId),
         ])->finally(function (): void {
             ImportInfo::query()->where("id", $this->importInfoId)->update([
                 "status" => "finished",

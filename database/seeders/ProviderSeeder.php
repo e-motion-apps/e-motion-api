@@ -11,6 +11,7 @@ use App\Importers\BirdDataImporter;
 use App\Importers\BitMobilityDataImporter;
 use App\Importers\BoltDataImporter;
 use App\Importers\DottDataImporter;
+use App\Importers\HopDataImporter;
 use App\Importers\HulajDataImporter;
 use App\Importers\LimeDataImporter;
 use App\Importers\LinkDataImporter;
@@ -54,6 +55,7 @@ class ProviderSeeder extends Seeder
             ["name" => VeoDataImporter::getProviderName(), "color" => "#000000"],
             ["name" => WindDataImporter::getProviderName(), "color" => "#fffa00"],
             ["name" => WheeMoveDataImporter::getProviderName(), "color" => "#31682d"],
+            ["name" => HopDataImporter::getProviderName(), "color" => "#EA1821"],
         ];
 
         foreach ($providers as $provider) {
