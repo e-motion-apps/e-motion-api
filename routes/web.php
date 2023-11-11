@@ -24,6 +24,9 @@ Route::middleware("guest")->group(function (): void {
 Route::middleware("auth")->group(function (): void {
     Route::post("/logout", [AuthController::class, "logout"])->name("logout");
 
+    Route::get("/login/github", [AuthController::class, "github"]);
+    Route::get("login/github/redirect", [AuthController::class, "githubRedirect"]);
+
     Route::post("/favorites", [FavoritesController::class, "store"]);
     Route::get("/favorites/{city_id}", [FavoritesController::class, "check"]);
     Route::get("/favorite-cities", [FavoritesController::class, "index"]);

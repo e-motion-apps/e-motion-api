@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
+use Laravel\Socialite\Facades\Socialite;
+
 
 class AuthController extends Controller
 {
@@ -52,4 +54,15 @@ class AuthController extends Controller
 
         return redirect()->route("home");
     }
+
+    public function github()
+    {
+        return Socialite::driver('github')->redirect();
+    }
+    public function githubRedirect()
+    {
+        $user = Socialite::driver('github')->user();
+        dd($user);
+    }
+
 }
