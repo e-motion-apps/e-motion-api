@@ -14,7 +14,7 @@ const open = ref(true)
 const props = defineProps({
   name: {
     type: String,
-    required: true,
+    required: false,
   },
   type: {
     type: String,
@@ -37,7 +37,11 @@ const renderText = () => {
   let translationKey = ''
   translationKey = ':type :name will be permanently deleted.'
 
-  return __(translationKey, { type: __(props.type), name: props.name })
+  if (props.type == 'That opinion') {
+    translationKey = ':type will be permanently deleted.'
+  }
+
+  return __(translationKey, { type: __(props.type), name: __(props.name) })
 }
 
 const dialogRef = ref(null)
