@@ -63,8 +63,8 @@ class DataImporterService
             new VeoDataImporterJob($this->importInfoId),
             new WindDataImporterJob($this->importInfoId),
             new WheeMoveDataImporterJob($this->importInfoId),
-            new ZwingsDataImporterJob($this->importInfoId),
             new HopDataImporterJob($this->importInfoId),
+            new ZwingsDataImporterJob($this->importInfoId),
         ])->finally(function (): void {
             ImportInfo::query()->where("id", $this->importInfoId)->update([
                 "status" => "finished",

@@ -41,6 +41,7 @@ class ProviderSeeder extends Seeder
             ["name" => BitMobilityDataImporter::getProviderName(), "color" => "#8da6e3"],
             ["name" => BoltDataImporter::getProviderName(), "color" => "#24f0a0"],
             ["name" => DottDataImporter::getProviderName(), "color" => "#f5c604"],
+            ["name" => HopDataImporter::getProviderName(), "color" => "#ea1821"],
             ["name" => HulajDataImporter::getProviderName(), "color" => "#d6213f"],
             ["name" => LimeDataImporter::getProviderName(), "color" => "#00de00"],
             ["name" => LinkDataImporter::getProviderName(), "color" => "#def700"],
@@ -55,7 +56,6 @@ class ProviderSeeder extends Seeder
             ["name" => VeoDataImporter::getProviderName(), "color" => "#000000"],
             ["name" => WindDataImporter::getProviderName(), "color" => "#fffa00"],
             ["name" => WheeMoveDataImporter::getProviderName(), "color" => "#31682d"],
-            ["name" => HopDataImporter::getProviderName(), "color" => "#EA1821"],
         ];
 
         foreach ($providers as $provider) {
