@@ -137,8 +137,10 @@
     "Send": "Wyślij",
     "Users' opinions": "Opinie użytkowników",
     "Delete that opinion?": "Usunąć tę opinię?",
+    "Opinion removed successfully!": "Opinia usunięta pomyślnie.",
     "Delete city?": "Usunąć miasto?",
-    "That opinion will be permanently deleted.": "Ta opinia zostanie trwale usunięta.",
+    "That opinion": "Ta opinia",
+    "will be permanently deleted.": "zostanie trwale usunięta.",
 
     "You have logged in successfully.": "Zalogowano pomyślnie.",
     "You have logged out successfully.": "Wylogowano pomyślnie.",

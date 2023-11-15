@@ -35,13 +35,10 @@ const renderHeader = () => {
 
 const renderText = () => {
   let translationKey = ''
-  translationKey = ':type :name will be permanently deleted.'
+  translationKey = ':type :name '+ __('will be permanently deleted.')
 
-  if (props.type == 'That opinion') {
-    translationKey = ':type will be permanently deleted.'
-  }
 
-  return __(translationKey, { type: __(props.type), name: __(props.name) })
+  return __(translationKey, { type: __(props.type), name: props.name })
 }
 
 const dialogRef = ref(null)
