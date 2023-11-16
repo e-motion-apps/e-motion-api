@@ -11,6 +11,7 @@ use App\Jobs\BirdDataImporterJob;
 use App\Jobs\BitMobilityDataImporterJob;
 use App\Jobs\BoltDataImporterJob;
 use App\Jobs\DottDataImporterJob;
+use App\Jobs\HopDataImporterJob;
 use App\Jobs\HulajDataImporterJob;
 use App\Jobs\LimeDataImporterJob;
 use App\Jobs\LinkDataImporterJob;
@@ -62,6 +63,7 @@ class DataImporterService
             new VeoDataImporterJob($this->importInfoId),
             new WindDataImporterJob($this->importInfoId),
             new WheeMoveDataImporterJob($this->importInfoId),
+            new HopDataImporterJob($this->importInfoId),
             new ZwingsDataImporterJob($this->importInfoId),
         ])->finally(function (): void {
             ImportInfo::query()->where("id", $this->importInfoId)->update([
