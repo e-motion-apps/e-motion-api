@@ -16,6 +16,7 @@ class SixtDataImporter extends DataImporter
         try {
             $response = $this->client->get("https://www.sixt.com/share/e-scooter/#/");
             $html = $response->getBody()->getContents();
+//            $html = file_get_contents("https://www.sixt.com/share/e-scooter/#/");
         } catch (GuzzleException) {
             $this->createImportInfoDetails("400", self::getProviderName());
 
@@ -26,7 +27,7 @@ class SixtDataImporter extends DataImporter
 
         $crawler = new Crawler($html);
 
-        $this->sections = $crawler->filter("section div.content div div div.item div div.item div.middle div.content div ul");
+        $this->sections = $crawler->filter("div.item div.middle div.content ul");
 
         if ($this->sections->count() === 0) {
             $this->createImportInfoDetails("204", self::getProviderName());
@@ -35,6 +36,7 @@ class SixtDataImporter extends DataImporter
 
         return $this;
     }
+
     public function transform(): void
     {
         if ($this->stopExecution) {
@@ -42,6 +44,7 @@ class SixtDataImporter extends DataImporter
         }
 
         $existingCityProviders = [];
+        $countryName = '';
 
         foreach ($this->sections as $section) {
             $node = $section->parentNode->parentNode->parentNode;
@@ -49,19 +52,22 @@ class SixtDataImporter extends DataImporter
             foreach ($node->childNodes as $country) {
                 if ($country instanceof \DOMElement) {
                     $class = $country->getAttribute('class');
-                    if($class==="title")
-                        $countryName = $country->nodeValue;
-        }
-            }
-            foreach($section->childNodes as $city)
-                if($city->nodeName == "li")
-                    $cityName = $city->nodeValue;
+                    if ($class === "title")
+                        $countryName = trim(preg_replace('/[^a-zA-Z ]/', '', $country->nodeValue));
 
-            $provider = $this->load($cityName, $countryName);
-
-            if ($provider !== "") {
-                $existingCityProviders[] = $provider;
+                }
             }
+            foreach ($section->childNodes as $city) {
+                if ($city->nodeName == "li") {
+                    $cityName = trim(preg_replace('/\s+/', '', ($city->nodeValue)));
+                    $provider = $this->load($cityName, $countryName);
+
+                    if ($provider !== "") {
+                        $existingCityProviders[] = $provider;
+                    }
+                }
+            }
+
         }
         $this->deleteMissingProviders(self::getProviderName(), $existingCityProviders);
     }
