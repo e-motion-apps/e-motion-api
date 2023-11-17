@@ -11,6 +11,7 @@ use App\Importers\BirdDataImporter;
 use App\Importers\BitMobilityDataImporter;
 use App\Importers\BoltDataImporter;
 use App\Importers\DottDataImporter;
+use App\Importers\HopDataImporter;
 use App\Importers\HulajDataImporter;
 use App\Importers\LimeDataImporter;
 use App\Importers\LinkDataImporter;
@@ -41,6 +42,7 @@ class ProviderSeeder extends Seeder
             ["name" => BitMobilityDataImporter::getProviderName(), "color" => "#8da6e3"],
             ["name" => BoltDataImporter::getProviderName(), "color" => "#24f0a0"],
             ["name" => DottDataImporter::getProviderName(), "color" => "#f5c604"],
+            ["name" => HopDataImporter::getProviderName(), "color" => "#ea1821"],
             ["name" => HulajDataImporter::getProviderName(), "color" => "#d6213f"],
             ["name" => LimeDataImporter::getProviderName(), "color" => "#00de00"],
             ["name" => LinkDataImporter::getProviderName(), "color" => "#def700"],

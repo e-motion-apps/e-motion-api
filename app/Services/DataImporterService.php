@@ -11,6 +11,7 @@ use App\Jobs\BirdDataImporterJob;
 use App\Jobs\BitMobilityDataImporterJob;
 use App\Jobs\BoltDataImporterJob;
 use App\Jobs\DottDataImporterJob;
+use App\Jobs\HopDataImporterJob;
 use App\Jobs\HulajDataImporterJob;
 use App\Jobs\LimeDataImporterJob;
 use App\Jobs\LinkDataImporterJob;
@@ -43,28 +44,29 @@ class DataImporterService
         $this->importInfoId = $importInfo->id;
 
         Bus::batch([
-//            new BeamDataImporterJob($this->importInfoId),
-//            new BerylDataImporterJob($this->importInfoId),
-//            new BinBinDataImporterJob($this->importInfoId),
-//            new BirdDataImporterJob($this->importInfoId),
-//            new BitMobilityDataImporterJob($this->importInfoId),
-//            new BoltDataImporterJob($this->importInfoId),
-//            new DottDataImporterJob($this->importInfoId),
-//            new HulajDataImporterJob($this->importInfoId),
-//            new LimeDataImporterJob($this->importInfoId),
-//            new LinkDataImporterJob($this->importInfoId),
-//            new NeuronDataImporterJob($this->importInfoId),
-//            new QuickDataImporterJob($this->importInfoId),
-//            new RydeDataImporterJob($this->importInfoId),
-//            new SpinDataImporterJob($this->importInfoId),
             new SixtDataImporterJob($this->importInfoId),
-//            new TierDataImporterJob($this->importInfoId),
-//            new UrentDataImporterJob($this->importInfoId),
-//            new VoiDataImporterJob($this->importInfoId),
-//            new VeoDataImporterJob($this->importInfoId),
-//            new WindDataImporterJob($this->importInfoId),
-//            new WheeMoveDataImporterJob($this->importInfoId),
-//            new ZwingsDataImporterJob($this->importInfoId),
+            new BeamDataImporterJob($this->importInfoId),
+            new BerylDataImporterJob($this->importInfoId),
+            new BinBinDataImporterJob($this->importInfoId),
+            new BirdDataImporterJob($this->importInfoId),
+            new BitMobilityDataImporterJob($this->importInfoId),
+            new BoltDataImporterJob($this->importInfoId),
+            new DottDataImporterJob($this->importInfoId),
+            new HulajDataImporterJob($this->importInfoId),
+            new LimeDataImporterJob($this->importInfoId),
+            new LinkDataImporterJob($this->importInfoId),
+            new NeuronDataImporterJob($this->importInfoId),
+            new QuickDataImporterJob($this->importInfoId),
+            new RydeDataImporterJob($this->importInfoId),
+            new SpinDataImporterJob($this->importInfoId),
+            new TierDataImporterJob($this->importInfoId),
+            new UrentDataImporterJob($this->importInfoId),
+            new VoiDataImporterJob($this->importInfoId),
+            new VeoDataImporterJob($this->importInfoId),
+            new WindDataImporterJob($this->importInfoId),
+            new WheeMoveDataImporterJob($this->importInfoId),
+            new HopDataImporterJob($this->importInfoId),
+            new ZwingsDataImporterJob($this->importInfoId),
         ])->finally(function (): void {
             ImportInfo::query()->where("id", $this->importInfoId)->update([
                 "status" => "finished",
