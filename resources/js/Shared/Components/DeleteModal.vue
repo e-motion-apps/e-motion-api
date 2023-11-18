@@ -28,17 +28,17 @@ const formattedType = computed(() => {
 
 const renderHeader = () => {
   let translationKey = ''
-  translationKey = 'Delete ' + formattedType.value + '?'
+  translationKey = __('Delete ' + formattedType.value) + ' :name'
 
-  return __(translationKey)
+  return (__(translationKey, { name: props.name })).trim() + '?'
 }
 
 const renderText = () => {
   let translationKey = ''
-  translationKey = ':type :name '+ __('will be permanently deleted.')
+  translationKey = 'This operation cannot be undone.'
 
 
-  return __(translationKey, { type: __(props.type), name: props.name })
+  return __(translationKey)
 }
 
 const dialogRef = ref(null)

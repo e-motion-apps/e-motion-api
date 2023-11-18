@@ -138,9 +138,11 @@
     "Users' opinions": "Opinie użytkowników",
     "Delete that opinion?": "Usunąć tę opinię?",
     "Opinion removed successfully!": "Opinia usunięta pomyślnie.",
-    "Delete city?": "Usunąć miasto?",
+    "Delete city": "Usunąć miasto",
+    "Delete country": "Usunąć kraj",
+    "Delete that opinion": "Usunąć opinię",
     "That opinion": "Ta opinia",
-    "will be permanently deleted.": "zostanie trwale usunięta.",
+    "This operation cannot be undone.": "Ta operacja nie może zostać cofnięta.",
 
     "You have logged in successfully.": "Zalogowano pomyślnie.",
     "You have logged out successfully.": "Wylogowano pomyślnie.",
