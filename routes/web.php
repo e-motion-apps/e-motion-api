@@ -43,28 +43,7 @@ Route::middleware("auth")->group(function (): void {
         Route::post("/delete-all-cities-without-assigned-country", [CityWithoutAssignedCountryController::class, "destroyAll"]);
     });
 });
-Route::get('/test', function () {
-    $html = file_get_contents("https://www.sixt.com/share/e-scooter/#/");
-    $crawler = new \Symfony\Component\DomCrawler\Crawler($html);
-    $sections = $crawler->filter("section div.content div div div.item div div.item div.middle div.content div ul");
 
-    foreach ($sections as $section) {
-        $node = $section->parentNode->parentNode->parentNode;
-
-        foreach ($node->childNodes as $country) {
-            if ($country instanceof \DOMElement) {
-                $class = $country->getAttribute('class');
-                if($class==="title")
-                    echo "<br>" . "Country: ".$country->nodeValue . "<br>";
-            }
-        }
-        echo  "Cities: " . "<br>";
-        foreach($section->childNodes as $city)
-
-            if($city->nodeName == "li")
-                echo $city->nodeValue . "<br>";
-    }
-});
 Route::post("/language/{locale}", ChangeLocaleController::class);
 
 Route::inertia("/", "Landing/Index")->name("home");

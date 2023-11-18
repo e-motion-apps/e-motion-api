@@ -14,9 +14,11 @@ class SixtDataImporter extends DataImporter
     public function extract(): static
     {
         try {
-            $response = $this->client->get("https://www.sixt.com/share/e-scooter/#/");
+            $headers = [
+                "User-Agent" => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+            ];
+            $response = $this->client->get("https://www.sixt.com/share/e-scooter/#/", ["headers" => $headers]);
             $html = $response->getBody()->getContents();
-//            $html = file_get_contents("https://www.sixt.com/share/e-scooter/#/");
         } catch (GuzzleException) {
             $this->createImportInfoDetails("400", self::getProviderName());
 
@@ -44,22 +46,24 @@ class SixtDataImporter extends DataImporter
         }
 
         $existingCityProviders = [];
-        $countryName = '';
+        $countryName = "";
 
         foreach ($this->sections as $section) {
             $node = $section->parentNode->parentNode->parentNode;
 
             foreach ($node->childNodes as $country) {
                 if ($country instanceof \DOMElement) {
-                    $class = $country->getAttribute('class');
-                    if ($class === "title")
-                        $countryName = trim(preg_replace('/[^a-zA-Z ]/', '', $country->nodeValue));
+                    $class = $country->getAttribute("class");
 
+                    if ($class === "title") {
+                        $countryName = trim(preg_replace("/[^a-zA-Z ]/", "", $country->nodeValue));
+                    }
                 }
             }
+
             foreach ($section->childNodes as $city) {
-                if ($city->nodeName == "li") {
-                    $cityName = trim(preg_replace('/\s+/', '', ($city->nodeValue)));
+                if ($city->nodeName === "li") {
+                    $cityName = trim(preg_replace('/\s+/', "", $city->nodeValue));
                     $provider = $this->load($cityName, $countryName);
 
                     if ($provider !== "") {
@@ -67,7 +71,6 @@ class SixtDataImporter extends DataImporter
                     }
                 }
             }
-
         }
         $this->deleteMissingProviders(self::getProviderName(), $existingCityProviders);
     }
