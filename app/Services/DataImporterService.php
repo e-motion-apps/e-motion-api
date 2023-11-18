@@ -12,6 +12,7 @@ use App\Jobs\BitMobilityDataImporterJob;
 use App\Jobs\BoltDataImporterJob;
 use App\Jobs\DottDataImporterJob;
 use App\Jobs\HopDataImporterJob;
+use App\Jobs\HoppDataImporterJob;
 use App\Jobs\HulajDataImporterJob;
 use App\Jobs\LimeDataImporterJob;
 use App\Jobs\LinkDataImporterJob;
@@ -52,6 +53,7 @@ class DataImporterService
             new DottDataImporterJob($this->importInfoId),
             new HulajDataImporterJob($this->importInfoId),
             new LimeDataImporterJob($this->importInfoId),
+            new HoppDataImporterJob($this->importInfoId),
             new LinkDataImporterJob($this->importInfoId),
             new NeuronDataImporterJob($this->importInfoId),
             new QuickDataImporterJob($this->importInfoId),
