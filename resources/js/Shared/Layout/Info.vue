@@ -34,11 +34,6 @@ const emit = defineEmits(['try-it-out', 'create-account'])
       <SecondaryButton class="h-fit w-11/12 px-2 py-5 sm:w-5/12" @click="emit('create-account')">
         {{ __('Create account') }}
       </SecondaryButton>
-//fix before pull request
-        <SecondaryButton class="h-fit w-11/12 px-2 py-5 sm:w-5/12">
-            <a href="/login/github">{{ __('Login via Git Hub') }}</a>
-        </SecondaryButton>
-//
     </div>
 
     <div class="hidden w-full items-center space-x-12 sm:flex md:hidden">

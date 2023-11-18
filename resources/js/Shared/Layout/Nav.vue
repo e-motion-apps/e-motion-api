@@ -182,6 +182,17 @@ defineExpose({
               </button>
             </div>
             <ErrorMessage :message="loginForm.errors.loginError" />
+            <div>
+              <label class="mb-4 flex justify-center text-sm font-semibold text-gray-800">{{ __('Login via:') }}</label>
+              <div class="flex items-center justify-center space-x-5"> 
+                <button type="button" href="/login/github" class="flex items-center justify-center">
+                  <img class="h-10 w-10" src="@/assets/github.png" alt="github logo">
+                </button>
+                <button type="button" href="/login/facebook" class="flex items-center justify-center">
+                  <img class="h-10 w-10" src="@/assets/facebook.png" alt="facebook logo">
+                </button>
+              </div>
+            </div>
             <div class="flex w-full md:w-fit">
               <button type="submit"
                       class="w-full rounded-lg bg-blumilk-500 p-4 font-semibold text-white hover:bg-blumilk-600 md:py-2"
