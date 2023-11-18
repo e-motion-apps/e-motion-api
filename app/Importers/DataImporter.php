@@ -12,6 +12,7 @@ use App\Models\Country;
 use App\Models\ImportInfoDetail;
 use App\Services\MapboxGeocodingService;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Cache;
 use Stichoza\GoogleTranslate\GoogleTranslate;
 
 abstract class DataImporter
@@ -130,6 +131,13 @@ abstract class DataImporter
                 }
             }
 
+            if(Cache::get("city-$cityName-$countryName")) {
+                $cityId = Cache::get("city-$cityName-$countryName");
+                $this->createProvider($cityId, self::getProviderName());
+
+                return strval($cityId);
+            }
+
             $coordinates = $this->mapboxService->getCoordinatesFromApi($cityName, $countryName);
             $countCoordinates = count($coordinates);
 
@@ -145,6 +153,7 @@ abstract class DataImporter
             ]);
 
             $this->createProvider($city->id, self::getProviderName());
+            Cache::put("city-$cityName-$countryName", $city->id, 60 * 60 * 24);
 
             return strval($city->id);
         }
