@@ -85,6 +85,14 @@ function toggleAuthDialog() {
   isMobileMenuOpened.value = false
 }
 
+function githubAuth() {
+  window.location.href = '/login/github'
+}
+
+function facebookAuth() {
+  window.location.href = '/login/facebook'
+}
+
 const isPasswordVisible = ref(false)
 
 function togglePasswordVisibility() {
@@ -185,10 +193,10 @@ defineExpose({
             <div>
               <label class="mb-4 flex justify-center text-sm font-semibold text-gray-800">{{ __('Login via:') }}</label>
               <div class="flex items-center justify-center space-x-5"> 
-                <button type="button" href="/login/github" class="flex items-center justify-center">
+                <button type="button" href="/login/github" class="flex items-center justify-center" @click="githubAuth">
                   <img class="h-10 w-10" src="@/assets/github.png" alt="github logo">
                 </button>
-                <button type="button" href="/login/facebook" class="flex items-center justify-center">
+                <button type="button" href="/login/facebook" class="flex items-center justify-center" @click="facebookAuth">
                   <img class="h-10 w-10" src="@/assets/facebook.png" alt="facebook logo">
                 </button>
               </div>
