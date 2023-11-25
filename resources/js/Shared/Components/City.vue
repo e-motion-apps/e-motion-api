@@ -201,7 +201,7 @@ function toggleProvidersForm() {
         <div v-for="provider in filteredSelectedCityProviders.slice(0, 3)" :key="provider.name"
              :style="{ 'background-color': selectedCityProviders.includes(provider.name) ? provider.color : '' }"
              :class="selectedCityProviders.includes(provider.name) ? 'border-zinc-600 drop-shadow-lg' : 'hidden'"
-             class="m-1 mr-5 flex h-5 w-fit scale-[1.75] items-center justify-center rounded border border-zinc-300 bg-zinc-300 p-1"
+             class="m-1 mr-5 flex h-5 w-fit scale-[1.75] items-center justify-center rounded  bg-zinc-300 p-1"
         >
           <img class="w-5" :src="'/providers/' + provider.name.toLowerCase() + '.png'" :title="provider.name" alt="">
         </div>
