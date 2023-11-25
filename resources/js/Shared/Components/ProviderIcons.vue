@@ -14,7 +14,7 @@ function getProviderColor(providerName) {
 
 <template>
   <div class="mb-2 mr-3 mt-4 flex w-fit flex-row-reverse flex-wrap items-center justify-end sm:mt-0 sm:justify-start">
-    <div class="w-[72px]" v-for="cityProvider in item.cityProviders" :key="cityProvider.provider_name">
+    <div v-for="cityProvider in item.cityProviders" :key="cityProvider.provider_name" class="w-[72px]">
       <div :style="{ 'background-color': getProviderColor(cityProvider.provider_name) }"
            class="m-3 mr-5 flex h-7 w-fit scale-150 items-center justify-center rounded-md p-1 lg:h-8"
       >
