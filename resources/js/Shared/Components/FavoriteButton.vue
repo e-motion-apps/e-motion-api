@@ -49,7 +49,7 @@ const toggleFavorite = async () => {
       toast.success(__('City added to favorites.'))
     }
   } catch (error) {
-    toast.error('There was an error!')
+    toast.error(__('There was an error'))
   }
 }
 

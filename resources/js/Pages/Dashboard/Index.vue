@@ -120,7 +120,7 @@ const chartOptions = {
         <div class="mt-8 flex w-full flex-col lg:mt-6 lg:flex-row lg:justify-end">
           <div class="w-full px-3 lg:w-1/2">
             <h1 class="mx-2 mb-2 text-2xl font-bold text-gray-700">
-              {{ __('Cities by provider') }}
+              {{ __('Number of cities where the provider is available') }}
             </h1>
 
             <div class="flex flex-wrap">

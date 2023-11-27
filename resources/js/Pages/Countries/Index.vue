@@ -25,7 +25,7 @@ function storeCountry() {
       toast.success(__('Country created successfully.'))
     },
     onError: () => {
-      toast.error(__('There was an error creating the country!'))
+      toast.error(__('There was an error creating the country.'))
     },
   })
 }
