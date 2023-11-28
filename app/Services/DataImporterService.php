@@ -18,6 +18,7 @@ use App\Jobs\LinkDataImporterJob;
 use App\Jobs\NeuronDataImporterJob;
 use App\Jobs\QuickDataImporterJob;
 use App\Jobs\RydeDataImporterJob;
+use App\Jobs\SixtDataImporterJob;
 use App\Jobs\SpinDataImporterJob;
 use App\Jobs\TierDataImporterJob;
 use App\Jobs\UrentDataImporterJob;
@@ -65,6 +66,7 @@ class DataImporterService
             new WheeMoveDataImporterJob($this->importInfoId),
             new HopDataImporterJob($this->importInfoId),
             new ZwingsDataImporterJob($this->importInfoId),
+            new SixtDataImporterJob($this->importInfoId),
         ])->finally(function (): void {
             ImportInfo::query()->where("id", $this->importInfoId)->update([
                 "status" => "finished",

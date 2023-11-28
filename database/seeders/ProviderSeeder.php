@@ -18,6 +18,7 @@ use App\Importers\LinkDataImporter;
 use App\Importers\NeuronDataImporter;
 use App\Importers\QuickDataImporter;
 use App\Importers\RydeDataImporter;
+use App\Importers\SixtDataImporter;
 use App\Importers\SpinDataImporter;
 use App\Importers\TierDataImporter;
 use App\Importers\UrentDataImporter;
@@ -48,6 +49,7 @@ class ProviderSeeder extends Seeder
             ["name" => NeuronDataImporter::getProviderName(), "color" => "#445261"],
             ["name" => QuickDataImporter::getProviderName(), "color" => "#009ac7"],
             ["name" => SpinDataImporter::getProviderName(), "color" => "#ff5436"],
+            ["name" => SixtDataImporter::getProviderName(), "color" => "#f25a04"],
             ["name" => TierDataImporter::getProviderName(), "color" => "#0E1A50"],
             ["name" => VoiDataImporter::getProviderName(), "color" => "#f46c63"],
             ["name" => UrentDataImporter::getProviderName(), "color" => "#9400FF"],
