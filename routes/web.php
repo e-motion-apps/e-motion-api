@@ -19,13 +19,16 @@ use Illuminate\Support\Facades\Route;
 Route::middleware("guest")->group(function (): void {
     Route::post("/login", [AuthController::class, "login"])->name("login");
     Route::post("/register", [AuthController::class, "store"])->name("register");
+
+    Route::get("/login/github", [AuthController::class, "githubLogin"])->name("login.github");
+    Route::get("/login/github/redirect", [AuthController::class, "githubRedirect"]);
+
+    Route::get("/login/facebook", [AuthController::class, "facebookLogin"])->name("login.facebook");
+    Route::get("/login/facebook/redirect", [AuthController::class, "facebookRedirect"]);
 });
 
 Route::middleware("auth")->group(function (): void {
     Route::post("/logout", [AuthController::class, "logout"])->name("logout");
-
-    Route::get("/login/github", [AuthController::class, "github"]);
-    Route::get("login/github/redirect", [AuthController::class, "githubRedirect"]);
 
     Route::post("/favorites", [FavoritesController::class, "store"]);
     Route::get("/favorites/{city_id}", [FavoritesController::class, "check"]);

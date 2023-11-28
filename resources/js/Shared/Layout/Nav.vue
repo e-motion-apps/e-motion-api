@@ -48,6 +48,13 @@ function login() {
   })
 }
 
+function githubLogin() {
+    window.location.href = '/login/github'
+}
+function facebookLogin() {
+    window.location.href = '/login/facebook'
+}
+
 const navigation = computed(() => {
   if (isAuth.value) {
     return [
@@ -184,11 +191,11 @@ defineExpose({
             <ErrorMessage :message="loginForm.errors.loginError" />
             <div>
               <label class="mb-4 flex justify-center text-sm font-semibold text-gray-800">{{ __('Login via:') }}</label>
-              <div class="flex items-center justify-center space-x-5"> 
-                <button type="button" href="/login/github" class="flex items-center justify-center">
+              <div class="flex items-center justify-center space-x-5">
+                <button type="button" @click="githubLogin" class="flex items-center justify-center">
                   <img class="h-10 w-10" src="@/assets/github.png" alt="github logo">
                 </button>
-                <button type="button" href="/login/facebook" class="flex items-center justify-center">
+                <button type="button" @click="facebookLogin" class="flex items-center justify-center">
                   <img class="h-10 w-10" src="@/assets/facebook.png" alt="facebook logo">
                 </button>
               </div>

@@ -55,14 +55,44 @@ class AuthController extends Controller
         return redirect()->route("home");
     }
 
-    public function github()
+    public function githubLogin()
     {
         return Socialite::driver('github')->redirect();
     }
     public function githubRedirect()
     {
         $user = Socialite::driver('github')->user();
-        dd($user);
+
+        $user = User::firstOrCreate([
+            'email' => $user->getEmail()
+        ], [
+            'name' => $user->getName(),
+            'password' => Hash::make($user->getId())
+        ]);
+
+        Auth::login($user, true);
+
+        return redirect()->route('home');
+    }
+
+    public function facebookLogin()
+    {
+        return Socialite::driver('facebook')->redirect();
+    }
+    public function facebookRedirect()
+    {
+        $user = Socialite::driver('facebook')->user();
+
+        $user = User::firstOrCreate([
+            'email' => $user->getEmail()
+        ], [
+            'name' => $user->getName(),
+            'password' => Hash::make($user->getId())
+        ]);
+
+        Auth::login($user);
+
+        return redirect()->route('home');
     }
 
 }
