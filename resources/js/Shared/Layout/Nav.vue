@@ -49,10 +49,11 @@ function login() {
 }
 
 function githubLogin() {
-window.location.href = '/login/github'
+  window.location.href = '/login/github'
 }
+
 function facebookLogin() {
-window.location.href = '/login/facebook'
+  window.location.href = '/login/facebook'
 }
 
 const navigation = computed(() => {
@@ -190,12 +191,12 @@ defineExpose({
             </div>
             <ErrorMessage :message="loginForm.errors.loginError" />
             <div>
-              <label class="mb-4 flex justify-center text-sm font-semibold text-gray-800">{{ __('Login via:') }}</label>
+              <label class="mb-4 flex justify-center text-sm font-semibold text-gray-800">{{ __('You can also login by:') }}</label>
               <div class="flex items-center justify-center space-x-5">
-                <button type="button" @click="githubLogin" class="flex items-center justify-center">
+                <button type="button" class="flex items-center justify-center" @click="githubLogin">
                   <img class="h-10 w-10" src="@/assets/github.png" alt="github logo">
                 </button>
-                <button type="button" @click="facebookLogin" class="flex items-center justify-center">
+                <button type="button" class="flex items-center justify-center" @click="facebookLogin">
                   <img class="h-10 w-10" src="@/assets/facebook.png" alt="facebook logo">
                 </button>
               </div>
