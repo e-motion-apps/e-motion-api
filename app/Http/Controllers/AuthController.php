@@ -11,9 +11,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Symfony\Component\HttpFoundation\Response;
 use Laravel\Socialite\Facades\Socialite;
-
+use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
@@ -55,44 +54,24 @@ class AuthController extends Controller
         return redirect()->route("home");
     }
 
-    public function githubLogin()
+    public function redirectToProvider(string $provider): Response
     {
-        return Socialite::driver('github')->redirect();
+        return Socialite::driver($provider)->redirect();
     }
-    public function githubRedirect()
+
+    public function handleProviderRedirect(string $provider): RedirectResponse
     {
-        $user = Socialite::driver('github')->user();
+        $user = Socialite::driver($provider)->user();
 
         $user = User::firstOrCreate([
-            'email' => $user->getEmail()
+            "email" => $user->getEmail(),
         ], [
-            'name' => $user->getName(),
-            'password' => Hash::make($user->getId())
-        ]);
-
-        Auth::login($user, true);
-
-        return redirect()->route('home');
-    }
-
-    public function facebookLogin()
-    {
-        return Socialite::driver('facebook')->redirect();
-    }
-    public function facebookRedirect()
-    {
-        $user = Socialite::driver('facebook')->user();
-
-        $user = User::firstOrCreate([
-            'email' => $user->getEmail()
-        ], [
-            'name' => $user->getName(),
-            'password' => Hash::make($user->getId())
+            "name" => $user->getName(),
+            "password" => Hash::make($user->getId()),
         ]);
 
         Auth::login($user);
 
-        return redirect()->route('home');
+        return redirect()->route("home");
     }
-
 }
