@@ -56,6 +56,10 @@ function facebookLogin() {
   window.location.href = '/login/facebook'
 }
 
+function googleLogin() {
+  window.location.href = '/login/google'
+}
+
 const navigation = computed(() => {
   if (isAuth.value) {
     return [
@@ -198,6 +202,9 @@ defineExpose({
                 </button>
                 <button type="button" class="flex items-center justify-center" @click="facebookLogin">
                   <img class="h-10 w-10" src="@/assets/facebook.png" alt="facebook logo">
+                </button>
+                <button type="button" class="flex items-center justify-center" @click="googleLogin">
+                  <img class="h-10 w-10" src="@/assets/google.png" alt="google logo">
                 </button>
               </div>
             </div>
