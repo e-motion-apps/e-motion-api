@@ -11,6 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -61,16 +62,20 @@ class AuthController extends Controller
 
     public function handleProviderRedirect(string $provider): RedirectResponse
     {
-        $user = Socialite::driver($provider)->user();
+        try {
+            $user = Socialite::driver($provider)->user();
 
-        $user = User::firstOrCreate([
-            "email" => $user->getEmail(),
-        ], [
-            "name" => $user->getName(),
-            "password" => Hash::make($user->getId()),
-        ]);
+            $user = User::firstOrCreate([
+                "email" => $user->getEmail(),
+            ], [
+                "name" => $user->getName(),
+                "password" => Hash::make(Str::password(8)),
+            ]);
 
-        Auth::login($user);
+            Auth::login($user);
+        } catch (\Exception $e) {
+            return redirect()->route("home");
+        }
 
         return redirect()->route("home");
     }
