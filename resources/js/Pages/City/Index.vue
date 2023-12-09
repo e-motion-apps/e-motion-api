@@ -11,8 +11,9 @@ import { __ } from '@/translate'
 import { useForm, usePage } from '@inertiajs/vue3'
 import ErrorMessage from '@/Shared/Components/ErrorMessage.vue'
 import { useToast } from 'vue-toastification'
-import Pagination from '../../Shared/Components/Pagination.vue'
-import InfoPopup from '../../Shared/Components/InfoPopup.vue'
+import Pagination from '@/Shared/Components/Pagination.vue'
+import InfoPopup from '@/Shared/Components/InfoPopup.vue'
+import Opinion from '@/Shared/Components/Opinion.vue'
 
 const toast = useToast()
 
@@ -66,23 +67,15 @@ function createOpinion() {
     opinionForm.post('/opinions', {
       onSuccess: () => {
         opinionForm.reset()
-        toast.success(__('Opinion added successfully!'))
+        toast.success(__('Opinion added successfully.'))
         emptyRatingError.value = ''
       },
       onError: () => {
-        toast.error(__('There was an error adding your opinion!'))
+        toast.error(__('There was an error adding your opinion.'))
         emptyRatingError.value = ''
       },
     })
   }
-}
-
-const dateOptions = {
-  year: 'numeric',
-  month: 'numeric',
-  day: 'numeric',
-  hour: '2-digit',
-  minute: '2-digit',
 }
 
 </script>
@@ -128,7 +121,7 @@ const dateOptions = {
                 @click="setRating(index)"
               />
             </div>
-            <textarea v-model.trim="opinionForm.content" required class="h-32 w-full rounded-lg border border-gray-300" />
+            <textarea v-model.trim="opinionForm.content" required class="h-32 w-full rounded-lg border border-gray-300" @keydown.enter.prevent="createOpinion" />
 
             <div class="mt-1 flex flex-col">
               <ErrorMessage :message="emptyRatingError" />
@@ -149,22 +142,7 @@ const dateOptions = {
               {{ __(`Users' opinions`) }}
             </p>
             <div v-for="opinion in props.cityOpinions.data" :key="opinion.id" class="mb-3 flex flex-col rounded-lg border border-gray-300 p-2">
-              <div class="flex items-center">
-                <p class="mr-1 text-xs font-medium text-blumilk-500">
-                  {{ opinion.user.name }}
-                </p>
-                <StarIcon v-for="index in maxRating"
-                          :key="index"
-                          :class="{ 'fill-yellow-400': index <= opinion.rating }" class="h-4 w-4 text-yellow-400"
-                />
-              </div>
-              <p class="mr-1 text-xs font-light text-blumilk-500">
-                {{ new Date(opinion.updated_at).toLocaleString("pl-PL", dateOptions) }}
-              </p>
-
-              <div class="mt-1 text-sm text-gray-700">
-                {{ opinion.content }}
-              </div>
+              <Opinion :opinion="opinion" :city-id="props.city.id" />
             </div>
           </div>
 

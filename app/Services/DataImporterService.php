@@ -11,12 +11,15 @@ use App\Jobs\BirdDataImporterJob;
 use App\Jobs\BitMobilityDataImporterJob;
 use App\Jobs\BoltDataImporterJob;
 use App\Jobs\DottDataImporterJob;
+use App\Jobs\HopDataImporterJob;
+use App\Jobs\HoppDataImporterJob;
 use App\Jobs\HulajDataImporterJob;
 use App\Jobs\LimeDataImporterJob;
 use App\Jobs\LinkDataImporterJob;
 use App\Jobs\NeuronDataImporterJob;
 use App\Jobs\QuickDataImporterJob;
 use App\Jobs\RydeDataImporterJob;
+use App\Jobs\SixtDataImporterJob;
 use App\Jobs\SpinDataImporterJob;
 use App\Jobs\TierDataImporterJob;
 use App\Jobs\UrentDataImporterJob;
@@ -51,6 +54,7 @@ class DataImporterService
             new DottDataImporterJob($this->importInfoId),
             new HulajDataImporterJob($this->importInfoId),
             new LimeDataImporterJob($this->importInfoId),
+            new HoppDataImporterJob($this->importInfoId),
             new LinkDataImporterJob($this->importInfoId),
             new NeuronDataImporterJob($this->importInfoId),
             new QuickDataImporterJob($this->importInfoId),
@@ -62,7 +66,9 @@ class DataImporterService
             new VeoDataImporterJob($this->importInfoId),
             new WindDataImporterJob($this->importInfoId),
             new WheeMoveDataImporterJob($this->importInfoId),
+            new HopDataImporterJob($this->importInfoId),
             new ZwingsDataImporterJob($this->importInfoId),
+            new SixtDataImporterJob($this->importInfoId),
         ])->finally(function (): void {
             ImportInfo::query()->where("id", $this->importInfoId)->update([
                 "status" => "finished",

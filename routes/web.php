@@ -32,6 +32,8 @@ Route::middleware("auth")->group(function (): void {
     Route::get("/favorite-cities", [FavoritesController::class, "index"]);
 
     Route::post("/opinions", [CityOpinionController::class, "store"]);
+    Route::patch("/opinions/{cityOpinion}", [CityOpinionController::class, "update"]);
+    Route::delete("/opinions/{cityOpinion}", [CityOpinionController::class, "destroy"]);
 
     Route::middleware(["role:admin"])->group(function (): void {
         Route::get("/admin/importers", [ImportInfoController::class, "index"]);

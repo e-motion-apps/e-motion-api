@@ -16,7 +16,8 @@
         "sentry/sentry-laravel": "^3.7",
         "spatie/laravel-permission": "^5.10",
         "stichoza/google-translate-php": "^5.1",
-        "symfony/dom-crawler": "^6.3"
+        "symfony/dom-crawler": "^6.3",
+        "ext-dom": "*"
     },
     "require-dev": {
         "blumilksoftware/codestyle": "v2.5.0",

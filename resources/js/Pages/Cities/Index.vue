@@ -1,5 +1,5 @@
 <script setup>
-import City from '../../Shared/Components/City.vue'
+import City from '@/Shared/Components/City.vue'
 import { useForm, usePage, router } from '@inertiajs/vue3'
 import { computed, ref, watch } from 'vue'
 import AdminNavigation from '@/Shared/Layout/AdminNavigation.vue'
@@ -40,7 +40,7 @@ function storeCity() {
     },
     onError: (errors) => {
       storeErrors.value = errors
-      toast.error(__('There was an error creating the city!'))
+      toast.error(__('There was an error creating the city.'))
     },
   })
 }
@@ -111,7 +111,7 @@ function deleteCityWithoutAssignedCountry(city) {
       toast.success(__('City deleted successfully.'))
     },
     onError: () => {
-      toast.error(__('There was an error deleting the city!'))
+      toast.error(__('There was an error deleting the city.'))
     },
   })
 }
@@ -122,7 +122,7 @@ function deleteAllCitiesWithoutCountry() {
       toast.success(__('Cities deleted successfully.'))
     },
     onError: () => {
-      toast.error(__('There was an error deleting cities!'))
+      toast.error(__('There was an error deleting cities.'))
     },
   })
 }
