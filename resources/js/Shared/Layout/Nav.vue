@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { Dialog, DialogPanel } from '@headlessui/vue'
 import { Bars3Icon, XMarkIcon, UserCircleIcon, ArrowRightOnRectangleIcon, ComputerDesktopIcon, MapPinIcon, FlagIcon, EyeIcon, EyeSlashIcon } from '@heroicons/vue/24/outline'
 import { router, usePage } from '@inertiajs/vue3'
