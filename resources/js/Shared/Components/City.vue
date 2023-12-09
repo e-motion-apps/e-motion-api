@@ -198,19 +198,19 @@ function toggleProvidersForm() {
     </div>
     <div class="hidden items-center lg:flex">
       <div class="items-top flex h-1/2 flex-wrap items-center">
-        <div v-for="provider in filteredSelectedCityProviders.slice(0, 4)" :key="provider.name"
+        <div v-for="provider in filteredSelectedCityProviders.slice(0, 3)" :key="provider.name"
              :style="{ 'background-color': selectedCityProviders.includes(provider.name) ? provider.color : '' }"
              :class="selectedCityProviders.includes(provider.name) ? 'border-zinc-600 drop-shadow-lg' : 'hidden'"
-             class="m-1 flex h-5 w-fit items-center justify-center rounded border border-zinc-300 bg-zinc-300 p-1 "
+             class="m-1 mr-5 flex h-5 w-fit scale-[1.75] items-center justify-center rounded  bg-zinc-300 p-1"
         >
-          <img class="w-5" :src="'/providers/' + provider.name.toLowerCase() + '.png'" alt="">
+          <img class="w-5" :src="'/providers/' + provider.name.toLowerCase() + '.png'" :title="provider.name" alt="">
         </div>
 
-        <div v-if="selectedCityProviders.length > 4"
+        <div v-if="selectedCityProviders.length > 3"
              class="m-1 flex h-5 w-fit items-center justify-center rounded border border-zinc-300 bg-zinc-300 p-1"
         >
           <div class="flex h-5 w-5 items-center justify-center text-xs text-gray-500">
-            +{{ selectedCityProviders.length - 4 }}
+            +{{ selectedCityProviders.length - 3 }}
           </div>
         </div>
         <div v-else-if="selectedCityProviders.length === 0" class="m-1 flex h-5 w-fit items-center justify-center p-1">

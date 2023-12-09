@@ -13,10 +13,10 @@ function getProviderColor(providerName) {
 </script>
 
 <template>
-  <div class="mb-2 mr-1 mt-4 flex w-fit flex-row-reverse flex-wrap items-center justify-end sm:mt-0 sm:justify-start">
-    <div v-for="cityProvider in item.cityProviders" :key="cityProvider.provider_name">
+  <div class="mb-2 mr-3 mt-4 flex w-fit flex-row-reverse flex-wrap items-center justify-end sm:mt-0 sm:justify-start">
+    <div v-for="cityProvider in item.cityProviders" :key="cityProvider.provider_name" class="w-[72px]">
       <div :style="{ 'background-color': getProviderColor(cityProvider.provider_name) }"
-           class="m-1 flex h-7 w-fit shrink-0 items-center justify-center rounded-md border border-zinc-300 p-1 lg:h-8"
+           class="m-3 mr-5 flex h-7 w-fit scale-150 items-center justify-center rounded-md p-1 lg:h-8"
       >
         <img loading="lazy" class="w-7 lg:w-8" :src="'/providers/' + cityProvider.provider_name.toLowerCase() + '.png'" alt="">
       </div>
