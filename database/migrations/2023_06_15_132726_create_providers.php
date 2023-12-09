@@ -12,6 +12,9 @@ return new class() extends Migration {
         Schema::create("providers", function (Blueprint $table): void {
             $table->string("name")->unique();
             $table->string("url")->nullable();
+            $table->string("android_url")->nullable();
+            $table->string("ios_url")->nullable();
+            $table->string("web_url")->nullable();
             $table->string("color");
             $table->timestamps();
         });
