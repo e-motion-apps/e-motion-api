@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { Dialog, DialogPanel } from '@headlessui/vue'
 import { Bars3Icon, XMarkIcon, UserCircleIcon, ArrowRightOnRectangleIcon, ComputerDesktopIcon, MapPinIcon, FlagIcon, EyeIcon, EyeSlashIcon } from '@heroicons/vue/24/outline'
 import { router, usePage } from '@inertiajs/vue3'
@@ -48,16 +48,8 @@ function login() {
   })
 }
 
-function githubLogin() {
-  window.location.href = '/login/github'
-}
-
-function facebookLogin() {
-  window.location.href = '/login/facebook'
-}
-
-function googleLogin() {
-  window.location.href = '/login/google'
+function socialMediaLogin(provider) {
+  window.location.href = `/login/${provider}`
 }
 
 const navigation = computed(() => {
@@ -197,13 +189,13 @@ defineExpose({
             <div>
               <label class="mb-4 flex justify-center text-sm font-semibold text-gray-800">{{ __('You can also login by:') }}</label>
               <div class="flex items-center justify-center space-x-5">
-                <button type="button" class="flex items-center justify-center" @click="githubLogin">
+                <button type="button" class="flex items-center justify-center" @click="socialMediaLogin('github')">
                   <img class="h-10 w-10" src="@/assets/github.png" alt="github logo">
                 </button>
-                <button type="button" class="flex items-center justify-center" @click="facebookLogin">
+                <button type="button" class="flex items-center justify-center" @click="socialMediaLogin('facebook')">
                   <img class="h-10 w-10" src="@/assets/facebook.png" alt="facebook logo">
                 </button>
-                <button type="button" class="flex items-center justify-center" @click="googleLogin">
+                <button type="button" class="flex items-center justify-center" @click="socialMediaLogin('google')">
                   <img class="h-10 w-10" src="@/assets/google.png" alt="google logo">
                 </button>
               </div>
