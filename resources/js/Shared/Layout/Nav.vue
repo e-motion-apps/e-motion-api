@@ -50,7 +50,7 @@ function login() {
 
 function socialMediaLogin(provider) {
   window.location.href = `/login/${provider}`
-}
+} 
 
 const navigation = computed(() => {
   if (isAuth.value) {
