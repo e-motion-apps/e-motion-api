@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
-
 
 class SuggestionFormMail extends Mailable implements ShouldQueue
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     public $data;
 
@@ -18,7 +20,6 @@ class SuggestionFormMail extends Mailable implements ShouldQueue
      * Create a new message instance.
      *
      * @param array $data
-     * @return void
      */
     public function __construct($data)
     {
@@ -32,11 +33,11 @@ class SuggestionFormMail extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->from($this->data['email'])
-            ->subject('New Suggestion from ' . $this->data['name'])
-            ->view('emails.suggestion')
+        return $this->from($this->data["email"])
+            ->subject("New Suggestion from " . $this->data["name"])
+            ->view("emails.suggestion")
             ->with([
-                'suggestion' => $this->data['suggestion'],
+                "suggestion" => $this->data["suggestion"],
             ]);
     }
 }
