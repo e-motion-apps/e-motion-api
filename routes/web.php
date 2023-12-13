@@ -15,6 +15,7 @@ use App\Http\Controllers\CityWithoutAssignedCountryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FavoritesController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SuggestionFormController;
 
 Route::middleware("guest")->group(function (): void {
     Route::post("/login", [AuthController::class, "login"])->name("login");
@@ -46,6 +47,8 @@ Route::middleware("auth")->group(function (): void {
         Route::post("/delete-all-cities-without-assigned-country", [CityWithoutAssignedCountryController::class, "destroyAll"]);
     });
 });
+
+Route::post("submitSuggestion", [SuggestionFormController::class, "sendSuggestionEmail"]);
 
 Route::post("/language/{locale}", ChangeLocaleController::class);
 
