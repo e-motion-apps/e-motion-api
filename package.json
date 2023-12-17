@@ -16,7 +16,7 @@
         "@tailwindcss/forms": "^0.5.4",
         "@tailwindcss/typography": "^0.5.9",
         "@vueuse/core": "^10.3.0",
-        "axios": "^1.4.0",
+        "axios": "^1.6.2",
         "chart.js": "^4.4.0",
         "laravel-vite-plugin": "^0.8.1",
         "leaflet-cascade-buttons": "^1.0.10",
