@@ -19,6 +19,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware("guest")->group(function (): void {
     Route::post("/login", [AuthController::class, "login"])->name("login");
     Route::post("/register", [AuthController::class, "store"])->name("register");
+
+    Route::get("/login/{provider}", [AuthController::class, "redirectToProvider"])->name("login.provider");
+    Route::get("/login/{provider}/redirect", [AuthController::class, "handleProviderRedirect"]);
 });
 
 Route::middleware("auth")->group(function (): void {
