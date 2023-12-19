@@ -204,7 +204,7 @@ defineExpose({
           </InertiaLink>
         </div>
         <button>
-          <EnvelopeIcon class="h-5 w-5" @click="toggleSuggestionDialog" />
+          <EnvelopeIcon class="h-6 w-6" @click="toggleSuggestionDialog" />
         </button>
 
         <InertiaLink v-if="isAdmin" href="/admin/cities">
