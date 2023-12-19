@@ -25,7 +25,7 @@ class BeamDataImporter extends DataImporter
         }
 
         $crawler = new Crawler($html);
-        $this->sections = $crawler->filter("div .find-beam-box");
+        $this->sections = $crawler->filter("div.find-beam-box");
 
         if (count($this->sections) === 0) {
             $this->createImportInfoDetails("204", self::getProviderName());
@@ -37,7 +37,7 @@ class BeamDataImporter extends DataImporter
 
     public function transform(): void
     {
-        $url = "https://uploads-ssl.webflow.com/63c4acbedbab5dea8b1b98cd/63d8a5b60da91e7d71298637_map-vehicle-saturn.png";
+        $url ="https://assets-global.website-files.com/63c4acbedbab5dea8b1b98cd/63d8a5b60da91e7d71298637_map-vehicle-saturn.png";
 
         if ($this->stopExecution) {
             return;
@@ -73,18 +73,17 @@ class BeamDataImporter extends DataImporter
                                     $arrayOfCitiesNames = array_filter($arrayOfCitiesNames, fn($record) => strpos($record, "•") === false);
 
                                     foreach ($arrayOfCitiesNames as $cityName) {
-                                        if ($cityName === "Selangor") {
-                                        } else {
+                                        if ($cityName != "Selangor") {
                                             $cityName = trim($cityName);
 
                                             if ($countryName === "Korea") {
                                                 $countryName = "South Korea";
                                             }
                                             $provider = $this->load($cityName, $countryName);
-                                        }
 
-                                        if ($provider !== "") {
-                                            $existingCityProviders[] = $provider;
+                                            if ($provider !== "") {
+                                                $existingCityProviders[] = $provider;
+                                            }
                                         }
                                     }
                                 }
