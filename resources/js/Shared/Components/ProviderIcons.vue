@@ -25,20 +25,24 @@ if (window.location.pathname !== '/') {
   document.addEventListener('click', function (event) {
     // close provider buttons if clicked outside
     const providerButtons = document.querySelector('.provider-buttons')
-    if ((!event.target.closest('.provider-buttons') && !event.target.closest('.provider-icon')) || event.target.closest('.decoration')) {
+    if ((!event.target.closest('.provider-buttons') && !event.target.closest('.provider-icon'))) {
       if (document.querySelector('.provider-buttons')) {
         setTimeout(() => {
           document.querySelector('.provider-buttons').classList.remove('show')
+          urls.hidden = true
         }, 150)
+        urls.transparent = true
           console.log('clicked outside')
-      }    }
+      }
+    }
 
     // open provider buttons if clicked on provider icon 
     if (event.target.closest('.provider-icon')) {
       getProviderURLs(event.target.closest('.provider-icon').getAttribute('pname'))
-if (urls.url||urls.android_url||urls.ios_url) {
-        providerButtons.classList.add('show')
-  
+    if (urls.url||urls.android_url||urls.ios_url) {
+      providerButtons.classList.add('show')
+      urls.hidden = false
+      urls.transparent = false
       }
       console.log('clicked on provider icon')
       console.log(urls) 
@@ -51,6 +55,8 @@ const urls = reactive({
   url: null,
   android_url: null,
   ios_url: null,
+  hidden: true,
+  transparent: true,
 })
 </script>
 
@@ -63,29 +69,27 @@ const urls = reactive({
         <img loading="lazy" class="w-7 lg:w-8" :src="'/providers/' + cityProvider.provider_name.toLowerCase() + '.png'" alt="">
       </div>
     </div>
-      <div class="provider-buttons">
+      <div class="provider-buttons shadow-lg border-solid border border-blumilk-100 bg-white">
         <p class="text-center text-lg">
           {{ urls.pname }}
         </p>
-        <a v-if="urls.url" :href="urls.url" target="_blank" class="flex h-11 w-36 flex-row place-items-center justify-items-center rounded bg-black">
+        <a v-if="urls.url" :href="urls.url" target="_blank" class="flex h-11 w-36 shadow-inner flex-row place-items-center justify-items-center rounded bg-blumilk-300">
           <img loading="lazy" class="mx-2 w-6" src="/icons/globe.svg" alt="">
-          <p class="provider-button text-lg font-semibold text-white">Web</p>
+          <p class="provider-button text-lg  font-semibold text-white hover:underline">Web</p>
         </a>
-        <a v-if="urls.android_url" :href="urls.android_url" target="_blank" class="flex h-11 w-36 flex-row place-items-center justify-items-center rounded bg-black">
+        <a v-if="urls.android_url" :href="urls.android_url" target="_blank" class="flex h-11 w-36 flex-row place-items-center justify-items-center rounded bg-blumilk-300">
           <img loading="lazy" class="mx-2 w-6" src="/icons/android.svg" alt="">
           <p class="provider-button text-lg font-semibold text-white hover:underline">
             Android
           </p>
         </a>
-        <a v-if="urls.ios_url" :href="urls.ios_url" target="_blank" class="flex h-11 w-36 flex-row place-items-center justify-items-center rounded bg-black ">
+        <a v-if="urls.ios_url" :href="urls.ios_url" target="_blank" class="flex h-11 w-36 flex-row place-items-center justify-items-center rounded bg-blumilk-300 ">
           <img loading="lazy" class="mx-2 w-6" src="/icons/apple.svg" alt="">
           <p class="provider-button text-lg font-semibold text-white hover:underline">
             AppStore
           </p>
         </a>
-        <div class="decoration" />
-        <div class="decoration" />
-        <div class="decoration" />
       </div>
+      <div :style="{ opacity: urls.transparent?'0%':'60%' , visibility: urls.hidden?'hidden':'visible' }" class="decoration absolute w-screen h-screen bg-white -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2   transition-all"></div>
   </div>
 </template>
