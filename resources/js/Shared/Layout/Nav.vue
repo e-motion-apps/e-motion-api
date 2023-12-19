@@ -11,7 +11,7 @@ import {
   FlagIcon,
   EyeIcon,
   EyeSlashIcon,
-  PhoneIcon
+  EnvelopeIcon
 } from '@heroicons/vue/24/outline'
 import { router, usePage } from '@inertiajs/vue3'
 import { onClickOutside } from '@vueuse/core'
@@ -204,7 +204,7 @@ defineExpose({
           </InertiaLink>
         </div>
         <button>
-            <PhoneIcon class="h-5 w-5" @click="toggleSuggestionDialog"/>
+            <EnvelopeIcon class="h-5 w-5" @click="toggleSuggestionDialog"/>
         </button>
 
         <InertiaLink v-if="isAdmin" href="/admin/cities">
