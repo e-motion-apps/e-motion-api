@@ -18,6 +18,7 @@ function getProviderURLs(providerName) {
   urls.url = provider.url ? provider.url : null
   urls.android_url =  provider.android_url ? provider.android_url : null
   urls.ios_url = provider.ios_url ? provider.ios_url : null
+  console.log(provider)
 } 
 
 if (window.location.pathname !== '/') {
@@ -40,15 +41,16 @@ if (urls.url||urls.android_url||urls.ios_url) {
   
       }
       console.log('clicked on provider icon')
+      console.log(urls) 
     }
   })
 }
 // define props.urls reactive object
 const urls = reactive({
   pname: null,
-  web: null,
-  android: null,
-  ios: null,
+  url: null,
+  android_url: null,
+  ios_url: null,
 })
 </script>
 

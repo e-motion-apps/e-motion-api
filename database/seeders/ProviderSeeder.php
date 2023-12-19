@@ -36,11 +36,11 @@ class ProviderSeeder extends Seeder
     public function run(): void
     {
         $providers = [
-            ["name" => BeamDataImporter::getProviderName(), "color" => "#7347ff"],
-            ["name" => BerylDataImporter::getProviderName(), "color" => "#00e3c2"],
-            ["name" => BinBinDataImporter::getProviderName(), "color" => "#3dbcc8"],
-            ["name" => BirdDataImporter::getProviderName(), "color" => "#26ccf0"],
-            ["name" => BitMobilityDataImporter::getProviderName(), "color" => "#8da6e3"],
+            ["name" => BeamDataImporter::getProviderName(), "color" => "#7347ff",   "url" => "https://ridebeam.com/", "android_url" => "https://play.google.com/store/apps/details?id=ride.beam", "ios_url" => "https://apps.apple.com/us/app/beam-ride-scooters/id1450999639"],
+            ["name" => BerylDataImporter::getProviderName(), "color" => "#00e3c2", "url" => "https://beryl.cc/", "android_url" => "https://play.google.com/store/apps/details?id=cc.beryl.app", "ios_url" => "https://apps.apple.com/gb/app/beryl-bikes/id1450999639"],
+            ["name" => BinBinDataImporter::getProviderName(), "color" => "#3dbcc8", "url" => "https://www.binbin.es/"],
+            ["name" => BirdDataImporter::getProviderName(), "color" => "#26ccf0",   "url" => "https://www.bird.co/"],
+            ["name" => BitMobilityDataImporter::getProviderName(), "color" => "#8da6e3", "url" => "https://www.bitmobility.com"],
             ["name" => BoltDataImporter::getProviderName(), "color" => "#24f0a0"],
             ["name" => DottDataImporter::getProviderName(), "color" => "#f5c604"],
             ["name" => HopDataImporter::getProviderName(), "color" => "#ea1821"],
@@ -66,6 +66,9 @@ class ProviderSeeder extends Seeder
             Provider::create([
                 "name" => $provider["name"],
                 "color" => $provider["color"],
+                "url" => $provider["url"] ?? null,
+                "android_url" => $provider["android_url"] ?? null,
+                "ios_url" => $provider["ios_url"] ?? null,
             ]);
         }
     }
