@@ -86,7 +86,7 @@ function createOpinion() {
 
     <div class="mt-16 flex grow flex-col lg:flex-row">
       <div v-if="isDesktop || !shouldShowMap" class="grow lg:w-1/2">
-        <div class="mx-auto mt-4 flex w-11/12 flex-col sm:mt-12">
+        <div class="relative mx-auto mt-4 flex w-11/12 flex-col sm:mt-12">
           <div class="flex items-end justify-between md:items-center">
             <h1 class="flex text-4xl font-bold md:text-5xl">
               {{ city.name }}

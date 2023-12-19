@@ -67,7 +67,7 @@
     .provider-buttons > a {
         margin-bottom: 4px;
     }
-    .provider-buttons>a:last-child {
+    .provider-buttons>a:last-of-type {
         margin-bottom: 0;
     }
 

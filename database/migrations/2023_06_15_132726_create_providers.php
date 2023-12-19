@@ -14,7 +14,6 @@ return new class() extends Migration {
             $table->string("url")->nullable();
             $table->string("android_url")->nullable();
             $table->string("ios_url")->nullable();
-            $table->string("web_url")->nullable();
             $table->string("color");
             $table->timestamps();
         });
