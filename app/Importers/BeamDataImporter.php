@@ -37,7 +37,7 @@ class BeamDataImporter extends DataImporter
 
     public function transform(): void
     {
-        $url ="https://assets-global.website-files.com/63c4acbedbab5dea8b1b98cd/63d8a5b60da91e7d71298637_map-vehicle-saturn.png";
+        $url = "https://assets-global.website-files.com/63c4acbedbab5dea8b1b98cd/63d8a5b60da91e7d71298637_map-vehicle-saturn.png";
 
         if ($this->stopExecution) {
             return;
@@ -73,7 +73,7 @@ class BeamDataImporter extends DataImporter
                                     $arrayOfCitiesNames = array_filter($arrayOfCitiesNames, fn($record) => strpos($record, "•") === false);
 
                                     foreach ($arrayOfCitiesNames as $cityName) {
-                                        if ($cityName != "Selangor") {
+                                        if ($cityName !== "Selangor") {
                                             $cityName = trim($cityName);
 
                                             if ($countryName === "Korea") {
