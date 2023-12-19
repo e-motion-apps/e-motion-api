@@ -11,6 +11,7 @@ import {
   FlagIcon,
   EyeIcon,
   EyeSlashIcon,
+  PhoneIcon
 } from '@heroicons/vue/24/outline'
 import { router, usePage } from '@inertiajs/vue3'
 import { onClickOutside } from '@vueuse/core'
@@ -59,6 +60,17 @@ function submitSuggestion() {
     },
   })
 }
+
+const isSuggestionDialogOpened = ref(false)
+const suggestionDialog = ref(null)
+
+function toggleSuggestionDialog() {
+  isSuggestionDialogOpened.value = !isSuggestionDialogOpened.value
+  isMobileMenuOpened.value = false
+}
+
+onClickOutside(suggestionDialog, () => (isSuggestionDialogOpened.value = false))
+
 const loginForm = useForm({
   email: '',
   password: '',
@@ -92,13 +104,11 @@ const navigation = computed(() => {
       { name: 'Favorite cities', href: '/favorite-cities' },
       { name: 'Prices', href: '#' },
       { name: 'Rules', href: '#' },
-      { name: 'Contact', href: '#', function: () => toggleSuggestionDialog() },
     ]
   } else {
     return [
       { name: 'Prices', href: '#' },
       { name: 'Rules', href: '#' },
-      { name: 'Contact', href: '#', function: () => toggleSuggestionDialog() },
     ]
   }
 })
@@ -147,24 +157,6 @@ function toggleCreateAccountOption() {
   isLoginFormSelected.value = false
 }
 
-const isSuggestionDialogOpened = ref(true)
-
-function toggleSuggestionDialog() {
-  console.log('toggleSuggestionDialog called')
-
-  isSuggestionDialogOpened.value = !isSuggestionDialogOpened.value
-  isMobileMenuOpened.value = false
-}
-
-function handleClick(item, event) {
-  console.log('handleClick called')
-
-  if (item.function) {
-    event.preventDefault()
-    item.function()
-  }
-}
-
 defineExpose({
   toggleCreateAccountOption,
 })
@@ -211,6 +203,9 @@ defineExpose({
             {{ countCitiesWithoutCoordinates }}
           </InertiaLink>
         </div>
+        <button>
+            <PhoneIcon class="h-5 w-5" @click="toggleSuggestionDialog"/>
+        </button>
 
         <InertiaLink v-if="isAdmin" href="/admin/cities">
           <ComputerDesktopIcon class="h-6 w-6" />
@@ -338,9 +333,9 @@ defineExpose({
 
     <div v-if="isSuggestionDialogOpened" class="fixed inset-0 z-50 flex items-center bg-black/50">
       <div ref="suggestionDialog" class="mx-auto w-11/12 rounded-lg bg-white shadow-lg sm:w-3/4 md:w-2/3 lg:w-1/2 xl:w-1/3">
+        <label class="flex mt-5 justify-center text-xl font-semibold text-gray-800">{{ __('Contact us') }}</label>
         <div class="flex w-full justify-end">
           <button class="p-4" @click="toggleSuggestionDialog">
-            <!-- Replace XMarkIcon with a suitable icon for closing the dialog -->
             <XMarkIcon class="h-6 w-6" />
           </button>
         </div>
@@ -358,7 +353,6 @@ defineExpose({
               <label class="mb-1 block text-sm font-semibold text-gray-800">Suggestion</label>
               <textarea v-model="suggestionForm.suggestion" class="w-full rounded-lg border-blumilk-200 py-3 md:p-2" rows="4" required />
             </div>
-            <!-- Include any error messages here -->
             <ErrorMessage :message="suggestionForm.errors.suggestionError" />
             <div class="flex w-full md:w-fit">
               <button type="submit" class="w-full rounded-lg bg-blumilk-500 p-4 font-semibold text-white hover:bg-blumilk-600 md:py-2" @click="submitSuggestion">
