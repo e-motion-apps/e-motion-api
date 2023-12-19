@@ -11,7 +11,7 @@ import {
   FlagIcon,
   EyeIcon,
   EyeSlashIcon,
-  EnvelopeIcon
+  EnvelopeIcon,
 } from '@heroicons/vue/24/outline'
 import { router, usePage } from '@inertiajs/vue3'
 import { onClickOutside } from '@vueuse/core'
@@ -204,7 +204,7 @@ defineExpose({
           </InertiaLink>
         </div>
         <button>
-            <EnvelopeIcon class="h-5 w-5" @click="toggleSuggestionDialog"/>
+          <EnvelopeIcon class="h-5 w-5" @click="toggleSuggestionDialog" />
         </button>
 
         <InertiaLink v-if="isAdmin" href="/admin/cities">
@@ -333,7 +333,7 @@ defineExpose({
 
     <div v-if="isSuggestionDialogOpened" class="fixed inset-0 z-50 flex items-center bg-black/50">
       <div ref="suggestionDialog" class="mx-auto w-11/12 rounded-lg bg-white shadow-lg sm:w-3/4 md:w-2/3 lg:w-1/2 xl:w-1/3">
-        <label class="flex mt-5 justify-center text-xl font-semibold text-gray-800">{{ __('Contact us') }}</label>
+        <label class="mt-5 flex justify-center text-xl font-semibold text-gray-800">{{ __('Contact us') }}</label>
         <div class="flex w-full justify-end">
           <button class="p-4" @click="toggleSuggestionDialog">
             <XMarkIcon class="h-6 w-6" />
