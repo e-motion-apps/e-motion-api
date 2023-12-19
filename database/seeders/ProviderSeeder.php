@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace Database\Seeders;
+
 use App\Importers\BeamDataImporter;
 use App\Importers\BerylDataImporter;
 use App\Importers\BinBinDataImporter;
@@ -29,6 +30,7 @@ use App\Importers\WindDataImporter;
 use App\Importers\ZwingsDataImporter;
 use App\Models\Provider;
 use Illuminate\Database\Seeder;
+
 class ProviderSeeder extends Seeder
 {
     public function run(): void
@@ -59,6 +61,7 @@ class ProviderSeeder extends Seeder
             ["name" => WindDataImporter::getProviderName(), "color" => "#fffa00", "url" => "https://www.wind.co/", "android_url" => "https://play.google.com/store/apps/details?id=com.zen.zbike&referrer=utm_source%3Dofficialweb%26utm_medium%3Dother%26utm_term%3Dglobal", "ios_url" => "https://apps.apple.com/cn/app/yango-wind-e-scooter-sharing/id1247826304?utm_source=officialweb&utm_medium=other&time=1703025387273&utm_term=global"],
             ["name" => WheeMoveDataImporter::getProviderName(), "color" => "#31682d", "url" => "https://www.wheemove.com/", "android_url" => "https://play.google.com/store/apps/details?id=com.whee.android", "ios_url" => "https://apps.apple.com/us/app/whee-e-scooter-sharing/id1465111214?l=es&ls=1"],
         ];
+
         foreach ($providers as $provider) {
             Provider::create([
                 "name" => $provider["name"],
