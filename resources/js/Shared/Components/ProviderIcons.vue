@@ -23,7 +23,6 @@ function getProviderURLs(providerName) {
 
 if (window.location.pathname !== '/') {
   document.addEventListener('click', function (event) {
-    // close provider buttons if clicked outside
     const providerButtons = document.querySelector('.provider-buttons')
 
     if ((!event.target.closest('.provider-buttons') && !event.target.closest('.provider-icon'))) {
@@ -36,8 +35,6 @@ if (window.location.pathname !== '/') {
         console.log('clicked outside')
       }
     }
-
-    // open provider buttons if clicked on provider icon 
     if (event.target.closest('.provider-icon')) {
       getProviderURLs(event.target.closest('.provider-icon').getAttribute('pname'))
 
@@ -51,7 +48,6 @@ if (window.location.pathname !== '/') {
     }
   })
 }
-// define props.urls reactive object
 const urls = reactive({
   pname: null,
   url: null,
@@ -71,23 +67,23 @@ const urls = reactive({
         <img loading="lazy" class="w-7 lg:w-8" :src="'/providers/' + cityProvider.provider_name.toLowerCase() + '.png'" alt="">
       </div>
     </div>
-    <div class="provider-buttons border border-solid border-blumilk-100 bg-white shadow-lg">
-      <p class="text-center text-lg">
+    <div class="provider-buttons border border-solid bg-white shadow-lg">
+      <p class="text-center text-blumilk-500 text-lg">
         {{ urls.pname }}
       </p>
-      <a v-if="urls.url" :href="urls.url" target="_blank" class="flex h-11 w-36 flex-row place-items-center justify-items-center rounded bg-blumilk-300 shadow-inner">
+      <a v-if="urls.url" :href="urls.url" target="_blank" class="flex h-11 w-36 flex-row place-items-center justify-items-center rounded bg-blumilk-400 shadow-inner">
         <img loading="lazy" class="mx-2 w-6" src="/icons/globe.svg" alt="">
-        <p class="provider-button text-lg  font-semibold text-white hover:underline">Web</p>
+        <p class="provider-text text-lg font-semibold text-white hover:underline">Web </p>
       </a>
-      <a v-if="urls.android_url" :href="urls.android_url" target="_blank" class="flex h-11 w-36 flex-row place-items-center justify-items-center rounded bg-blumilk-300">
+      <a v-if="urls.android_url" :href="urls.android_url" target="_blank" class="flex h-11 w-36 flex-row place-items-center justify-items-center rounded bg-blumilk-400">
         <img loading="lazy" class="mx-2 w-6" src="/icons/android.svg" alt="">
-        <p class="provider-button text-lg font-semibold text-white hover:underline">
+        <p class="provider-text text-lg font-semibold text-white hover:underline">
           Android
         </p>
       </a>
-      <a v-if="urls.ios_url" :href="urls.ios_url" target="_blank" class="flex h-11 w-36 flex-row place-items-center justify-items-center rounded bg-blumilk-300 ">
+      <a v-if="urls.ios_url" :href="urls.ios_url" target="_blank" class="flex h-11 w-36 flex-row place-items-center justify-items-center rounded bg-blumilk-400 ">
         <img loading="lazy" class="mx-2 w-6" src="/icons/apple.svg" alt="">
-        <p class="provider-button text-lg font-semibold text-white hover:underline">
+        <p class="provider-text text-lg font-semibold text-white hover:underline">
           AppStore
         </p>
       </a>
