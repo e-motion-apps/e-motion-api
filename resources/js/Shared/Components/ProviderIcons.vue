@@ -35,6 +35,7 @@ if (window.location.pathname !== '/') {
         console.log('clicked outside')
       }
     }
+
     if (event.target.closest('.provider-icon')) {
       getProviderURLs(event.target.closest('.provider-icon').getAttribute('pname'))
 
@@ -68,7 +69,7 @@ const urls = reactive({
       </div>
     </div>
     <div class="provider-buttons border border-solid bg-white shadow-lg">
-      <p class="text-center text-blumilk-500 text-lg">
+      <p class="text-center text-lg text-blumilk-500">
         {{ urls.pname }}
       </p>
       <a v-if="urls.url" :href="urls.url" target="_blank" class="flex h-11 w-36 flex-row place-items-center justify-items-center rounded bg-blumilk-400 shadow-inner">
