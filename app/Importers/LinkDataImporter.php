@@ -48,12 +48,12 @@ class LinkDataImporter extends DataImporter
             "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska",
             "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota",
             "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee",
-            "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"
+            "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming",
         ];
+
         if ($this->stopExecution) {
             return;
         }
-
 
         $existingCityProviders = [];
 
@@ -62,26 +62,30 @@ class LinkDataImporter extends DataImporter
         foreach ($this->sections as $section) {
             if ($skipFirstIteration) {
                 $skipFirstIteration = false;
+
                 continue;
             }
+
             foreach ($section->childNodes as $node) {
-                if ($node->nodeName == "strong") {
-                    if (!in_array($node->nodeValue, $states)) {
+                if ($node->nodeName === "strong") {
+                    if (!in_array($node->nodeValue, $states, true)) {
                         $countryName = trim($node->nodeValue);
                     } else {
                         $countryName = "United States";
                     }
                 }
-                if ($node->nodeName == "#text") {
+
+                if ($node->nodeName === "#text") {
                     $cityName = $node->nodeValue;
-                } else if ($node->nodeName == "a") {
+                } else if ($node->nodeName === "a") {
                     $cityName = $node->nodeValue;
                 }
-                if($cityName == " ") {
+
+                if ($cityName === " ") {
                     continue;
-                } else {
-                    $provider = $this->load($cityName, $countryName);
-                }
+                }  
+                $provider = $this->load($cityName, $countryName);
+
                 if ($provider !== "") {
                     $existingCityProviders[] = $provider;
                 }
