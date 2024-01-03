@@ -48,6 +48,10 @@ function login() {
   })
 }
 
+function socialMediaLogin(provider) {
+  window.location.href = `/login/${provider}`
+} 
+
 const navigation = computed(() => {
   if (isAuth.value) {
     return [
@@ -182,6 +186,20 @@ defineExpose({
               </button>
             </div>
             <ErrorMessage :message="loginForm.errors.loginError" />
+            <div>
+              <label class="mb-4 flex justify-center text-sm font-semibold text-gray-800">{{ __('You can also login by:') }}</label>
+              <div class="flex items-center justify-center space-x-5">
+                <button type="button" class="flex items-center justify-center" @click="socialMediaLogin('github')">
+                  <img class="h-10 w-10" src="@/assets/github.png" alt="github logo">
+                </button>
+                <button type="button" class="flex items-center justify-center" @click="socialMediaLogin('facebook')">
+                  <img class="h-10 w-10" src="@/assets/facebook.png" alt="facebook logo">
+                </button>
+                <button type="button" class="flex items-center justify-center" @click="socialMediaLogin('google')">
+                  <img class="h-10 w-10" src="@/assets/google.png" alt="google logo">
+                </button>
+              </div>
+            </div>
             <div class="flex w-full md:w-fit">
               <button type="submit"
                       class="w-full rounded-lg bg-blumilk-500 p-4 font-semibold text-white hover:bg-blumilk-600 md:py-2"
