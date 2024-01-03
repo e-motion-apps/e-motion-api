@@ -37,4 +37,3 @@ class SocialMediaLoginTest extends TestCase
         $this->assertAuthenticated();
     }
 }
-
