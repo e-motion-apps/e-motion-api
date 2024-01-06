@@ -14,8 +14,8 @@ use App\Http\Controllers\CityProviderController;
 use App\Http\Controllers\CityWithoutAssignedCountryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FavoritesController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RulesController;
+use Illuminate\Support\Facades\Route;
 
 Route::middleware("guest")->group(function (): void {
     Route::post("/login", [AuthController::class, "login"])->name("login");
@@ -51,6 +51,7 @@ Route::middleware("auth")->group(function (): void {
 });
 
 Route::get("/rules/{country}/{city}", [RulesController::class, "getRules"]);
+Route::get("/rules", [RulesController::class, "index"]);
 
 Route::post("/language/{locale}", ChangeLocaleController::class);
 
