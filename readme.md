@@ -8,6 +8,7 @@
 1. BitMobility
 1. Bolt
 1. Dott
+1. Hop
 1. Hulaj
 1. Lime
 1. Link

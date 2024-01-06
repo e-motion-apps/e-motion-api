@@ -59,18 +59,19 @@ abstract class DataImporter
 
     protected function countryNotFound(string $cityName, string $countryName): void
     {
-        CityWithoutAssignedCountry::query()
-            ->withTrashed()
-            ->updateOrCreate(
-                [
-                    "city_name" => $cityName,
-                    "country_name" => $countryName,
-                ],
-                [
-                    "city_name" => $cityName,
-                    "country_name" => $countryName,
-                ],
-            );
+        $cityAttributes = [
+            "city_name" => $cityName,
+            "country_name" => $countryName,
+        ];
+
+        $city = CityWithoutAssignedCountry::query()->withTrashed()->updateOrCreate(
+            $cityAttributes,
+            $cityAttributes,
+        );
+
+        if ($city->wasRecentlyCreated) {
+            $this->createImportInfoDetails("420", self::getProviderName());
+        }
     }
 
     protected function createProvider(int $cityId, string $providerName): void
@@ -149,7 +150,6 @@ abstract class DataImporter
             return strval($city->id);
         }
         $this->countryNotFound($cityName, $countryName);
-        $this->createImportInfoDetails("420", self::getProviderName());
 
         return "";
     }

@@ -11,6 +11,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Laravel\Socialite\Facades\Socialite;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
@@ -49,6 +51,31 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
+        return redirect()->route("home");
+    }
+
+    public function redirectToProvider(string $provider): Response
+    {
+        return Socialite::driver($provider)->redirect();
+    }
+
+    public function handleProviderRedirect(string $provider): RedirectResponse
+    {
+        try {
+            $user = Socialite::driver($provider)->user();
+
+            $user = User::firstOrCreate([
+                "email" => $user->getEmail(),
+            ], [
+                "name" => $user->getName(),
+                "password" => Hash::make(Str::password(8)),
+            ]);
+
+            Auth::login($user);
+        } catch (\Exception $e) {
+            return redirect()->route("home");
+        }
 
         return redirect()->route("home");
     }
