@@ -15,6 +15,7 @@ use App\Http\Controllers\CityWithoutAssignedCountryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FavoritesController;
 use App\Http\Controllers\RulesController;
+use App\Http\RulesImporter;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware("guest")->group(function (): void {
@@ -47,6 +48,9 @@ Route::middleware("auth")->group(function (): void {
         Route::post("/run-importers", [CityProviderController::class, "runImporters"]);
         Route::delete("/delete-city-without-assigned-country/{city}", [CityWithoutAssignedCountryController::class, "destroy"]);
         Route::post("/delete-all-cities-without-assigned-country", [CityWithoutAssignedCountryController::class, "destroyAll"]);
+
+        Route::get("/importRules", [RulesImporter::class, "importRules"]);
+
     });
 });
 
