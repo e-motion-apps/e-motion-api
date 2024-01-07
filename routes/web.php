@@ -14,6 +14,7 @@ use App\Http\Controllers\CityProviderController;
 use App\Http\Controllers\CityWithoutAssignedCountryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FavoritesController;
+use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware("guest")->group(function (): void {
@@ -34,6 +35,8 @@ Route::middleware("auth")->group(function (): void {
     Route::post("/opinions", [CityOpinionController::class, "store"]);
     Route::patch("/opinions/{cityOpinion}", [CityOpinionController::class, "update"]);
     Route::delete("/opinions/{cityOpinion}", [CityOpinionController::class, "destroy"]);
+
+    Route::get("/userprofile", [UserProfileController::class, "index"]);
 
     Route::middleware(["role:admin"])->group(function (): void {
         Route::get("/admin/importers", [ImportInfoController::class, "index"]);
