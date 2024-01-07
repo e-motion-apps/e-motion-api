@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { Dialog, DialogPanel } from '@headlessui/vue'
-import { Bars3Icon, XMarkIcon, UserCircleIcon, ArrowRightOnRectangleIcon, ComputerDesktopIcon, MapPinIcon, FlagIcon, EyeIcon, EyeSlashIcon } from '@heroicons/vue/24/outline'
+import { Bars3Icon, XMarkIcon, UserCircleIcon, ArrowRightOnRectangleIcon, ComputerDesktopIcon, MapPinIcon, FlagIcon, EyeIcon, EyeSlashIcon, KeyIcon } from '@heroicons/vue/24/outline'
 import { router, usePage } from '@inertiajs/vue3'
 import { onClickOutside } from '@vueuse/core'
 import { useForm } from '@inertiajs/vue3'
@@ -50,7 +50,7 @@ function login() {
 
 function socialMediaLogin(provider) {
   window.location.href = `/login/${provider}`
-} 
+}
 
 const navigation = computed(() => {
   if (isAuth.value) {
@@ -156,7 +156,12 @@ defineExpose({
         </InertiaLink>
         <button>
           <ArrowRightOnRectangleIcon v-if="isAuth" class="h-6 w-6" @click="logout" />
-          <UserCircleIcon v-else class="h-6 w-6" @click="toggleAuthDialog" />
+          <KeyIcon v-else class="h-6 w-6" @click="toggleAuthDialog" />
+        </button>
+        <button v-if="isAuth">
+          <InertiaLink class="h-6 w-6" href="/userprofile">
+            <UserCircleIcon class="h-6 w-6" />
+          </InertiaLink>
         </button>
         <LanguageSwitch />
       </div>
@@ -316,7 +321,7 @@ defineExpose({
                   <span v-if="!isAuth" class="flex w-full items-center rounded px-3 py-2.5 hover:bg-blumilk-25"
                         @click="toggleAuthDialog"
                   >
-                    <UserCircleIcon class="h-6 w-6" />
+                    <KeyIcon class="h-6 w-6" />
                     <span class="ml-2">{{ __('Log in') }}</span>
                   </span>
                 </button>
