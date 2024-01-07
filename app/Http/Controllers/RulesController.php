@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
+
 class RulesController
 {
     public function getRules($city, $country): string
@@ -13,10 +15,11 @@ class RulesController
         return $rules;
     }
 
-    public function index(Country $country, City $city)
+    public function index($country, $city)
     {
         return Inertia::render("Rules/Index", [
-            "rules" => $this->getRules($city, $country),
+            "country" => $country,
+            "city" => $city,
         ]);
     }
 }

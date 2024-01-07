@@ -50,12 +50,10 @@ Route::middleware("auth")->group(function (): void {
         Route::post("/delete-all-cities-without-assigned-country", [CityWithoutAssignedCountryController::class, "destroyAll"]);
 
         Route::get("/importRules", [RulesImporter::class, "importRules"]);
-
     });
 });
 
-Route::get("/rules/{country}/{city}", [RulesController::class, "getRules"]);
-Route::get("/rules", [RulesController::class, "index"]);
+Route::get("/rules/{country}/{city}", [RulesController::class, "index"]);
 
 Route::post("/language/{locale}", ChangeLocaleController::class);
 
