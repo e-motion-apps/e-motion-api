@@ -53,7 +53,7 @@ Route::middleware("auth")->group(function (): void {
     });
 });
 
-Route::get("/rules/{country}/{city}", [RulesController::class, "index"]);
+Route::get("/rules", [RulesController::class, "index"]);
 
 Route::post("/language/{locale}", ChangeLocaleController::class);
 
