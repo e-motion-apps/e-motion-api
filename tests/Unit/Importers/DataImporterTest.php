@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit;
+namespace Tests\Unit\Importers;
 
 use App\Importers\BirdDataImporter;
 use App\Models\City;
@@ -20,7 +20,7 @@ use PHPUnit\Framework\MockObject\Exception;
 use Stichoza\GoogleTranslate\GoogleTranslate;
 use Tests\TestCase;
 
-class ImporterTest extends TestCase
+class DataImporterTest extends TestCase
 {
     private $dataImporter;
 
