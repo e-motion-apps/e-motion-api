@@ -8,7 +8,7 @@ import { usePage } from '@inertiajs/vue3'
 import axios from 'axios'
 import { __ } from '@/translate'
 import { useFilterStore } from '@/Shared/Stores/FilterStore'
-import { nav } from '@/Shared/Layout/Nav.vue'
+import Nav from '@/Shared/Layout/Nav.vue'
 
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const filterStore = useFilterStore()
@@ -46,7 +46,7 @@ onUnmounted(() => {
 
 <template>
   <div class="flex h-screen flex-col">
-    <Nav ref="nav" class="z-30" />
+    <nav ref="nav" class="z-30" />
 
     <div class="mt-16 flex grow flex-col lg:flex-row">
       <div class="w-full">

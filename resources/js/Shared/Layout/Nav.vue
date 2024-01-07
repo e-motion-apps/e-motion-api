@@ -60,7 +60,7 @@ const navigation = computed(() => {
     ]
   } else {
     return [
-      { name: 'Rules', href: '/rulesa' },
+      { name: 'Rules', href: '/rules' },
     ]
   }
 })
