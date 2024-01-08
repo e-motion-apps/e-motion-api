@@ -14,6 +14,8 @@ class ProviderResource extends JsonResource
         return [
             "name" => $this->name,
             "url" => $this->url,
+            "android_url" => $this->android_url,
+            "ios_url" => $this->ios_url,
             "color" => $this->color,
         ];
     }
