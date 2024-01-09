@@ -396,7 +396,6 @@ function selectCountry(country) {
         <FunnelIcon class="mr-1 h-4 w-4" />
         {{ __('Change filters') }}
       </button>
-
       <div :class="[isDesktop ? 'flex-col' : 'w-full', filterStore.selectedCity ? 'justify-between' : 'justify-end']"
            class="flex"
       >
@@ -418,7 +417,11 @@ function selectCountry(country) {
         </button>
       </div>
     </div>
-
+    <div class="mb-4 mt-2 w-full px-2 lg:px-3">
+      <p class="text-slate-500 ">
+        {{ filteredCities.length }} {{ __('results found') }}
+      </p>
+    </div>
     <SelectedCity :providers="props.providers" />
 
     <DynamicScroller
