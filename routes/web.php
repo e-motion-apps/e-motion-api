@@ -21,7 +21,7 @@ Route::middleware("guest")->group(function (): void {
     Route::post("/register", [AuthController::class, "store"])->name("register");
 
     Route::get("/login/{provider}", [AuthController::class, "redirectToProvider"])->name("login.provider");
-    Route::get("/login/{provider}/redirect", [AuthController::class, "handleProviderRedirect"]);
+    Route::get("/login/{provider}/redirect", [AuthController::class, "handleProviderRedirect"])->name("login.provider.redirect");
 });
 
 Route::middleware("auth")->group(function (): void {
