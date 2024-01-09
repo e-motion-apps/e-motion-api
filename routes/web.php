@@ -14,7 +14,6 @@ use App\Http\Controllers\CityProviderController;
 use App\Http\Controllers\CityWithoutAssignedCountryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FavoritesController;
-use App\Http\OpenAIService;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware("guest")->group(function (): void {
@@ -48,7 +47,7 @@ Route::middleware("auth")->group(function (): void {
         Route::delete("/delete-city-without-assigned-country/{city}", [CityWithoutAssignedCountryController::class, "destroy"]);
         Route::post("/delete-all-cities-without-assigned-country", [CityWithoutAssignedCountryController::class, "destroyAll"]);
 
-        Route::get("/importRules", [OpenAIService::class, "getRules"]);
+        Route::get("/import-rules/{force}", [\App\Services\OpenAIService::class, "importRules"]);
     });
 });
 
