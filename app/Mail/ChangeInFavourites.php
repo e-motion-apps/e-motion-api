@@ -25,6 +25,7 @@ use Illuminate\Queue\SerializesModels;
         $this->city = $city;
         $this->provider = $provider;
         $this->change = $change;
+        $this->url = env("APP_URL");
     }
 
     /**
@@ -49,7 +50,7 @@ use Illuminate\Queue\SerializesModels;
                 "city" => $this->city,
                 "provider" => $this->provider,
                 "change" => $this->change,
-                "url" => env("APP_URL"),
+                "url" => $this->url,
             ],
         );
     }
