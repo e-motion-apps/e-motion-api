@@ -419,7 +419,7 @@ function selectCountry(country) {
     </div>
     <div class="mb-4 mt-2 w-full px-2 lg:px-3">
       <p class="text-slate-500 ">
-        {{ filteredCities.length }} {{ __('results found') }}
+        {{ __('Found') }} {{ filteredCities.length }} {{ __('results') }}
       </p>
     </div>
     <SelectedCity :providers="props.providers" />
