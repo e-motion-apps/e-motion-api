@@ -55,6 +55,11 @@ class User extends Authenticatable
         return $this->hasRole("admin");
     }
 
+    public function isSuperAdmin(): bool
+    {
+        return $this->hasRole("superadmin");
+    }
+
     public function favorites(): HasMany
     {
         return $this->hasMany(Favorites::class);
