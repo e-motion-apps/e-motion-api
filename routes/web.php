@@ -49,8 +49,8 @@ Route::middleware("auth")->group(function (): void {
         Route::post("/delete-all-cities-without-assigned-country", [CityWithoutAssignedCountryController::class, "destroyAll"]);
     });
     Route::middleware(["role:superadmin"])->group(function (): void {
-        Route::post("/assign-role", [RolesController::class, "assignRole"]);
-        Route::post("/revoke-role", [RolesController::class, "revokeRole"]);
+        Route::post("/assign-role", [RolesController::class, "assignAdmin"]);
+        Route::post("/revoke-role", [RolesController::class, "revokeAdmin"]);
     });
 });
 

@@ -6,12 +6,12 @@ use App\Models\User;
 
 class RolesController
 {
-    public function assignRole(User $user)
+    public function assignAdmin(User $user)
     {
         $user->assignRole('admin');
     }
 
-    public function revokeRole(User $user)
+    public function revokeAdmin(User $user)
     {
         $user->removeRole('admin');
     }
