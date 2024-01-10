@@ -10,7 +10,6 @@ use Symfony\Component\DomCrawler\Crawler;
 class LinkDataImporter extends DataImporter
 {
     protected Crawler $sections;
-    private string $countryName = "";
 
     public function extract(): static
     {
@@ -26,7 +25,7 @@ class LinkDataImporter extends DataImporter
         }
 
         $crawler = new Crawler($html);
-        $this->sections = $crawler->filter(".Main-content .sqs-row.row > .col p > strong");
+        $this->sections = $crawler->filter(".Main-content .sqs-row.row > .col p");
 
         if (count($this->sections) === 0) {
             $this->createImportInfoDetails("204", self::getProviderName());
@@ -39,48 +38,59 @@ class LinkDataImporter extends DataImporter
 
     public function transform(): void
     {
+        $countryName = "";
+
+        $cityName = "";
+
+        $states = [
+            "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida",
+            "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine",
+            "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska",
+            "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota",
+            "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee",
+            "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming",
+        ];
+
         if ($this->stopExecution) {
             return;
         }
 
         $existingCityProviders = [];
 
+        $skipFirstIteration = true;
+
         foreach ($this->sections as $section) {
+            if ($skipFirstIteration) {
+                $skipFirstIteration = false;
+
+                continue;
+            }
+
             foreach ($section->childNodes as $node) {
-                $countryName = trim($node->nodeValue);
-
-                foreach ($node->parentNode->parentNode->parentNode->childNodes as $i => $cityName) {
-                    if ($i === 0 || !trim($cityName->nodeValue)) {
-                        continue;
-                    }
-
-                    $name = $cityName->nodeValue;
-
-                    $cities = [];
-
-                    if (str_contains($name, "(") && str_contains($name, ")")) {
-                        $names = explode("(", $name)[1];
-                        $names = explode(")", $names)[0];
-                        $names = explode(", ", $names);
-
-                        foreach ($names as $name) {
-                            $cities[] = str_replace("*", "", $name);
-                        }
+                if ($node->nodeName === "strong") {
+                    if (!in_array($node->nodeValue, $states, true)) {
+                        $countryName = trim($node->nodeValue);
                     } else {
-                        $cities[] = $name;
+                        $countryName = "United States";
                     }
+                }
 
-                    foreach ($cities as $name) {
-                        $provider = $this->load($name, $countryName);
+                if ($node->nodeName === "#text") {
+                    $cityName = $node->nodeValue;
+                } else if ($node->nodeName === "a") {
+                    $cityName = $node->nodeValue;
+                }
 
-                        if ($provider !== "") {
-                            $existingCityProviders[] = $provider;
-                        }
-                    }
+                if ($cityName === " ") {
+                    continue;
+                }  
+                $provider = $this->load($cityName, $countryName);
+
+                if ($provider !== "") {
+                    $existingCityProviders[] = $provider;
                 }
             }
         }
-
         $this->deleteMissingProviders(self::getProviderName(), $existingCityProviders);
     }
 }
