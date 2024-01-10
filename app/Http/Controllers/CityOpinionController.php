@@ -21,13 +21,20 @@ class CityOpinionController extends Controller
     public function update(CityOpinionRequest $request, CityOpinion $cityOpinion): void
     {
         $opinion = $request->only(["rating", "content", "city_id"]);
-        $opinion["user_id"] = Auth::id();
 
-        $cityOpinion->update($opinion);
+        if ($cityOpinion->user_id === Auth::id() || Auth::user()->hasRole("admin")) {
+            $cityOpinion->update($opinion);
+        } else {
+            abort(403);
+        }
     }
 
     public function destroy(CityOpinion $cityOpinion): void
     {
-        $cityOpinion->delete();
+        if ($cityOpinion->user_id === Auth::id() || Auth::user()->hasRole("admin")) {
+            $cityOpinion->delete();
+        }else{
+            abort(403);
+        }
     }
 }
