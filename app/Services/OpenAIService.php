@@ -28,8 +28,8 @@ class OpenAIService
         }
 
         foreach ($data as $i) {
-            $promptENG = "Act as helpful assistant. explain what are the legal limitations for riding electric scooters in " . $i["city"] . ", " . $i["country"] . "? Contain information about: max speed, helmet requirements, allowed ABV, passengers, other relevant details. Be formal, speak english. If you don't have information answering the question, write 'null'";
-            $promptPL = "Zachowuj się jako pomocny asystant, wyjaśnij jakie są prawa dotyczące jazdy na hulajnogach elektrycznych w " . $i["city"] . ", " . $i["country"] . "? Zawrzyj informacje o: maksymalnej prędkości, potrzebie kasku, dozwolonym alkoholu we krwi, pasażerach, inne. Bądź formalny, mów po polsku. Jeśli nie masz informacji odpowiadających na pytanie, napisz 'null'";
+            $promptENG = "Act as helpful assistant. explain what are the legal limitations for riding electric scooters in " . $i["city"] . ", " . $i["country"] . "? Contain information about: max speed, helmet requirements, allowed ABV, passengers, other relevant details. Be formal, speak english. Don't include city name in your response. If you don't have information answering the question, write 'null'";
+            $promptPL = "Zachowuj się jako pomocny asystant, wyjaśnij jakie są prawa dotyczące jazdy na hulajnogach elektrycznych w " . $i["city"] . ", " . $i["country"] . "? Zawrzyj informacje o: maksymalnej prędkości, potrzebie kasku, dozwolonym alkoholu we krwi, pasażerach, inne. Bądź formalny, mów po polsku. Nie zawieraj nazwy miasta w odpowiedzi. Jeśli nie masz informacji odpowiadających na pytanie, napisz 'null'";
 
             if (!$force) {
                 $currentRules = Rules::query()->where("city_id", $i["city_id"])->where("country_id", $i["country_id"])->first();
