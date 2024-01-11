@@ -18,17 +18,19 @@ class AdminSeeder extends Seeder
     {
         User::create([
             "name" => "superadmin",
-            "email" => "superadmin@example.com",
+            "email" => env("SUPERADMIN_EMAIL"),
             "email_verified_at" => now(),
-            "password" => Hash::make("password"),
-            "remember_token" => Str::random(10),])->assignRole("superadmin")->assignRole("admin");
+            "password" => Hash::make(env('SUPERADMIN_PASSWORD')),
+            "remember_token" => Str::random(10),])
+            ->assignRole("superadmin")
+            ->assignRole("admin");
 
         User::create([
             "name" => "admin",
-            "email" => "admin@example.com",
+            "email" => env("ADMIN_EMAIL"),
             "email_verified_at" => now(),
-            "password" => Hash::make("password"),
-            "remember_token" => Str::random(10),
-        ])->assignRole("admin");
+            "password" => Hash::make(env('ADMIN_PASSWORD')),
+            "remember_token" => Str::random(10),])
+            ->assignRole("admin");
     }
 }
