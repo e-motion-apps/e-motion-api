@@ -39,7 +39,7 @@
         "eslint-plugin-tailwindcss": "^3.13.0",
         "eslint-plugin-vue": "^9.16.1",
         "leaflet": "^1.9.4",
-        "postcss": "^8.4.27",
+        "postcss": "^8.4.33",
         "vite": "^4.4.7"
     }
 }
