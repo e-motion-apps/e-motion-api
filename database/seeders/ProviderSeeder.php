@@ -80,8 +80,9 @@ class ProviderSeeder extends Seeder
                 Storage::put($newImagePath, file_get_contents($imagePath));
             }
         }
+
         if (file_exists(resource_path("providers/unknown.png")) && !Storage::exists( "public/providers/unknown.png")) {
-            Storage::put("public/providers/unknown.png",  file_get_contents(resource_path("providers/unknown.png")));
+            Storage::put("public/providers/unknown.png", file_get_contents(resource_path("providers/unknown.png")));
         }
     }
 }

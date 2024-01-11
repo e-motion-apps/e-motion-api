@@ -114,38 +114,32 @@ const formattedName = computed({
                   <XMarkIcon class="h-6 w-6"/>
                 </button>
               </div>
-
               <div class="flex flex-col p-6 pt-0">
                 <h1 class="mb-3 text-lg font-bold text-gray-800">
                   {{ __('Create provider') }}
                 </h1>
-
                 <form class="flex flex-col text-xs font-bold text-gray-600" @submit.prevent="storeProvider">
                   <label class="mb-1 mt-4">{{ __('Name') }}</label>
                   <input v-model="formattedName"
                          class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 md:p-3"
                          type="text">
                   <ErrorMessage :message="storeProviderForm.errors.name"/>
-
                   <label class="mb-1 mt-4">{{ __('Url') }}</label>
                   <input v-model="storeProviderForm.url"
                          class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3"
                          type="text"
                   >
                   <ErrorMessage :message="storeProviderForm.errors.url"/>
-
                   <label class="mb-1 mt-4">{{ __('Color') }}</label>
                   <input v-model="formattedColor"
                          class="rounded-md border border-blumilk-100 p-4 text-sm font-semibold text-gray-800 shadow md:p-3"
                          type="text"
                   >
                   <ErrorMessage :message="storeProviderForm.errors.color"/>
-
                   <label class="mb-1 mt-4">{{ __('Logo') }}</label>
                   <UploadFileButton type="file" accept="image/png"
                                     @input="storeProviderForm.file = $event.target.files[0]"/>
                   <ErrorMessage :message="storeProviderForm.errors.file"/>
-
                   <div class="flex w-full justify-end">
                     <PrimarySaveButton>
                       {{ __('Save') }}
@@ -158,8 +152,8 @@ const formattedName = computed({
 
           <div class="mb-3 mt-4 flex flex-wrap items-center justify-end md:justify-between">
             <button
-                class="mr-1 rounded bg-blumilk-500 px-5 py-3 text-sm font-medium text-white shadow-md hover:bg-blumilk-400 md:py-2"
-                @click="toggleStoreDialog"
+                class="mr-1 rounded bg-gray-200 px-5 py-3 text-sm font-medium text-white shadow-md hover:bg-gray-300 md:py-2"
+                @click=""
             >
               {{ __('Create provider') }}
             </button>
@@ -188,35 +182,6 @@ const formattedName = computed({
               <PaginationInfo :meta="props.providers.meta"/>
             </div>
 
-            <div class="relative inline-block text-left">
-              <div>
-                <button ref="sortDialog"
-                        class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900"
-                        aria-expanded="false" aria-haspopup="true" @click="toggleSortDialog"
-                >
-                  {{ __('Sort') }}
-                  <ChevronDownIcon class="ml-1 h-5 w-5"/>
-                </button>
-              </div>
-
-              <div v-if="isSortDialogOpened"
-                   class="absolute right-1 z-10 mt-3.5 w-max rounded-md bg-white shadow-lg shadow-gray-300 ring-1 ring-gray-300 focus:outline-none"
-                   role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1"
-              >
-                <div class="py-1" role="none">
-                  <InertiaLink v-for="option in sortingOptions" :key="option.href"
-                               :href="option.href" class="block px-4 py-2 text-sm text-gray-500 hover:text-blumilk-400"
-                               role="menuitem" tabindex="-1"
-                  >
-                    <span
-                        :class="{'font-medium text-blumilk-400': page.url.startsWith(option.href) || ((page.url === '/admin/providers' || page.url.startsWith('/admin/providers?search=') || page.url.startsWith('/admin/providers?page=')) && option.href.startsWith('/admin/providers?order=latest'))}"
-                    >
-                      {{ __(option.name) }}
-                    </span>
-                  </InertiaLink>
-                </div>
-              </div>
-            </div>
           </div>
 
           <div v-if="props.providers.data.length" class="rounded-lg ring-gray-300 sm:ring-1">

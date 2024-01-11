@@ -37,12 +37,12 @@ const filteredCities = computed(() => {
     return props.cities.filter(city => city.country.id === selectedCountryId)
   } else if (selectedCountryId === null && selectedProviderName !== null) {
     return props.cities.filter(city =>
-      city.cityProviders.some(cityProvider => cityProvider.provider_name === selectedProviderName),
+        city.cityProviders.some(cityProvider => cityProvider.provider_name === selectedProviderName),
     )
   } else {
     return props.cities.filter(city =>
-      city.country.id === selectedCountryId &&
-            city.cityProviders.some(cityProvider => cityProvider.provider_name === selectedProviderName),
+        city.country.id === selectedCountryId &&
+        city.cityProviders.some(cityProvider => cityProvider.provider_name === selectedProviderName),
     )
   }
 })
@@ -54,12 +54,12 @@ const filteredProviders = computed(() => {
     return props.providers
   } else {
     return props.providers.filter(provider =>
-      props.cities.some(city =>
-        city.country.id === selectedCountryId &&
-                city.cityProviders.some(cityProvider =>
-                  cityProvider.provider_name === provider.name,
-                ),
-      ),
+        props.cities.some(city =>
+            city.country.id === selectedCountryId &&
+            city.cityProviders.some(cityProvider =>
+                cityProvider.provider_name === provider.name,
+            ),
+        ),
     )
   }
 })
@@ -220,13 +220,13 @@ function clearCountryAutocompleteInput() {
 
 const filteredProviderSuggestions = computed(() => {
   return filteredProviders.value.filter(provider =>
-    provider.name.toLowerCase().includes(providerAutocomplete.value.toLowerCase()),
+      provider.name.toLowerCase().includes(providerAutocomplete.value.toLowerCase()),
   )
 })
 
 const filteredCountrySuggestions = computed(() => {
   return filteredCountries.value.filter(country =>
-    country.name.toLowerCase().includes(countryAutocomplete.value.toLowerCase()),
+      country.name.toLowerCase().includes(countryAutocomplete.value.toLowerCase()),
   )
 })
 
@@ -259,7 +259,7 @@ function selectCountry(country) {
             <i class="large flat flag" :class="[country.iso, country.isSelected ? 'animate-bounce pb-0' : 'pb-3']" />
           </div>
           <div
-            class="flex flex-1 items-center justify-between truncate rounded-r-md border-y border-r border-gray-100 bg-white"
+              class="flex flex-1 items-center justify-between truncate rounded-r-md border-y border-r border-gray-100 bg-white"
           >
             <div class="flex-1 truncate px-3 text-sm">
               <span class="text-xs font-medium text-gray-600">{{ country.name }}</span>
@@ -279,13 +279,13 @@ function selectCountry(country) {
             @click="filterProvider(provider.name)"
         >
           <div
-            :style="{ 'background-color': provider.color }"
-            class="flex h-10 w-12 shrink-0 items-center justify-center rounded-l-md  px-2 py-3"
+              :style="{ 'background-color': provider.color }"
+              class="flex h-10 w-12 shrink-0 items-center justify-center rounded-l-md  px-2 py-3"
           >
             <img loading="lazy" :src="'/providers/' + provider.name.toLowerCase() + '.png'" alt="">
           </div>
           <div
-            class="flex flex-1 items-center justify-between truncate rounded-r-md border-y border-r border-gray-100 bg-white"
+              class="flex flex-1 items-center justify-between truncate rounded-r-md border-y border-r border-gray-100 bg-white"
           >
             <div class="flex-1 truncate px-3 text-sm">
               <span class="text-xs font-medium text-gray-600">{{ provider.name }}</span>
@@ -317,20 +317,20 @@ function selectCountry(country) {
 
           <ul v-if="isCountryListOpened" class="scrollbar absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm" role="listbox">
             <li
-              v-for="country in filteredCountrySuggestions"
-              :key="country.id"
-              :class="{ 'opacity-25': !country.hasProvider }"
-              class="relative flex cursor-default select-none items-center p-2 text-gray-900 hover:cursor-pointer hover:bg-gray-100"
-              role="option"
-              tabindex="-1"
-              @click="selectCountry(country)"
+                v-for="country in filteredCountrySuggestions"
+                :key="country.id"
+                :class="{ 'opacity-25': !country.hasProvider }"
+                class="relative flex cursor-default select-none items-center p-2 text-gray-900 hover:cursor-pointer hover:bg-gray-100"
+                role="option"
+                tabindex="-1"
+                @click="selectCountry(country)"
             >
               <i :class="country.iso" class="flat flag !h-[18px] !w-[27px]" />
               <span class="ml-2 block truncate text-sm">{{ country.name }}</span>
             </li>
             <li
-              v-if="!filteredCountrySuggestions.length"
-              class="relative flex cursor-default select-none items-center p-2 text-gray-900"
+                v-if="!filteredCountrySuggestions.length"
+                class="relative flex cursor-default select-none items-center p-2 text-gray-900"
             >
               {{ __(`Didn't find anything. Just empty space.`) }}
             </li>
@@ -364,12 +364,12 @@ function selectCountry(country) {
 
           <ul v-if="isProviderListOpened" class="scrollbar absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm" role="listbox">
             <li
-              v-for="provider in filteredProviderSuggestions"
-              :key="provider.name"
-              class="relative flex cursor-default select-none items-center p-2 text-gray-900 hover:cursor-pointer hover:bg-gray-100"
-              role="option"
-              tabindex="-1"
-              @click="selectProvider(provider)"
+                v-for="provider in filteredProviderSuggestions"
+                :key="provider.name"
+                class="relative flex cursor-default select-none items-center p-2 text-gray-900 hover:cursor-pointer hover:bg-gray-100"
+                role="option"
+                tabindex="-1"
+                @click="selectProvider(provider)"
             >
               <div :style="{ 'background-color': provider.color }" class="flex h-5 w-fit shrink-0 items-center justify-center rounded border border-zinc-300 p-1 hover:opacity-75">
                 <img loading="lazy" class="w-5" :src="'/providers/' + provider.name.toLowerCase() + '.png'" alt="">
@@ -377,8 +377,8 @@ function selectCountry(country) {
               <span class="ml-2 block truncate text-sm">{{ provider.name }}</span>
             </li>
             <li
-              v-if="!filteredProviderSuggestions.length"
-              class="relative flex cursor-default select-none items-center p-2 text-gray-900"
+                v-if="!filteredProviderSuggestions.length"
+                class="relative flex cursor-default select-none items-center p-2 text-gray-900"
             >
               {{ __(`Didn't find anything. Just empty space.`) }}
             </li>
@@ -400,17 +400,17 @@ function selectCountry(country) {
            class="flex"
       >
         <button
-          v-if="filterStore.selectedCity !== null"
-          class="mt-2 flex w-fit items-center rounded-lg border border-gray-300 px-4 py-2 text-[10px] font-medium text-gray-600 hover:bg-gray-50"
-          @click="clearMap"
+            v-if="filterStore.selectedCity !== null"
+            class="mt-2 flex w-fit items-center rounded-lg border border-gray-300 px-4 py-2 text-[10px] font-medium text-gray-600 hover:bg-gray-50"
+            @click="clearMap"
         >
           <MapIcon class="mr-1 h-4 w-4" />
           {{ __('Clear map') }}
         </button>
         <button
-          v-if="filterStore.selectedCountry !== null || filterStore.selectedProviderName !== null"
-          class="mt-2 flex w-fit items-center rounded-lg border border-gray-300 px-4 py-2 text-[10px] font-medium text-gray-600 hover:bg-gray-50"
-          @click="clearFilters"
+            v-if="filterStore.selectedCountry !== null || filterStore.selectedProviderName !== null"
+            class="mt-2 flex w-fit items-center rounded-lg border border-gray-300 px-4 py-2 text-[10px] font-medium text-gray-600 hover:bg-gray-50"
+            @click="clearFilters"
         >
           <TrashIcon class="mr-1 h-4 w-4" />
           {{ __('Clear filters') }}
@@ -425,11 +425,11 @@ function selectCountry(country) {
     <SelectedCity :providers="props.providers" />
 
     <DynamicScroller
-      v-if="filteredCities.length"
-      :items="filteredCities"
-      :min-item-size="100"
-      key-field="id"
-      page-mode
+        v-if="filteredCities.length"
+        :items="filteredCities"
+        :min-item-size="100"
+        key-field="id"
+        page-mode
     >
       <template #default="{ item, active }">
         <DynamicScrollerItem :size-dependencies="[item.name]"
@@ -456,20 +456,6 @@ function selectCountry(country) {
               <div class="hover:drop-shadow">
                 <FavoriteButton v-if="isAuth" class="flex rounded-full py-0.5 hover:drop-shadow" :cityid="item.id" />
                 <InfoPopup v-else class="flex rounded-full py-0.5 hover:drop-shadow" />
-          <div class="mt-0 flex w-fit items-center justify-end sm:ml-[64px] sm:mt-1 sm:justify-start">
-            <FavoriteButton v-if="isAuth" :cityid="city.id" />
-            <InfoPopup v-else />
-          </div>
-        </div>
-
-        <div class="mt-4 flex w-fit flex-row-reverse flex-wrap items-center justify-end sm:mt-0 sm:justify-start">
-          <div v-for="provider in filteredProviders" :key="provider.name">
-            <div v-for="cityProvider in city.cityProviders" :key="cityProvider.provider_name">
-              <div v-if="provider.name === cityProvider.provider_name" :style="{ 'background-color': provider.color }"
-                   class="m-1 flex h-6 w-fit shrink-0 items-center justify-center rounded-md p-1 hover:opacity-75"
-                   @click="filterProvider(provider.name)"
-              >
-                <img class="w-6" :src="`/images/providers/${provider.name.toLowerCase()}.png`" alt="">
               </div>
 
 

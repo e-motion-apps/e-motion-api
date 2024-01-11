@@ -7,7 +7,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProviderRequest;
 use App\Http\Resources\ProviderResource;
 use App\Models\Provider;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -49,11 +48,10 @@ class ProviderController extends Controller
 
         if (file_exists($resourceImagePath)) {
             file_put_contents($resourceImagePath, $imageContents);
-            Storage::put($storageImagePath, file_get_contents($imageContents)); //storage
+            Storage::put($storageImagePath, file_get_contents($imageContents));
         } else {
-            Storage::put($storageImagePath, file_get_contents($imageContents)); //storage
+            Storage::put($storageImagePath, file_get_contents($imageContents));
         }
-
     }
 
     public function destroy(Provider $provider): void
