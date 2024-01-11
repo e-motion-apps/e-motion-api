@@ -418,7 +418,13 @@ function selectCountry(country) {
       </div>
     </div>
     <div class="mb-4 mt-2 w-full px-2 lg:px-3">
-      <p class="text-slate-500 ">
+      <p v-if="filteredCities.length == 1" class="text-slate-500 ">
+        {{ __('Found') }} {{ filteredCities.length }} {{ __('result') }}
+      </p>
+      <p v-else-if="((filteredCities.length % 10 == 2 || filteredCities.length % 10 == 3 || filteredCities.length % 10 == 4) && (filteredCities.length % 100 != 11 && filteredCities.length % 100 != 12 && filteredCities.length % 100 != 13 && filteredCities.length % 100 != 14))" class="text-slate-500 ">
+        {{ __('Found') }} {{ filteredCities.length }} {{ __('results234') }}
+      </p>
+      <p v-else class="text-slate-500 ">
         {{ __('Found') }} {{ filteredCities.length }} {{ __('results') }}
       </p>
     </div>
