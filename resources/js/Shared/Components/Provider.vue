@@ -111,7 +111,7 @@ function goToWebsite(url) {
   <td class="relative table-cell justify-end border-t text-right text-xs font-medium sm:pl-3 md:pr-2">
     <span class="flex flex-wrap">
       <button
-        class="mx-0.5 mb-1 flex w-fit shrink-0 items-center rounded py-1 pr-2 text-gray-200 hover:bg-blumilk-25"
+        class="mx-0.5 mb-1 flex w-fit shrink-0 items-center rounded py-1 pr-2 text-gray-200"
       >
         <PencilIcon class="h-5 w-8 text-gray-200" />
         {{ __('Edit') }}
