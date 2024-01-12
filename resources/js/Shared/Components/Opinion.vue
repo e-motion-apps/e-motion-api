@@ -105,7 +105,7 @@ const emptyRatingError = ref('')
   </div>
 
   <div v-if="user.id === props.opinion.user.id || isAdmin" class="mt-1 flex justify-end">
-    <button class="flex px-1 hover:drop-shadow" @click="toggleUpdateOpinionDialog">
+    <button v-if="user.id === props.opinion.user.id" class="flex px-1 hover:drop-shadow" @click="toggleUpdateOpinionDialog">
       <PencilIcon class="h-5 w-5 text-blumilk-500 hover:drop-shadow sm:h-4 sm:w-4" />
     </button>
     <button class="flex px-1 hover:drop-shadow" @click="toggleDeleteOpinionDialog">
