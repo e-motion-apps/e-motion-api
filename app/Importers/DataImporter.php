@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Importers;
 
-use App\Events\ChangeInFavouriteCityEvent;
+use App\Events\ChangeInFavoriteCityEvent;
 use App\Models\City;
 use App\Models\CityAlternativeName;
 use App\Models\CityProvider;
@@ -78,7 +78,7 @@ abstract class DataImporter
     protected function createProvider(int $cityId, string $providerName): void
     {
         if (!CityProvider::query()->where("city_id", $cityId)->where("provider_name", $providerName)->exists()) {
-            event(new ChangeInFavouriteCityEvent($cityId, $providerName, "added to"));
+            event(new ChangeInFavoriteCityEvent($cityId, $providerName, "added to"));
         }
         CityProvider::query()->updateOrCreate([
             "city_id" => $cityId,
@@ -96,7 +96,7 @@ abstract class DataImporter
             ->get();
 
         foreach ($cityProvidersToDelete as $cityProvider) {
-            event(new ChangeInFavouriteCityEvent($cityProvider->city_id, $providerName, "removed from"));
+            event(new ChangeInFavoriteCityEvent($cityProvider->city_id, $providerName, "removed from"));
         }
 
         $cityProvidersToDelete->each(fn($cityProvider) => $cityProvider->delete());

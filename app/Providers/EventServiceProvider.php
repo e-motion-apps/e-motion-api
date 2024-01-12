@@ -19,8 +19,8 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        'App\Events\ChangeInFavouriteCityEvent' => [
-            'App\Listeners\ChangeInFavouriteCityListener',
+        'App\Events\ChangeInFavoriteCityEvent' => [
+            'App\Listeners\ChangeInFavoriteCityListener',
         ],
     ];
 

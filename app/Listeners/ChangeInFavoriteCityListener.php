@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Listeners;
 
-use App\Mail\ChangeInFavourites;
 use App\Models\City;
 use App\Models\User;
-use Illuminate\Support\Facades\Mail;
+use App\Notifications\ChangeInFavoriteCity;
+use Illuminate\Support\Facades\Notification;
 
-class ChangeInFavouriteCityListener
+class ChangeInFavoriteCityListener
 {
     /**
      * Create the event listener.
@@ -26,8 +26,6 @@ class ChangeInFavouriteCityListener
         })->get();
         $city_name = City::query()->where("id", $event->city_id)->first()->name;
 
-        foreach ($users as $user) {
-            Mail::to($user->email)->send(new ChangeInFavourites($city_name, $event->provider_name, $event->change));
-        }
+        Notification::send($users, new ChangeInFavoriteCity($city_name, $event->provider_name, $event->change));
     }
 }
