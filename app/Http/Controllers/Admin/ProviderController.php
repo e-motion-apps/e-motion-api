@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\ProviderRequest;
 use App\Http\Resources\ProviderResource;
 use App\Models\Provider;
@@ -17,6 +18,7 @@ class ProviderController extends Controller
     public function index(): Response
     {
         $providers = Provider::query()
+            ->search("name")
             ->orderByName()
             ->orderByTimeRange()
             ->paginate(15)

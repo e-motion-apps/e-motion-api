@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\CityAlternativeNameController;
 use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\CountryController;
 use App\Http\Controllers\Admin\ImportInfoController;
+use App\Http\Controllers\Admin\ProviderController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChangeLocaleController;
 use App\Http\Controllers\CityOpinionController;
@@ -14,7 +15,6 @@ use App\Http\Controllers\CityProviderController;
 use App\Http\Controllers\CityWithoutAssignedCountryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FavoritesController;
-use App\Http\Controllers\ProviderController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware("guest")->group(function (): void {
