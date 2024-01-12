@@ -112,7 +112,6 @@ function goToWebsite(url) {
     <span class="flex flex-wrap">
       <button
         class="mx-0.5 mb-1 flex w-fit shrink-0 items-center rounded py-1 pr-2 text-gray-200 hover:bg-blumilk-25"
-        @click=""
       >
         <PencilIcon class="h-5 w-8 text-gray-200" />
         {{ __('Edit') }}

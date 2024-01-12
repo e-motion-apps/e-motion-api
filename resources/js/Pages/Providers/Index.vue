@@ -147,7 +147,7 @@ const formattedName = computed({
 
           <div class="mb-3 mt-4 flex flex-wrap items-center justify-end md:justify-between">
             <button
-              class="mr-1 rounded bg-gray-200 px-5 py-3 text-sm font-medium text-white shadow-md hover:bg-gray-300 md:py-2" @click=""
+              class="mr-1 rounded bg-gray-200 px-5 py-3 text-sm font-medium text-white shadow-md hover:bg-gray-300 md:py-2"
             >
               {{ __('Create provider') }}
             </button>
