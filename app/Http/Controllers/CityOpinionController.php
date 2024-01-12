@@ -22,7 +22,7 @@ class CityOpinionController extends Controller
     {
         $opinion = $request->only(["rating", "content", "city_id"]);
 
-        if ($cityOpinion->user_id === Auth::id() || Auth::user()->hasRole("admin")) {
+        if ($cityOpinion->user_id === Auth::id()) {
             $cityOpinion->update($opinion);
         } else {
             abort(403);
