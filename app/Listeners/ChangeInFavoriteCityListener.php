@@ -11,14 +11,9 @@ use Illuminate\Support\Facades\Notification;
 
 class ChangeInFavoriteCityListener
 {
-    /**
-     * Create the event listener.
-     */
+
     public function __construct() {}
 
-    /**
-     * Handle the event.
-     */
     public function handle(object $event): void
     {
         $users = User::query()->whereHas("favorites", function ($query) use ($event): void {
