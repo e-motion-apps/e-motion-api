@@ -33,7 +33,7 @@ class CityOpinionController extends Controller
     {
         if ($cityOpinion->user_id === Auth::id() || Auth::user()->hasRole("admin")) {
             $cityOpinion->delete();
-        }else{
+        } else {
             abort(403);
         }
     }
