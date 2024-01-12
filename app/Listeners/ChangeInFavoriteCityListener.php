@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Notification;
 
 class ChangeInFavoriteCityListener
 {
-
     public function __construct() {}
 
     public function handle(object $event): void

@@ -25,7 +25,6 @@ class ChangeInFavoriteCity extends Notification
         $this->url = env("APP_URL");
     }
 
-
     public function via(object $notifiable): array
     {
         return ["mail"];
@@ -38,7 +37,6 @@ class ChangeInFavoriteCity extends Notification
             ->line("$this->provider has been $this->change $this->city")
             ->action("Learn more", url($this->url));
     }
-
 
     public function toArray(object $notifiable): array
     {

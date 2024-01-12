@@ -16,7 +16,6 @@ class ChangeInFavoriteCityEvent
     use SerializesModels;
 
     public int $city_id;
-
     public string $provider_name;
     public string $change;
 
@@ -26,7 +25,6 @@ class ChangeInFavoriteCityEvent
         $this->provider_name = $provider_name;
         $this->change = $change;
     }
-
 
     public function broadcastOn(): array
     {
