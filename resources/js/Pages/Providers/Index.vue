@@ -3,7 +3,7 @@ import Provider from '../../Shared/Components/Provider.vue'
 import { router, useForm, usePage } from '@inertiajs/vue3'
 import { computed, ref, watch } from 'vue'
 import AdminNavigation from '@/Shared/Layout/AdminNavigation.vue'
-import { ChevronDownIcon, MagnifyingGlassIcon, XMarkIcon } from '@heroicons/vue/24/outline'
+import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 import ErrorMessage from '@/Shared/Components/ErrorMessage.vue'
 import { onClickOutside } from '@vueuse/core'
 import { debounce } from 'lodash/function'
@@ -14,15 +14,17 @@ import { useToast } from 'vue-toastification'
 import { __ } from '@/translate'
 import UploadFileButton from '../../Shared/Components/UploadFileButton.vue'
 
+
 const page = usePage()
 const toast = useToast()
 
 const props = defineProps({
   providers: Object,
+  errors: Object,
 })
 
 function storeProvider() {
-  storeProviderForm.post('/admin/providers', {
+  storeProviderForm.post('/admin/providers/', {
     onSuccess: () => {
       storeProviderForm.reset()
       toast.success(__('Provider created successfully.'))
@@ -62,19 +64,9 @@ function clearInput() {
   searchInput.value = ''
 }
 
-const sortingOptions = [
-  { name: 'Latest', href: '/admin/providers?order=latest' },
-  { name: 'Oldest', href: '/admin/providers?order=oldest' },
-  { name: 'By name', href: '/admin/providers?order=name' },
-]
-
 const isSortDialogOpened = ref(false)
 const sortDialog = ref(null)
 onClickOutside(sortDialog, () => (isSortDialogOpened.value = false))
-
-function toggleSortDialog() {
-  isSortDialogOpened.value = !isSortDialogOpened.value
-}
 
 const formattedColor = computed({
   get() {
@@ -155,8 +147,7 @@ const formattedName = computed({
 
           <div class="mb-3 mt-4 flex flex-wrap items-center justify-end md:justify-between">
             <button
-              class="mr-1 rounded bg-gray-200 px-5 py-3 text-sm font-medium text-white shadow-md hover:bg-gray-300 md:py-2"
-              @click=""
+              class="mr-1 rounded bg-gray-200 px-5 py-3 text-sm font-medium text-white shadow-md hover:bg-gray-300 md:py-2" @click=""
             >
               {{ __('Create provider') }}
             </button>
