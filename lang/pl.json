@@ -26,7 +26,7 @@
     "Sorry we couldn't find any cities.": "Przepraszamy, ale nie mogliśmy znaleźć żadnych miast.",
     "Sorry we couldn't find any countries.": "Przepraszamy, ale nie mogliśmy znaleźć żadnych krajów.",
     "advert1": "Jest wielu dostawców hulajnóg elektrycznych, więc czasami można poczuć pewne niepewności co do tego, których aplikacji powinno się używać podczas swoich podróży.",
-    "advert2": "Ta aplikacja pomoże Ci z planowaniem Twoich wakacji, lub podróży biznesowych.",
+    "advert2": "Ta aplikacja pomoże Ci z planowaniem Twoich wakacji lub podróży biznesowych.",
     "Edit": "Edytuj",
     "Delete": "Usuń",
     "Cancel": "Anuluj",
@@ -150,7 +150,5 @@
     "Please, rate that city": "Oceń miasto",
 
     "You can also login by:": "Możesz również zalogować się przez:",
-    "Found": "Znaleziono",
-    "results234": "wyniki",
-    "result": "wynik"
+    "Results found": "Znaleziono wyników"
 }
