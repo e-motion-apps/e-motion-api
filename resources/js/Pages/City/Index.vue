@@ -2,8 +2,8 @@
 import Nav from '@/Shared/Layout/Nav.vue'
 import Map from '@/Shared/Layout/Map.vue'
 import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
-import { computed, onUnmounted, ref } from 'vue'
-import { MapIcon, XMarkIcon, StarIcon, PaperAirplaneIcon } from '@heroicons/vue/24/outline'
+import { computed, onUnmounted, ref, reactive } from 'vue'
+import { MapIcon, XMarkIcon, StarIcon, PaperAirplaneIcon, ArrowDownIcon } from '@heroicons/vue/24/outline'
 import { useFilterStore } from '@/Shared/Stores/FilterStore'
 import FavoriteButton from '@/Shared/Components/FavoriteButton.vue'
 import ProviderIcons from '@/Shared/Components/ProviderIcons.vue'
@@ -16,9 +16,9 @@ import InfoPopup from '@/Shared/Components/InfoPopup.vue'
 import Opinion from '@/Shared/Components/Opinion.vue'
 
 const toast = useToast()
-
 const page = usePage()
 const isAuth = computed(() => page.props.auth.isAuth)
+const regulationsOpen = ref(false)
 
 const props = defineProps({
   city: Object,
@@ -58,6 +58,11 @@ function setRating(starIndex) {
   opinionForm.rating = starIndex
 }
 
+function toggleRegulations() {
+  regulationsOpen.value = !regulationsOpen.value
+  console.log(regulationsOpen)
+}
+
 const emptyRatingError = ref('')
 
 function createOpinion() {
@@ -79,7 +84,6 @@ function createOpinion() {
 }
 
 </script>
-
 <template>
   <div class="flex h-screen flex-col">
     <Nav ref="nav" class="z-30" />
@@ -107,7 +111,10 @@ function createOpinion() {
             {{ city.latitude }}, {{ city.longitude }}
           </h2>
           <ProviderIcons class="pt-4" :item="city" :providers="props.providers" />
-
+          <div class="regulations relative rounded overflow-hidden">
+            <div class="mt-3 text-2xl font-bold flex items-center text-gray-700 cursor-pointer" @click="toggleRegulations()">{{ __('Regulations') }} <ArrowDownIcon :class="regulationsOpen ? 'rotated' : ''" class="absolute right-0 inline-block transition-all h-6 w-6"></ArrowDownIcon></div>
+            <div :class="regulationsOpen?'show':''" class="transition overflow-hidden">Content</div>
+          </div>
           <form v-if="isAuth" class="mt-8 flex flex-col" @submit.prevent="createOpinion">
             <p class="mb-2 text-xs font-medium text-gray-700">
               {{ __('Add opinion') }}

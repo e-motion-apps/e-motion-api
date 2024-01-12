@@ -27,5 +27,21 @@
     .scrollbar::-webkit-scrollbar-thumb:hover {
         background: #d3d3d3;
     }
+    div.regulations>div:nth-child(2) {
+        max-height: 0vh;
+        margin-top: 12px;
+    }
+
+    div.regulations>div:nth-child(2).show {
+        max-height: 50vh;
+    }
+
+    div.regulations>div>svg {
+        transform: rotate(0deg);
+    }
+
+    div.regulations>div>svg.rotated {
+        transform: rotate(-180deg);
+    }
   }
 
