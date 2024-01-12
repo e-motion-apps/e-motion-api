@@ -16,7 +16,6 @@ import InfoPopup from '@/Shared/Components/InfoPopup.vue'
 import Opinion from '@/Shared/Components/Opinion.vue'
 
 const toast = useToast()
-
 const page = usePage()
 const isAuth = computed(() => page.props.auth.isAuth)
 
