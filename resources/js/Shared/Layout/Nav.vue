@@ -56,11 +56,6 @@ const navigation = computed(() => {
   if (isAuth.value) {
     return [
       { name: 'Favorite cities', href: '/favorite-cities' },
-      { name: 'Rules', href: '/rules' },
-    ]
-  } else {
-    return [
-      { name: 'Rules', href: '/rules' },
     ]
   }
 })
