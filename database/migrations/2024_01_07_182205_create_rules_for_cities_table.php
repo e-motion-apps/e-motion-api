@@ -25,8 +25,8 @@ return new class() extends Migration {
                 ->on("countries")
                 ->onDelete("cascade");
 
-            $table->text("rulesENG");
-            $table->text("rulesPL");
+            $table->text("rulesENG")->nullable();
+            $table->text("rulesPL")->nullable();
         });
     }
 
