@@ -64,6 +64,8 @@ function toggleRegulations() {
   console.log(regulationsOpen)
 }
 
+console.log(props.city)
+
 function fetchRegulations() {
   axios.get(`/api/rules/{city.country.name}/{city.name}`)
     .then(response => {

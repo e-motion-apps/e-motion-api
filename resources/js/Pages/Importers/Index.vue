@@ -22,8 +22,8 @@ function runImporters() {
 }
 
 function runRules() {
-  router.post('/rules/import-rules/false', [])
-  toast.success(__('Rules started.'))
+  router.post('/import-rules/false', [])
+  toast.success(__('Rules import started.'))
 }
 </script>
 
@@ -37,7 +37,7 @@ function runRules() {
           {{ __('Run importers') }}
         </button>
         <button class="my-5 w-fit rounded bg-blumilk-500 px-5 py-3 text-sm font-medium text-white shadow-md hover:bg-blumilk-400 md:py-2" @click="runRules">
-          {{ __('Run rules') }}
+          {{ __('Run rules import') }}
         </button>
         </div>
 
