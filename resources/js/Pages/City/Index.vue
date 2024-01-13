@@ -21,10 +21,7 @@ const toast = useToast()
 const page = usePage()
 const isAuth = computed(() => page.props.auth.isAuth)
 const regulationsOpen = ref(false)
-const rules = {
-    pl: 'Regulamin',
-    en: 'Regulations',
-  }
+const rules = reactive({pl:'', en:''})
 
 fetchRegulations()
 const props = defineProps({
@@ -34,7 +31,7 @@ const props = defineProps({
 })
 
 const currentLocale = ref(computed(() => page.props.locale))
-const currentRules = computed(()=>rules[currentLocale.value]);
+const currentRules = ref(computed(()=>rules[currentLocale.value]));
 
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const isMobile = ref(breakpoints.smaller('lg'))
@@ -70,7 +67,7 @@ function setRating(starIndex) {
 
 function toggleRegulations() {
   regulationsOpen.value = !regulationsOpen.value
-  console.log(rules[currentLocale.value])
+  
 }
 
 function fetchRegulations() {
