@@ -23,6 +23,7 @@ class AuthController extends Controller
             "name" => $request->input("name"),
             "email" => $request->input("email"),
             "password" => Hash::make($request->input("password")),
+            "logged_by" => "registration",
         ]);
 
         Auth::login($user);
@@ -70,6 +71,7 @@ class AuthController extends Controller
             ], [
                 "name" => $user->getName(),
                 "password" => Hash::make(Str::password(8)),
+                "logged_by" => "socialmedia",
             ]);
 
             Auth::login($user);

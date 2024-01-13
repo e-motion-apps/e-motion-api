@@ -15,6 +15,7 @@ class RegisterRequest extends FormRequest
             "name" => ["required", "string", "max:60"],
             "email" => ["required", "string", "email", "max:255", "unique:users"],
             "password" => ["required", Password::defaults()],
+            "logged_by" => ["string", "max:20"],
         ];
     }
 }
