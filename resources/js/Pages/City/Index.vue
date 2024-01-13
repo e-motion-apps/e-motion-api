@@ -62,10 +62,7 @@ function setRating(starIndex) {
 
 function toggleRegulations() {
   regulationsOpen.value = !regulationsOpen.value
-  console.log(regulationsOpen)
 }
-
-console.log(props.city)
 
 function fetchRegulations() {
   axios.get(`/api/rules/`+props.city.country.name+`/`+props.city.name)
