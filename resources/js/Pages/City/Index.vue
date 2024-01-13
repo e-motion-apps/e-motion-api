@@ -20,7 +20,8 @@ const toast = useToast()
 const page = usePage()
 const isAuth = computed(() => page.props.auth.isAuth)
 const regulationsOpen = ref(false)
-
+let rules = ref({})
+fetchRegulations()
 const props = defineProps({
   city: Object,
   providers: Object,
@@ -67,9 +68,9 @@ function toggleRegulations() {
 console.log(props.city)
 
 function fetchRegulations() {
-  axios.get(`/api/rules/{city.country.name}/{city.name}`)
+  axios.get(`/api/rules/`+props.city.country.name+`/`+props.city.name)
     .then(response => {
-      console.log(response.data)
+      rules = response.data
     })
     .catch(error => {
       console.log(error)
@@ -126,7 +127,7 @@ function createOpinion() {
           <ProviderIcons class="pt-4" :item="city" :providers="props.providers" />
           <div class="regulations relative rounded border-gray-200 border-solid border-[1px] overflow-hidden">
             <div class="my-3 text-2xl font-bold flex items-center text-gray-700 cursor-pointer" @click="toggleRegulations()">{{ __('Regulations') }} <ArrowDownIcon :class="regulationsOpen ? 'rotated' : ''" class="absolute right-0 inline-block transition-all h-6 w-6"></ArrowDownIcon></div>
-            <div :class="regulationsOpen?'show':''" class="overflow-scroll transition">~~~Content~~~</div>
+            <div :class="regulationsOpen?'show':''" class="overflow-scroll transition">{{ rules.rulesENG }}</div>
           </div>
           <form v-if="isAuth" class="mt-8 flex flex-col" @submit.prevent="createOpinion">
             <p class="mb-2 text-xs font-medium text-gray-700">
