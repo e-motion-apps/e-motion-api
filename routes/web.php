@@ -21,7 +21,7 @@ Route::middleware("guest")->group(function (): void {
     Route::post("/register", [AuthController::class, "store"])->name("register");
 
     Route::get("/login/{provider}", [AuthController::class, "redirectToProvider"])->name("login.provider");
-    Route::get("/login/{provider}/redirect", [AuthController::class, "handleProviderRedirect"]);
+    Route::get("/login/{provider}/redirect", [AuthController::class, "handleProviderRedirect"])->name("login.provider.redirect");
 });
 
 Route::middleware("auth")->group(function (): void {
@@ -47,7 +47,7 @@ Route::middleware("auth")->group(function (): void {
         Route::delete("/delete-city-without-assigned-country/{city}", [CityWithoutAssignedCountryController::class, "destroy"]);
         Route::post("/delete-all-cities-without-assigned-country", [CityWithoutAssignedCountryController::class, "destroyAll"]);
 
-        Route::post("/import-rules/{force}", [\App\Services\OpenAIService::class, "importRulesForAllCities"]);
+        Route::get("/import-rules/{force}", [\App\Services\OpenAIService::class, "importRulesForAllCities"]);
     });
 });
 

@@ -111,7 +111,7 @@ function createOpinion() {
     <Nav ref="nav" class="z-30" />
 
     <div class="mt-16 flex grow flex-col lg:flex-row">
-      <div v-if="isDesktop || !shouldShowMap" class="grow lg:w-1/2">
+      <div v-if="isDesktop || !shouldShowMap" class="relative grow lg:w-1/2">
         <div class="mx-auto mt-4 flex w-11/12 flex-col sm:mt-12">
           <div class="flex items-end justify-between md:items-center">
             <h1 class="flex text-4xl font-bold md:text-5xl">
@@ -134,7 +134,7 @@ function createOpinion() {
           </h2>
           <ProviderIcons class="pt-4" :item="city" :providers="props.providers" />
           <div class="px-3 regulations relative rounded border-gray-200 border-solid border-[1px] overflow-hidden">
-            <div class="my-3 text-2xl font-bold flex items-center text-gray-700 cursor-pointer" @click="toggleRegulations()">{{ __('Regulations') }} <ArrowDownIcon :class="regulationsOpen ? 'rotated' : ''" class="absolute right-3 inline-block transition-all h-6 w-6"></ArrowDownIcon></div>
+            <div class="my-3 text-2xl font-bold flex items-center text-gray-700 cursor-pointer" @click="toggleRegulations()">{{ __('Rules') }} <ArrowDownIcon :class="regulationsOpen ? 'rotated' : ''" class="absolute right-3 inline-block transition-all h-6 w-6"></ArrowDownIcon></div>
             <div :class="regulationsOpen?'show':''" class="overflow-scroll transition">{{ currentRules }}</div>
           </div>
           <form v-if="isAuth" class="mt-8 flex flex-col" @submit.prevent="createOpinion">
