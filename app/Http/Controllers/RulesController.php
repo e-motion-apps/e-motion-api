@@ -13,6 +13,9 @@ class RulesController
 {
     public function getRules($country, $city): array
     {
+        $city = ucfirst($city);
+        $country = ucfirst($country);
+
         $country_id = Country::query()
             ->where("name", $country)
             ->first()->id;
