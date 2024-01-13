@@ -8,12 +8,13 @@ import { useFilterStore } from '@/Shared/Stores/FilterStore'
 import FavoriteButton from '@/Shared/Components/FavoriteButton.vue'
 import ProviderIcons from '@/Shared/Components/ProviderIcons.vue'
 import { __ } from '@/translate'
-import { useForm, usePage } from '@inertiajs/vue3'
+import { router, useForm, usePage } from '@inertiajs/vue3'
 import ErrorMessage from '@/Shared/Components/ErrorMessage.vue'
 import { useToast } from 'vue-toastification'
 import Pagination from '@/Shared/Components/Pagination.vue'
 import InfoPopup from '@/Shared/Components/InfoPopup.vue'
 import Opinion from '@/Shared/Components/Opinion.vue'
+import axios from 'axios'
 
 const toast = useToast()
 const page = usePage()
@@ -61,6 +62,16 @@ function setRating(starIndex) {
 function toggleRegulations() {
   regulationsOpen.value = !regulationsOpen.value
   console.log(regulationsOpen)
+}
+
+function fetchRegulations() {
+  axios.get(`/api/rules/{city.country.name}/{city.name}`)
+    .then(response => {
+      console.log(response.data)
+    })
+    .catch(error => {
+      console.log(error)
+    })
 }
 
 const emptyRatingError = ref('')
