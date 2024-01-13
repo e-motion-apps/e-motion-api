@@ -33,12 +33,12 @@ function runRules() {
     <div class="mt-16 flex h-full w-full flex-col justify-between md:mt-0 md:w-2/3 lg:w-3/4 xl:w-5/6">
       <div class="m-4 flex flex-col lg:mx-8">
         <div class="m-4">
-        <button class="my-5 mr-10 w-fit rounded bg-blumilk-500 px-5 py-3 text-sm font-medium text-white shadow-md hover:bg-blumilk-400 md:py-2" @click="runImporters">
-          {{ __('Run importers') }}
-        </button>
-        <button class="my-5 w-fit rounded bg-blumilk-500 px-5 py-3 text-sm font-medium text-white shadow-md hover:bg-blumilk-400 md:py-2" @click="runRules">
-          {{ __('Run rules import') }}
-        </button>
+          <button class="my-5 mr-10 w-fit rounded bg-blumilk-500 px-5 py-3 text-sm font-medium text-white shadow-md hover:bg-blumilk-400 md:py-2" @click="runImporters">
+            {{ __('Run importers') }}
+          </button>
+          <button class="my-5 w-fit rounded bg-blumilk-500 px-5 py-3 text-sm font-medium text-white shadow-md hover:bg-blumilk-400 md:py-2" @click="runRules">
+            {{ __('Run rules import') }}
+          </button>
         </div>
 
         <PaginationInfo v-if="importInfo.data.length" :meta="importInfo.meta" />

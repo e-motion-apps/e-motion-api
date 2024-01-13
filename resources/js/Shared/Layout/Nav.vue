@@ -57,6 +57,9 @@ const navigation = computed(() => {
     return [
       { name: 'Favorite cities', href: '/favorite-cities' },
     ]
+  } else {
+    return [
+    ]
   }
 })
 

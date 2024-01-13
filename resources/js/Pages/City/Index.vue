@@ -8,7 +8,7 @@ import { useFilterStore } from '@/Shared/Stores/FilterStore'
 import FavoriteButton from '@/Shared/Components/FavoriteButton.vue'
 import ProviderIcons from '@/Shared/Components/ProviderIcons.vue'
 import { __ } from '@/translate'
-import { router, useForm, usePage } from '@inertiajs/vue3'
+import { useForm, usePage } from '@inertiajs/vue3'
 import ErrorMessage from '@/Shared/Components/ErrorMessage.vue'
 import { useToast } from 'vue-toastification'
 import Pagination from '@/Shared/Components/Pagination.vue'
@@ -21,7 +21,7 @@ const toast = useToast()
 const page = usePage()
 const isAuth = computed(() => page.props.auth.isAuth)
 const regulationsOpen = ref(false)
-const rules = reactive({pl:'', en:''})
+const rules = reactive({ pl: '', en: '' })
 
 fetchRegulations()
 const props = defineProps({
@@ -31,7 +31,7 @@ const props = defineProps({
 })
 
 const currentLocale = ref(computed(() => page.props.locale))
-const currentRules = ref(computed(()=>rules[currentLocale.value]));
+const currentRules = ref(computed(()=>rules[currentLocale.value]))
 
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const isMobile = ref(breakpoints.smaller('lg'))
@@ -71,7 +71,7 @@ function toggleRegulations() {
 }
 
 function fetchRegulations() {
-  axios.get(`/api/rules/`+props.city.country.name+`/`+props.city.name)
+  axios.get('/api/rules/'+props.city.country.name+'/'+props.city.name)
     .then(response => {
       rules.pl= response.data.rulesPL
       rules.en = response.data.rulesENG
@@ -103,6 +103,7 @@ function createOpinion() {
 }
 
 </script>
+
 <template>
   <div class="flex h-screen flex-col">
     <Nav ref="nav" class="z-30" />
@@ -130,9 +131,13 @@ function createOpinion() {
             {{ city.latitude }}, {{ city.longitude }}
           </h2>
           <ProviderIcons class="pt-4" :item="city" :providers="props.providers" />
-          <div class="px-3 regulations relative rounded border-gray-200 border-solid border-[1px] overflow-hidden">
-            <div class="my-3 text-2xl font-bold flex items-center text-gray-700 cursor-pointer" @click="toggleRegulations()">{{ __('Rules') }} <ArrowDownIcon :class="regulationsOpen ? 'rotated' : ''" class="absolute right-3 inline-block transition-all h-6 w-6"></ArrowDownIcon></div>
-            <div :class="regulationsOpen?'show':''" class="overflow-scroll transition">{{ currentRules }}</div>
+          <div class="regulations relative overflow-hidden rounded border-[1px] border-solid border-gray-200 px-3">
+            <div class="my-3 flex cursor-pointer items-center text-2xl font-bold text-gray-700" @click="toggleRegulations()">
+              {{ __('Rules') }} <ArrowDownIcon :class="regulationsOpen ? 'rotated' : ''" class="absolute right-3 inline-block h-6 w-6 transition-all" />
+            </div>
+            <div :class="regulationsOpen?'show':''" class="overflow-scroll transition">
+              {{ currentRules }}
+            </div>
           </div>
           <form v-if="isAuth" class="mt-8 flex flex-col" @submit.prevent="createOpinion">
             <p class="mb-2 text-xs font-medium text-gray-700">
