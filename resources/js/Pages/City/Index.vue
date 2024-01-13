@@ -16,17 +16,25 @@ import InfoPopup from '@/Shared/Components/InfoPopup.vue'
 import Opinion from '@/Shared/Components/Opinion.vue'
 import axios from 'axios'
 
+
 const toast = useToast()
 const page = usePage()
 const isAuth = computed(() => page.props.auth.isAuth)
 const regulationsOpen = ref(false)
-let rules = ref({})
+const rules = {
+    pl: 'Regulamin',
+    en: 'Regulations',
+  }
+
 fetchRegulations()
 const props = defineProps({
   city: Object,
   providers: Object,
   cityOpinions: Object,
 })
+
+const currentLocale = ref(computed(() => page.props.locale))
+const currentRules = computed(()=>rules[currentLocale.value]);
 
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const isMobile = ref(breakpoints.smaller('lg'))
@@ -62,12 +70,14 @@ function setRating(starIndex) {
 
 function toggleRegulations() {
   regulationsOpen.value = !regulationsOpen.value
+  console.log(rules[currentLocale.value])
 }
 
 function fetchRegulations() {
   axios.get(`/api/rules/`+props.city.country.name+`/`+props.city.name)
     .then(response => {
-      rules = response.data
+      rules.pl= response.data.rulesPL
+      rules.en = response.data.rulesENG
     })
     .catch(error => {
       console.log(error)
@@ -92,6 +102,7 @@ function createOpinion() {
       },
     })
   }
+  
 }
 
 </script>
@@ -124,7 +135,7 @@ function createOpinion() {
           <ProviderIcons class="pt-4" :item="city" :providers="props.providers" />
           <div class="px-3 regulations relative rounded border-gray-200 border-solid border-[1px] overflow-hidden">
             <div class="my-3 text-2xl font-bold flex items-center text-gray-700 cursor-pointer" @click="toggleRegulations()">{{ __('Regulations') }} <ArrowDownIcon :class="regulationsOpen ? 'rotated' : ''" class="absolute right-3 inline-block transition-all h-6 w-6"></ArrowDownIcon></div>
-            <div :class="regulationsOpen?'show':''" class="overflow-scroll transition">{{ rules.rulesENG }}</div>
+            <div :class="regulationsOpen?'show':''" class="overflow-scroll transition">{{ currentRules }}</div>
           </div>
           <form v-if="isAuth" class="mt-8 flex flex-col" @submit.prevent="createOpinion">
             <p class="mb-2 text-xs font-medium text-gray-700">
