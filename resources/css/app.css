@@ -29,11 +29,13 @@
     }
     div.regulations>div:nth-child(2) {
         max-height: 0vh;
-        margin-top: 12px;
+        margin-bottom: 0px;
+        transition: all 0.5s ease-in-out;
     }
 
     div.regulations>div:nth-child(2).show {
         max-height: 50vh;
+        margin-bottom: 12px;
     }
 
     div.regulations>div>svg {
