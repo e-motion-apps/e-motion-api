@@ -21,7 +21,7 @@ class OpenAIService implements ShouldQueue
 
     public function importRulesForAllCities(bool $force): void
     {
-        $cities = City::query()->whereHas('cityProviders')->get();
+        $cities = City::query()->whereHas('cityProviders')->orderBy('country.name')->get();
         foreach ($cities as $city) {
             $cityData = [
                 "city_id" => $city->id,
@@ -56,7 +56,7 @@ class OpenAIService implements ShouldQueue
         $country_name = $cityData["country_name"];
 
         $promptENG = "Act as a helpful assistant. Explain what are the legal limitations for riding electric scooters in $city_name, $country_name? Contain information about: max speed, helmet requirements, allowed ABV, passengers, other relevant details. Be formal, speak English. Don't include city name in your response. If you don't have information answering the question, write 'null'";
-        $promptPL = "Zachowuj się jako pomocny asystent, wyjaśnij jakie są prawa dotyczące jazdy na hulajnogach elektrycznych w $city_name, $country_name? Zawrzyj informacje o: maksymalnej prędkości, potrzebie kasku, dozwolonym alkoholu we krwi, pasażerach, inne. Bądź formalny, mów po polsku. Nie zawieraj nazwy miasta w odpowiedzi. Jeśli nie masz informacji odpowiadających na pytanie, napisz 'null'";
+        $promptPL = "Zachowuj się jako pomocny asystent. wyjaśnij jakie są prawa dotyczące jazdy na hulajnogach elektrycznych w $city_name, $country_name? Zawrzyj informacje o: maksymalnej prędkości, potrzebie kasku, dozwolonym alkoholu we krwi, pasażerach, inne. Bądź formalny, mów po polsku. Nie zawieraj nazwy miasta w odpowiedzi. Jeśli nie masz informacji odpowiadających na pytanie, napisz 'null'";
 
         if (!$force) {
             $currentRules = Rules::query()->where("city_id", $city_id)->where("country_id", $country_id)->first();
@@ -89,6 +89,9 @@ class OpenAIService implements ShouldQueue
                 "rulesPL" => null,
             ];
         }
+
+        $rulesENG = str_replace("\n", "<br>", $rulesENG);
+        $rulesPL = str_replace("\n", "<br>", $rulesPL);
 
         Rules::query()->updateOrCreate([
             "city_id" => $city_id,

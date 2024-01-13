@@ -31,7 +31,7 @@ class RulesController
             ->where("city_id", $city->id)
             ->first();
 
-        if(!$rules || !$rules->rulesENG || !$rules->rulesPL){
+        if(!$rules || $rules->rulesENG === null || $rules->rulesPL === null){
             $cityData = [
                 "city_id" => $city->id,
                 "country_id" => $country_id,

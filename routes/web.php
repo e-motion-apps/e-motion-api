@@ -47,7 +47,7 @@ Route::middleware("auth")->group(function (): void {
         Route::delete("/delete-city-without-assigned-country/{city}", [CityWithoutAssignedCountryController::class, "destroy"]);
         Route::post("/delete-all-cities-without-assigned-country", [CityWithoutAssignedCountryController::class, "destroyAll"]);
 
-        Route::get("/import-rules/{force}", [\App\Services\OpenAIService::class, "importRules"]);
+        Route::get("/import-rules/{force}", [\App\Services\OpenAIService::class, "importRulesForAllCities"]);
     });
 });
 
