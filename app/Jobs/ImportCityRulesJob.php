@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Jobs;
 
 use App\Services\OpenAIService;
@@ -7,7 +9,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-
 
 class ImportCityRulesJob implements ShouldQueue
 {
@@ -23,14 +24,14 @@ class ImportCityRulesJob implements ShouldQueue
 
     public function __construct(array $cityData, $force)
     {
-    $this->cityId = $cityData["city_id"];
-    $this->countryId = $cityData["country_id"];
-    $this->cityName = $cityData["city_name"];
-    $this->countryName = $cityData["country_name"];
-    $this->force = $force;
+        $this->cityId = $cityData["city_id"];
+        $this->countryId = $cityData["country_id"];
+        $this->cityName = $cityData["city_name"];
+        $this->countryName = $cityData["country_name"];
+        $this->force = $force;
     }
 
-public function handle(OpenAIService $openAIService)
+    public function handle(OpenAIService $openAIService)
     {
         $cityData = [
             "city_id" => $this->cityId,
@@ -38,7 +39,7 @@ public function handle(OpenAIService $openAIService)
             "city_name" => $this->cityName,
             "country_name" => $this->countryName,
         ];
-        return  $openAIService->importRulesForCity($cityData, $this->force);
-    }
 
+        return $openAIService->importRulesForCity($cityData, $this->force);
+    }
 }

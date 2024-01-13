@@ -19,7 +19,8 @@ class RulesController
         $country_id = Country::query()
             ->where("name", $country)
             ->first()->id;
-        if(!$country_id){
+
+        if (!$country_id) {
             $country_id = Country::query()
                 ->where("alternative_name", $country)
                 ->first()->id;
@@ -31,7 +32,7 @@ class RulesController
             ->where("city_id", $city->id)
             ->first();
 
-        if(!$rules || $rules->rulesENG === null || $rules->rulesPL === null){
+        if (!$rules || $rules->rulesENG === null || $rules->rulesPL === null) {
             $cityData = [
                 "city_id" => $city->id,
                 "country_id" => $country_id,
@@ -39,8 +40,8 @@ class RulesController
                 "country_name" => $country,
             ];
             $importer = new OpenAIService();
-             $data = $importer->importRulesForCity($cityData, true);
-        }else{
+            $data = $importer->importRulesForCity($cityData, true);
+        } else {
             $data = [
                 "country" => $country,
                 "city" => $city->name,
@@ -48,8 +49,6 @@ class RulesController
                 "rulesPL" => $rules->rulesPL,
             ];
         }
-
-
 
         return $data;
     }
