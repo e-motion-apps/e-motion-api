@@ -154,5 +154,7 @@
     "Rules import started.": "Import zasad uruchomiony.",
     "Run rules import": "Uruchom import zasad",
 
-    "Found": "Znaleziono"
+    "Found": "Znaleziono",
+    "loading info about rules, please wait":"ładowanie informacji o zasadach, proszę czekać"
+
 }
