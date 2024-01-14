@@ -136,7 +136,7 @@ function createOpinion() {
               {{ __('Rules') }} <ArrowDownIcon :class="regulationsOpen ? 'rotated' : ''" class="absolute right-3 inline-block h-6 w-6 transition-all" />
             </div>
             <div v-if="currentRules == ''" :class="regulationsOpen ? 'show' : ''" class="overflow-scroll transition">
-              <i class="text-gray-400">{{ __('loading info about rules, please wait') }}...</i>
+              <i class="animate-pulse text-gray-400">{{ __('loading info about rules, please wait') }}...</i>
             </div>
             <div v-else :class="regulationsOpen ? 'show' : ''" class="overflow-scroll transition" style="white-space: pre-line;">
               {{ currentRules }}
