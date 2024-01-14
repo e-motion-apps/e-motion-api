@@ -138,7 +138,7 @@ function createOpinion() {
               <div v-if="currentRules == ''" :class="regulationsOpen ? 'show' : ''" class="overflow-scroll transition">
                 <i class="text-gray-400">{{ __('loading info about rules, please wait') }}...</i>
               </div>
-              <div v-else :class="regulationsOpen ? 'show' : ''" class="overflow-scroll transition">
+              <div v-else :class="regulationsOpen ? 'show' : ''" class="overflow-scroll transition" style="white-space: pre-line;">
                 {{ currentRules }}
               </div>
             </div>

@@ -90,9 +90,6 @@ class OpenAIService implements ShouldQueue
             ];
         }
 
-        $rulesENG = str_replace("\n", "<br>", $rulesENG);
-        $rulesPL = str_replace("\n", "<br>", $rulesPL);
-
         Rules::query()->updateOrCreate([
             "city_id" => $city_id,
             "country_id" => $country_id,
