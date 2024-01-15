@@ -18,13 +18,8 @@ class RulesController
 
         $country_id = Country::query()
             ->where("name", $country)
-            ->first()->id;
-
-        if (!$country_id) {
-            $country_id = Country::query()
-                ->where("alternative_name", $country)
-                ->first()->id;
-        }
+            ->orWhere("alternative_name", $country)
+             ->first()->id;
         $city = City::query()
             ->where("name", $city)->where("country_id", $country_id)
             ->first();
