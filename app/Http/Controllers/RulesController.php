@@ -40,7 +40,7 @@ class RulesController
             $data = [
                 "country" => $country,
                 "city" => $city->name,
-                "rulesENG" => $rules->rulesENG,
+                "rulesEN" => $rules->rulesENG,
                 "rulesPL" => $rules->rulesPL,
             ];
         }

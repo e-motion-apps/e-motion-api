@@ -74,7 +74,7 @@ function fetchRegulations() {
   axios.get('/api/rules/'+props.city.country.name+'/'+props.city.name)
     .then(response => {
       rules.pl= response.data.rulesPL
-      rules.en = response.data.rulesENG
+      rules.en = response.data.rulesEN
     })
     .catch(error => {
       console.log(error)
