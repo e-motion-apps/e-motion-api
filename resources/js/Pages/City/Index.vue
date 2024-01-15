@@ -131,7 +131,7 @@ function createOpinion() {
             {{ city.latitude }}, {{ city.longitude }}
           </h2>
           <ProviderIcons class="pt-4" :item="city" :providers="props.providers" />
-          <div class="regulations relative overflow-hidden rounded border-[1px] border-solid border-gray-200 px-3">
+          <div class="regulations relative overflow-hidden rounded border border-solid border-gray-200 px-3">
             <div class="my-3 flex cursor-pointer items-center text-2xl font-bold text-gray-700" @click="toggleRegulations()">
               {{ __('Rules') }} <ArrowDownIcon :class="regulationsOpen ? 'rotated' : ''" class="absolute right-3 inline-block h-6 w-6 transition-all" />
             </div>
