@@ -13,7 +13,7 @@ class ChangeInFavoriteCityListener
 {
     public function __construct() {}
 
-    public function handle(object $event): void
+    public function handle(\App\Events\ChangeInFavoriteCityEvent $event): void
     {
         $users = User::query()->whereHas("favorites", function ($query) use ($event): void {
             $query->where("city_id", $event->city_id);

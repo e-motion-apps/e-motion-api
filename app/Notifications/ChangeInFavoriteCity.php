@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Notifications;
 
+use App\Enums\ChangeInFavouriteCityEnum;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
@@ -12,17 +13,13 @@ class ChangeInFavoriteCity extends Notification
 {
     use Queueable;
 
-    private string $city;
-    private string $provider;
-    private string $change;
-    private string $url;
-
-    public function __construct($city, $provider, $change)
-    {
-        $this->city = $city;
-        $this->provider = $provider;
-        $this->change = $change;
-        $this->url = env("APP_URL");
+    public function __construct(
+        private string $city,
+        private string $provider,
+        private ChangeInFavouriteCityEnum $change,
+        private ?string $url = null,
+    ) {
+        $this->url = $url ?? config("app.url");
     }
 
     public function via(object $notifiable): array
@@ -32,15 +29,16 @@ class ChangeInFavoriteCity extends Notification
 
     public function toMail(object $notifiable): MailMessage
     {
+        $change_string = $this->change->value;
+
         return (new MailMessage())
             ->line("There has been a change in your favorite city.")
-            ->line("$this->provider has been $this->change $this->city")
+            ->line("$this->provider has been $change_string $this->city")
             ->action("Learn more", url($this->url));
     }
 
     public function toArray(object $notifiable): array
     {
-        return [
-        ];
+        return [];
     }
 }
