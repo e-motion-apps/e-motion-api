@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Http\Response as InertiaResponse;
 
 class ProviderController extends Controller
 {
@@ -63,7 +64,7 @@ class ProviderController extends Controller
         File::delete($imagePath);
     }
 
-    public function showLogo(string $filename): \Illuminate\Http\Response
+    public function showLogo(string $filename): InertiaResponse
     {
         $imagePath = storage_path("app/public/providers/" . $filename);
 
