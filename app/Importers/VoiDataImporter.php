@@ -15,7 +15,7 @@ class VoiDataImporter extends DataImporter
     public function extract(): static
     {
         try {
-            $response = $this->client->get("https://www.voi.com/locations");
+            $response = $this->client->get("https://www.voi.com/voi-technology");
             $html = $response->getBody()->getContents();
         } catch (GuzzleException) {
             $this->createImportInfoDetails("400", self::getProviderName());
@@ -26,7 +26,7 @@ class VoiDataImporter extends DataImporter
         }
 
         $crawler = new Crawler($html);
-        $this->sections = $crawler->filter("section.locations-list .holder > div > .s-col-6.col-4.mb-4");
+        $this->sections = $crawler->filter("div.css-whuqpi");
 
         if (count($this->sections) === 0) {
             $this->createImportInfoDetails("204", self::getProviderName());
@@ -47,13 +47,13 @@ class VoiDataImporter extends DataImporter
 
         foreach ($this->sections as $section) {
             foreach ($section->childNodes as $node) {
-                if ($node->nodeName === "h4") {
+                if ($node->nodeName === "button") {
                     $this->countryName = trim($node->nodeValue);
                 }
 
-                if ($node->nodeName === "ul") {
+                if ($node->nodeName === "div") {
                     foreach ($node->childNodes as $city) {
-                        if ($city->nodeName === "li") {
+                        if ($city->nodeName === "a") {
                             $cityName = trim($city->nodeValue);
 
                             $provider = $this->load($cityName, $this->countryName);
