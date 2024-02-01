@@ -1,5 +1,5 @@
 <script setup>
-import Provider from '@Shared/Components/Provider.vue'
+import Provider from '@/Shared/Components/Provider.vue'
 import { router, useForm, usePage } from '@inertiajs/vue3'
 import { computed, ref, watch } from 'vue'
 import AdminNavigation from '@/Shared/Layout/AdminNavigation.vue'
@@ -12,7 +12,7 @@ import PaginationInfo from '@/Shared/Components/PaginationInfo.vue'
 import PrimarySaveButton from '@/Shared/Components/PrimarySaveButton.vue'
 import { useToast } from 'vue-toastification'
 import { __ } from '@/translate'
-import UploadFileButton from '@Shared/Components/UploadFileButton.vue'
+import UploadFileButton from '@/Shared/Components/UploadFileButton.vue'
 
 
 const page = usePage()
