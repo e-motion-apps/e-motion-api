@@ -16,13 +16,15 @@ use Inertia\Response;
 
 class ProviderController extends Controller
 {
+    public const ITEMS_PER_PAGE = 15;
+
     public function index(): Response
     {
         $providers = Provider::query()
             ->search("name")
             ->orderByName()
             ->orderByTimeRange()
-            ->paginate(15)
+            ->paginate(self::ITEMS_PER_PAGE)
             ->withQueryString();
 
         return Inertia::render("Providers/Index", [
