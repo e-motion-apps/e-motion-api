@@ -1,6 +1,6 @@
 <script setup>
 import { Dialog, DialogPanel } from '@headlessui/vue'
-import { ChartBarIcon, ClipboardIcon, FlagIcon, MapPinIcon, PlayCircleIcon, TruckIcon } from '@heroicons/vue/24/solid'
+import { ClipboardIcon, FlagIcon, MapPinIcon, PlayCircleIcon, TruckIcon } from '@heroicons/vue/24/solid'
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 import { ref } from 'vue'
 import LanguageSwitch from '@/Shared/Components/LanguageSwitch.vue'
