@@ -11,22 +11,15 @@ import { breakpointsTailwind, onClickOutside, useBreakpoints } from '@vueuse/cor
 import { DynamicScroller, DynamicScrollerItem } from 'vue-virtual-scroller'
 import SelectedCity from '@/Shared/Components/SelectedCity.vue'
 import ProviderIcons from '@/Shared/Components/ProviderIcons.vue'
-
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const isDesktop = ref(breakpoints.greaterOrEqual('lg'))
-
-
 const filterStore = useFilterStore()
-
 const props = defineProps({
   cities: Array,
   providers: Array,
   countries: Array,
 })
-
 const isAuth = computed(() => usePage().props.auth.isAuth)
-
-
 const filteredCities = computed(() => {
   const selectedCountryId = filterStore.selectedCountry ? filterStore.selectedCountry.id : null
   const selectedProviderName = filterStore.selectedProviderName
@@ -46,7 +39,6 @@ const filteredCities = computed(() => {
     )
   }
 })
-
 const filteredProviders = computed(() => {
   const selectedCountryId = filterStore.selectedCountry ? filterStore.selectedCountry.id : null
 
@@ -63,11 +55,9 @@ const filteredProviders = computed(() => {
     )
   }
 })
-
 const filteredCountries = computed(() => {
   const selectedProviderName = filterStore.selectedProviderName
   const selectedCountryId = filterStore.selectedCountry ? filterStore.selectedCountry.id : null
-
   const cityMap = new Map()
 
   for (const city of props.cities) {
@@ -92,7 +82,6 @@ function filterCountry(country) {
     filterStore.changeSelectedCountry(country)
     filterStore.changeSelectedProvider(null)
   }
-
 
   if (!isIconFilterEnabled.value) {
     toggleCountryList()
@@ -126,7 +115,6 @@ function showCity(city) {
     filterStore.changeSelectedCity(city)
   }
 }
-
 const isCountryListOpened = ref(false)
 const countryList = ref(null)
 onClickOutside(countryList, () => (isCountryListOpened.value = false))
@@ -134,16 +122,13 @@ onClickOutside(countryList, () => (isCountryListOpened.value = false))
 function toggleCountryList() {
   isCountryListOpened.value = !isCountryListOpened.value
 }
-
 const isProviderListOpened = ref(false)
 const providerList = ref(null)
 onClickOutside(providerList, () => (isProviderListOpened.value = false))
 
-
 function toggleProviderList() {
   isProviderListOpened.value = !isProviderListOpened.value
 }
-
 const isIconFilterEnabled = ref(false)
 
 function changeFilter() {
@@ -163,7 +148,6 @@ function getProviderColor(providerName) {
 function goToCityPage(city) {
   router.get(`/${city.country.slug}/${city.slug}`)
 }
-
 const providerAutocomplete = ref('')
 const countryAutocomplete = ref('')
 
@@ -182,25 +166,20 @@ function rememberCountryAutocompleteValue() {
     countryAutocomplete.value = ''
   }
 }
-
 onMounted(() => {
   rememberProviderAutocompleteValue()
   rememberCountryAutocompleteValue()
-
   watch(() => filterStore.selectedProviderName, () => {
     rememberProviderAutocompleteValue()
   })
-
   watch(() => filterStore.selectedCountry, () => {
     rememberCountryAutocompleteValue()
   })
-
   watch(() => providerAutocomplete.value, () => {
     if (providerAutocomplete.value === '') {
       filterStore.changeSelectedProvider(null)
     }
   })
-
   watch(() => countryAutocomplete.value, () => {
     if (countryAutocomplete.value === '') {
       filterStore.changeSelectedCountry(null)
@@ -217,13 +196,11 @@ function clearCountryAutocompleteInput() {
   countryAutocomplete.value = ''
   toggleCountryList()
 }
-
 const filteredProviderSuggestions = computed(() => {
   return filteredProviders.value.filter(provider =>
     provider.name.toLowerCase().includes(providerAutocomplete.value.toLowerCase()),
   )
 })
-
 const filteredCountrySuggestions = computed(() => {
   return filteredCountries.value.filter(country =>
     country.name.toLowerCase().includes(countryAutocomplete.value.toLowerCase()),
@@ -250,7 +227,6 @@ function selectCountry(country) {
       <h1 v-if="isIconFilterEnabled" class="mb-1 text-[11px] font-medium text-gray-600">
         {{ __('Countries') }}
       </h1>
-
       <ul v-if="isIconFilterEnabled" role="list" class="scrollbar flex space-x-2 overflow-x-auto pb-2">
         <li v-for="country in filteredCountries" :key="country.id" class="col-span-1 flex cursor-pointer rounded-md"
             :class="{ 'opacity-25': !country.hasProvider }" @click="filterCountry(country)"
@@ -267,11 +243,9 @@ function selectCountry(country) {
           </div>
         </li>
       </ul>
-
       <h1 v-if="isIconFilterEnabled" class="mb-1 mt-4 text-[11px] font-medium text-gray-600">
         {{ __('Providers') }}
       </h1>
-
       <ul v-if="isIconFilterEnabled" role="list" class="scrollbar flex space-x-2 overflow-x-auto pb-2">
         <li v-for="provider in filteredProviders" :key="provider.name"
             class="col-span-1 flex cursor-pointer rounded-md"
@@ -294,7 +268,6 @@ function selectCountry(country) {
         </li>
       </ul>
     </div>
-
     <div v-if="!isIconFilterEnabled" class="px-2 lg:px-3">
       <div ref="countryList" class="relative">
         <div class="cursor-pointer rounded" @click="toggleCountryList">
@@ -314,7 +287,6 @@ function selectCountry(country) {
               <XMarkIcon class="h-5 w-5" />
             </button>
           </div>
-
           <ul v-if="isCountryListOpened" class="scrollbar absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm" role="listbox">
             <li
               v-for="country in filteredCountrySuggestions"
@@ -337,7 +309,6 @@ function selectCountry(country) {
           </ul>
         </div>
       </div>
-
       <div v-if="!isIconFilterEnabled" ref="providerList" class="relative mt-4">
         <div class="cursor-pointer rounded" @click="toggleProviderList">
           <div class="flex w-full rounded-xl shadow-sm">
@@ -348,7 +319,6 @@ function selectCountry(country) {
                 >
                   <img loading="lazy" class="w-5" :src="'/providers/' + filterStore.selectedProviderName.toLowerCase() + '.png'" alt="">
                 </div>
-
                 <TruckIcon v-else class="ml-1 h-6 w-6 text-gray-800" />
               </div>
               <input v-model.trim="providerAutocomplete" type="text"
@@ -361,7 +331,6 @@ function selectCountry(country) {
               <XMarkIcon class="h-5 w-5" />
             </button>
           </div>
-
           <ul v-if="isProviderListOpened" class="scrollbar absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm" role="listbox">
             <li
               v-for="provider in filteredProviderSuggestions"
@@ -386,7 +355,6 @@ function selectCountry(country) {
         </div>
       </div>
     </div>
-
     <div :class="isDesktop ? 'justify-between' : 'justify-end'"
          class="mb-4 mt-2 flex w-full flex-wrap px-2 lg:px-3"
     >
@@ -419,11 +387,10 @@ function selectCountry(country) {
     </div>
     <div class="mb-4 mt-2 w-full px-2 lg:px-3">
       <p class="text-slate-500 ">
-        {{ __('Found') }} {{ filteredCities.length }} {{ __('results') }}
+        {{ __('Results found') }}: {{ filteredCities.length }}
       </p>
     </div>
     <SelectedCity :providers="props.providers" />
-
     <DynamicScroller
       v-if="filteredCities.length"
       :items="filteredCities"
@@ -441,7 +408,6 @@ function selectCountry(country) {
           <div class="flex w-full justify-between px-2 py-6 pb-1 sm:flex-col sm:justify-start sm:pb-4 lg:px-3">
             <div class="flex w-max items-center">
               <i :class="item.country.iso" class="flat flag huge shrink-0" />
-
               <div class="ml-3 flex flex-col justify-start">
                 <p class="mr-2 origin-left break-all rounded-full font-bold transition-all duration-500 ease-out group-hover:text-gray-500">
                   {{ item.name }}
@@ -451,14 +417,11 @@ function selectCountry(country) {
                 </p>
               </div>
             </div>
-
             <div class="mt-0 flex w-fit items-center justify-end sm:ml-[64px] sm:mt-1 sm:justify-start">
               <div class="hover:drop-shadow">
                 <FavoriteButton v-if="isAuth" class="flex rounded-full py-0.5 hover:drop-shadow" :cityid="item.id" />
                 <InfoPopup v-else class="flex rounded-full py-0.5 hover:drop-shadow" />
               </div>
-
-
               <div class="ml-2 flex rounded-full py-0.5 text-blumilk-500 hover:drop-shadow" @click.stop="goToCityPage(item)">
                 <InformationCircleIcon class="h-8 w-8 hover:drop-shadow sm:h-6 sm:w-6" />
               </div>
@@ -468,7 +431,6 @@ function selectCountry(country) {
         </DynamicScrollerItem>
       </template>
     </DynamicScroller>
-
     <p v-else class="mt-8 flex justify-center font-medium text-gray-800">
       {{ __(`Didn't find any providers.`) }}
     </p>
