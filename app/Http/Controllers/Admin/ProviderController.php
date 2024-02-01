@@ -8,11 +8,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ProviderRequest;
 use App\Http\Resources\ProviderResource;
 use App\Models\Provider;
+use Illuminate\Http\Response as InertiaResponse;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
-use Illuminate\Http\Response as InertiaResponse;
 
 class ProviderController extends Controller
 {
