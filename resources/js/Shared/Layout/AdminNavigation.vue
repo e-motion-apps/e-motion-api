@@ -12,7 +12,6 @@ const navigation = [
   { name: 'Providers', href: '/admin/providers', icon: TruckIcon },
   { name: 'Countries', href: '/admin/countries', icon: FlagIcon },
   { name: 'Cities', href: '/admin/cities', icon: MapPinIcon },
-  { name: 'Statistics', href: '/admin/statistics', icon: ChartBarIcon },
 ]
 
 const isMobileMenuOpened = ref(false)

@@ -146,11 +146,11 @@ const formattedName = computed({
           </div>
 
           <div class="mb-3 mt-4 flex flex-wrap items-center justify-end md:justify-between">
-            <button
+            <div
               class="mr-1 rounded bg-gray-200 px-5 py-3 text-sm font-medium text-white shadow-md md:py-2"
             >
               {{ __('Create provider') }}
-            </button>
+            </div>
 
             <div class="m-1 flex w-full rounded-md shadow-sm md:w-fit">
               <div class="relative flex grow items-stretch focus-within:z-10">
