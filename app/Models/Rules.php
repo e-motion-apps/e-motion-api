@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Rules extends Model
 {
@@ -19,12 +20,12 @@ class Rules extends Model
         "rulesPL",
     ];
 
-    public function city()
+    public function city(): BelongsTo
     {
         return $this->belongsTo(City::class);
     }
 
-    public function country()
+    public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class);
     }

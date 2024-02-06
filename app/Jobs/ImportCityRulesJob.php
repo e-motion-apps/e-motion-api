@@ -16,30 +16,13 @@ class ImportCityRulesJob implements ShouldQueue
     use InteractsWithQueue;
     use SerializesModels;
 
-    private int $cityId;
-    private int $countryId;
-    private string $cityName;
-    private string $countryName;
-    private bool $force;
+    public function __construct(
+        private array $cityData,
+        private bool $force,
+    ) {}
 
-    public function __construct(array $cityData, $force)
+    public function handle(OpenAIService $openAIService): array
     {
-        $this->cityId = $cityData["city_id"];
-        $this->countryId = $cityData["country_id"];
-        $this->cityName = $cityData["city_name"];
-        $this->countryName = $cityData["country_name"];
-        $this->force = $force;
-    }
-
-    public function handle(OpenAIService $openAIService)
-    {
-        $cityData = [
-            "city_id" => $this->cityId,
-            "country_id" => $this->countryId,
-            "city_name" => $this->cityName,
-            "country_name" => $this->countryName,
-        ];
-
-        return $openAIService->importRulesForCity($cityData, $this->force);
+        return $openAIService->importRulesForCity($this->cityData, $this->force);
     }
 }
