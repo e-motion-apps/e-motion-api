@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Enums\ChangeInFavouriteCityEnum;
+use App\Events\ChangeInFavoriteCityEvent;
 use App\Models\City;
 use App\Models\CityProvider;
 
@@ -29,6 +31,9 @@ class CityProviderService
                 ]);
             }
 
+            if ($provider->wasRecentlyCreated) {
+                event(new ChangeInFavoriteCityEvent($city->id, $providerName, ChangeInFavouriteCityEnum::Added));
+            }
             $existingCityProviderNames[] = $providerName;
         }
 
@@ -37,6 +42,9 @@ class CityProviderService
             ->whereNotIn("provider_name", $existingCityProviderNames)
             ->get();
 
-        $cityProvidersToDelete->each(fn($cityProvider) => $cityProvider->delete());
+        foreach ($cityProvidersToDelete as $cityProvider) {
+            $cityProvider->delete();
+            event(new ChangeInFavoriteCityEvent($cityProvider->city_id, $cityProvider->provider_name, ChangeInFavouriteCityEnum::Removed));
+        }
     }
 }
