@@ -15,7 +15,7 @@ class Rules extends Model
     protected $fillable = [
         "city_id",
         "country_id",
-        "rulesENG",
+        "rulesEN",
         "rulesPL",
     ];
 

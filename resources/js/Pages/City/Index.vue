@@ -21,7 +21,7 @@ const toast = useToast()
 const page = usePage()
 const isAuth = computed(() => page.props.auth.isAuth)
 const regulationsOpen = ref(false)
-const rules = reactive({ pl: '', en: '' })
+const rules = reactive({pl:'<i class="text-gray-400">ładowanie informacji o zasadach, proszę czekać...</i>', en:'<i class="text-gray-400">loading info about rules, please wait...</i>'})
 
 fetchRegulations()
 const props = defineProps({
@@ -67,7 +67,7 @@ function setRating(starIndex) {
 
 function toggleRegulations() {
   regulationsOpen.value = !regulationsOpen.value
-  
+
 }
 
 function fetchRegulations() {
@@ -99,7 +99,7 @@ function createOpinion() {
       },
     })
   }
-  
+
 }
 
 </script>
@@ -131,15 +131,11 @@ function createOpinion() {
             {{ city.latitude }}, {{ city.longitude }}
           </h2>
           <ProviderIcons class="pt-4" :item="city" :providers="props.providers" />
-          <div class="regulations relative overflow-hidden rounded border border-solid border-gray-200 px-3">
+          <div class="regulations relative overflow-hidden rounded border-[1px] border-solid border-gray-200 px-3">
             <div class="my-3 flex cursor-pointer items-center text-2xl font-bold text-gray-700" @click="toggleRegulations()">
               {{ __('Rules') }} <ArrowDownIcon :class="regulationsOpen ? 'rotated' : ''" class="absolute right-3 inline-block h-6 w-6 transition-all" />
             </div>
-            <div v-if="currentRules == ''" :class="regulationsOpen ? 'show' : ''" class="overflow-scroll transition">
-              <i class="animate-pulse text-gray-400">{{ __('loading info about rules, please wait') }}...</i>
-            </div>
-            <div v-else :class="regulationsOpen ? 'show' : ''" class="overflow-scroll transition" style="white-space: pre-line;">
-              {{ currentRules }}
+            <div :class="regulationsOpen?'show':''" class="overflow-scroll transition" v-html="currentRules">
             </div>
           </div>
           <form v-if="isAuth" class="mt-8 flex flex-col" @submit.prevent="createOpinion">

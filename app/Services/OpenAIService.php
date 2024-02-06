@@ -68,24 +68,24 @@ class OpenAIService implements ShouldQueue
         $city_name = $cityData["city_name"];
         $country_name = $cityData["country_name"];
 
-        $promptENG = "Act as a helpful assistant. Explain what are the legal limitations for riding electric scooters in $city_name, $country_name? Contain information about: max speed, helmet requirements, allowed ABV, passengers, other relevant details. Be formal, speak English. Don't include city name in your response. If you don't have information answering the question, write 'null'.";
+        $promptEN = "Act as a helpful assistant. Explain what are the legal limitations for riding electric scooters in $city_name, $country_name? Contain information about: max speed, helmet requirements, allowed ABV, passengers, other relevant details. Be formal, speak English. Don't include city name in your response. If you don't have information answering the question, write 'null'.";
         $promptPL = "Zachowuj się jako pomocny asystent. wyjaśnij jakie są prawa dotyczące jazdy na hulajnogach elektrycznych w $city_name, $country_name? Zawrzyj informacje o: maksymalnej prędkości, potrzebie kasku, dozwolonym alkoholu we krwi, pasażerach, inne. Bądź formalny, mów po polsku. Nie zawieraj nazwy miasta w odpowiedzi. Jeśli nie masz informacji odpowiadających na pytanie, napisz 'null'.";
 
         $currentRulesInCountry = Rules::query()->where("country_id", $country_id)->first();
 
-        if (in_array($country_name, $this->countriesKnownToHaveUniformRules, true) && $currentRulesInCountry !== null && $currentRulesInCountry->rulesENG !== null && $currentRulesInCountry->rulesPL !== null && !$force) {
-            $rulesENG = $currentRulesInCountry->rulesENG;
+        if (in_array($country_name, $this->countriesKnownToHaveUniformRules, true) && $currentRulesInCountry !== null && $currentRulesInCountry->rulesEN !== null && $currentRulesInCountry->rulesPL !== null && !$force) {
+            $rulesEN = $currentRulesInCountry->rulesEN;
             $rulesPL = $currentRulesInCountry->rulesPL;
         } else {
-            $rulesENG = $this->askGPT($promptENG);
+            $rulesEN = $this->askGPT($promptEN);
             $rulesPL = $this->askGPT($promptPL);
         }
 
-        if (strlen($rulesENG) < 700 || strlen($rulesPL) < 700) {
+        if (strlen($rulesEN) < 700 || strlen($rulesPL) < 700) {
             return [
                 "city" => $city_name,
                 "country" => $country_name,
-                "rulesENG" => null,
+                "rulesEN" => null,
                 "rulesPL" => null,
             ];
         }
@@ -93,14 +93,14 @@ class OpenAIService implements ShouldQueue
         Rules::query()->updateOrCreate([
             "city_id" => $city_id,
             "country_id" => $country_id,
-            "rulesENG" => $rulesENG,
+            "rulesEN" => $rulesEN,
             "rulesPL" => $rulesPL,
         ]);
 
         return [
             "city" => $city_name,
             "country" => $country_name,
-            "rulesENG" => $rulesENG,
+            "rulesEN" => $rulesEN,
             "rulesPL" => $rulesPL,
         ];
     }
