@@ -52,7 +52,7 @@ RUN apt-get update \
     && docker-php-ext-enable \
         redis
 
-ARG XDEBUG_VERSION=3.2.1
+ARG XDEBUG_VERSION=3.3.1
 ARG INSTALL_XDEBUG=true
 
 RUN if [ ${INSTALL_XDEBUG} = true ]; then \
