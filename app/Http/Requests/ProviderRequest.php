@@ -20,8 +20,8 @@ class ProviderRequest extends FormRequest
                 "required",
                 "mimes:png",
                 File::image()
-                    ->max(10 * 1024)
-                    ->dimensions(Rule::dimensions()->width(150)->height(100)),
+                    ->max(config("app.provider_logo_size"))
+                    ->dimensions(Rule::dimensions()->width(config("app.provider_logo_width"))->height(config("app.provider_logo_height"))),
             ],
         ];
     }

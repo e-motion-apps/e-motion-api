@@ -36,7 +36,7 @@ class ProviderController extends Controller
     {
         Provider::query()->create($request->validated());
 
-        $fileName = strtolower($request["name"]) . "." . $request->file("file")->getClientOriginalExtension();
+        $fileName = $this->getFilename($request);
         $fileContents = $request->file("file")->get();
 
         Storage::disk("public")->put("providers/" . $fileName, $fileContents);
@@ -46,7 +46,7 @@ class ProviderController extends Controller
     {
         $provider->update($request->validated());
 
-        $imageName = strtolower($request["name"]) . "." . $request->file("file")->getClientOriginalExtension();
+        $imageName = $this->getFilename($request);
         $storageImagePath = storage_path("app/public/providers/" . $imageName);
         $resourceImagePath = resource_path("providers/" . $imageName);
         $imageContents = $request->file("file")->get();
@@ -75,5 +75,10 @@ class ProviderController extends Controller
         }
 
         return response(file_get_contents($imagePath), 200, ["Content-Type" => "image/png"]);
+    }
+
+    public function getFilename(ProviderRequest $request): string
+    {
+        return strtolower($request["name"]) . "." . $request->file("file")->getClientOriginalExtension();
     }
 }
