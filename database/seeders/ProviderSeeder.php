@@ -30,6 +30,7 @@ use App\Importers\WindDataImporter;
 use App\Importers\ZwingsDataImporter;
 use App\Models\Provider;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 
 class ProviderSeeder extends Seeder
 {
@@ -70,6 +71,18 @@ class ProviderSeeder extends Seeder
                 "android_url" => $provider["android_url"] ?? null,
                 "ios_url" => $provider["ios_url"] ?? null,
             ]);
+
+            $imageName = strtolower($provider["name"]) . ".png";
+            $imagePath = resource_path("providers/" . $imageName);
+            $newImagePath = "public/providers/" . $imageName;
+
+            if (file_exists($imagePath) && !Storage::exists($newImagePath)) {
+                Storage::put($newImagePath, file_get_contents($imagePath));
+            }
+        }
+
+        if (file_exists(resource_path("providers/unknown.png")) && !Storage::exists( "public/providers/unknown.png")) {
+            Storage::put("public/providers/unknown.png", file_get_contents(resource_path("providers/unknown.png")));
         }
     }
 }
