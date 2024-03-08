@@ -2,7 +2,7 @@ FROM composer/composer:2.6.6-bin as composer-bin
 
 FROM node:21.4.0-bullseye-slim as node
 
-FROM php:8.3.1-fpm-bullseye
+FROM php:8.3.3-fpm-bullseye
 
 COPY --from=composer-bin ./composer /usr/bin/composer
 
@@ -52,7 +52,7 @@ RUN apt-get update \
     && docker-php-ext-enable \
         redis
 
-ARG XDEBUG_VERSION=3.2.1
+ARG XDEBUG_VERSION=3.3.1
 ARG INSTALL_XDEBUG=true
 
 RUN if [ ${INSTALL_XDEBUG} = true ]; then \
