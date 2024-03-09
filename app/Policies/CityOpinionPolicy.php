@@ -12,7 +12,7 @@ class CityOpinionPolicy
 {
     public function update(User $user, CityOpinion $cityOpinion): Response
     {
-        if ($cityOpinion->user_id !== $user->id) {
+        if ($cityOpinion->user_id === $user->id) {
             return Response::allow();
         }
 
