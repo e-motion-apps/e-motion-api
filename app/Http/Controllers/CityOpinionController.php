@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CityOpinionRequest;
 use App\Models\CityOpinion;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class CityOpinionController extends Controller
 {
@@ -22,19 +23,23 @@ class CityOpinionController extends Controller
     {
         $opinion = $request->only(["rating", "content", "city_id"]);
 
-        if ($cityOpinion->user_id === Auth::id()) {
+        $response = Gate::inspect("update", $cityOpinion);
+
+        if ($response->allowed()) {
             $cityOpinion->update($opinion);
         } else {
-            abort(403);
+            abort(403, $response->message());
         }
     }
 
     public function destroy(CityOpinion $cityOpinion): void
     {
-        if ($cityOpinion->user_id === Auth::id() || Auth::user()->hasRole("admin")) {
+        $response = Gate::inspect("delete", $cityOpinion);
+
+        if ($response->allowed()) {
             $cityOpinion->delete();
         } else {
-            abort(403);
+            abort(403, $response->message());
         }
     }
 }
