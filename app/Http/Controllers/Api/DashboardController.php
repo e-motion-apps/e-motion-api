@@ -12,8 +12,6 @@ use App\Models\Country;
 use App\Models\Provider;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Inertia\Inertia;
-use Inertia\Response;
 
 class DashboardController extends Controller
 {
@@ -53,6 +51,5 @@ class DashboardController extends Controller
             "providerCitiesCount" => $providerCitiesCount,
             "providers" => $providers,
         ]);
-
     }
 }

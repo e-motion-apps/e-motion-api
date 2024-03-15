@@ -13,8 +13,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Session\Store as Session;
 use Illuminate\Support\Facades\Auth;
-use Inertia\Inertia;
-use Inertia\Response;
 
 class FavoritesController extends Controller
 {
@@ -32,7 +30,6 @@ class FavoritesController extends Controller
             "cities" => $cities,
             "providers" => ProviderResource::collection($providers),
         ]);
-
     }
 
     public function store(Request $request, Session $session): void

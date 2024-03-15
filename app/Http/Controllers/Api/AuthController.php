@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 use Symfony\Component\HttpFoundation\Response;
+
 class AuthController extends Controller
 {
     public function store(RegisterRequest $request): JsonResponse
@@ -39,9 +40,15 @@ class AuthController extends Controller
         ], $remember)) {
             $user = Auth::user();
             $user_id = Auth::id();
-            $token = $user->createToken($user_id . "-AuthToken")->plainTextToken;
+            $token_abilities = [];
+
+            if ($user->isAdmin()) {
+                $token_abilities = ["HasAdminRole"];
+            }
+            $token = $user->createToken($user_id . "-AuthToken", $token_abilities)->plainTextToken;
 
             return response()->json([
+                $token_abilities,
                 "access_token" => $token,
             ]);
         }
@@ -76,8 +83,13 @@ class AuthController extends Controller
                 "name" => $user->getName(),
                 "password" => Hash::make(Str::password(8)),
             ]);
+            $token_abilities = [];
+
+            if ($user->hasRole("admin")) {
+                $token_abilities = ["HasAdminRole"];
+            }
             $user_id = $user->id;
-            $token = $user->createToken($user_id . "-Socialite-AuthToken")->plainTextToken;
+            $token = $user->createToken($user_id . "-Socialite-AuthToken", $token_abilities)->plainTextToken;
 
             return JsonResponse::create([
                 "access_token" => $token,
@@ -87,8 +99,5 @@ class AuthController extends Controller
                 "message" => $e->getMessage(),
             ]);
         }
-
-
-
     }
 }

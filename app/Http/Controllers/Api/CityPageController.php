@@ -11,7 +11,6 @@ use App\Http\Resources\ProviderResource;
 use App\Models\City;
 use App\Models\Country;
 use App\Models\Provider;
-use Inertia\Inertia;
 
 class CityPageController extends Controller
 {
