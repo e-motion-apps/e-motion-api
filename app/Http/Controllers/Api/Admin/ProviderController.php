@@ -80,12 +80,8 @@ class ProviderController extends Controller
         ]);
     }
 
-    public function getFilename(ProviderRequest $request): JsonResponse
+    public function getFilename(ProviderRequest $request): string
     {
-        $filename = strtolower($request["name"]) . "." . $request->file("file")->getClientOriginalExtension();
-
-        return response()->json([
-            "filename" => $filename,
-        ]);
+        return strtolower($request["name"]) . "." . $request->file("file")->getClientOriginalExtension();
     }
 }
