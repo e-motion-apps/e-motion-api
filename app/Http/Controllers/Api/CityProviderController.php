@@ -14,10 +14,11 @@ use App\Models\Country;
 use App\Models\Provider;
 use App\Services\CityProviderService;
 use App\Services\DataImporterService;
+use Illuminate\Http\JsonResponse;
 
 class CityProviderController extends Controller
 {
-    public function index(): array
+    public function index(): JsonResponse
     {
         $cities = CityResource::collection(
             City::with("cityAlternativeNames", "cityProviders", "country")
@@ -38,11 +39,11 @@ class CityProviderController extends Controller
 
         $countries = CountryResource::collection($countries);
 
-        return [
+        return response()->json([
             "cities" => $cities,
             "providers" => $providers,
             "countries" => $countries,
-        ];
+        ]);
     }
 
     public function update(CityProviderService $service, CityProviderRequest $request, City $city): void

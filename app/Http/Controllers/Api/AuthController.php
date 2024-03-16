@@ -67,9 +67,12 @@ class AuthController extends Controller
         ]);
     }
 
-    public function redirectToProvider(string $provider): Response
+    public function redirectToProvider(string $provider): JsonResponse
     {
-        return Socialite::driver($provider)->redirect();
+        $redirect_url = Socialite::driver($provider)->stateless()->redirect()->getTargetUrl();
+        return \response()->json([
+            "redirect_url" => $redirect_url,
+        ]);
     }
 
     public function handleProviderRedirect(string $provider): JsonResponse
