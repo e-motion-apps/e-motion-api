@@ -149,5 +149,11 @@
     "You have registered successfully.": "Zarejestrowano pomyślnie",
     "Please, rate that city": "Oceń miasto",
 
-    "You can also login by:": "Możesz również zalogować się przez:"
+    "You can also login by:": "Możesz również zalogować się przez:",
+
+    "There has been a change in your favorite city." : "Nastąpiła zmiana w ulubionym mieście.",
+    "has been": "zostało",
+    "added to": "dodane do",
+    "removed from": "usunięte z",
+    "Learn more": "Dowiedz się więcej"
 }

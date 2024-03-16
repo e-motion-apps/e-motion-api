@@ -32,9 +32,9 @@ class ChangeInFavoriteCity extends Notification
         $change_string = $this->change->value;
 
         return (new MailMessage())
-            ->line("There has been a change in your favorite city.")
-            ->line("$this->provider has been $change_string $this->city")
-            ->action("Learn more", url($this->url));
+            ->line(__("There has been a change in your favorite city."))
+            ->line($this->provider . __("has been") . $change_string . $this->city. ".")
+            ->action(__("Learn more"), url($this->url));
     }
 
     public function toArray(object $notifiable): array
