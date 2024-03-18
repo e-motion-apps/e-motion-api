@@ -76,7 +76,7 @@ function fetchRegulations() {
       rules.pl= response.data.rulesPL
       rules.en = response.data.rulesEN
     })
-    .catch(error => {
+    .catch(() => {
       toast.error(__('There was an error fetching rules.'))
     })
 }
