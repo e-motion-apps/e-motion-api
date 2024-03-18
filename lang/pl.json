@@ -151,5 +151,6 @@
     "Run rules import": "Uruchom import zasad",
     "Found": "Znaleziono",
     "loading info about rules, please wait": "ładowanie informacji o zasadach, proszę czekać",
+    "There was an error fetching rules.": "Wystąpił błąd podczas pobierania zasad.",
     "Results found": "Znaleziono wyników"
 }
