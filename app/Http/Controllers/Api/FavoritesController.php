@@ -11,14 +11,12 @@ use App\Models\Favorites;
 use App\Models\Provider;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Session\Store as Session;
-use Illuminate\Support\Facades\Auth;
 
 class FavoritesController extends Controller
 {
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $user = Auth::user();
+        $user = $request->user();
 
         $favoriteCities = $user->favorites()->with(["city.country", "city.cityProviders"])->get();
 
@@ -32,7 +30,7 @@ class FavoritesController extends Controller
         ]);
     }
 
-    public function store(Request $request, Session $session): void
+    public function store(Request $request): JsonResponse
     {
         $cityId = $request->input("city_id");
         $userId = $request->user()?->id;
@@ -42,16 +40,20 @@ class FavoritesController extends Controller
         );
 
         if ($favorite->wasRecentlyCreated) {
-            $session->flash("message", "City added to favorites.");
-        } else {
-            $favorite->delete();
-            $session->flash("message", "City removed from favorites.");
+            return response()->json([
+                "message" => "City added to favorites.",
+            ]);
         }
+        $favorite->delete();
+
+        return response()->json([
+            "message" => "City removed from favorites.",
+        ]);
     }
 
     public function check(Request $request, int $cityId): bool
     {
-        $userId = $request->user()?->id;
+        $userId = $request->user()->id;
 
         return Favorites::where("user_id", $userId)
             ->where("city_id", $cityId)

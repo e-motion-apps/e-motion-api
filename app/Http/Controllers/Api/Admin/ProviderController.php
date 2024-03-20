@@ -11,6 +11,7 @@ use App\Models\Provider;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ProviderController extends Controller
 {
@@ -34,7 +35,7 @@ class ProviderController extends Controller
     {
         Provider::query()->create($request->validated());
 
-        $fileName = $this->getFilename($request);
+        $fileName = $this->getFilename($request->name, $request->file("file"));
         $fileContents = $request->file("file")->get();
 
         Storage::disk("public")->put("providers/" . $fileName, $fileContents);
@@ -44,7 +45,7 @@ class ProviderController extends Controller
     {
         $provider->update($request->validated());
 
-        $imageName = $this->getFilename($request);
+        $imageName = $this->getFilename($request->name, $request->file("file"));
         $storageImagePath = storage_path("app/public/providers/" . $imageName);
         $resourceImagePath = resource_path("providers/" . $imageName);
         $imageContents = $request->file("file")->get();
@@ -80,8 +81,8 @@ class ProviderController extends Controller
         ]);
     }
 
-    public function getFilename(ProviderRequest $request): string
+    private function getFilename(string $name, UploadedFile $file): string
     {
-        return strtolower($request["name"]) . "." . $request->file("file")->getClientOriginalExtension();
+        return strtolower($name) . "." . $file->getClientOriginalExtension();
     }
 }

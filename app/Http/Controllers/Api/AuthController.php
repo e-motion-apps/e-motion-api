@@ -9,6 +9,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -39,13 +40,13 @@ class AuthController extends Controller
             "password" => $request->password,
         ], $remember)) {
             $user = Auth::user();
-            $user_id = Auth::id();
+            $user_id = (string)Auth::id();
             $token_abilities = [];
 
             if ($user->isAdmin()) {
                 $token_abilities = ["HasAdminRole"];
             }
-            $token = $user->createToken($user_id . "-AuthToken", $token_abilities)->plainTextToken;
+            $token = $user->createToken($user_id, $token_abilities)->plainTextToken;
 
             return response()->json([
                 $token_abilities,
@@ -58,9 +59,9 @@ class AuthController extends Controller
         ], Response::HTTP_UNAUTHORIZED);
     }
 
-    public function logout(): JsonResponse
+    public function logout(Request $request): JsonResponse
     {
-        \auth()->user()->tokens()->delete();
+        $request->user()->currentAccessToken()->delete();
 
         return response()->json([
             "message" => __("Logged out."),
@@ -71,7 +72,7 @@ class AuthController extends Controller
     {
         $redirect_url = Socialite::driver($provider)->stateless()->redirect()->getTargetUrl();
 
-        return \response()->json([
+        return response()->json([
             "redirect_url" => $redirect_url,
         ]);
     }
@@ -92,14 +93,14 @@ class AuthController extends Controller
             if ($user->hasRole("admin")) {
                 $token_abilities = ["HasAdminRole"];
             }
-            $user_id = $user->id;
-            $token = $user->createToken($user_id . "-Socialite-AuthToken", $token_abilities)->plainTextToken;
+            $user_id = $user->id->toString();
+            $token = $user->createToken($user_id, $token_abilities)->plainTextToken;
 
-            return JsonResponse::create([
+            return response()->json([
                 "access_token" => $token,
             ]);
         } catch (\Exception $e) {
-            return JsonResponse::create([
+            return response()->json([
                 "message" => $e->getMessage(),
             ]);
         }
