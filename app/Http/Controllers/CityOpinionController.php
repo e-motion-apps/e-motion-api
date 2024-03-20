@@ -13,11 +13,7 @@ class CityOpinionController extends Controller
 {
     public function store(CityOpinionRequest $request): void
     {
-        $opinion = $request->validate([
-            "rating" => "required|integer|min:1|max:5",
-            "content" => "required|string",
-            "city_id" => "required|integer",
-        ]);
+        $opinion = $request->validated();
         $opinion["user_id"] = Auth::id();
 
         CityOpinion::query()->create($opinion);
@@ -25,29 +21,19 @@ class CityOpinionController extends Controller
 
     public function update(CityOpinionRequest $request, CityOpinion $cityOpinion): void
     {
-        $opinion = $request->validate([
-            "rating" => "required|integer|min:1|max:5",
-            "content" => "required|string",
-            "city_id" => "required|integer",
-        ]);
+        $opinion = $request->validated();
 
-        $response = Gate::inspect("update", $cityOpinion);
-
-        if ($response->allowed()) {
+        if (Gate::allows("update", $cityOpinion)) {
             $cityOpinion->update($opinion);
         } else {
-            abort(403, $response->message());
+            abort(403);
         }
     }
 
     public function destroy(CityOpinion $cityOpinion): void
     {
-        $response = Gate::inspect("delete", $cityOpinion);
-
-        if ($response->allowed()) {
+        if (Gate::allows("delete", $cityOpinion)) {
             $cityOpinion->delete();
-        } else {
-            abort(403, $response->message());
         }
     }
 }
