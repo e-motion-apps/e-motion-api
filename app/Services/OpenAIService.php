@@ -6,8 +6,11 @@ namespace App\Services;
 
 use App\Jobs\ImportCityRulesJob;
 use App\Models\City;
+use App\Models\ImportInfo;
 use App\Models\Rules;
+use Exception;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Bus;
 use OpenAI;
 
 class OpenAIService implements ShouldQueue
@@ -17,7 +20,11 @@ class OpenAIService implements ShouldQueue
 
     public function __construct()
     {
-        $this->client = OpenAI::client(env("OPENAI_API_KEY"));
+        try {
+            $this->client = OpenAI::client(env("OPENAI_API_KEY"));
+        } catch (Exception $e) {
+            throw new Exception("OpenAI API key is not set");
+        }
         $this->countriesKnownToHaveUniformRules = [
             "Poland", "Germany", "France", "Spain", "Italy", "Portugal", "Austria", "Czech Republic", "Slovakia", "Hungary",
             "Romania", "Bulgaria", "Greece", "Sweden", "Finland", "Norway", "Denmark", "Netherlands", "Belgium", "Switzerland",
@@ -50,6 +57,12 @@ class OpenAIService implements ShouldQueue
     {
         $cities = City::query()->whereHas("cityProviders")->orderBy("country_id")->get();
 
+        $importInfo = ImportInfo::query()->create([
+            "who_runs_it" => "admin",
+            "status" => "running",
+        ]);
+        $jobs = [];
+
         foreach ($cities as $city) {
             $cityData = [
                 "city_id" => $city->id,
@@ -57,8 +70,14 @@ class OpenAIService implements ShouldQueue
                 "city_name" => $city->name,
                 "country_name" => $city->country->name,
             ];
+            $jobs[] = new ImportCityRulesJob($cityData, $force);
             ImportCityRulesJob::dispatch($cityData, $force);
         }
+        Bus::batch($jobs)->finally(function () use ($importInfo): void {
+            ImportInfo::query()->where("id", $importInfo->id)->update([
+                "status" => "finished",
+            ]);
+        })->dispatch();
     }
 
     public function importRulesForCity(array $cityData, bool $force): array

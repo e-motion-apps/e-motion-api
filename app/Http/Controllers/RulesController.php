@@ -47,4 +47,10 @@ class RulesController
 
         return $data;
     }
+
+    public function importRules(bool $force): void
+    {
+        $importer = new OpenAIService();
+        $importer->importRulesForAllCities($force);
+    }
 }
