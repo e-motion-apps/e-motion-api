@@ -100,7 +100,7 @@ abstract class DataImporter
             event(new ChangeInFavoriteCityEvent($cityProvider->city_id, $providerName, ChangeInFavouriteCityEnum::Removed));
         }
 
-        $cityProvidersToDelete->each(fn($cityProvider) => $cityProvider->delete());
+        $cityProvidersToDelete->each(fn(CityProvider $cityProvider) => $cityProvider->delete());
     }
 
     protected function createImportInfoDetails(string $code, string $providerName): void

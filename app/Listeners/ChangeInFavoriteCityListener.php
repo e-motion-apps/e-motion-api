@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Listeners;
 
+use App\Events\ChangeInFavoriteCityEvent;
 use App\Models\City;
 use App\Models\User;
 use App\Notifications\ChangeInFavoriteCity;
@@ -13,7 +14,7 @@ class ChangeInFavoriteCityListener
 {
     public function __construct() {}
 
-    public function handle(\App\Events\ChangeInFavoriteCityEvent $event): void
+    public function handle(ChangeInFavoriteCityEvent $event): void
     {
         $users = User::query()->whereHas("favorites", function ($query) use ($event): void {
             $query->where("city_id", $event->city_id);

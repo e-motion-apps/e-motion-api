@@ -151,7 +151,10 @@
 
     "You can also login by:": "Możesz również zalogować się przez:",
 
-    "There has been a change in your favorite city." : "Nastąpiła zmiana w ulubionym mieście.",
+    "Change In Favorite City": "Zmiana W Ulubionym Mieście",
+    "Hello!": "Witaj!",
+    "There has been a change in your favorite city." : "Nastąpiła zmiana w twoim ulubionym mieście.",
+    "Thank you for using our application!": "Dziękujemy za korzystanie z naszej aplikacji!",
     "has been": "zostało",
     "added to": "dodane do",
     "removed from": "usunięte z",
