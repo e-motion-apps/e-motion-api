@@ -44,18 +44,24 @@ class CityController extends Controller
         ]);
     }
 
-    public function store(CityRequest $request): void
+    public function store(CityRequest $request): JsonResponse
     {
         City::query()->create($request->validated());
+
+        return response()->json(["message" => __("City created successfully.")], 201);
     }
 
-    public function update(CityRequest $request, City $city): void
+    public function update(CityRequest $request, City $city): JsonResponse
     {
         $city->update($request->validated());
+
+        return response()->json(["message" => __("City updated successfully.")]);
     }
 
-    public function destroy(City $city): void
+    public function destroy(City $city): JsonResponse
     {
         $city->delete();
+
+        return response()->json(["message" => __("City deleted successfully.")]);
     }
 }

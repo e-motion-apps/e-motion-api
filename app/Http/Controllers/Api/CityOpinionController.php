@@ -13,9 +13,9 @@ class CityOpinionController extends Controller
 {
     public function store(CityOpinionRequest $request): JsonResponse
     {
-        $opinion = $request->validated();
-        $opinion["user_id"] = $request->user()->id;
-        CityOpinion::query()->create($opinion);
+        $request->user()
+            ->cityOpinions()
+            ->create($request->validated());
 
         return response()->json([
             "message" => __("Opinion added successfully."),

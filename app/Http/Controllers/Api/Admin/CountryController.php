@@ -26,18 +26,24 @@ class CountryController extends Controller
         ]);
     }
 
-    public function store(CountryRequest $request): void
+    public function store(CountryRequest $request): JsonResponse
     {
         Country::query()->create($request->validated());
+
+        return response()->json(["message" => __("Country created successfully.")], 201);
     }
 
-    public function update(CountryRequest $request, Country $country): void
+    public function update(CountryRequest $request, Country $country): JsonResponse
     {
         $country->update($request->validated());
+
+        return response()->json(["message" => __("Country updated successfully.")]);
     }
 
-    public function destroy(Country $country): void
+    public function destroy(Country $country): JsonResponse
     {
         $country->delete();
+
+        return response()->json(["message" => __("Country deleted successfully.")]);
     }
 }

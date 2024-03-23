@@ -31,7 +31,7 @@ class ProviderController extends Controller
         ]);
     }
 
-    public function store(ProviderRequest $request): void
+    public function store(ProviderRequest $request): JsonResponse
     {
         Provider::query()->create($request->validated());
 
@@ -39,9 +39,11 @@ class ProviderController extends Controller
         $fileContents = $request->file("file")->get();
 
         Storage::disk("public")->put("providers/" . $fileName, $fileContents);
+
+        return response()->json(["message" => __("Provider created successfully.")], 201);
     }
 
-    public function update(ProviderRequest $request, Provider $provider): void
+    public function update(ProviderRequest $request, Provider $provider): JsonResponse
     {
         $provider->update($request->validated());
 
@@ -56,13 +58,17 @@ class ProviderController extends Controller
         } else {
             Storage::put($storageImagePath, file_get_contents($imageContents));
         }
+
+        return response()->json(["message" => __("Provider updated successfully.")]);
     }
 
-    public function destroy(Provider $provider): void
+    public function destroy(Provider $provider): JsonResponse
     {
         $provider->delete();
         $imagePath = storage_path("app/public/providers/" . strtolower($provider["name"]) . ".png");
         File::delete($imagePath);
+
+        return response()->json(["message" => __("Provider deleted successfully.")]);
     }
 
     public function showLogo(string $filename): JsonResponse

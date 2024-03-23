@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
+use Exception;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -41,11 +43,9 @@ class AuthController extends Controller
         ], $remember)) {
             $user = Auth::user();
             $user_id = (string)Auth::id();
-            $token_abilities = [];
 
-            if ($user->isAdmin()) {
-                $token_abilities = ["HasAdminRole"];
-            }
+            $token_abilities = $this->getUserAbilities($user);
+
             $token = $user->createToken($user_id, $token_abilities)->plainTextToken;
 
             return response()->json([
@@ -88,21 +88,29 @@ class AuthController extends Controller
                 "name" => $user->getName(),
                 "password" => Hash::make(Str::password(8)),
             ]);
-            $token_abilities = [];
+            $token_abilities = $this->getUserAbilities($user);
 
-            if ($user->hasRole("admin")) {
-                $token_abilities = ["HasAdminRole"];
-            }
             $user_id = $user->id->toString();
             $token = $user->createToken($user_id, $token_abilities)->plainTextToken;
 
             return response()->json([
                 "access_token" => $token,
             ]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json([
-                "message" => $e->getMessage(),
+                "message" => __("Login failed."),
             ]);
         }
+    }
+
+    private function getUserAbilities(Authenticatable $user): array
+    {
+        $abilities = [];
+
+        if ($user->isAdmin()) {
+            $abilities[] = "HasAdminRole";
+        }
+
+        return $abilities;
     }
 }

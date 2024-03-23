@@ -142,6 +142,8 @@
     "Cities with no coordinates assigned": "Miasta bez przypisanych współrzędnych",
     "Delete all cities with no country assigned": "Usuń wszystkie miasta bez przypisanego kraju",
     "All cities removed successfully!" : "Wszystkie miasta usunięte pomyślnie!",
+    "City alternative name created successfully.": "Alternatywna nazwa miasta utworzona pomyślnie",
+    "City alternative name deleted successfully.": "Alternatywna nazwa miasta usunięta pomyślnie",
     "Opinion added successfully.": "Opinia dodana pomyślnie.",
     "There was an error adding your opinion.": "Wystąpił błąd podczas dodawania opinii.",
     "Opinion edited successfully.": "Opinia zaktualizowana pomyślnie.",
@@ -163,6 +165,7 @@
     "You have logged in successfully.": "Zalogowano pomyślnie.",
     "You have logged out successfully.": "Wylogowano pomyślnie.",
     "You have registered successfully.": "Zarejestrowano pomyślnie",
+    "Login failed.": "Logowanie nie powiodło się.",
     "Please, rate that city": "Oceń miasto",
 
     "You can also login by:": "Możesz również zalogować się przez:",
