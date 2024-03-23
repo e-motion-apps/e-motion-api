@@ -36,7 +36,7 @@ class BitMobilityDataImporter extends DataImporter
         }
         $existingCityProviders = [];
         $crawler = new Crawler($this->html);
-        $this->sections = $crawler->filter(".wpb_content_element > .wpb_wrapper > p > a");
+        $this->sections = $crawler->filter("div.e-hotspot__tooltip");
 
         if (count($this->sections) === 0) {
             $this->createImportInfoDetails("204", self::getProviderName());

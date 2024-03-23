@@ -1,7 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 @layer utilities {
     .no-scrollbar::-webkit-scrollbar {
         display: none;
@@ -10,7 +9,6 @@
         -ms-overflow-style: none;
         scrollbar-width: none;
       }
-
     .scrollbar::-webkit-scrollbar {
         width: 15px;
         height: 12px;
@@ -27,5 +25,57 @@
     .scrollbar::-webkit-scrollbar-thumb:hover {
         background: #d3d3d3;
     }
+    .provider-buttons {
+        position: absolute;
+        transition: all 0.15s ease-in-out;
+        opacity: 0;
+        transform: translate(-50%, -50%);
+        visibility: hidden;
+        top: 20%;
+        left: 50%;
+        padding: 8px;
+        border-radius: 7px;
+        z-index: 50;
+    }
+    .provider-buttons > a {
+        position: relative;
+        margin-bottom: 4px;
+    }
+    .provider-buttons>a:last-of-type {
+        margin-bottom: 0;
+    }
+    .provider-buttons.show {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+        visibility: visible;
+        top: 30%;
+        left: 50%;
+        scale: 1;
+    }
+    .provider-text::after {
+        content: "";
+        display: inline-block;
+        border: 8px solid transparent;
+        border-left-color: #fff;
+        opacity: 0;
+        transition: all 0.15s ease-in-out;
+        height: 0px;
+    }
+    a>.provider-text {
+        transition: all 0.15s ease-in-out;  
+        transform: scale(1);
+    }
+    a:hover>.provider-text {
+        text-decoration: none;
+        transform: scale(1.1);
+    }
+    a:hover>.provider-text::after {
+        opacity: 1;
+    }
+    .provider-buttons>a:hover{
+        box-shadow: inset 0 0 8px 1px #315cb8c5;
+    }
+    .provider-buttons>a{
+        transition: all 0.15s ease-in-out;
+    }
   }
-
