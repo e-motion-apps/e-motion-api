@@ -71,7 +71,7 @@ function toggleRegulations() {
 }
 
 function fetchRegulations() {
-  axios.get('/api/rules/${props.city.country.name}/${props.city.name}')
+  axios.get(`/api/rules/${props.city.country.name}/${props.city.name}`)
     .then(response => {
       rules.pl= response.data.rulesPL
       rules.en = response.data.rulesEN
