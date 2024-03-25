@@ -135,8 +135,8 @@ function createOpinion() {
             <div class="my-3 flex cursor-pointer items-center text-2xl font-bold text-gray-700" @click="toggleRegulations()">
               {{ __('Rules') }} <ArrowDownIcon :class="regulationsOpen ? 'rotated' : ''" class="absolute right-3 inline-block h-6 w-6 transition-all" />
             </div>
-            <div :class="regulationsOpen?'show':''" class="overflow-scroll transition text-grey-400">
-                <pre class="text-gray-400" v-text="currentRules"/>
+            <div :class="regulationsOpen?'show':''" class="text-grey-400 overflow-scroll transition">
+              <pre class="text-gray-400" v-text="currentRules" />
             </div>
           </div>
           <form v-if="isAuth" class="mt-8 flex flex-col" @submit.prevent="createOpinion">
