@@ -31,7 +31,7 @@ class DashboardController extends Controller
         $providerCitiesCount = $citiesWithProviders
             ->pluck("provider_name")
             ->countBy()
-            ->map(function ($count, $name) {
+            ->map(function (int $count, string $name): array {
                 return [
                     "name" => $name,
                     "count" => $count,

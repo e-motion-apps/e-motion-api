@@ -11,10 +11,11 @@ use App\Http\Resources\ProviderResource;
 use App\Models\City;
 use App\Models\Country;
 use App\Models\Provider;
+use Illuminate\Http\JsonResponse;
 
 class CityPageController extends Controller
 {
-    public function index(Country $country, City $city)
+    public function index(Country $country, City $city): JsonResponse
     {
         $selectedCity = City::query()
             ->whereBelongsTo($country)

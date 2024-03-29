@@ -35,9 +35,10 @@ class FavoritesController extends Controller
         $cityId = $request->input("city_id");
         $userId = $request->user()?->id;
 
-        $favorite = Favorites::firstOrCreate(
-            ["user_id" => $userId, "city_id" => $cityId],
-        );
+        $favorite = Favorites::firstOrCreate([
+            "user_id" => $userId,
+            "city_id" => $cityId,
+        ]);
 
         if ($favorite->wasRecentlyCreated) {
             return response()->json([
