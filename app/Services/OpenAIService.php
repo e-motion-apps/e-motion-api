@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Exceptions\OpenAiException;
 use App\Jobs\ImportCityRulesJob;
 use App\Models\City;
 use App\Models\ImportInfo;
 use App\Models\Rules;
-use Exception;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Bus;
 use OpenAI;
@@ -22,9 +22,10 @@ class OpenAIService implements ShouldQueue
     {
         try {
             $this->client = OpenAI::client(env("OPENAI_API_KEY"));
-        } catch (Exception $e) {
-            throw new Exception("OpenAI API key is not set");
+        } catch (\Throwable $e) {
+            throw new OpenAiException();
         }
+
         $this->countriesKnownToHaveUniformRules = [
             "Poland", "Germany", "France", "Spain", "Italy", "Portugal", "Austria", "Czech Republic", "Slovakia", "Hungary",
             "Romania", "Bulgaria", "Greece", "Sweden", "Finland", "Norway", "Denmark", "Netherlands", "Belgium", "Switzerland",
@@ -87,40 +88,39 @@ class OpenAIService implements ShouldQueue
         $city_name = $cityData["city_name"];
         $country_name = $cityData["country_name"];
 
-        $promptEN = "Act as a helpful assistant. Explain what are the legal limitations for riding electric scooters in $city_name, $country_name? Contain information about: max speed, helmet requirements, allowed ABV, passengers, other relevant details. Be formal, speak English. Don't include city name in your response. If you don't have information answering the question, write 'null'.";
-        $promptPL = "Zachowuj się jako pomocny asystent. wyjaśnij jakie są prawa dotyczące jazdy na hulajnogach elektrycznych w $city_name, $country_name? Zawrzyj informacje o: maksymalnej prędkości, potrzebie kasku, dozwolonym alkoholu we krwi, pasażerach, inne. Bądź formalny, mów po polsku. Nie zawieraj nazwy miasta w odpowiedzi. Jeśli nie masz informacji odpowiadających na pytanie, napisz 'null'.";
-
+        $prompt_en = "Act as a helpful assistant. Explain what are the legal limitations for riding electric scooters in $city_name, $country_name? Contain information about: max speed, helmet requirements, allowed ABV, passengers, other relevant details. Be formal, speak English. Don't include city name in your response. If you don't have information answering the question, write 'null'.";
+        $prompt_pl = "Translate to polish: ";
         $currentRulesInCountry = Rules::query()->where("country_id", $country_id)->first();
 
-        if (in_array($country_name, $this->countriesKnownToHaveUniformRules, true) && $currentRulesInCountry !== null && $currentRulesInCountry->rulesEN !== null && $currentRulesInCountry->rulesPL !== null && !$force) {
-            $rulesEN = $currentRulesInCountry->rulesEN;
-            $rulesPL = $currentRulesInCountry->rulesPL;
+        if (in_array($country_name, $this->countriesKnownToHaveUniformRules, true) && $currentRulesInCountry !== null && $currentRulesInCountry->rules_en !== null && $currentRulesInCountry->rules_pl !== null && !$force) {
+            $rules_en = $currentRulesInCountry->rules_en;
+            $rules_pl = $currentRulesInCountry->rules_pl;
         } else {
-            $rulesEN = $this->askGPT($promptEN);
-            $rulesPL = $this->askGPT($promptPL);
+            $rules_en = $this->askGPT($prompt_en);
+            $rules_pl = $this->askGPT($prompt_pl . $rules_en);
         }
 
-        if (strlen($rulesEN) < 700 || strlen($rulesPL) < 700) {
+        if (strlen($rules_en) < 700 || strlen($rules_pl) < 700) {
             return [
                 "city" => $city_name,
                 "country" => $country_name,
-                "rulesEN" => null,
-                "rulesPL" => null,
+                "rules_en" => null,
+                "rules_pl" => null,
             ];
         }
 
         Rules::query()->updateOrCreate([
             "city_id" => $city_id,
             "country_id" => $country_id,
-            "rulesEN" => $rulesEN,
-            "rulesPL" => $rulesPL,
+            "rules_en" => $rules_en,
+            "rules_pl" => $rules_pl,
         ]);
 
         return [
             "city" => $city_name,
             "country" => $country_name,
-            "rulesEN" => $rulesEN,
-            "rulesPL" => $rulesPL,
+            "rules_en" => $rules_en,
+            "rules_pl" => $rules_pl,
         ];
     }
 

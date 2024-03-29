@@ -73,8 +73,8 @@ function toggleRegulations() {
 function fetchRegulations() {
   axios.get(`/api/rules/${props.city.country.name}/${props.city.name}`)
     .then(response => {
-      rules.pl= response.data.rulesPL
-      rules.en = response.data.rulesEN
+      rules.pl= response.data.rules_pl
+      rules.en = response.data.rules_en
     })
     .catch(() => {
       toast.error(__('There was an error fetching rules.'))

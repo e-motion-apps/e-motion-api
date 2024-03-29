@@ -8,6 +8,7 @@ use App\Models\City;
 use App\Models\Country;
 use App\Models\Rules;
 use App\Services\OpenAIService;
+use Exception;
 
 class RulesController
 {
@@ -16,32 +17,38 @@ class RulesController
         $city = ucfirst($city);
         $country = ucfirst($country);
 
-        $country_id = Country::query()
-            ->where("name", $country)
-            ->orWhere("alternative_name", $country)
-            ->first()->id;
-        $city = City::query()
-            ->where("name", $city)->where("country_id", $country_id)
-            ->first();
+        try {
+            $country_id = Country::query()
+                ->where("name", $country)
+                ->orWhere("alternative_name", $country)
+                ->first()->id;
+            $city = City::query()
+                ->where("name", $city)->where("country_id", $country_id)
+                ->first();
+        } catch (Exception $e) {
+            return ["message" => "City not found"];
+        }
         $rules = Rules::query()
             ->where("city_id", $city->id)
             ->first();
 
-        if (!$rules || $rules->rulesEN === null || $rules->rulesPL === null) {
+        if (!$rules || $rules->rules_en === null || $rules->rules_pl === null) {
             $cityData = [
                 "city_id" => $city->id,
                 "country_id" => $country_id,
                 "city_name" => $city->name,
                 "country_name" => $country,
             ];
+
             $importer = new OpenAIService();
+
             $data = $importer->importRulesForCity($cityData, true);
         } else {
             $data = [
                 "country" => $country,
                 "city" => $city->name,
-                "rulesEN" => $rules->rulesEN,
-                "rulesPL" => $rules->rulesPL,
+                "rules_en" => $rules->rules_en,
+                "rules_pl" => $rules->rules_pl,
             ];
         }
 
@@ -50,7 +57,11 @@ class RulesController
 
     public function importRules(bool $force): void
     {
-        $importer = new OpenAIService();
+        try {
+            $importer = new OpenAIService();
+        } catch (Exception $e) {
+            return;
+        }
         $importer->importRulesForAllCities($force);
     }
 }

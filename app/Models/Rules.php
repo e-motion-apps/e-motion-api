@@ -16,8 +16,8 @@ class Rules extends Model
     protected $fillable = [
         "city_id",
         "country_id",
-        "rulesEN",
-        "rulesPL",
+        "rules_en",
+        "rules_pl",
     ];
 
     public function city(): BelongsTo
