@@ -14,6 +14,7 @@ use App\Models\Country;
 use App\Models\Provider;
 use App\Services\CityProviderService;
 use App\Services\DataImporterService;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 
 class CityProviderController extends Controller
@@ -23,9 +24,7 @@ class CityProviderController extends Controller
         $cities = CityResource::collection(
             City::with("cityAlternativeNames", "cityProviders", "country")
                 ->has("cityProviders")
-                ->whereHas("cityProviders", function ($query): void {
-                    $query->whereNotNull("latitude")->whereNotNull("longitude");
-                })
+                ->whereHas("cityProviders", fn($query): Builder => $query->whereNotNull("latitude")->whereNotNull("longitude"))
                 ->get()
                 ->sortBy("name")
                 ->sortByDesc(fn(City $city): int => $city->cityProviders->count()),
