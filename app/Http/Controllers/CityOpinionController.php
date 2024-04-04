@@ -18,9 +18,7 @@ class CityOpinionController extends Controller
 
     public function update(CityOpinionRequest $request, CityOpinion $cityOpinion): void
     {
-        $request->user()
-            ->cityOpinions()
-            ->update($request->validated());
+        $cityOpinion->update($request->validated());
     }
 
     public function destroy(CityOpinion $cityOpinion): void
