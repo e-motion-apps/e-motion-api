@@ -11,6 +11,7 @@ use App\Http\Resources\ProviderResource;
 use App\Models\City;
 use App\Models\Country;
 use App\Models\Provider;
+use App\Models\Service;
 use App\Services\CityProviderService;
 use App\Services\DataImporterService;
 
@@ -36,11 +37,13 @@ class CityProviderController extends Controller
             ->sortBy("name");
 
         $countries = CountryResource::collection($countries);
+        $services = Service::all();
 
         return [
             "cities" => $cities,
             "providers" => $providers,
             "countries" => $countries,
+            "services" => $services,
         ];
     }
 

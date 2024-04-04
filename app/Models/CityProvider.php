@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $id
  * @property string $provider_name
  * @property int $city_id
+ * @property string $created_by
+ * @property int $service_id
  */
 class CityProvider extends Model
 {
@@ -19,6 +21,7 @@ class CityProvider extends Model
         "provider_name",
         "city_id",
         "created_by",
+        "service_id",
     ];
 
     public function city(): BelongsTo
@@ -29,5 +32,10 @@ class CityProvider extends Model
     public function providers(): HasMany
     {
         return $this->hasMany(Provider::class);
+    }
+
+    public function services(): HasMany
+    {
+        return $this->hasMany(Service::class);
     }
 }

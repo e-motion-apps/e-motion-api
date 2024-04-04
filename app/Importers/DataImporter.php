@@ -10,6 +10,7 @@ use App\Models\CityProvider;
 use App\Models\CityWithoutAssignedCountry;
 use App\Models\Country;
 use App\Models\ImportInfoDetail;
+use App\Models\Service;
 use App\Services\MapboxGeocodingService;
 use GuzzleHttp\Client;
 use Stichoza\GoogleTranslate\GoogleTranslate;
@@ -74,13 +75,17 @@ abstract class DataImporter
         }
     }
 
-    protected function createProvider(int $cityId, string $providerName): void
+    protected function createProvider(int $cityId, string $providerName, array $services = ["escooter"]): void
     {
-        CityProvider::query()->updateOrCreate([
-            "city_id" => $cityId,
-            "provider_name" => $providerName,
-            "created_by" => "scrapper",
-        ]);
+        foreach ($services as $service) {
+            $serviceId = Service::query()->where("type", $service)->first()->id;
+            CityProvider::query()->updateOrCreate([
+                "city_id" => $cityId,
+                "provider_name" => $providerName,
+                "service_id" => $serviceId,
+                "created_by" => "scrapper",
+            ]);
+        }
     }
 
     protected function deleteMissingProviders(string $providerName, array $existingCityProviders): void

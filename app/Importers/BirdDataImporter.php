@@ -57,7 +57,7 @@ class BirdDataImporter extends DataImporter
 
     protected function parseData(string $html): array
     {
-        $pattern = '/let features = \[([\s\S]*?)\];/';
+        $pattern = '/let features = \[([\s\S]*?)];/';
 
         if (preg_match($pattern, $html, $matches)) {
             $fetchedData = $matches[1];
