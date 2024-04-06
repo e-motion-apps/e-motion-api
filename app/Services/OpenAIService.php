@@ -8,10 +8,12 @@ use App\Exceptions\OpenAiException;
 use App\Jobs\ImportCityRulesJob;
 use App\Models\City;
 use App\Models\ImportInfo;
+use App\Models\ImportInfoDetail;
 use App\Models\Rules;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Bus;
 use OpenAI;
+use Throwable;
 
 class OpenAIService implements ShouldQueue
 {
@@ -22,7 +24,7 @@ class OpenAIService implements ShouldQueue
     {
         try {
             $this->client = OpenAI::client(env("OPENAI_API_KEY"));
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             throw new OpenAiException();
         }
 
@@ -74,11 +76,20 @@ class OpenAIService implements ShouldQueue
             $jobs[] = new ImportCityRulesJob($cityData, $force);
             ImportCityRulesJob::dispatch($cityData, $force);
         }
-        Bus::batch($jobs)->finally(function () use ($importInfo): void {
-            ImportInfo::query()->where("id", $importInfo->id)->update([
-                "status" => "finished",
-            ]);
-        })->dispatch();
+
+        Bus::batch($jobs)
+            ->catch(function () use ($importInfo): void {
+                ImportInfoDetail::query()->updateOrCreate([
+                    "import_info_id" => $importInfo->id,
+                    "provider_name" => "OpenAI",
+                    "code" => 400,
+                ]);
+            })->finally(function () use ($importInfo): void {
+                ImportInfo::query()->where("id", $importInfo->id)->update([
+                    "status" => "finished",
+                ]);
+            })
+            ->dispatch();
     }
 
     public function importRulesForCity(array $cityData, bool $force): array
