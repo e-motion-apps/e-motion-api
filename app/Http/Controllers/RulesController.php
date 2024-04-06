@@ -12,22 +12,24 @@ use Exception;
 
 class RulesController
 {
-    public function getRules($country, $city): array
+    public function getRules(string $countryName, string $cityName): array
     {
-        $city = ucfirst($city);
-        $country = ucfirst($country);
+        $countryName = ucfirst($countryName);
+        $cityName = ucfirst($cityName);
 
         try {
-            $country_id = Country::query()
-                ->where("name", $country)
-                ->orWhere("alternative_name", $country)
-                ->first()->id;
+            $country = Country::query()
+                ->where("name", $countryName)
+                ->orWhere("alternative_name", $countryName)
+                ->first();
             $city = City::query()
-                ->where("name", $city)->where("country_id", $country_id)
+                ->where("name", $cityName)
+                ->where("country_id", $country->id)
                 ->first();
         } catch (Exception $e) {
-            return ["message" => "City not found"];
+            return ["message" => __("City not found")];
         }
+
         $rules = Rules::query()
             ->where("city_id", $city->id)
             ->first();
@@ -35,17 +37,15 @@ class RulesController
         if (!$rules || $rules->rules_en === null || $rules->rules_pl === null) {
             $cityData = [
                 "city_id" => $city->id,
-                "country_id" => $country_id,
+                "country_id" => $country->id,
                 "city_name" => $city->name,
-                "country_name" => $country,
+                "country_name" => $country->name,
             ];
-
             $importer = new OpenAIService();
-
             $data = $importer->importRulesForCity($cityData, true);
         } else {
             $data = [
-                "country" => $country,
+                "country" => $countryName,
                 "city" => $city->name,
                 "rules_en" => $rules->rules_en,
                 "rules_pl" => $rules->rules_pl,
@@ -57,11 +57,7 @@ class RulesController
 
     public function importRules(bool $force): void
     {
-        try {
-            $importer = new OpenAIService();
-        } catch (Exception $e) {
-            return;
-        }
+        $importer = new OpenAIService();
         $importer->importRulesForAllCities($force);
     }
 }
