@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace App\Exceptions;
 
 use Exception;
+use Symfony\Component\HttpFoundation\Response;
 
 class OpenAiException extends Exception
 {
-    public function __construct($message = "OpenAI API connection error", $code = 500)
-    {
-        parent::__construct($message, $code);
-    }
+    protected $message = "OpenAI API connection error";
+    protected $code = Response::HTTP_INTERNAL_SERVER_ERROR;
 }

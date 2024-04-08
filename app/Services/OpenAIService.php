@@ -68,10 +68,10 @@ class OpenAIService implements ShouldQueue
 
         foreach ($cities as $city) {
             $cityData = [
-                "city_id" => $city->id,
-                "country_id" => $city->country_id,
+                "cityId" => $city->id,
+                "countryId" => $city->country_id,
                 "city_name" => $city->name,
-                "country_name" => $city->country->name,
+                "countryName" => $city->country->name,
             ];
             $jobs[] = new ImportCityRulesJob($cityData, $force);
             ImportCityRulesJob::dispatch($cityData, $force);
@@ -94,16 +94,16 @@ class OpenAIService implements ShouldQueue
 
     public function importRulesForCity(array $cityData, bool $force): array
     {
-        $city_id = $cityData["city_id"];
-        $country_id = $cityData["country_id"];
+        $cityId = $cityData["cityId"];
+        $countryId = $cityData["countryId"];
         $city_name = $cityData["city_name"];
-        $country_name = $cityData["country_name"];
+        $countryName = $cityData["countryName"];
 
-        $prompt_en = "Act as a helpful assistant. Explain what are the legal limitations for riding electric scooters in $city_name, $country_name? Contain information about: max speed, helmet requirements, allowed ABV, passengers, other relevant details. Be formal, speak English. Don't include city name in your response. If you don't have information answering the question, write 'null'.";
+        $prompt_en = "Act as a helpful assistant. Explain what are the legal limitations for riding electric scooters in $city_name, $countryName? Contain information about: max speed, helmet requirements, allowed ABV, passengers, other relevant details. Be formal, speak English. Don't include city name in your response. If you don't have information answering the question, write 'null'.";
         $prompt_pl = "Translate to polish: ";
-        $currentRulesInCountry = Rules::query()->where("country_id", $country_id)->first();
+        $currentRulesInCountry = Rules::query()->where("countryId", $countryId)->first();
 
-        if (in_array($country_name, $this->countriesKnownToHaveUniformRules, true) && $currentRulesInCountry !== null && $currentRulesInCountry->rules_en !== null && $currentRulesInCountry->rules_pl !== null && !$force) {
+        if (in_array($countryName, $this->countriesKnownToHaveUniformRules, true) && $currentRulesInCountry !== null && $currentRulesInCountry->rules_en !== null && $currentRulesInCountry->rules_pl !== null && !$force) {
             $rules_en = $currentRulesInCountry->rules_en;
             $rules_pl = $currentRulesInCountry->rules_pl;
         } else {
@@ -114,28 +114,28 @@ class OpenAIService implements ShouldQueue
         if (strlen($rules_en) < 700 || strlen($rules_pl) < 700) {
             return [
                 "city" => $city_name,
-                "country" => $country_name,
+                "country" => $countryName,
                 "rules_en" => null,
                 "rules_pl" => null,
             ];
         }
 
         Rules::query()->updateOrCreate([
-            "city_id" => $city_id,
-            "country_id" => $country_id,
+            "city_id" => $cityId,
+            "country_id" => $countryId,
             "rules_en" => $rules_en,
             "rules_pl" => $rules_pl,
         ]);
 
         return [
             "city" => $city_name,
-            "country" => $country_name,
+            "country" => $countryName,
             "rules_en" => $rules_en,
             "rules_pl" => $rules_pl,
         ];
     }
 
-    private function askGPT($prompt): string
+    private function askGPT(string $prompt): string
     {
         $response = $this->client->chat()->create([
             "model" => "gpt-3.5-turbo",

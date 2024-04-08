@@ -12,4 +12,4 @@ Route::middleware("auth:sanctum")->get("/user", fn(Request $request): JsonRespon
 
 Route::get("/providers", [CityProviderController::class, "index"]);
 
-Route::get("/rules/{country:slug}/{city:slug}", [RulesController::class, "getRules"]);
+Route::post("/rules/{country:slug}/{city:slug}", [RulesController::class, "getRules"]);
