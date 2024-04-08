@@ -6,24 +6,19 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CityOpinionRequest;
 use App\Models\CityOpinion;
-use Illuminate\Support\Facades\Auth;
 
 class CityOpinionController extends Controller
 {
     public function store(CityOpinionRequest $request): void
     {
-        $opinion = $request->only(["rating", "content", "city_id"]);
-        $opinion["user_id"] = Auth::id();
-
-        CityOpinion::query()->create($opinion);
+        $request->user()
+            ->cityOpinions()
+            ->create($request->validated());
     }
 
     public function update(CityOpinionRequest $request, CityOpinion $cityOpinion): void
     {
-        $opinion = $request->only(["rating", "content", "city_id"]);
-        $opinion["user_id"] = Auth::id();
-
-        $cityOpinion->update($opinion);
+        $cityOpinion->update($request->validated());
     }
 
     public function destroy(CityOpinion $cityOpinion): void
