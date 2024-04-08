@@ -65,7 +65,6 @@ class BinBinDataImporter extends DataImporter
                 $existingCityProviders[] = $provider;
             }
         }
-
         $this->deleteMissingProviders(self::getProviderName(), $existingCityProviders);
     }
 }
