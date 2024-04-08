@@ -45,4 +45,8 @@ return [
 
     "aliases" => Facade::defaultAliases()->merge([
     ])->toArray(),
+
+    "provider_logo_size" => 10 * 1024,
+    "provider_logo_width" => 150,
+    "provider_logo_height" => 100,
 ];

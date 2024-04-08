@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\CityAlternativeNameController;
 use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\CountryController;
 use App\Http\Controllers\Admin\ImportInfoController;
+use App\Http\Controllers\Admin\ProviderController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChangeLocaleController;
 use App\Http\Controllers\CityOpinionController;
@@ -21,7 +22,7 @@ Route::middleware("guest")->group(function (): void {
     Route::post("/register", [AuthController::class, "store"])->name("register");
 
     Route::get("/login/{provider}", [AuthController::class, "redirectToProvider"])->name("login.provider");
-    Route::get("/login/{provider}/redirect", [AuthController::class, "handleProviderRedirect"]);
+    Route::get("/login/{provider}/redirect", [AuthController::class, "handleProviderRedirect"])->name("login.provider.redirect");
 });
 
 Route::middleware("auth")->group(function (): void {
@@ -39,6 +40,7 @@ Route::middleware("auth")->group(function (): void {
 
     Route::middleware(["role:admin"])->group(function (): void {
         Route::get("/admin/importers", [ImportInfoController::class, "index"]);
+        Route::resource("/admin/providers", ProviderController::class);
         Route::resource("/admin/countries", CountryController::class);
         Route::resource("/admin/cities", CityController::class);
         Route::resource("/admin/dashboard", DashboardController::class);
@@ -55,3 +57,5 @@ Route::post("/language/{locale}", ChangeLocaleController::class);
 
 Route::inertia("/", "Landing/Index")->name("home");
 Route::get("/{country:slug}/{city:slug}", [CityPageController::class, "index"]);
+
+Route::get("/images/providers/{filename}", [ProviderController::class, "showLogo"]);

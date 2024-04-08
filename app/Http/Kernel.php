@@ -29,6 +29,9 @@ use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Laravel\Sanctum\Http\Middleware\CheckAbilities;
+use Laravel\Sanctum\Http\Middleware\CheckForAnyAbility;
+use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 use Spatie\Permission\Middleware\RoleMiddleware;
 
 class Kernel extends HttpKernel
@@ -69,6 +72,7 @@ class Kernel extends HttpKernel
         "api" => [
             ThrottleRequests::class . ":api",
             SubstituteBindings::class,
+            EnsureFrontendRequestsAreStateful::class,
         ],
     ];
 
@@ -91,5 +95,7 @@ class Kernel extends HttpKernel
         "throttle" => ThrottleRequests::class,
         "verified" => EnsureEmailIsVerified::class,
         "role" => RoleMiddleware::class,
+        "ability" => CheckAbilities::class,
+        "any-ability" => CheckForAnyAbility::class,
     ];
 }

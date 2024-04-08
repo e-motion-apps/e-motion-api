@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\QueryBuilders\SortQuery;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -16,9 +18,19 @@ class Provider extends Model
     public $incrementing = false;
     protected $primaryKey = "name";
     protected $keyType = "string";
+    protected $fillable = [
+        "name",
+        "url",
+        "color",
+    ];
 
-    public function cityProvider()
+    public static function query(): Builder
     {
-        return $this->belongsTo(CityProvider::class);
+        return parent::query();
+    }
+
+    public function newEloquentBuilder($query): SortQuery
+    {
+        return new SortQuery($query);
     }
 }
