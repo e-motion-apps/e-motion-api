@@ -6,6 +6,6 @@ namespace App\Enums;
 
 enum ChangeInFavouriteCityEnum: string
 {
-    case Added = "added to";
-    case Removed = "removed from";
+    case Added = "added_to";
+    case Removed = "removed_from";
 }

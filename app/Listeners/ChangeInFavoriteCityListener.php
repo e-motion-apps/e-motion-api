@@ -8,6 +8,7 @@ use App\Events\ChangeInFavoriteCityEvent;
 use App\Models\City;
 use App\Models\User;
 use App\Notifications\ChangeInFavoriteCity;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Notification;
 
 class ChangeInFavoriteCityListener
@@ -16,10 +17,11 @@ class ChangeInFavoriteCityListener
 
     public function handle(ChangeInFavoriteCityEvent $event): void
     {
-        $users = User::query()->whereHas("favorites", function ($query) use ($event): void {
+        $users = User::query()->whereHas("favorites", function (Builder $query) use ($event): void {
             $query->where("city_id", $event->city_id);
         })->get();
-        $city_name = City::query()->where("id", $event->city_id)->first()->name;
+        $cityName = City::query()->where("id", $event->city_id)->first()->name;
+        $countryName = City::query()->where("id", $event->city_id)->first()->country->name;
 
         Notification::send($users, new ChangeInFavoriteCity($city_name, $event->provider_name, $event->change));
     }

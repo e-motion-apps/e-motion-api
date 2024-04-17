@@ -15,12 +15,14 @@ class ChangeInFavoriteCity extends Notification
     use Queueable;
 
     public function __construct(
-        private string $city,
+        private string $cityName,
+        private string $countryName,
         private string $provider,
         private ChangeInFavouriteCityEnum $change,
         private ?string $url = null,
     ) {
         $this->url = $url ?? config("app.url");
+        $this->url .= "/" . strtolower($this->countryName) . "/" . strtolower($this->cityName);
     }
 
     public function via(User $notifiable): array
@@ -33,10 +35,10 @@ class ChangeInFavoriteCity extends Notification
         $change_string = $this->change->value;
 
         return (new MailMessage())
-            ->subject(__("Change In Favorite City"))
+            ->subject(__("Change in favorite city"))
             ->greeting(__("Hello!"))
             ->line(__("There has been a change in your favorite city."))
-            ->line($this->provider . " " . __("has been") . " " . __($change_string) . " " . $this->city . ".")
+            ->line($this->provider . " " . __("has been") . " " . __($change_string) . " " . $this->cityName . ".")
             ->action(__("Learn more"), url($this->url))
             ->salutation(__("Thank you for using our application!"));
     }
