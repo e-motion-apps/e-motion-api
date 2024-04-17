@@ -51,11 +51,12 @@ services:
                 condition: service_healthy
 
     database:
-        image: postgres:15.2-alpine3.17
+        image: postgres:15.6-alpine3.19
         container_name: escooters-db-dev
         environment:
             - POSTGRES_USER=${DB_USERNAME}
-            - POSTGRES_PASSWORD=${DB_PASSWORD}
+            - POSTGRES_PASSWORD=${DB_PASSWORD}FROM node:21.7.1-bullseye-slim as node
+
             - POSTGRES_DB=${DB_DATABASE}
             - PGDATA=/var/lib/postgresql/data
         healthcheck:
@@ -72,7 +73,7 @@ services:
         restart: unless-stopped
 
     mailpit:
-        image: axllent/mailpit:v1.6.9
+        image: axllent/mailpit:v1.16
         container_name: escooters-mailpit-dev
         labels:
             - "traefik.enable=true"
@@ -95,7 +96,7 @@ services:
             - ${DOCKER_MAILPIT_DASHBOARD_HOST_PORT:-3856}:8025
 
     redis:
-        image: redis:7.0.11-alpine3.17
+        image: redis:7.2.4-alpine3.19
         container_name: escooters-redis-dev
         ports:
             - ${DOCKER_REDIS_HOST_PORT:-3852}:6379

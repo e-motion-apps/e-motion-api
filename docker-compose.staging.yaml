@@ -43,7 +43,7 @@ services:
                 condition: service_healthy
 
     database:
-        image: postgres:15.2-alpine3.17
+        image: postgres:15.6-alpine3.19
         container_name: escooters-db-staging
         environment:
             - POSTGRES_USER=${DB_USERNAME}
@@ -64,7 +64,7 @@ services:
         restart: unless-stopped
 
     redis:
-        image: redis:7.0.11-alpine3.17
+        image: redis:7.2.4-alpine3.19
         container_name: escooters-redis-staging
         ports:
             - ${DOCKER_REDIS_HOST_PORT:-3852}:6379
