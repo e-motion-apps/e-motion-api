@@ -13,6 +13,7 @@ Route::name("api.")->group(function (): void {
     Route::middleware("auth:api")->get("/user", fn(Request $request): JsonResponse => new JsonResponse($request->user()));
     Route::get("/providers", [CityProviderController::class, "index"]);
 
-Route::get("/providers", [CityProviderController::class, "index"]);
+    Route::get("/providers", [CityProviderController::class, "index"]);
 
-Route::post("/rules/{country:slug}/{city:slug}", [RulesController::class, "getRules"]);
+    Route::get("/rules/{country:slug}/{city:slug}", [RulesController::class, "getRules"]);
+});
