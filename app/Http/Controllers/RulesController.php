@@ -36,10 +36,10 @@ class RulesController
 
         if (!$rules || $rules->rules_en === null || $rules->rules_pl === null) {
             $cityData = [
-                "city_id" => $city->id,
-                "country_id" => $country->id,
-                "city_name" => $city->name,
-                "country_name" => $country->name,
+                "cityId" => $city->id,
+                "countryId" => $country->id,
+                "cityName" => $city->name,
+                "countryName" => $country->name,
             ];
             $importer = new OpenAIService();
             $data = $importer->importRulesForCity($cityData, true);
@@ -55,9 +55,8 @@ class RulesController
         return $data;
     }
 
-    public function importRules(bool $force): void
+    public function importRules(bool $force, OpenAIService $importer): void
     {
-        $importer = new OpenAIService();
         $importer->importRulesForAllCities($force);
     }
 }

@@ -96,10 +96,10 @@ class OpenAIService implements ShouldQueue
     {
         $cityId = $cityData["cityId"];
         $countryId = $cityData["countryId"];
-        $city_name = $cityData["city_name"];
+        $cityName = $cityData["cityName"];
         $countryName = $cityData["countryName"];
 
-        $prompt_en = "Act as a helpful assistant. Explain what are the legal limitations for riding electric scooters in $city_name, $countryName? Contain information about: max speed, helmet requirements, allowed ABV, passengers, other relevant details. Be formal, speak English. Don't include city name in your response. If you don't have information answering the question, write 'null'.";
+        $prompt_en = "Act as a helpful assistant. Explain what are the legal limitations for riding electric scooters in $cityName, $countryName? Contain information about: max speed, helmet requirements, allowed ABV, passengers, other relevant details. Be formal, speak English. Don't include city name in your response. If you don't have information answering the question, write 'null'.";
         $prompt_pl = "Translate to polish: ";
         $currentRulesInCountry = Rules::query()->where("countryId", $countryId)->first();
 
@@ -113,7 +113,7 @@ class OpenAIService implements ShouldQueue
 
         if (strlen($rules_en) < 700 || strlen($rules_pl) < 700) {
             return [
-                "city" => $city_name,
+                "city" => $cityName,
                 "country" => $countryName,
                 "rules_en" => null,
                 "rules_pl" => null,
@@ -128,7 +128,7 @@ class OpenAIService implements ShouldQueue
         ]);
 
         return [
-            "city" => $city_name,
+            "city" => $cityName,
             "country" => $countryName,
             "rules_en" => $rules_en,
             "rules_pl" => $rules_pl,

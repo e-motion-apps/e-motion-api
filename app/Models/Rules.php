@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Rules extends Model
 {
-    use HasFactory;
 
     protected $table = "rules_for_cities";
     protected $fillable = [
