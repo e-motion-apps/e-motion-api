@@ -1,8 +1,8 @@
-FROM composer/composer:2.5.8-bin as composer-bin
+FROM composer/composer:2.6.6-bin as composer-bin
 
 FROM node:20.4.0-bullseye-slim as node
 
-FROM php:8.3.1-fpm-bullseye
+FROM php:8.3.3-fpm-bullseye
 
 COPY --from=composer-bin ./composer /usr/bin/composer
 

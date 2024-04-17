@@ -35,7 +35,7 @@ const filteredCities = computed(() => {
   } else {
     return props.cities.filter(city =>
       city.country.id === selectedCountryId &&
-            city.cityProviders.some(cityProvider => cityProvider.provider_name === selectedProviderName),
+        city.cityProviders.some(cityProvider => cityProvider.provider_name === selectedProviderName),
     )
   }
 })
@@ -48,9 +48,9 @@ const filteredProviders = computed(() => {
     return props.providers.filter(provider =>
       props.cities.some(city =>
         city.country.id === selectedCountryId &&
-                city.cityProviders.some(cityProvider =>
-                  cityProvider.provider_name === provider.name,
-                ),
+            city.cityProviders.some(cityProvider =>
+              cityProvider.provider_name === provider.name,
+            ),
       ),
     )
   }

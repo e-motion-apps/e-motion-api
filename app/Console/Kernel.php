@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
             $service = new DataImporterService();
             $service->run("server");
         })->monthly();
+        $schedule->command("sanctum:prune-expired --hours=24")->daily();
     }
 
     protected function commands(): void

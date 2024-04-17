@@ -1,6 +1,6 @@
 <script setup>
 import { Dialog, DialogPanel } from '@headlessui/vue'
-import { ClipboardIcon, FlagIcon, MapPinIcon, PlayCircleIcon } from '@heroicons/vue/24/solid'
+import { ClipboardIcon, FlagIcon, MapPinIcon, PlayCircleIcon, TruckIcon } from '@heroicons/vue/24/solid'
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 import { ref } from 'vue'
 import LanguageSwitch from '@/Shared/Components/LanguageSwitch.vue'
@@ -9,6 +9,7 @@ import { __ } from '@/translate'
 const navigation = [
   { name: 'Dashboard', href: '/admin/dashboard', icon: ClipboardIcon },
   { name: 'Importers', href: '/admin/importers', icon: PlayCircleIcon },
+  { name: 'Providers', href: '/admin/providers', icon: TruckIcon },
   { name: 'Countries', href: '/admin/countries', icon: FlagIcon },
   { name: 'Cities', href: '/admin/cities', icon: MapPinIcon },
 ]
