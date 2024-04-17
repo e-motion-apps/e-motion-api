@@ -23,6 +23,6 @@ class ChangeInFavoriteCityListener
         $cityName = City::query()->where("id", $event->city_id)->first()->name;
         $countryName = City::query()->where("id", $event->city_id)->first()->country->name;
 
-        Notification::send($users, new ChangeInFavoriteCity($city_name, $event->provider_name, $event->change));
+        Notification::send($users, new ChangeInFavoriteCity($cityName, $countryName, $event->provider_name, $event->change));
     }
 }
