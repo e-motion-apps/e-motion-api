@@ -101,6 +101,7 @@ abstract class DataImporter
         }
 
         $cityProvidersToDelete->each(fn(CityProvider $cityProvider) => $cityProvider->delete());
+
     }
 
     protected function createImportInfoDetails(string $code, string $providerName): void
