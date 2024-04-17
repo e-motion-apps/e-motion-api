@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Rules extends Model
 {
-
     protected $table = "rules_for_cities";
     protected $fillable = [
         "city_id",
