@@ -55,8 +55,7 @@ services:
         container_name: escooters-db-dev
         environment:
             - POSTGRES_USER=${DB_USERNAME}
-            - POSTGRES_PASSWORD=${DB_PASSWORD}FROM node:21.7.1-bullseye-slim as node
-
+            - POSTGRES_PASSWORD=${DB_PASSWORD}
             - POSTGRES_DB=${DB_DATABASE}
             - PGDATA=/var/lib/postgresql/data
         healthcheck:
