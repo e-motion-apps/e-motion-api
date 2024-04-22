@@ -8,6 +8,7 @@ import DeleteModal from './DeleteModal.vue'
 import { useToast } from 'vue-toastification'
 import ErrorMessage from './ErrorMessage.vue'
 
+const isAdmin = computed(() => page.props.auth.isAdmin)
 const toast = useToast()
 const page = usePage()
 const user = computed(() => page.props.auth.user)
@@ -103,9 +104,10 @@ const emptyRatingError = ref('')
     {{ opinion.content }}
   </div>
 
-  <div v-if="user.id === props.opinion.user.id" class="mt-1 flex justify-end">
-    <button class="flex px-1 hover:drop-shadow" @click="toggleUpdateOpinionDialog">
-      <PencilIcon class="size-5 text-blumilk-500 hover:drop-shadow sm:size-4" />
+
+  <div v-if="user.id === props.opinion.user.id || isAdmin" class="mt-1 flex justify-end">
+    <button v-if="user.id === props.opinion.user.id" class="flex px-1 hover:drop-shadow" @click="toggleUpdateOpinionDialog">
+      <PencilIcon class="h-5 w-5 text-blumilk-500 hover:drop-shadow sm:h-4 sm:w-4" />
     </button>
     <button class="flex px-1 hover:drop-shadow" @click="toggleDeleteOpinionDialog">
       <TrashIcon class="ml-1 size-5 text-blumilk-500 hover:drop-shadow sm:size-4" />
