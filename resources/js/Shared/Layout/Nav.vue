@@ -129,7 +129,7 @@ defineExpose({
                 @click="toggleMobileMenu"
         >
           <span class="sr-only">{{ __('Open main menu') }}</span>
-          <Bars3Icon class="h-6 w-6" aria-hidden="true" />
+          <Bars3Icon class="size-6" aria-hidden="true" />
         </button>
       </div>
       <div class="hidden items-center md:flex md:gap-x-12">
@@ -142,21 +142,21 @@ defineExpose({
 
         <div v-if="countCitiesWithoutAssignedCountry || countCitiesWithoutCoordinates" class="flex items-center text-xs font-bold text-rose-500">
           <InertiaLink v-if="countCitiesWithoutAssignedCountry" href="/admin/cities" class="flex animate-pulse items-center rounded-full border border-rose-500 bg-rose-50 px-2 py-1">
-            <FlagIcon class="mr-1 h-4 w-4 shrink-0" />
+            <FlagIcon class="mr-1 size-4 shrink-0" />
             {{ countCitiesWithoutAssignedCountry }}
           </InertiaLink>
           <InertiaLink v-if="countCitiesWithoutCoordinates" href="/admin/cities?order=empty-coordinates" class="ml-2 flex animate-pulse items-center rounded-full border border-rose-500 bg-rose-50 px-2 py-1">
-            <MapPinIcon class="mr-1 h-4 w-4 shrink-0" />
+            <MapPinIcon class="mr-1 size-4 shrink-0" />
             {{ countCitiesWithoutCoordinates }}
           </InertiaLink>
         </div>
 
         <InertiaLink v-if="isAdmin" href="/admin/cities">
-          <ComputerDesktopIcon class="h-6 w-6" />
+          <ComputerDesktopIcon class="size-6" />
         </InertiaLink>
         <button>
-          <ArrowRightOnRectangleIcon v-if="isAuth" class="h-6 w-6" @click="logout" />
-          <UserCircleIcon v-else class="h-6 w-6" @click="toggleAuthDialog" />
+          <ArrowRightOnRectangleIcon v-if="isAuth" class="size-6" @click="logout" />
+          <UserCircleIcon v-else class="size-6" @click="toggleAuthDialog" />
         </button>
         <LanguageSwitch />
       </div>
@@ -165,7 +165,7 @@ defineExpose({
       <div ref="authDialog" class="mx-auto w-11/12 rounded-lg bg-white shadow-lg sm:w-3/4 md:w-2/3 lg:w-1/2 xl:w-1/3">
         <div class="flex w-full justify-end">
           <button class="p-4" @click="toggleAuthDialog">
-            <XMarkIcon class="h-6 w-6" />
+            <XMarkIcon class="size-6" />
           </button>
         </div>
         <div v-if="isLoginFormSelected" class="rounded-lg px-6 pb-8">
@@ -182,7 +182,7 @@ defineExpose({
                      required
               >
               <button type="button" class="absolute bottom-3 right-2 md:bottom-2" @click="togglePasswordVisibility">
-                <component :is="!isPasswordVisible ? EyeIcon : EyeSlashIcon" class="h-6 w-6 text-blumilk-400" />
+                <component :is="!isPasswordVisible ? EyeIcon : EyeSlashIcon" class="size-6 text-blumilk-400" />
               </button>
             </div>
             <ErrorMessage :message="loginForm.errors.loginError" />
@@ -190,13 +190,13 @@ defineExpose({
               <label class="mb-4 flex justify-center text-sm font-semibold text-gray-800">{{ __('You can also login by:') }}</label>
               <div class="flex items-center justify-center space-x-5">
                 <button type="button" class="flex items-center justify-center" @click="socialMediaLogin('github')">
-                  <img class="h-10 w-10" src="@/assets/github.png" alt="github logo">
+                  <img class="size-10" src="@/assets/github.png" alt="github logo">
                 </button>
                 <button type="button" class="flex items-center justify-center" @click="socialMediaLogin('facebook')">
-                  <img class="h-10 w-10" src="@/assets/facebook.png" alt="facebook logo">
+                  <img class="size-10" src="@/assets/facebook.png" alt="facebook logo">
                 </button>
                 <button type="button" class="flex items-center justify-center" @click="socialMediaLogin('google')">
-                  <img class="h-10 w-10" src="@/assets/google.png" alt="google logo">
+                  <img class="size-10" src="@/assets/google.png" alt="google logo">
                 </button>
               </div>
             </div>
@@ -236,7 +236,7 @@ defineExpose({
                      class="w-full rounded-lg border-blumilk-200 py-3 md:p-2" required
               >
               <button type="button" class="absolute bottom-3 right-2 md:bottom-2" @click="togglePasswordVisibility">
-                <component :is="!isPasswordVisible ? EyeIcon : EyeSlashIcon" class="h-6 w-6 text-blumilk-400" />
+                <component :is="!isPasswordVisible ? EyeIcon : EyeSlashIcon" class="size-6 text-blumilk-400" />
               </button>
             </div>
             <ErrorMessage :message="registerForm.errors.password" />
@@ -268,7 +268,7 @@ defineExpose({
           </InertiaLink>
           <button type="button" class="-m-2.5 rounded-md px-2.5 text-gray-700 sm:pt-4" @click="toggleMobileMenu">
             <span class="sr-only">{{ __('Close menu') }}</span>
-            <XMarkIcon class="h-6 w-6" aria-hidden="true" />
+            <XMarkIcon class="size-6" aria-hidden="true" />
           </button>
         </div>
         <div class="mt-6 flow-root">
@@ -285,12 +285,12 @@ defineExpose({
 
               <div v-if="countCitiesWithoutAssignedCountry || countCitiesWithoutCoordinates" class="flex flex-col items-start text-sm font-bold text-rose-500">
                 <InertiaLink v-if="countCitiesWithoutAssignedCountry" href="/admin/cities" class="flex items-center">
-                  <FlagIcon class="mr-2 h-5 w-5 shrink-0" />
+                  <FlagIcon class="mr-2 size-5 shrink-0" />
                   {{ __('Cities with no country assigned:') }}
                   {{ countCitiesWithoutAssignedCountry }}
                 </InertiaLink>
                 <InertiaLink v-if="countCitiesWithoutCoordinates" href="/admin/cities?order=empty-coordinates" class="mt-5 flex items-center">
-                  <MapPinIcon class="mr-2 h-5 w-5 shrink-0" />
+                  <MapPinIcon class="mr-2 size-5 shrink-0" />
                   {{ __('Cities with no coordinates assigned:') }}
                   {{ countCitiesWithoutCoordinates }}
                 </InertiaLink>
@@ -301,7 +301,7 @@ defineExpose({
                   <InertiaLink v-if="isAdmin" class="flex w-full items-center rounded px-3 py-2.5 hover:bg-blumilk-25"
                                href="/admin/cities"
                   >
-                    <ComputerDesktopIcon class="h-6 w-6" />
+                    <ComputerDesktopIcon class="size-6" />
                     <span class="ml-2">{{ __('Admin panel') }}</span>
                   </InertiaLink>
                 </button>
@@ -309,14 +309,14 @@ defineExpose({
                   <span v-if="isAuth" class="flex w-full items-center rounded px-3 py-2.5 hover:bg-blumilk-25"
                         @click="logout"
                   >
-                    <ArrowRightOnRectangleIcon class="h-6 w-6" />
+                    <ArrowRightOnRectangleIcon class="size-6" />
                     <span class="ml-2">{{ __('Log out') }}</span>
                   </span>
 
                   <span v-if="!isAuth" class="flex w-full items-center rounded px-3 py-2.5 hover:bg-blumilk-25"
                         @click="toggleAuthDialog"
                   >
-                    <UserCircleIcon class="h-6 w-6" />
+                    <UserCircleIcon class="size-6" />
                     <span class="ml-2">{{ __('Log in') }}</span>
                   </span>
                 </button>

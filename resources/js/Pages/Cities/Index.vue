@@ -272,7 +272,7 @@ const filteredCitiesWithoutCountry = computed(() => {
 
                     <div v-if="filteredCitiesWithoutCountry.length" class="flex justify-end">
                       <button class="my-2 flex items-center rounded border border-rose-500 p-2 text-xs font-medium text-rose-500 hover:bg-rose-100" @click="deleteAllCitiesWithoutCountry">
-                        <TrashIcon class="mr-1 h-4 w-4 shrink-0" />
+                        <TrashIcon class="mr-1 size-4 shrink-0" />
                         {{ __('Delete all cities with no country assigned') }}
                       </button>
                     </div>
@@ -289,14 +289,14 @@ const filteredCitiesWithoutCountry = computed(() => {
                         </p>
                         <div class="flex justify-end">
                           <button class="rounded-full p-1 hover:bg-gray-100">
-                            <TrashIcon class="h-7 w-7 sm:h-5 sm:w-5" @click="deleteCityWithoutAssignedCountry(city)" />
+                            <TrashIcon class="size-7 sm:size-5" @click="deleteCityWithoutAssignedCountry(city)" />
                           </button>
 
                           <button class="ml-2 rounded-full p-1 hover:bg-gray-100">
-                            <MagnifyingGlassIcon class="h-7 w-7 sm:h-5 sm:w-5" @click="searchCity(city)" />
+                            <MagnifyingGlassIcon class="size-7 sm:size-5" @click="searchCity(city)" />
                           </button>
                           <button class="ml-2 rounded-full p-1 hover:bg-gray-100">
-                            <PlusCircleIcon class="h-7 w-7 sm:h-5 sm:w-5" @click="sendCityToCreateForm(city)" />
+                            <PlusCircleIcon class="size-7 sm:size-5" @click="sendCityToCreateForm(city)" />
                           </button>
                         </div>
                       </div>

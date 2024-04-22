@@ -8,7 +8,7 @@ import { FolderOpenIcon } from '@heroicons/vue/24/outline'
       <span class="font-bold">
         <slot />
       </span>
-      <FolderOpenIcon class="h-5 w-5" />
+      <FolderOpenIcon class="size-5" />
     </span>
   </button>
 </template>

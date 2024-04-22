@@ -110,7 +110,7 @@ onUnmounted(() => {
                       <InfoPopup v-else class="flex rounded-full py-0.5 hover:bg-gray-200" />
                     </div>
                     <div class="ml-2 flex rounded-full py-0.5 text-blumilk-500 hover:drop-shadow" @click.stop="goToCityPage(item)">
-                      <InformationCircleIcon class="h-8 w-8 hover:drop-shadow sm:h-6 sm:w-6" />
+                      <InformationCircleIcon class="size-8 hover:drop-shadow sm:size-6" />
                     </div>
                   </div>
                 </div>
@@ -132,7 +132,7 @@ onUnmounted(() => {
 
       <div v-if="isMobile" class="flex justify-center">
         <button :class="buttonAnimation" class="hover:blumilk-600 fixed bottom-5 z-20 flex items-center justify-center rounded-full bg-blumilk-500 px-2 py-1.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" @click="switchMap">
-          <component :is="buttonIcon" class="h-6 w-6" />
+          <component :is="buttonIcon" class="size-6" />
         </button>
       </div>
     </div>
