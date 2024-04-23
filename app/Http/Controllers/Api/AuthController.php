@@ -30,7 +30,7 @@ class AuthController extends Controller
 
         return response()->json([
             "message" => __("User created."),
-        ]);
+        ], Response::HTTP_CREATED);
     }
 
     public function login(LoginRequest $request): JsonResponse
@@ -49,7 +49,8 @@ class AuthController extends Controller
             $token = $user->createToken($user_id, $token_abilities)->plainTextToken;
 
             return response()->json([
-                $token_abilities,
+                "abilities" => $token_abilities,
+                "user" => $user,
                 "access_token" => $token,
             ]);
         }
@@ -90,7 +91,7 @@ class AuthController extends Controller
             ]);
             $token_abilities = $this->getUserAbilities($user);
 
-            $user_id = $user->id->toString();
+            $user_id = (string)$user->id;
             $token = $user->createToken($user_id, $token_abilities)->plainTextToken;
 
             return response()->json([
@@ -99,7 +100,7 @@ class AuthController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 "message" => __("Login failed."),
-            ]);
+            ], Response::HTTP_UNAUTHORIZED);
         }
     }
 
