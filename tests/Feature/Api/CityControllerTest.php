@@ -62,13 +62,11 @@ class CityControllerTest extends TestCase
             "country_id" => $country->id,
         ];
 
-
         $response = $this->postJson("/api/admin/cities", $cityData);
         $response->assertStatus(Response::HTTP_CREATED);
 
         $response = $this->postJson("/api/admin/cities", $cityData);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-
     }
 
     /**

@@ -6,7 +6,6 @@ namespace Tests\Feature\Api;
 
 use App\Models\Country;
 use App\Models\User;
-use Generator;
 use Laravel\Sanctum\Sanctum;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
@@ -70,9 +69,6 @@ class CountryControllerTest extends TestCase
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
             ->assertJsonValidationErrors(["name", "iso"]);
-
-
-
     }
 
     /**
@@ -144,7 +140,7 @@ class CountryControllerTest extends TestCase
                     "iso" => "Pl",
                 ],
                 "expectedErrors" => ["iso"],
-            ]
+            ],
         ];
     }
 
