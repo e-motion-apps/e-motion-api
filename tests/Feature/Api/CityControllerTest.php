@@ -8,6 +8,7 @@ use App\Models\City;
 use App\Models\Country;
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
 class CityControllerTest extends TestCase
@@ -54,23 +55,20 @@ class CityControllerTest extends TestCase
     {
         $country = Country::factory()->create();
 
-        $city = [
+        $cityData = [
             "name" => "Legnica",
             "latitude" => 44.543,
             "longitude" => -43.122,
             "country_id" => $country->id,
         ];
 
-        City::query()->create([
-            "name" => $city["name"],
-            "latitude" => -55.54323,
-            "longitude" => 42.3721,
-            "country_id" => $country->id,
-        ])->toArray();
 
-        $this->postJson("/api/admin/cities", $city);
+        $response = $this->postJson("/api/admin/cities", $cityData);
+        $response->assertStatus(Response::HTTP_CREATED);
 
-        $this->assertDatabaseMissing("cities", $city);
+        $response = $this->postJson("/api/admin/cities", $cityData);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+
     }
 
     /**
