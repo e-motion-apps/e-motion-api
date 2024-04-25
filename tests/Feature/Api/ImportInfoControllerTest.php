@@ -6,6 +6,7 @@ namespace Tests\Feature\Api;
 
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
 class ImportInfoControllerTest extends TestCase
@@ -28,5 +29,13 @@ class ImportInfoControllerTest extends TestCase
                 "codes",
                 "providers",
             ]);
+    }
+
+    public function testUnauthorisedUserCannotAccessImportInfo(): void
+    {
+        Sanctum::actingAs(User::factory()->create());
+        $response = $this->getJson("/api/admin/importers");
+
+        $response->assertStatus(Response::HTTP_NOT_FOUND);
     }
 }

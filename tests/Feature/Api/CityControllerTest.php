@@ -7,7 +7,6 @@ namespace Tests\Feature\Api;
 use App\Models\City;
 use App\Models\Country;
 use App\Models\User;
-use Generator;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -96,42 +95,41 @@ class CityControllerTest extends TestCase
         $response->assertJsonValidationErrors($expectedErrors);
     }
 
-    public static function invalidCityDataProvider(): Generator
+    public static function invalidCityDataProvider(): array
     {
-        yield "city with empty credentials" => [
-            "data" => [
-                "name" => null,
-                "longitude" => null,
-                "latitude" => null,
+        return [
+            "city with empty credentials" => [
+                "data" => [
+                    "name" => null,
+                    "longitude" => null,
+                    "latitude" => null,
+                ],
+                "expectedErrors" => ["name", "latitude", "longitude"],
             ],
-            "expectedErrors" => ["name", "latitude", "longitude"],
-        ];
-
-        yield "city with incorrect name" => [
-            "data" => [
-                "name" => "legnica",
-                "longitude" => 21.555,
-                "latitude" => 55.234,
+            "city with incorrect name" => [
+                "data" => [
+                    "name" => "legnica",
+                    "longitude" => 21.555,
+                    "latitude" => 55.234,
+                ],
+                "expectedErrors" => ["name"],
             ],
-            "expectedErrors" => ["name"],
-        ];
-
-        yield "city with incorrect longitude" => [
-            "data" => [
-                "name" => "Legnica",
-                "longitude" => "21string",
-                "latitude" => 55.234,
+            "city with incorrect longitude" => [
+                "data" => [
+                    "name" => "Legnica",
+                    "longitude" => "21string",
+                    "latitude" => 55.234,
+                ],
+                "expectedErrors" => ["longitude"],
             ],
-            "expectedErrors" => ["longitude"],
-        ];
-
-        yield "city with incorrect latitude" => [
-            "data" => [
-                "name" => "Legnica",
-                "longitude" => 21.555,
-                "latitude" => "55.234string",
+            "city with incorrect latitude" => [
+                "data" => [
+                    "name" => "Legnica",
+                    "longitude" => 21.555,
+                    "latitude" => "55.234string",
+                ],
+                "expectedErrors" => ["latitude"],
             ],
-            "expectedErrors" => ["latitude"],
         ];
     }
 

@@ -53,4 +53,31 @@ class FavoritesControllerTest extends TestCase
 
         $response->assertStatus(Response::HTTP_NOT_FOUND);
     }
+
+    public function testNonexistentCityCannotBeAddedToFavourites(): void
+    {
+        $user = User::factory()->create();
+        Sanctum::actingAs($user);
+
+        $response = $this->postJson("/api/favorites/", ["city_id" => 999]);
+
+        $response->assertStatus(Response::HTTP_BAD_REQUEST);
+    }
+
+    public function testRequestWithoutCityIdReturnsBadRequest(): void
+    {
+        $user = User::factory()->create();
+        Sanctum::actingAs($user);
+
+        $response = $this->postJson("/api/favorites/");
+
+        $response->assertStatus(Response::HTTP_BAD_REQUEST);
+    }
+
+    public function testUnauthenticatedUserCannotCheckFavourites(): void
+    {
+        $response = $this->getJson("/api/favorite-cities");
+
+        $response->assertStatus(Response::HTTP_NOT_FOUND);
+    }
 }

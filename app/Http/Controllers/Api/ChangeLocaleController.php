@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ChangeLocaleController extends Controller
 {
@@ -22,6 +23,6 @@ class ChangeLocaleController extends Controller
 
         return response()->json([
             "message" => __("Error changing the language."),
-        ]);
+        ], Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 }

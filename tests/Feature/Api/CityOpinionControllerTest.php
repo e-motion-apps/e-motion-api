@@ -8,6 +8,7 @@ use App\Models\City;
 use App\Models\CityOpinion;
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
 class CityOpinionControllerTest extends TestCase
@@ -108,5 +109,15 @@ class CityOpinionControllerTest extends TestCase
 
         $response = $this->deleteJson("/api/opinions/$opinion_id");
         $response->assertNotFound();
+    }
+
+    public function testUserCannotAddOpinionForNonexistentCity(): void
+    {
+        $response = $this->postJson("/api/opinions", [
+            "rating" => 5,
+            "content" => "Great city!",
+            "city_id" => 999,
+        ]);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 }

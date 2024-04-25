@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\Sanctum;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
 class AdminTest extends TestCase
@@ -44,7 +45,27 @@ class AdminTest extends TestCase
     {
         Sanctum::actingAs($this->adminUser, ["HasAdminRole"]);
 
-        $this->getJson("/api/admin/countries");
+        $response = $this->getJson("/api/admin/countries");
+        $response->assertOk()
+            ->assertJsonStructure([
+                "countries" => [
+                    "*" => [
+                        "id",
+                        "name",
+                        "created_at",
+                        "updated_at",
+                    ],
+                ],
+            ]);
         $this->assertAuthenticatedAs(User::first());
+    }
+
+    public function testUserCannotAccessAdminRoutes(): void
+    {
+        $user = User::factory()->create();
+        Sanctum::actingAs($user);
+
+        $response = $this->getJson("/api/admin/countries");
+        $response->assertStatus(Response::HTTP_NOT_FOUND);
     }
 }

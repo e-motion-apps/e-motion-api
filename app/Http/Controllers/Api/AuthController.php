@@ -42,15 +42,15 @@ class AuthController extends Controller
             "password" => $request->password,
         ], $remember)) {
             $user = Auth::user();
-            $user_id = (string)Auth::id();
+            $userId = (string)Auth::id();
 
             $token_abilities = $this->getUserAbilities($user);
 
-            $token = $user->createToken($user_id, $token_abilities)->plainTextToken;
+            $token = $user->createToken($userId, $token_abilities)->plainTextToken;
 
             return response()->json([
                 "abilities" => $token_abilities,
-                "user" => $user,
+                "userId" => $userId,
                 "access_token" => $token,
             ]);
         }
@@ -91,11 +91,12 @@ class AuthController extends Controller
             ]);
             $token_abilities = $this->getUserAbilities($user);
 
-            $user_id = (string)$user->id;
-            $token = $user->createToken($user_id, $token_abilities)->plainTextToken;
+            $userId = (string)$user->id;
+            $token = $user->createToken($userId, $token_abilities)->plainTextToken;
 
             return response()->json([
                 "access_token" => $token,
+                "userId" => $userId,
             ]);
         } catch (Exception $e) {
             return response()->json([

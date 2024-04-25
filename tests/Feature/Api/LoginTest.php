@@ -7,6 +7,7 @@ namespace Tests\Feature\Api;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\Sanctum;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
 class LoginTest extends TestCase
@@ -39,20 +40,26 @@ class LoginTest extends TestCase
         ]);
     }
 
-    public function testUserCannotLoginWithInvalidPassword(): void
+    public function testUserCannotLogInWithInvalidCredentials(): void
     {
-        User::factory()->create([
+        User::query()->create([
+            "name" => "Test",
             "email" => "email@example.com",
-            "password" => Hash::make("password@example"),
+            "password" => Hash::make("123456789"),
         ]);
-
         $response = $this->postJson("/api/login", [
             "email" => "email@example.com",
-            "password" => "IncorrectPassword",
+            "password" => "password",
+        ]);
+        $response->assertStatus(Response::HTTP_UNAUTHORIZED)
+            ->assertJson(["message" => "Invalid credentials."]);
+
+        $response = $this->postJson("/api/login", [
+            "email" => "invalid@example.com",
+            "password" => "123456789",
         ]);
 
-        $response->assertJson([
-            "message" => "Invalid credentials.",
-        ]);
+        $response->assertStatus(Response::HTTP_UNAUTHORIZED)
+            ->assertJson(["message" => "Invalid credentials."]);
     }
 }

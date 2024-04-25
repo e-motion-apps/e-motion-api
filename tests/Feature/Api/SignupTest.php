@@ -60,4 +60,25 @@ class SignupTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
             ->assertJsonValidationErrorFor("password");
     }
+
+    public function testUserCannotSignUpWithTakenEmail(): void
+    {
+        $user1 = [
+            "name" => "Test",
+            "email" => "test@example.com",
+            "password" => "123456789",
+        ];
+        $user2 = [
+            "name" => "Test1",
+            "email" => "test@example.com",
+            "password" => "password",
+        ];
+
+        $response = $this->postJson("/api/register", $user1);
+        $response->assertStatus(Response::HTTP_CREATED);
+
+        $response = $this->postJson("/api/register", $user2);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
+            ->assertJsonValidationErrorFor("email");
+    }
 }
