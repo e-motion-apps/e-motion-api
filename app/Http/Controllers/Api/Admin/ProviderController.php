@@ -18,6 +18,7 @@ class ProviderController extends Controller
     public function index(): JsonResponse
     {
         $providers = Provider::all();
+
         return response()->json([
             "providers" => ProviderResource::collection($providers),
         ]);

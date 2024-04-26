@@ -61,10 +61,9 @@ class CityAlternativeNameController extends TestCase
             "name" => "Test City Alternative Name",
         ]);
         $response->assertStatus(Response::HTTP_FORBIDDEN);
-
     }
 
-    public function testNonAdminUserCannotDeleteAlternativeNames()
+    public function testNonAdminUserCannotDeleteAlternativeNames(): void
     {
         Sanctum::actingAs(User::factory()->create());
         $cityAlternativeName = CityAlternativeName::factory()->create();
