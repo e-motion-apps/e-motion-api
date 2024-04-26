@@ -83,7 +83,7 @@ class CityOpinionControllerTest extends TestCase
             ]);
     }
 
-    public function testUnauthorizedUserCannotEditOrDeleteOpinion(): void
+    public function testUnauthorizedUserCannotEditOpinion(): void
     {
         $city = City::factory()->create();
         $response = $this->postJson("/api/opinions", [
@@ -106,12 +106,30 @@ class CityOpinionControllerTest extends TestCase
         ]);
 
         $response->assertNotFound();
+    }
+
+    public function testUnauthorizedUserCannotDeleteOpinion(): void
+    {
+        $city = City::factory()->create();
+        $response = $this->postJson("/api/opinions", [
+            "rating" => 5,
+            "content" => "Great city!",
+            "city_id" => $city->id,
+        ]);
+        $response->assertCreated()
+            ->assertJson([
+                "message" => "Opinion added successfully.",
+            ]);
+
+        Sanctum::actingAs(User::factory()->create());
+
+        $opinion_id = CityOpinion::query()->first()->id;
 
         $response = $this->deleteJson("/api/opinions/$opinion_id");
         $response->assertNotFound();
     }
 
-    public function testUserCannotAddOpinionForNonexistentCity(): void
+    public function testUserCannotAddOpinionForNonExistentCity(): void
     {
         $response = $this->postJson("/api/opinions", [
             "rating" => 5,
