@@ -40,7 +40,7 @@ class LoginTest extends TestCase
         ]);
     }
 
-    public function testUserCannotLogInWithInvalidCredentials(): void
+    public function testUserCannotLogInWithInvalidPassword(): void
     {
         User::query()->create([
             "name" => "Test",
@@ -54,6 +54,22 @@ class LoginTest extends TestCase
         $response->assertStatus(Response::HTTP_UNAUTHORIZED)
             ->assertJson(["message" => "Invalid credentials."]);
 
+        $response = $this->postJson("/api/login", [
+            "email" => "invalid@example.com",
+            "password" => "123456789",
+        ]);
+
+        $response->assertStatus(Response::HTTP_UNAUTHORIZED)
+            ->assertJson(["message" => "Invalid credentials."]);
+    }
+
+    public function testUserCannotLogInWithInvalidEmail(): void
+    {
+        User::query()->create([
+            "name" => "Test",
+            "email" => "email@example.com",
+            "password" => Hash::make("123456789"),
+        ]);
         $response = $this->postJson("/api/login", [
             "email" => "invalid@example.com",
             "password" => "123456789",

@@ -213,4 +213,12 @@ class CountryControllerTest extends TestCase
 
         $this->assertDatabaseMissing("countries", $country->toArray());
     }
+
+    public function testUnauthorizedUserCannotAccessCountries(): void
+    {
+        Sanctum::actingAs(User::factory()->create());
+        $response = $this->getJson("/api/admin/countries");
+
+        $response->assertStatus(Response::HTTP_NOT_FOUND);
+    }
 }

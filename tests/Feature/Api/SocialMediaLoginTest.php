@@ -32,6 +32,7 @@ class SocialMediaLoginTest extends TestCase
         $response->assertOk()
             ->assertJsonStructure([
                 "access_token",
+                "userId",
             ]);
     }
 }

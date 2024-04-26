@@ -5,58 +5,43 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ProviderRequest;
+use App\Http\Requests\ApiProviderRequest;
 use App\Http\Resources\ProviderResource;
 use App\Models\Provider;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\Response;
 
 class ProviderController extends Controller
 {
-    public const ITEMS_PER_PAGE = 15;
-
     public function index(): JsonResponse
     {
-        $providers = Provider::query()
-            ->search("name")
-            ->orderByName()
-            ->orderByTimeRange()
-            ->paginate(self::ITEMS_PER_PAGE)
-            ->withQueryString();
-
+        $providers = Provider::all();
         return response()->json([
             "providers" => ProviderResource::collection($providers),
         ]);
     }
 
-    public function store(ProviderRequest $request): JsonResponse
+    public function store(ApiProviderRequest $request): JsonResponse
     {
-        Provider::query()->create($request->validated());
+        $provider = Provider::create($request->validated());
 
-        $fileName = $this->getFilename($request->name, $request->file("file"));
-        $fileContents = $request->file("file")->get();
+        if ($request->has("file")) {
+            if (!$this->processProviderImage($request->file, $provider->name)) {
+                return response()->json(["message" => __("The image must be 150x100 pixels.")], Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+        }
 
-        Storage::disk("public")->put("providers/" . $fileName, $fileContents);
-
-        return response()->json(["message" => __("Provider created successfully.")], 201);
+        return response()->json(["message" => __("Provider created successfully.")], Response::HTTP_CREATED);
     }
 
-    public function update(ProviderRequest $request, Provider $provider): JsonResponse
+    public function update(ApiProviderRequest $request, Provider $provider): JsonResponse
     {
         $provider->update($request->validated());
 
-        $imageName = $this->getFilename($request->name, $request->file("file"));
-        $storageImagePath = storage_path("app/public/providers/" . $imageName);
-        $resourceImagePath = resource_path("providers/" . $imageName);
-        $imageContents = $request->file("file")->get();
-
-        if (file_exists($resourceImagePath)) {
-            file_put_contents($resourceImagePath, $imageContents);
-            Storage::put($storageImagePath, file_get_contents($imageContents));
-        } else {
-            Storage::put($storageImagePath, file_get_contents($imageContents));
+        if ($request->has("file")) {
+            $this->replaceProviderImage($request->file, $provider->name);
         }
 
         return response()->json(["message" => __("Provider updated successfully.")]);
@@ -65,7 +50,7 @@ class ProviderController extends Controller
     public function destroy(Provider $provider): JsonResponse
     {
         $provider->delete();
-        $imagePath = storage_path("app/public/providers/" . strtolower($provider["name"]) . ".png");
+        $imagePath = $this->providerImagePath($provider->name);
         File::delete($imagePath);
 
         return response()->json(["message" => __("Provider deleted successfully.")]);
@@ -73,11 +58,7 @@ class ProviderController extends Controller
 
     public function showLogo(string $filename): JsonResponse
     {
-        $imagePath = storage_path("app/public/providers/" . $filename);
-
-        if (!file_exists($imagePath)) {
-            $imagePath = storage_path("app/public/providers/unknown.png");
-        }
+        $imagePath = $this->providerImagePath($filename, true);
 
         $imageData = base64_encode(file_get_contents($imagePath));
 
@@ -87,8 +68,48 @@ class ProviderController extends Controller
         ]);
     }
 
-    private function getFilename(string $name, UploadedFile $file): string
+    private function providerImagePath(string $name, bool $useDefault = false): string
     {
-        return strtolower($name) . "." . $file->getClientOriginalExtension();
+        $path = storage_path("app/public/providers/" . strtolower($name) . ".png");
+
+        return file_exists($path) || !$useDefault ? $path : storage_path("app/public/providers/unknown.png");
+    }
+
+    private function processProviderImage(string $encodedFile, string $name): bool
+    {
+        [$decodedFile, $mimeType] = $this->decodeFile($encodedFile);
+
+        if (!$this->validateImageDimensions($decodedFile)) {
+            return false;
+        }
+
+        Storage::disk("public")->put("providers/" . strtolower($name) . "." . $mimeType, $decodedFile);
+
+        return true;
+    }
+
+    private function replaceProviderImage(string $encodedFile, string $name): void
+    {
+        $oldImagePath = $this->providerImagePath($name);
+        Storage::disk("public")->delete($oldImagePath);
+        $this->processProviderImage($encodedFile, $name);
+    }
+
+    private function decodeFile(string $encodedFile): array
+    {
+        preg_match('/^data:image\/(\w+);base64,/', $encodedFile, $matches);
+        $decodedFile = base64_decode(explode(",", $encodedFile)[1] ?? "", true);
+
+        return [$decodedFile, $matches[1] ?? "png"];
+    }
+
+    private function validateImageDimensions(string $decodedFile): bool
+    {
+        $imageResource = imagecreatefromstring($decodedFile);
+        $width = imagesx($imageResource);
+        $height = imagesy($imageResource);
+        imagedestroy($imageResource);
+
+        return $width === 150 && $height === 100;
     }
 }

@@ -52,6 +52,18 @@ RUN apt-get update \
     && docker-php-ext-enable \
         redis
 
+# Add GD extension
+RUN apt-get install -y \
+        libfreetype6-dev \
+        libjpeg62-turbo-dev \
+        libpng-dev \
+        libwebp-dev \
+    && docker-php-ext-configure gd \
+        --with-freetype \
+        --with-jpeg \
+        --with-webp \
+    && docker-php-ext-install gd
+
 ARG XDEBUG_VERSION=3.3.1
 ARG INSTALL_XDEBUG=true
 

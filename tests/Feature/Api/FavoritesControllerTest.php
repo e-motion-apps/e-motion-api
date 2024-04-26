@@ -54,7 +54,7 @@ class FavoritesControllerTest extends TestCase
         $response->assertStatus(Response::HTTP_NOT_FOUND);
     }
 
-    public function testNonexistentCityCannotBeAddedToFavourites(): void
+    public function testNonExistentCityCannotBeAddedToFavourites(): void
     {
         $user = User::factory()->create();
         Sanctum::actingAs($user);
