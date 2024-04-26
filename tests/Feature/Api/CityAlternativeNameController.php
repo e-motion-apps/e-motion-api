@@ -52,7 +52,7 @@ class CityAlternativeNameController extends TestCase
             ->assertJsonValidationErrors(["name"]);
     }
 
-    public function testNonAdminUserCannotAddOrDeleteAlternativeNames(): void
+    public function testNonAdminUserCannotAddAlternativeNames(): void
     {
         Sanctum::actingAs(User::factory()->create());
 
@@ -62,6 +62,11 @@ class CityAlternativeNameController extends TestCase
         ]);
         $response->assertStatus(Response::HTTP_FORBIDDEN);
 
+    }
+
+    public function testNonAdminUserCannotDeleteAlternativeNames()
+    {
+        Sanctum::actingAs(User::factory()->create());
         $cityAlternativeName = CityAlternativeName::factory()->create();
 
         $response = $this->deleteJson(route("city-alternative-names.destroy", $cityAlternativeName->id));
