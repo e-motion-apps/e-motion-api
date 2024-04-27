@@ -70,7 +70,7 @@ class OpenAIService implements ShouldQueue
             $cityData = [
                 "cityId" => $city->id,
                 "countryId" => $city->country_id,
-                "city_name" => $city->name,
+                "cityName" => $city->name,
                 "countryName" => $city->country->name,
             ];
             $jobs[] = new ImportCityRulesJob($cityData, $force);
@@ -101,7 +101,7 @@ class OpenAIService implements ShouldQueue
 
         $prompt_en = "Act as a helpful assistant. Explain what are the legal limitations for riding electric scooters in $cityName, $countryName? Contain information about: max speed, helmet requirements, allowed ABV, passengers, other relevant details. Be formal, speak English. Don't include city name in your response. If you don't have information answering the question, write 'null'.";
         $prompt_pl = "Translate to polish: ";
-        $currentRulesInCountry = Rules::query()->where("countryId", $countryId)->first();
+        $currentRulesInCountry = Rules::query()->where("country_id", $countryId)->first();
 
         if (in_array($countryName, $this->countriesKnownToHaveUniformRules, true) && $currentRulesInCountry !== null && $currentRulesInCountry->rules_en !== null && $currentRulesInCountry->rules_pl !== null && !$force) {
             $rules_en = $currentRulesInCountry->rules_en;
