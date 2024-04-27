@@ -4,8 +4,13 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Models\CityOpinion;
+use App\Policies\CityOpinionPolicy;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Sanctum\PersonalAccessToken;
+use Laravel\Sanctum\Sanctum;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,5 +31,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         JsonResource::withoutWrapping();
+        Gate::policy(CityOpinion::class, CityOpinionPolicy::class);
+        Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
     }
 }
