@@ -76,7 +76,7 @@ class SpinDataImporter extends DataImporter
         $this->deleteMissingProviders(self::getProviderName(), $existingCityProviders);
     }
 
-    protected function load(string $cityName, string $countryName, string $lat = "", string $long = ""): string
+    protected function load(string $cityName, string $countryName, string $lat = "", string $long = "", array $services = ["escooter"]): string
     {
         $city = City::query()->where("name", $cityName)->first();
         $alternativeCityName = CityAlternativeName::query()->where("name", $cityName)->first();
@@ -84,7 +84,7 @@ class SpinDataImporter extends DataImporter
         if ($city || $alternativeCityName) {
             $cityId = $city ? $city->id : $alternativeCityName->city_id;
 
-            $this->createProvider($cityId, self::getProviderName());
+            $this->createProvider($cityId, self::getProviderName(), $services);
 
             return strval($cityId);
         }
@@ -115,7 +115,7 @@ class SpinDataImporter extends DataImporter
                 "country_id" => $country->id,
             ]);
 
-            $this->createProvider($city->id, self::getProviderName());
+            $this->createProvider($city->id, self::getProviderName(), $services);
 
             return strval($city->id);
         }

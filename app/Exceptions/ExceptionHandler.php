@@ -26,6 +26,9 @@ class ExceptionHandler extends Handler
         });
     }
 
+    /**
+     * @noinspection PhpParameterNameChangedDuringInheritanceInspection
+     */
     public function render($request, Throwable $exception)
     {
         if ($exception instanceof ValidationException) {

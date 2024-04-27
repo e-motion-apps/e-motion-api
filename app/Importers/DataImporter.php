@@ -75,15 +75,16 @@ abstract class DataImporter
         }
     }
 
-    protected function createProvider(int $cityId, string $providerName, array $services = ["escooter"]): void
+    protected function createProvider(int $cityId, string $providerName, array $services): void
     {
         foreach ($services as $service) {
-            $serviceId = Service::query()->where("type", $service)->first()->id;
+            $service = Service::query()->where("type", $service)->first();
+
             CityProvider::query()->updateOrCreate([
-                "city_id" => $cityId,
                 "provider_name" => $providerName,
-                "service_id" => $serviceId,
-                "created_by" => "scrapper",
+                "city_id" => $cityId,
+                "created_by" => "scraper",
+                "service_id" => $service->id,
             ]);
         }
     }
@@ -115,7 +116,7 @@ abstract class DataImporter
         );
     }
 
-    protected function load(string $cityName, string $countryName, string $lat = "", string $long = ""): string
+    protected function load(string $cityName, string $countryName, string $lat = "", string $long = "", array $services = ["escooter"]): string
     {
         $country = Country::query()->where("name", $countryName)->orWhere("alternative_name", $countryName)->first();
 
@@ -125,7 +126,7 @@ abstract class DataImporter
 
             if ($city) {
                 $cityId = $city->id;
-                $this->createProvider($cityId, self::getProviderName());
+                $this->createProvider($cityId, self::getProviderName(), $services);
 
                 return strval($cityId);
             } elseif ($alternativeCityName) {
@@ -133,7 +134,7 @@ abstract class DataImporter
                 $city = City::query()->where("id", $cityId)->first();
 
                 if ($city->country_id === $country->id) {
-                    $this->createProvider($cityId, self::getProviderName());
+                    $this->createProvider($cityId, self::getProviderName(), $services);
                 }
             }
 
@@ -151,7 +152,7 @@ abstract class DataImporter
                 "country_id" => $country->id,
             ]);
 
-            $this->createProvider($city->id, self::getProviderName());
+            $this->createProvider($city->id, self::getProviderName(), $services);
 
             return strval($city->id);
         }

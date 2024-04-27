@@ -17,4 +17,12 @@ return new class() extends Migration {
                 ->onDelete("cascade");
         });
     }
+
+    public function down(): void
+    {
+        Schema::table("city_providers", function (Blueprint $table): void {
+            $table->dropForeign(["service_id"]);
+            $table->dropColumn("service_id");
+        });
+    }
 };

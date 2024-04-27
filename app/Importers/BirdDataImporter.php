@@ -75,7 +75,7 @@ class BirdDataImporter extends DataImporter
         return array_map("trim", $coordinates);
     }
 
-    protected function load(string $cityName, string $countryName, string $lat = "", string $long = ""): string
+    protected function load(string $cityName, string $countryName, string $lat = "", string $long = "", array $services = ["escooter"]): string
     {
         $city = City::query()->where("name", $cityName)->first();
         $alternativeCityName = CityAlternativeName::query()->where("name", $cityName)->first();
@@ -83,7 +83,7 @@ class BirdDataImporter extends DataImporter
         if ($city || $alternativeCityName) {
             $cityId = $city ? $city->id : $alternativeCityName->city_id;
 
-            $this->createProvider($cityId, self::getProviderName());
+            $this->createProvider($cityId, self::getProviderName(), $services);
 
             return strval($cityId);
         }
@@ -97,7 +97,7 @@ class BirdDataImporter extends DataImporter
                 "country_id" => $country->id,
             ]);
 
-            $this->createProvider($city->id, self::getProviderName());
+            $this->createProvider($city->id, self::getProviderName(), $services);
 
             return strval($city->id);
         }
