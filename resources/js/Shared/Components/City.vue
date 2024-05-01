@@ -186,12 +186,12 @@ function toggleProvidersForm() {
       <div v-if="selectedCityProviders.length > 0"
            class="m-1 flex h-5 w-fit items-center justify-center rounded border border-zinc-300 bg-zinc-300 p-1"
       >
-        <div class="flex h-5 w-5 items-center justify-center text-xs text-gray-500">
+        <div class="flex size-5 items-center justify-center text-xs text-gray-500">
           {{ selectedCityProviders.length }}
         </div>
       </div>
       <div v-else class="m-1 flex h-5 w-fit items-center justify-center p-1">
-        <div class="flex h-5 w-5 items-center justify-center text-xs text-gray-500">
+        <div class="flex size-5 items-center justify-center text-xs text-gray-500">
           -
         </div>
       </div>
@@ -209,12 +209,12 @@ function toggleProvidersForm() {
         <div v-if="selectedCityProviders.length > 3"
              class="m-1 flex h-5 w-fit items-center justify-center rounded border border-zinc-300 bg-zinc-300 p-1"
         >
-          <div class="flex h-5 w-5 items-center justify-center text-xs text-gray-500">
+          <div class="flex size-5 items-center justify-center text-xs text-gray-500">
             +{{ selectedCityProviders.length - 3 }}
           </div>
         </div>
         <div v-else-if="selectedCityProviders.length === 0" class="m-1 flex h-5 w-fit items-center justify-center p-1">
-          <div class="flex h-5 w-5 items-center justify-center text-xs text-gray-500">
+          <div class="flex size-5 items-center justify-center text-xs text-gray-500">
             -
           </div>
         </div>
@@ -248,7 +248,7 @@ function toggleProvidersForm() {
       <div ref="editDialog" class="mx-auto w-11/12 rounded-lg bg-white pb-6 sm:w-5/6 md:w-3/4 lg:w-1/2 xl:w-1/3">
         <div class="flex w-full justify-end">
           <button class="px-4 pt-4" @click="toggleEditDialog">
-            <XMarkIcon class="h-6 w-6" />
+            <XMarkIcon class="size-6" />
           </button>
         </div>
 
@@ -323,7 +323,7 @@ function toggleProvidersForm() {
                 {{ alternativeName.name }}
               </p>
               <span class="hidden group-hover:block">
-                <XMarkIcon class="h-5 w-5" />
+                <XMarkIcon class="size-5" />
               </span>
             </div>
           </div>

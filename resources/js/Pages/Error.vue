@@ -23,14 +23,14 @@ defineProps({
         </p>
         <div class="mt-10">
           <InertiaLink href="/" class="flex w-fit items-center py-4 pr-4 text-sm font-semibold leading-7 text-blumilk-500">
-            <ArrowLeftIcon class="mr-2 h-10 w-10" />
+            <ArrowLeftIcon class="mr-2 size-10" />
           </InertiaLink>
         </div>
       </div>
     </main>
 
     <div class="hidden lg:relative lg:col-start-2 lg:row-start-1 lg:row-end-4 lg:block">
-      <img src="../assets/error-page-photo.jpg" alt="" class="absolute inset-0 h-full w-full object-cover">
+      <img src="../assets/error-page-photo.jpg" alt="" class="absolute inset-0 size-full object-cover">
     </div>
   </div>
 </template>
