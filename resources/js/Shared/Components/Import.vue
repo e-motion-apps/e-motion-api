@@ -54,7 +54,7 @@ function toggleImportDialog() {
     >
       <div class="flex">
         <div class="w-fit rounded-full p-1">
-          <div class="h-1.5 w-1.5 rounded-full bg-current" />
+          <div class="size-1.5 rounded-full bg-current" />
         </div>
         <div class="text-xs font-medium">
           {{ __(status) }}
@@ -66,7 +66,7 @@ function toggleImportDialog() {
     >
       <div class="flex">
         <div class="flex w-fit animate-pulse rounded-full p-1">
-          <div class="h-1.5 w-1.5 rounded-full bg-current" />
+          <div class="size-1.5 rounded-full bg-current" />
         </div>
         <div class="text-xs font-medium capitalize">
           {{ __(info.status) }}
@@ -83,12 +83,12 @@ function toggleImportDialog() {
       <div ref="importDialog" class="scrollbar mx-auto h-fit max-h-full w-11/12 overflow-y-auto rounded-lg bg-white pb-6 sm:w-5/6 md:w-3/4 lg:w-1/2 xl:w-1/3">
         <div class="flex w-full justify-end">
           <button class="px-4 pt-4" @click="toggleImportDialog">
-            <XMarkIcon class="h-6 w-6" />
+            <XMarkIcon class="size-6" />
           </button>
         </div>
 
         <div class="flex flex-col">
-          <div class="h-full w-full flex-col px-6">
+          <div class="size-full flex-col px-6">
             <div class="mb-4 flex flex-col">
               <p class="text-xs capitalize text-gray-400">
                 {{ info.who_runs_it }}

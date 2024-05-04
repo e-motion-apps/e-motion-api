@@ -96,13 +96,13 @@ function toggleSortDialog() {
     <AdminNavigation :url="page.url" />
 
     <div class="flex w-full md:justify-end">
-      <div class="mt-16 h-full w-full md:mt-0 md:w-2/3 lg:w-3/4 xl:w-5/6">
+      <div class="mt-16 size-full md:mt-0 md:w-2/3 lg:w-3/4 xl:w-5/6">
         <div class="m-4 flex flex-col lg:mx-8">
           <div v-if="isStoreDialogOpened" class="fixed inset-0 z-50 flex items-center bg-black/50">
             <div ref="storeDialog" class="mx-auto w-11/12 rounded-lg bg-white shadow-lg sm:w-3/4 md:w-2/3 lg:w-1/2 xl:w-1/3">
               <div class="flex w-full justify-end">
                 <button class="px-4 pt-4" @click="toggleStoreDialog">
-                  <XMarkIcon class="h-6 w-6" />
+                  <XMarkIcon class="size-6" />
                 </button>
               </div>
 
@@ -147,12 +147,12 @@ function toggleSortDialog() {
             <div class="m-1 flex w-full rounded-md shadow-sm md:w-fit">
               <div class="relative flex grow items-stretch focus-within:z-10">
                 <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                  <MagnifyingGlassIcon class="h-5 w-5 text-gray-800" />
+                  <MagnifyingGlassIcon class="size-5 text-gray-800" />
                 </div>
                 <input v-model.trim="searchInput" type="text" class="block w-full rounded border-0 py-3 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blumilk-300 sm:text-sm sm:leading-6 md:py-1.5" :placeholder="__('Search country')">
               </div>
               <button v-if="searchInput.length" type="button" class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-800 ring-1 ring-inset ring-gray-300 hover:bg-blumilk-25" @click="clearInput">
-                <XMarkIcon class="h-5 w-5" />
+                <XMarkIcon class="size-5" />
               </button>
             </div>
           </div>
@@ -169,7 +169,7 @@ function toggleSortDialog() {
               <div>
                 <button ref="sortDialog" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900" aria-expanded="false" aria-haspopup="true" @click="toggleSortDialog">
                   {{ __('Sort') }}
-                  <ChevronDownIcon class="ml-1 h-5 w-5" />
+                  <ChevronDownIcon class="ml-1 size-5" />
                 </button>
               </div>
 
