@@ -8,7 +8,6 @@ use App\Importers\BirdDataImporter;
 use App\Models\City;
 use App\Models\CityProvider;
 use App\Models\Country;
-use App\Models\Service;
 use App\Services\MapboxGeocodingService;
 use Database\Seeders\ProviderSeeder;
 use Database\Seeders\ServiceSeeder;
@@ -31,7 +30,7 @@ class ImporterTest extends TestCase
         parent::setUp();
         $this->seed([
             ProviderSeeder::class,
-            ServiceSeeder::class
+            ServiceSeeder::class,
         ]);
         $mockResponseBody = "let features = [
         {
