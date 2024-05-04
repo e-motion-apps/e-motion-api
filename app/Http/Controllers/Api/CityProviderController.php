@@ -10,7 +10,6 @@ use App\Http\Resources\CityResource;
 use App\Http\Resources\CountryResource;
 use App\Http\Resources\ProviderResource;
 use App\Models\City;
-use App\Models\CityProvider;
 use App\Models\Country;
 use App\Models\Provider;
 use App\Services\CityProviderService;
