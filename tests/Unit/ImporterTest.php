@@ -8,8 +8,10 @@ use App\Importers\BirdDataImporter;
 use App\Models\City;
 use App\Models\CityProvider;
 use App\Models\Country;
+use App\Models\Service;
 use App\Services\MapboxGeocodingService;
 use Database\Seeders\ProviderSeeder;
+use Database\Seeders\ServiceSeeder;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Handler\MockHandler;
@@ -27,7 +29,10 @@ class ImporterTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed(ProviderSeeder::class);
+        $this->seed([
+            ProviderSeeder::class,
+            ServiceSeeder::class
+        ]);
         $mockResponseBody = "let features = [
         {
             position: new google.maps.LatLng(-31.9523123, 115.861309),
