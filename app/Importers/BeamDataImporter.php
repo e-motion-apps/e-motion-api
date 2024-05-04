@@ -37,7 +37,8 @@ class BeamDataImporter extends DataImporter
 
     public function transform(): void
     {
-        $url = "https://assets-global.website-files.com/63c4acbedbab5dea8b1b98cd/63d8a5b60da91e7d71298637_map-vehicle-saturn.png";
+        $escooterImageUrl = "https://assets-global.website-files.com/63c4acbedbab5dea8b1b98cd/63d8a5b60da91e7d71298637_map-vehicle-saturn.png";
+        $bikeImageUrl = "https://assets-global.website-files.com/63c4acbedbab5dea8b1b98cd/63d8a5b7f06e4a42de02241b_map-vehicle-saturn-apollo.png";
 
         if ($this->stopExecution) {
             return;
@@ -55,22 +56,31 @@ class BeamDataImporter extends DataImporter
                     foreach ($node->childNodes as $div) {
                         if ($div->nodeName === "div") {
                             foreach ($div->childNodes as $city) {
-                                if ($city->nodeName === "img" && $city->getAttribute("src") === $url) {
-                                    $hasEscooters = true;
-                                } elseif ($city->nodeName === "img" && $city->getAttribute("src") !== $url) {
-                                    $hasEscooters = false;
+                                if (!$city->nodeName) {
+                                    continue;
                                 }
 
-                                if ($city->nodeName === "p" && $hasEscooters === true) {
+                                $hasEscooters = false;
+                                $hasBikes = false;
+
+                                if ($city->getAttribute("src") === $escooterImageUrl) {
+                                    $hasEscooters = true;
+                                }
+
+                                if ($city->getAttribute("src") === $bikeImageUrl) {
+                                    $hasBikes = true;
+                                }
+
+                                if ($city->nodeName === "p") {
                                     $search = ["\u{00A0}", "\u{200D}", "Prefecture"];
                                     $valueToDelete = "Selangor";
                                     $cityName = preg_replace('/[\p{Hiragana}\p{Katakana}\p{Han}]+/u', "", $city->nodeValue);
                                     $cityName = str_replace($search, "", $cityName);
-                                    $cityName = preg_replace('/(?<=[^\s_\-])(?=[A-Z])/', "  ", $city->nodeValue);
+                                    $cityName = preg_replace('/(?<=[^\s_\-])(?=[A-Z])/', "  ", $cityName);
                                     $arrayOfCitiesNames = explode("  ", $cityName);
                                     $arrayOfCitiesNames = array_filter($arrayOfCitiesNames, fn($value) => $value !== $valueToDelete);
                                     $arrayOfCitiesNames = array_filter($arrayOfCitiesNames, fn($record) => strlen($record) > 1);
-                                    $arrayOfCitiesNames = array_filter($arrayOfCitiesNames, fn($record) => strpos($record, "•") === false);
+                                    $arrayOfCitiesNames = array_filter($arrayOfCitiesNames, fn($record) => !str_contains($record, "•"));
 
                                     foreach ($arrayOfCitiesNames as $cityName) {
                                         if ($cityName !== "Selangor") {
@@ -79,7 +89,17 @@ class BeamDataImporter extends DataImporter
                                             if ($countryName === "Korea") {
                                                 $countryName = "South Korea";
                                             }
-                                            $provider = $this->load($cityName, $countryName);
+                                            $services = [];
+
+                                            if ($hasBikes) {
+                                                $services[] = "bike";
+                                            }
+
+                                            if ($hasEscooters) {
+                                                $services[] = "escooter";
+                                            }
+                                            $services = ["escooter", "bike"];
+                                            $provider = $this->load($cityName, $countryName, $lat = "", $long = "", $services);
 
                                             if ($provider !== "") {
                                                 $existingCityProviders[] = $provider;

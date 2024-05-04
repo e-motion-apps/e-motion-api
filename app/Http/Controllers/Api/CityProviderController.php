@@ -10,6 +10,7 @@ use App\Http\Resources\CityResource;
 use App\Http\Resources\CountryResource;
 use App\Http\Resources\ProviderResource;
 use App\Models\City;
+use App\Models\CityProvider;
 use App\Models\Country;
 use App\Models\Provider;
 use App\Services\CityProviderService;
@@ -30,7 +31,7 @@ class CityProviderController extends Controller
                 ->sortByDesc(fn(City $city): int => $city->cityProviders->count()),
         );
 
-        $providers = ProviderResource::collection(Provider::all()->sortBy("name"));
+        $providers = ProviderResource::collection(Provider::all());
         $countries = Country::whereHas("cities.cityProviders")
             ->with(["cities.cityAlternativeNames", "cities.cityProviders"])
             ->get()
