@@ -36,7 +36,7 @@ function toggleMobileMenu() {
                 @click="toggleMobileMenu"
         >
           <span class="sr-only">{{ __('Open menu') }}</span>
-          <Bars3Icon class="h-6 w-6" aria-hidden="true" />
+          <Bars3Icon class="size-6" aria-hidden="true" />
         </button>
       </div>
       <Dialog v-if="isMobileMenuOpened" as="div" class="z-30 lg:hidden" :open="isMobileMenuOpened"
@@ -54,7 +54,7 @@ function toggleMobileMenu() {
                     @click="toggleMobileMenu"
             >
               <span class="sr-only">{{ __('Close menu') }}</span>
-              <XMarkIcon class="h-6 w-6" aria-hidden="true" />
+              <XMarkIcon class="size-6" aria-hidden="true" />
             </button>
           </div>
           <div class="mt-6 flow-root">
@@ -80,7 +80,7 @@ function toggleMobileMenu() {
           <div :class="{'bg-blumilk-50': $page.url.startsWith(item.href)}"
                class="mx-auto flex w-11/12 items-center bg-blumilk-25 px-6 hover:bg-blumilk-50 md:rounded-lg md:px-2 md:py-3"
           >
-            <component :is="item.icon" class="h-7 w-7" />
+            <component :is="item.icon" class="size-7" />
             <span class="ml-3 hidden md:flex"> {{ __(item.name) }} </span>
           </div>
         </InertiaLink>

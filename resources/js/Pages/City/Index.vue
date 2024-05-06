@@ -147,7 +147,7 @@ function createOpinion() {
               <StarIcon
                 v-for="index in maxRating"
                 :key="index"
-                class="h-6 w-6 cursor-pointer text-yellow-400"
+                class="size-6 cursor-pointer text-yellow-400"
                 :class="{ 'fill-yellow-400': index <= opinionForm.rating }"
                 @click="setRating(index)"
               />
@@ -163,7 +163,7 @@ function createOpinion() {
 
             <button class="mt-2 flex w-full items-center justify-center rounded-lg bg-emerald-500 p-3 text-xs font-medium text-white hover:bg-emerald-600 sm:w-fit sm:px-4 sm:py-2">
               {{ __('Send') }}
-              <PaperAirplaneIcon class="ml-2 h-4 w-4" />
+              <PaperAirplaneIcon class="ml-2 size-4" />
             </button>
           </form>
 
@@ -189,7 +189,7 @@ function createOpinion() {
         <button class="hover:blumilk-600 fixed bottom-5 z-20 flex items-center justify-center rounded-full bg-blumilk-500 px-2 py-1.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 @click="switchMap"
         >
-          <component :is="buttonIcon" class="h-6 w-6" />
+          <component :is="buttonIcon" class="size-6" />
         </button>
       </div>
     </div>

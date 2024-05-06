@@ -30,7 +30,7 @@ function runRules() {
 <template>
   <AdminNavigation :url="page.url" />
   <div class="flex w-full md:justify-end">
-    <div class="mt-16 flex h-full w-full flex-col justify-between md:mt-0 md:w-2/3 lg:w-3/4 xl:w-5/6">
+    <div class="mt-16 flex size-full flex-col justify-between md:mt-0 md:w-2/3 lg:w-3/4 xl:w-5/6">
       <div class="m-4 flex flex-col lg:mx-8">
         <div class="m-4">
           <button class="my-5 mr-10 w-fit rounded bg-blumilk-500 px-5 py-3 text-sm font-medium text-white shadow-md hover:bg-blumilk-400 md:py-2" @click="runImporters">

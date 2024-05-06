@@ -90,6 +90,7 @@ abstract class DataImporter
             ->whereNotIn("city_id", $existingCityProviders)
             ->whereNot("created_by", "admin")
             ->get();
+
         $cityProvidersToDelete->each(fn($cityProvider) => $cityProvider->delete());
     }
 

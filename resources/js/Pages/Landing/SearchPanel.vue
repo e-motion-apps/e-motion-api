@@ -275,7 +275,7 @@ function selectCountry(country) {
             <div class="relative flex grow items-stretch focus-within:z-10">
               <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                 <i v-if="filterStore.selectedCountry" class="flat flag !h-[18px] !w-[27px]" :class="filterStore.selectedCountry.iso" />
-                <FlagIcon v-else class="ml-1 h-6 w-6 text-gray-800" />
+                <FlagIcon v-else class="ml-1 size-6 text-gray-800" />
               </div>
               <input v-model.trim="countryAutocomplete" type="text"
                      :class="countryAutocomplete.length ? 'rounded-l-lg' : 'rounded-lg'"
@@ -284,7 +284,7 @@ function selectCountry(country) {
               >
             </div>
             <button v-if="countryAutocomplete.length" type="button" class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-800 ring-1 ring-inset ring-gray-300 hover:bg-blumilk-25" @click="clearCountryAutocompleteInput">
-              <XMarkIcon class="h-5 w-5" />
+              <XMarkIcon class="size-5" />
             </button>
           </div>
           <ul v-if="isCountryListOpened" class="scrollbar absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm" role="listbox">
@@ -319,7 +319,7 @@ function selectCountry(country) {
                 >
                   <img loading="lazy" class="w-5" :src="'/providers/' + filterStore.selectedProviderName.toLowerCase() + '.png'" alt="">
                 </div>
-                <TruckIcon v-else class="ml-1 h-6 w-6 text-gray-800" />
+                <TruckIcon v-else class="ml-1 size-6 text-gray-800" />
               </div>
               <input v-model.trim="providerAutocomplete" type="text"
                      :class="providerAutocomplete.length ? 'rounded-l-lg' : 'rounded-lg'"
@@ -328,7 +328,7 @@ function selectCountry(country) {
               >
             </div>
             <button v-if="providerAutocomplete.length" type="button" class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-800 ring-1 ring-inset ring-gray-300 hover:bg-blumilk-25" @click="clearProviderAutocompleteInput">
-              <XMarkIcon class="h-5 w-5" />
+              <XMarkIcon class="size-5" />
             </button>
           </div>
           <ul v-if="isProviderListOpened" class="scrollbar absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm" role="listbox">
@@ -358,10 +358,10 @@ function selectCountry(country) {
     <div :class="isDesktop ? 'justify-between' : 'justify-end'"
          class="mb-4 mt-2 flex w-full flex-wrap px-2 lg:px-3"
     >
-      <button v-if="isDesktop && filteredCities.length" class="mr-1 mt-2 flex h-fit w-fit items-center rounded-lg border border-gray-300 px-4 py-2 text-[10px] font-medium text-gray-600 hover:bg-gray-50"
+      <button v-if="isDesktop && filteredCities.length" class="mr-1 mt-2 flex size-fit items-center rounded-lg border border-gray-300 px-4 py-2 text-[10px] font-medium text-gray-600 hover:bg-gray-50"
               @click="changeFilter"
       >
-        <FunnelIcon class="mr-1 h-4 w-4" />
+        <FunnelIcon class="mr-1 size-4" />
         {{ __('Change filters') }}
       </button>
       <div :class="[isDesktop ? 'flex-col' : 'w-full', filterStore.selectedCity ? 'justify-between' : 'justify-end']"
@@ -372,7 +372,7 @@ function selectCountry(country) {
           class="mt-2 flex w-fit items-center rounded-lg border border-gray-300 px-4 py-2 text-[10px] font-medium text-gray-600 hover:bg-gray-50"
           @click="clearMap"
         >
-          <MapIcon class="mr-1 h-4 w-4" />
+          <MapIcon class="mr-1 size-4" />
           {{ __('Clear map') }}
         </button>
         <button
@@ -380,7 +380,7 @@ function selectCountry(country) {
           class="mt-2 flex w-fit items-center rounded-lg border border-gray-300 px-4 py-2 text-[10px] font-medium text-gray-600 hover:bg-gray-50"
           @click="clearFilters"
         >
-          <TrashIcon class="mr-1 h-4 w-4" />
+          <TrashIcon class="mr-1 size-4" />
           {{ __('Clear filters') }}
         </button>
       </div>
@@ -423,7 +423,7 @@ function selectCountry(country) {
                 <InfoPopup v-else class="flex rounded-full py-0.5 hover:drop-shadow" />
               </div>
               <div class="ml-2 flex rounded-full py-0.5 text-blumilk-500 hover:drop-shadow" @click.stop="goToCityPage(item)">
-                <InformationCircleIcon class="h-8 w-8 hover:drop-shadow sm:h-6 sm:w-6" />
+                <InformationCircleIcon class="size-8 hover:drop-shadow sm:size-6" />
               </div>
             </div>
           </div>
