@@ -7,6 +7,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * @property int $id
@@ -34,8 +35,8 @@ class CityProvider extends Model
         return $this->hasMany(Provider::class);
     }
 
-    public function services(): HasMany
+    public function services(): HasOne
     {
-        return $this->hasMany(Service::class);
+        return $this->hasOne(Service::class);
     }
 }
