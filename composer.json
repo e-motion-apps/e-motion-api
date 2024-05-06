@@ -8,9 +8,9 @@
         "php": "^8.2",
         "ext-dom": "*",
         "ext-pdo": "*",
-        "guzzlehttp/guzzle": "^7.8",
-
-        "inertiajs/inertia-laravel": "^0.6.9",
+        "guzzlehttp/guzzle": "^7.7",
+        "dedoc/scramble": "^0.9.0",
+        "inertiajs/inertia-laravel": "^1.0.0",
         "laravel/framework": "^10.13.0",
         "laravel/sanctum": "^3.2.5",
         "laravel/socialite": "^5.10",
