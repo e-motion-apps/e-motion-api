@@ -12,6 +12,6 @@ const showToast = () => {
 
 <template>
   <span @click.stop="showToast">
-    <OutlineHeartIcon class="h-8 w-8 text-gray-500 sm:h-6 sm:w-6" />
+    <OutlineHeartIcon class="size-8 text-gray-500 sm:size-6" />
   </span>
 </template>
