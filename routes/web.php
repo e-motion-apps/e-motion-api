@@ -52,7 +52,7 @@ Route::middleware("auth")->group(function (): void {
         Route::delete("/delete-city-without-assigned-country/{city}", [CityWithoutAssignedCountryController::class, "destroy"]);
         Route::post("/delete-all-cities-without-assigned-country", [CityWithoutAssignedCountryController::class, "destroyAll"]);
 
-        Route::get("/import-rules/{force}", [RulesController::class, "importRules"]);
+        Route::post("/import-rules", [RulesController::class, "importRules"]);
     });
 });
 

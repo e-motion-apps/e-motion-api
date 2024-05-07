@@ -22,7 +22,7 @@ function runImporters() {
 }
 
 function runRules() {
-  router.get('/import-rules/0', [])
+  router.post('/import-rules/', { force: false })
   toast.success(__('Rules import started.'))
 }
 </script>

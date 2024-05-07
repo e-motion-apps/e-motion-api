@@ -23,12 +23,12 @@ const isAuth = computed(() => page.props.auth.isAuth)
 const regulationsOpen = ref(false)
 const rules = reactive({ pl: 'ładowanie informacji o zasadach, proszę czekać...', en: 'loading info about rules, please wait...' })
 
-fetchRegulations()
 const props = defineProps({
   city: Object,
   providers: Object,
   cityOpinions: Object,
 })
+fetchRegulations()
 
 const currentLocale = ref(computed(() => page.props.locale))
 const currentRules = ref(computed(()=>rules[currentLocale.value]))
@@ -131,9 +131,9 @@ function createOpinion() {
             {{ city.latitude }}, {{ city.longitude }}
           </h2>
           <ProviderIcons class="pt-4" :item="city" :providers="props.providers" />
-          <div class="regulations relative overflow-hidden rounded border-[1px] border-solid border-gray-200 px-3">
+          <div class="regulations relative overflow-hidden rounded border-DEFAULT border-solid border-gray-200 px-3">
             <div class="my-3 flex cursor-pointer items-center text-2xl font-bold text-gray-700" @click="toggleRegulations()">
-              {{ __('Rules') }} <ArrowDownIcon :class="regulationsOpen ? 'rotated' : ''" class="absolute right-3 inline-block h-6 w-6 transition-all" />
+              {{ __('Rules') }} <ArrowDownIcon :class="regulationsOpen ? 'rotated' : ''" class="absolute right-3 inline-block size-6 transition-all" />
             </div>
             <div :class="regulationsOpen?'show':''" class="text-grey-400 overflow-scroll transition">
               <pre class="text-gray-400" v-text="currentRules" />

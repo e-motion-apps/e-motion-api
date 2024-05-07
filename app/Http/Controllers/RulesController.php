@@ -8,28 +8,12 @@ use App\Models\City;
 use App\Models\Country;
 use App\Models\Rules;
 use App\Services\OpenAIService;
-use Exception;
+use Illuminate\Http\Request;
 
 class RulesController
 {
-    public function getRules(string $countryName, string $cityName): array
+    public function getRules(Country $country, City $city): array
     {
-        $countryName = ucfirst($countryName);
-        $cityName = ucfirst($cityName);
-
-        try {
-            $country = Country::query()
-                ->where("name", $countryName)
-                ->orWhere("alternative_name", $countryName)
-                ->first();
-            $city = City::query()
-                ->where("name", $cityName)
-                ->where("country_id", $country->id)
-                ->first();
-        } catch (Exception $e) {
-            return ["message" => __("City not found")];
-        }
-
         $rules = Rules::query()
             ->where("city_id", $city->id)
             ->first();
@@ -45,7 +29,7 @@ class RulesController
             $data = $importer->importRulesForCity($cityData, true);
         } else {
             $data = [
-                "country" => $countryName,
+                "country" => $country->name,
                 "city" => $city->name,
                 "rules_en" => $rules->rules_en,
                 "rules_pl" => $rules->rules_pl,
@@ -55,8 +39,9 @@ class RulesController
         return $data;
     }
 
-    public function importRules(bool $force, OpenAIService $importer): void
+    public function importRules(Request $request, OpenAIService $importer): void
     {
+        $force = $request->input("force", false);
         $importer->importRulesForAllCities($force);
     }
 }
