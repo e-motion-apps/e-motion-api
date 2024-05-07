@@ -27,7 +27,7 @@ class CityControllerTest extends TestCase
 
         $response = $this->getJson("/api/admin/cities");
 
-        $response->assertStatus(200)->assertJsonStructure([
+        $response->assertOk()->assertJsonStructure([
             "cities" => ["*" => []],
             "providers" => ["*" => []],
             "countries" => ["*" => []],
@@ -164,7 +164,7 @@ class CityControllerTest extends TestCase
             "country_id" => 1,
         ]);
 
-        $response->assertStatus(422)->assertJsonValidationErrorFor("name");
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)->assertJsonValidationErrorFor("name");
     }
 
     public function testCityCanBeDeleted(): void
