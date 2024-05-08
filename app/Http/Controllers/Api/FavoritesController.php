@@ -7,10 +7,12 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CityResource;
 use App\Http\Resources\ProviderResource;
+use App\Models\City;
 use App\Models\Favorites;
 use App\Models\Provider;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class FavoritesController extends Controller
 {
@@ -34,6 +36,12 @@ class FavoritesController extends Controller
     {
         $cityId = $request->input("city_id");
         $userId = $request->user()?->id;
+
+        if (City::query()->where("id", $cityId)->doesntExist() || !$cityId) {
+            return response()->json([
+                "message" => "City not found.",
+            ], Response::HTTP_BAD_REQUEST);
+        }
 
         $favorite = Favorites::firstOrCreate([
             "user_id" => $userId,

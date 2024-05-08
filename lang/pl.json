@@ -68,7 +68,7 @@
     "to": "do",
     "results": "wyników",
     "Language has been changed.": "Język został zmieniony.",
-    "Error changing language.": "Błąd podczas zmiany języka.",
+    "Error changing the language.": "Błąd podczas zmiany języka.",
     "Alternative name": "Alternatywna nazwa",
     "Filling map with providers...": "Wypełnianie mapy dostawcami...",
     "Didn't find any providers.": "Nie znaleziono dostawców.",
@@ -181,5 +181,5 @@
     "button, copy and paste the URL below\n": "przycisku, skopiuj i wklej poniższy adres URL\n",
     "into your web browser:": "do swojej przeglądarki internetowej:",
     "All rights reserved.": "Wszelkie prawa zastrzeżone."
-
+    "Provider does not exist.": "Dostawca nie istnieje."
 }

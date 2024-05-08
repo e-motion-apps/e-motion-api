@@ -1,6 +1,6 @@
-FROM composer/composer:2.6.6-bin as composer-bin
+FROM composer/composer:2.7.2-bin as composer-bin
 
-FROM node:21.4.0-bullseye-slim as node
+FROM node:21.7.1-bullseye-slim as node
 
 FROM php:8.3.3-fpm-bullseye
 
@@ -51,6 +51,18 @@ RUN apt-get update \
         pdo_pgsql \
     && docker-php-ext-enable \
         redis
+
+# Add GD extension
+RUN apt-get install -y \
+        libfreetype6-dev \
+        libjpeg62-turbo-dev \
+        libpng-dev \
+        libwebp-dev \
+    && docker-php-ext-configure gd \
+        --with-freetype \
+        --with-jpeg \
+        --with-webp \
+    && docker-php-ext-install gd
 
 ARG XDEBUG_VERSION=3.3.1
 ARG INSTALL_XDEBUG=true
