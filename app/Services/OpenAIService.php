@@ -123,7 +123,7 @@ class OpenAIService implements ShouldQueue
         return $response["choices"][0]["message"]["content"];
     }
 
-    private function checkIfRulesExist(string $countryName, object $currentRulesInCountry): bool
+    private function checkIfRulesExist(string $countryName, ?Rules $currentRulesInCountry): bool
     {
         return in_array($countryName, $this->countriesKnownToHaveUniformRules, true) && $currentRulesInCountry !== null && $currentRulesInCountry->rules_en !== null && $currentRulesInCountry->rules_pl !== null;
     }

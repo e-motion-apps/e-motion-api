@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\CityProviderController;
 use App\Http\Controllers\Api\CityWithoutAssignedCountryController;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\FavoritesController;
+use App\Http\Controllers\Api\RulesController;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -51,12 +52,14 @@ Route::name("api.")->group(function (): void {
             Route::resource("/admin/dashboard", DashboardController::class);
             Route::resource("/city-alternative-name", CityAlternativeNameController::class);
             Route::patch("/update-city-providers/{city}", [CityProviderController::class, "update"]);
-
             Route::post("/run-importers", [CityProviderController::class, "runImporters"]);
             Route::delete("/delete-city-without-assigned-country/{city}", [CityWithoutAssignedCountryController::class, "destroy"]);
             Route::post("/delete-all-cities-without-assigned-country", [CityWithoutAssignedCountryController::class, "destroyAll"]);
+            Route::post("/import-rules", [RulesController::class, "importRules"]);
         });
     });
+
+    Route::get("/rules/{country:slug}/{city:slug}", [RulesController::class, "getRules"]);
     Route::post("/language/{locale}", ChangeLocaleController::class);
 
     Route::get("/{country:slug}/{city:slug}", [CityPageController::class, "index"]);
