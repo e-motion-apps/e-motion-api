@@ -12,19 +12,16 @@ return new class() extends Migration {
         Schema::create("rules_for_cities", function (Blueprint $table): void {
             $table->id();
             $table->timestamps();
-
             $table->unsignedBigInteger("city_id");
             $table->foreign("city_id")
                 ->references("id")
                 ->on("cities")
                 ->onDelete("cascade");
-
             $table->unsignedBigInteger("country_id");
             $table->foreign("country_id")
                 ->references("id")
                 ->on("countries")
                 ->onDelete("cascade");
-
             $table->text("rules_en")->nullable();
             $table->text("rules_pl")->nullable();
         });
