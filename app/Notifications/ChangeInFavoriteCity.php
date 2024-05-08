@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Notifications;
 
-use App\Enums\ChangeInFavouriteCityEnum;
+use App\Enums\ChangeInFavoriteCityEnum;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -18,7 +18,7 @@ class ChangeInFavoriteCity extends Notification
         private string $cityName,
         private string $countryName,
         private string $provider,
-        private ChangeInFavouriteCityEnum $change,
+        private ChangeInFavoriteCityEnum $change,
         private ?string $url = null,
     ) {
         $this->url = $url ?? config("app.url");
