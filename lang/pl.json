@@ -139,6 +139,7 @@
     "Oops! Too many requests. Please try again later.": "Wysłano ostatnio zbyt wiele zapytań. Poczekaj i spróbuj ponownie później.",
     "Your session has expired. Please log in and try again.": "Ta strona wygasła. Zaloguj się ponownie.",
     "Oops. Something went wrong. Try again later.": "Oj! Coś poszło nie tak. Spróbuj ponownie później.",
+
     "Cities with no country assigned": "Miasta bez przypisanego kraju",
     "Cities with no coordinates assigned": "Miasta bez przypisanych współrzędnych",
     "Delete all cities with no country assigned": "Usuń wszystkie miasta bez przypisanego kraju",
@@ -162,11 +163,13 @@
     "Delete that opinion": "Usunąć opinię",
     "That opinion": "Ta opinia",
     "This operation cannot be undone.": "Ta operacja nie może zostać cofnięta.",
+
     "You have logged in successfully.": "Zalogowano pomyślnie.",
     "You have logged out successfully.": "Wylogowano pomyślnie.",
     "You have registered successfully.": "Zarejestrowano pomyślnie",
     "Login failed.": "Logowanie nie powiodło się.",
     "Please, rate that city": "Oceń miasto",
+
     "You can also login by:": "Możesz również zalogować się przez:",
     "Rules import started.": "Import zasad uruchomiony.",
     "Run rules import": "Uruchom import zasad",
@@ -174,5 +177,6 @@
     "loading info about rules, please wait": "ładowanie informacji o zasadach, proszę czekać",
     "There was an error fetching rules.": "Wystąpił błąd podczas pobierania zasad.",
     "Results found": "Znaleziono wyników",
-    "City not found.": "Miasto nieznalezione."
+    "City not found.": "Miasto nieznalezione.",
+    "Provider does not exist.": "Dostawca nie istnieje."
 }

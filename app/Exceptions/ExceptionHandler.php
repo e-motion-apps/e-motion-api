@@ -6,6 +6,7 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Sentry\Laravel\Integration;
@@ -29,6 +30,13 @@ class ExceptionHandler extends Handler
     public function render($request, Throwable $exception)
     {
         if ($exception instanceof ValidationException) {
+            if (Request::is("api/*")) {
+                return response()->json([
+                    "message" => $exception->getMessage(),
+                    "errors" => $exception->errors(),
+                ], Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+
             return back()->withErrors($exception->errors());
         }
 
@@ -76,6 +84,13 @@ class ExceptionHandler extends Handler
                 $statusCode = Response::HTTP_NOT_FOUND;
 
                 break;
+        }
+
+        if (Request::is("api/*")) {
+            return response()->json([
+                "statusTitle" => $statusTitle,
+                "statusDescription" => $statusDescription,
+            ], $statusCode);
         }
 
         return Inertia::render("Error", [

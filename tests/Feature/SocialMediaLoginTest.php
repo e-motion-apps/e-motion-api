@@ -32,7 +32,6 @@ class SocialMediaLoginTest extends TestCase
             "getName" => "Test",
         ]));
 
-        $this->get(route("login.provider", ["provider" => "github"]));
         $this->get(route("login.provider.redirect", ["provider" => "github"]));
         $this->assertAuthenticated();
     }
