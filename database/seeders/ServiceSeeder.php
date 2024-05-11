@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\Service;
 use Illuminate\Database\Seeder;
+use App\Enums\ServicesEnum;
 
 class ServiceSeeder extends Seeder
 {
@@ -14,10 +15,10 @@ class ServiceSeeder extends Seeder
      */
     public function run(): void
     {
-        Service::create(["type" => "bike"]);
-        Service::create(["type" => "cargo"]);
-        Service::create(["type" => "emoped"]);
-        Service::create(["type" => "escooter"]);
-        Service::create(["type" => "motorscooter"]);
+        foreach (ServicesEnum::cases() as $service) {
+            Service::query()->create([
+                "type" => $service->value,
+            ]);
+        }
     }
 }
