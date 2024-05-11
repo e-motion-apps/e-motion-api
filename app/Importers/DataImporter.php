@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Importers;
 
+use App\Enums\ServicesEnum;
 use App\Models\City;
 use App\Models\CityAlternativeName;
 use App\Models\CityProvider;
@@ -77,8 +78,8 @@ abstract class DataImporter
 
     protected function createProvider(int $cityId, string $providerName, array $services): void
     {
-        foreach ($services as $service) {
-            $service = Service::query()->where("type", $service)->first();
+        foreach ($services as $serviceEnum) {
+            $service = Service::query()->where("type", $serviceEnum->value)->first();
 
             CityProvider::query()->updateOrCreate([
                 "provider_name" => $providerName,
@@ -116,7 +117,7 @@ abstract class DataImporter
         );
     }
 
-    protected function load(string $cityName, string $countryName, string $lat = "", string $long = "", array $services = ["escooter"]): string
+    protected function load(string $cityName, string $countryName, string $lat = "", string $long = "", array $services = [ServicesEnum::Escooter]): string
     {
         $country = Country::query()->where("name", $countryName)->orWhere("alternative_name", $countryName)->first();
 
