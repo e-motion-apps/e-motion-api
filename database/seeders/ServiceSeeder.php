@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Enums\ServicesEnum;
 use App\Models\Service;
 use Illuminate\Database\Seeder;
-use App\Enums\ServicesEnum;
 
 class ServiceSeeder extends Seeder
 {
