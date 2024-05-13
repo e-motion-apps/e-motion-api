@@ -7,7 +7,7 @@ namespace App\Http\Controllers\Api\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CityRequest;
 use App\Http\Resources\CityResource;
-use App\Http\Resources\CityWithoutAssignedCoordinatesResources;
+use App\Http\Resources\CityWithoutAssignedCoordinatesResource;
 use App\Http\Resources\CityWithoutAssignedCountryResource;
 use App\Http\Resources\CountryResource;
 use App\Http\Resources\ProviderResource;
@@ -47,7 +47,7 @@ class CityController extends Controller
             "countries" => CountryResource::collection($countries),
             "citiesWithoutAssignedCountry" => CityWithoutAssignedCountryResource::collection($citiesWithoutAssignedCountry),
             "citiesWithoutAssignedCountryCount" => $citiesWithoutAssignedCountry->count(),
-            "citiesWithoutAssignedCoordinates" => CityWithoutAssignedCoordinatesResources::collection($citiesWithoutAssignedCoordinates),
+            "citiesWithoutAssignedCoordinates" => CityWithoutAssignedCoordinatesResource::collection($citiesWithoutAssignedCoordinates),
             "citiesWithoutAssignedCoordinatesCount" => $citiesWithoutAssignedCoordinates->count(),
         ]);
     }
