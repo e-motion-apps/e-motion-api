@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Importers;
 
-use App\Enums\ServicesEnum;
 use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -28,7 +27,7 @@ class BerylDataImporter extends DataImporter
         }
 
         $crawler = new Crawler($html);
-        $this->sections = $crawler->filter('div[class="view-content col-xs-12 col-sm-12"]')->filter("div[class='views-row']");
+        $this->sections = $crawler->filter("div > section > div .inner");
 
         if (count($this->sections) === 0) {
             $this->createImportInfoDetails("204", self::getProviderName());
@@ -47,69 +46,58 @@ class BerylDataImporter extends DataImporter
         $existingCityProviders = [];
 
         foreach ($this->sections as $section) {
-            $crawler = new Crawler($section);
-            $cityName = $crawler->filter("h3")->text();
-            $this->data[] = $cityName;
+            foreach ($section->childNodes as $node) {
+                if ($node->nodeName === "div") {
+                    foreach ($node->childNodes as $city) {
+                        if ($city->nodeName === "h3") {
+                            $cityName = $city->nodeValue;
+                        }
 
-            $servicesNodes = $crawler->filter('div[class="field--label"]');
-            $availableServices = [];
+                        $eScootersFound = false;
 
-            foreach ($servicesNodes as $serviceNode) {
-                $serviceCrawler = new Crawler($serviceNode);
-                $service = $serviceCrawler->text();
+                        if ($city->nodeValue === "e-Scooters") {
+                            $eScootersFound = true;
+                        }
 
-                if ($service === "e-Bikes") {
-                    $availableServices[] = ServicesEnum::Bike;
-                }
+                        if ($eScootersFound) {
+                            $cityName = str_replace(["E-scooters", "and ", ","], "", $cityName);
+                            $cityName = trim($cityName);
 
-                if ($service === "e-Scooters") {
-                    $availableServices[] = ServicesEnum::Escooter;
-                }
+                            if ($cityName === "Bournemouth Christchurch Poole") {
+                                $arrayOfCityNames = explode(" ", $cityName);
 
-                if ($service === "Cargo") {
-                    $availableServices[] = ServicesEnum::Cargo;
-                }
-            }
+                                foreach ($arrayOfCityNames as $cityName) {
+                                    $provider = $this->load($cityName, self::COUNTRY_NAME);
 
-            if ($cityName === "Bournemouth Christchurch Poole") {
-                $arrayOfCityNames = explode(" ", $cityName);
+                                    if ($provider !== "") {
+                                        $existingCityProviders[] = $provider;
+                                    }
+                                }
+                            } elseif ($cityName === "West Midlands") {
+                                $cityName = "Birmingham";
+                            }
 
-                foreach ($arrayOfCityNames as $cityName) {
-                    $provider = $this->load($cityName, self::COUNTRY_NAME, $lat = "", $long = "", $availableServices);
+                            if ($cityName === "Isle of Wight") {
+                                $arrayOfCityNames = ["Cowes", "East Cowes", "Newport", "Ryde", "Sandown", "Shanklin"];
 
-                    if ($provider !== "") {
-                        $existingCityProviders[] = $provider;
+                                foreach ($arrayOfCityNames as $cityName) {
+                                    $provider = $this->load($cityName, self::COUNTRY_NAME);
+
+                                    if ($provider !== "") {
+                                        $existingCityProviders[] = $provider;
+                                    }
+                                }
+                            }
+                            $provider = $this->load($cityName, self::COUNTRY_NAME);
+
+                            if ($provider !== "") {
+                                $existingCityProviders[] = $provider;
+                            }
+                        }
                     }
                 }
-            } elseif ($cityName === "West Midlands") {
-                $cityName = "Birmingham";
-            } elseif ($cityName === "Isle of Wight") {
-                $arrayOfCityNames = ["Cowes", "East Cowes", "Newport", "Ryde", "Sandown", "Shanklin"];
-
-                foreach ($arrayOfCityNames as $cityName) {
-                    $provider = $this->load($cityName, self::COUNTRY_NAME, $lat = "", $long = "", $availableServices);
-
-                    if ($provider !== "") {
-                        $existingCityProviders[] = $provider;
-                    }
-                }
-            }
-            $provider = $this->load($cityName, self::COUNTRY_NAME, $lat = "", $long = "", $availableServices);
-
-            if ($provider !== "") {
-                $existingCityProviders[] = $provider;
             }
         }
-
         $this->deleteMissingProviders(self::getProviderName(), $existingCityProviders);
-    }
-
-    public function test()
-    {
-        $this->extract()->transform();
-        $sectionCount = count($this->sections);
-        $this->data[] = ["sections" => "$sectionCount"];
-
-        return $this->data;
     }
 }
