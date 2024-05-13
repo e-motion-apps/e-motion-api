@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Importers\BaqmeDataImporter;
 use App\Importers\BeamDataImporter;
 use App\Importers\BerylDataImporter;
 use App\Importers\BinBinDataImporter;
@@ -37,6 +38,7 @@ class ProviderSeeder extends Seeder
     public function run(): void
     {
         $providers = [
+            ["name" => BaqmeDataImporter::getProviderName(), "color" => "#50E3C2", "url" => "https://baqme.com/", "android_url" => "https://play.google.com/store/apps/details?id=com.baqme.android", "ios_url" => "https://apps.apple.com/us/app/baqme/id1538722828"],
             ["name" => BeamDataImporter::getProviderName(), "color" => "#7347ff",   "url" => "https://www.ridebeam.com/", "android_url" => "https://play.google.com/store/apps/details?id=com.escooterapp&pli=1", "ios_url" => "https://apps.apple.com/app/id1427114484"],
             ["name" => BerylDataImporter::getProviderName(), "color" => "#00e3c2", "url" => "https://beryl.cc/", "android_url" => "https://play.google.com/store/apps/details?id=cc.beryl.basis", "ios_url" => "https://apps.apple.com/app/id1386768364"],
             ["name" => BinBinDataImporter::getProviderName(), "color" => "#3dbcc8", "url" => "https://www.binbin.tech/", "android_url" => "https://play.google.com/store/apps/details?id=com.BINBIN&hl=en_US", "ios_url" => "https://apps.apple.com/us/app/binbin-scooters/id1483635924"],
