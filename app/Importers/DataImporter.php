@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Importers;
 
-use App\Enums\ServicesEnum;
 use App\Enums\ChangeInFavoriteCityEnum;
+use App\Enums\ServicesEnum;
 use App\Events\ChangeInFavoriteCityEvent;
 use App\Models\City;
 use App\Models\CityAlternativeName;
@@ -83,9 +83,9 @@ abstract class DataImporter
         foreach ($services as $service) {
             $service = Service::query()->where("type", $service)->first();
 
-          if (!CityProvider::query()->where("city_id", $cityId)->where("provider_name", $providerName)->exists()) {
-            event(new ChangeInFavoriteCityEvent($cityId, $providerName, ChangeInFavoriteCityEnum::Added));
-          }
+            if (!CityProvider::query()->where("city_id", $cityId)->where("provider_name", $providerName)->exists()) {
+                event(new ChangeInFavoriteCityEvent($cityId, $providerName, ChangeInFavoriteCityEnum::Added));
+            }
             CityProvider::query()->updateOrCreate([
                 "provider_name" => $providerName,
                 "city_id" => $cityId,
