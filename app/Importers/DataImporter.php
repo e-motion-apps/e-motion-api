@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Importers;
 
 use App\Enums\ChangeInFavoriteCityEnum;
+use App\Enums\ServicesEnum;
 use App\Events\ChangeInFavoriteCityEvent;
 use App\Models\City;
 use App\Models\CityAlternativeName;
@@ -12,6 +13,7 @@ use App\Models\CityProvider;
 use App\Models\CityWithoutAssignedCountry;
 use App\Models\Country;
 use App\Models\ImportInfoDetail;
+use App\Models\Service;
 use App\Services\MapboxGeocodingService;
 use GuzzleHttp\Client;
 use Stichoza\GoogleTranslate\GoogleTranslate;
@@ -76,16 +78,21 @@ abstract class DataImporter
         }
     }
 
-    protected function createProvider(int $cityId, string $providerName): void
+    protected function createProvider(int $cityId, string $providerName, array $services): void
     {
-        if (!CityProvider::query()->where("city_id", $cityId)->where("provider_name", $providerName)->exists()) {
-            event(new ChangeInFavoriteCityEvent($cityId, $providerName, ChangeInFavoriteCityEnum::Added));
+        foreach ($services as $service) {
+            $service = Service::query()->where("type", $service)->first();
+
+            if (!CityProvider::query()->where("city_id", $cityId)->where("provider_name", $providerName)->exists()) {
+                event(new ChangeInFavoriteCityEvent($cityId, $providerName, ChangeInFavoriteCityEnum::Added));
+            }
+            CityProvider::query()->updateOrCreate([
+                "provider_name" => $providerName,
+                "city_id" => $cityId,
+                "created_by" => "scraper",
+                "service_id" => $service->id,
+            ]);
         }
-        CityProvider::query()->updateOrCreate([
-            "city_id" => $cityId,
-            "provider_name" => $providerName,
-            "created_by" => "scrapper",
-        ]);
     }
 
     protected function deleteMissingProviders(string $providerName, array $existingCityProviders): void
@@ -119,7 +126,7 @@ abstract class DataImporter
         );
     }
 
-    protected function load(string $cityName, string $countryName, string $lat = "", string $long = ""): string
+    protected function load(string $cityName, string $countryName, string $lat = "", string $long = "", array $services = [ServicesEnum::Escooter]): string
     {
         $country = Country::query()->where("name", $countryName)->orWhere("alternative_name", $countryName)->first();
 
@@ -129,7 +136,7 @@ abstract class DataImporter
 
             if ($city) {
                 $cityId = $city->id;
-                $this->createProvider($cityId, self::getProviderName());
+                $this->createProvider($cityId, self::getProviderName(), $services);
 
                 return strval($cityId);
             } elseif ($alternativeCityName) {
@@ -137,7 +144,7 @@ abstract class DataImporter
                 $city = City::query()->where("id", $cityId)->first();
 
                 if ($city->country_id === $country->id) {
-                    $this->createProvider($cityId, self::getProviderName());
+                    $this->createProvider($cityId, self::getProviderName(), $services);
                 }
             }
 
@@ -155,7 +162,7 @@ abstract class DataImporter
                 "country_id" => $country->id,
             ]);
 
-            $this->createProvider($city->id, self::getProviderName());
+            $this->createProvider($city->id, self::getProviderName(), $services);
 
             return strval($city->id);
         }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Importers;
 
+use App\Enums\ServicesEnum;
 use App\Models\City;
 use App\Models\CityAlternativeName;
 use App\Models\Country;
@@ -59,7 +60,7 @@ class LimeDataImporter extends DataImporter
         $this->deleteMissingProviders(self::getProviderName(), $existingCityProviders);
     }
 
-    protected function load(string $cityName, string $countryName, string $lat = "", string $long = ""): string
+    protected function load(string $cityName, string $countryName, string $lat = "", string $long = "", array $services = [ServicesEnum::Escooter]): string
     {
         $city = City::query()->where("name", $cityName)->first();
         $alternativeCityName = CityAlternativeName::query()->where("name", $cityName)->first();
@@ -67,7 +68,7 @@ class LimeDataImporter extends DataImporter
         if ($city || $alternativeCityName) {
             $cityId = $city ? $city->id : $alternativeCityName->city_id;
 
-            $this->createProvider($cityId, self::getProviderName());
+            $this->createProvider($cityId, self::getProviderName(), $services);
 
             return strval($cityId);
         }
@@ -98,7 +99,7 @@ class LimeDataImporter extends DataImporter
                 "country_id" => $country->id,
             ]);
 
-            $this->createProvider($city->id, self::getProviderName());
+            $this->createProvider($city->id, self::getProviderName(), $services);
 
             return strval($city->id);
         }

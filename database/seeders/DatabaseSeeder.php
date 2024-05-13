@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             CitiesAndCountriesSeeder::class,
             ProviderSeeder::class,
             CodeSeeder::class,
+            ServiceSeeder::class,
         ]);
     }
 }

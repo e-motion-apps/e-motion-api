@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Importers;
 
+use App\Enums\ServicesEnum;
 use App\Exceptions\MapboxGeocodingServiceException;
 use App\Models\City;
 use App\Models\CityAlternativeName;
@@ -57,7 +58,7 @@ class BirdDataImporter extends DataImporter
 
     protected function parseData(string $html): array
     {
-        $pattern = '/let features = \[([\s\S]*?)\];/';
+        $pattern = '/let features = \[([\s\S]*?)];/';
 
         if (preg_match($pattern, $html, $matches)) {
             $fetchedData = $matches[1];
@@ -75,7 +76,7 @@ class BirdDataImporter extends DataImporter
         return array_map("trim", $coordinates);
     }
 
-    protected function load(string $cityName, string $countryName, string $lat = "", string $long = ""): string
+    protected function load(string $cityName, string $countryName, string $lat = "", string $long = "", array $services = [ServicesEnum::Escooter]): string
     {
         $city = City::query()->where("name", $cityName)->first();
         $alternativeCityName = CityAlternativeName::query()->where("name", $cityName)->first();
@@ -83,7 +84,7 @@ class BirdDataImporter extends DataImporter
         if ($city || $alternativeCityName) {
             $cityId = $city ? $city->id : $alternativeCityName->city_id;
 
-            $this->createProvider($cityId, self::getProviderName());
+            $this->createProvider($cityId, self::getProviderName(), $services);
 
             return strval($cityId);
         }
@@ -97,7 +98,7 @@ class BirdDataImporter extends DataImporter
                 "country_id" => $country->id,
             ]);
 
-            $this->createProvider($city->id, self::getProviderName());
+            $this->createProvider($city->id, self::getProviderName(), $services);
 
             return strval($city->id);
         }

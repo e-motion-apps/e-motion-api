@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Importers;
 
+use App\Enums\ServicesEnum;
 use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -18,12 +19,10 @@ class BeamDataImporter extends DataImporter
             $html = $response->getBody()->getContents();
         } catch (GuzzleException) {
             $this->createImportInfoDetails("400", self::getProviderName());
-
             $this->stopExecution = true;
 
             return $this;
         }
-
         $crawler = new Crawler($html);
         $this->sections = $crawler->filter("div.find-beam-box");
 
@@ -37,58 +36,50 @@ class BeamDataImporter extends DataImporter
 
     public function transform(): void
     {
-        $url = "https://assets-global.website-files.com/63c4acbedbab5dea8b1b98cd/63d8a5b60da91e7d71298637_map-vehicle-saturn.png";
+        $escooterImageUrl = "https://assets-global.website-files.com/63c4acbedbab5dea8b1b98cd/63d8a5b60da91e7d71298637_map-vehicle-saturn.png";
+        $bikeImageUrl = "https://assets-global.website-files.com/63c4acbedbab5dea8b1b98cd/63d8a5b7f06e4a42de02241b_map-vehicle-saturn-apollo.png";
 
         if ($this->stopExecution) {
             return;
         }
-
         $existingCityProviders = [];
 
         foreach ($this->sections as $section) {
-            foreach ($section->childNodes as $node) {
-                if ($node->nodeName === "h4") {
-                    $countryName = $node->nodeValue;
+            $crawler = new Crawler($section);
+            $countryName = $crawler->filter('h4[class="find-beam-title-map"]')->text();
+
+            $columns = $crawler->filter('div[class="beam-col"], div[class="beam-col-main-box"]');
+
+            foreach ($columns as $column) {
+                $columnCrawler = new Crawler($column);
+                $services = [];
+                $images = $columnCrawler->filter("img");
+
+                foreach ($images as $image) {
+                    if ($image->getAttribute("src") === $escooterImageUrl) {
+                        $services[] = ServicesEnum::Escooter;
+                    } else if ($image->getAttribute("src") === $bikeImageUrl) {
+                        $services[] = ServicesEnum::Bike;
+                    }
                 }
 
-                if ($node->nodeName === "div") {
-                    foreach ($node->childNodes as $div) {
-                        if ($div->nodeName === "div") {
-                            foreach ($div->childNodes as $city) {
-                                if ($city->nodeName === "img" && $city->getAttribute("src") === $url) {
-                                    $hasEscooters = true;
-                                } elseif ($city->nodeName === "img" && $city->getAttribute("src") !== $url) {
-                                    $hasEscooters = false;
-                                }
+                $cityNamesHtml = $columnCrawler->filter("p")->html();
+                $cityNamesArray = explode("<br>", $cityNamesHtml);
 
-                                if ($city->nodeName === "p" && $hasEscooters === true) {
-                                    $search = ["\u{00A0}", "\u{200D}", "Prefecture"];
-                                    $valueToDelete = "Selangor";
-                                    $cityName = preg_replace('/[\p{Hiragana}\p{Katakana}\p{Han}]+/u', "", $city->nodeValue);
-                                    $cityName = str_replace($search, "", $cityName);
-                                    $cityName = preg_replace('/(?<=[^\s_\-])(?=[A-Z])/', "  ", $city->nodeValue);
-                                    $arrayOfCitiesNames = explode("  ", $cityName);
-                                    $arrayOfCitiesNames = array_filter($arrayOfCitiesNames, fn($value) => $value !== $valueToDelete);
-                                    $arrayOfCitiesNames = array_filter($arrayOfCitiesNames, fn($record) => strlen($record) > 1);
-                                    $arrayOfCitiesNames = array_filter($arrayOfCitiesNames, fn($record) => strpos($record, "•") === false);
+                foreach ($cityNamesArray as $cityName) {
+                    $cityName = strip_tags($cityName);
+                    $search = ["&nbsp;•", "&nbsp;"];
+                    $cityName = str_replace($search, "", $cityName);
+                    $cityName = trim($cityName);
 
-                                    foreach ($arrayOfCitiesNames as $cityName) {
-                                        if ($cityName !== "Selangor") {
-                                            $cityName = trim($cityName);
+                    if ($countryName === "Korea") {
+                        $countryName = "South Korea";
+                    }
 
-                                            if ($countryName === "Korea") {
-                                                $countryName = "South Korea";
-                                            }
-                                            $provider = $this->load($cityName, $countryName);
+                    $provider = $this->load($cityName, $countryName, $lat = "", $long = "", $services);
 
-                                            if ($provider !== "") {
-                                                $existingCityProviders[] = $provider;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                    if ($provider) {
+                        $existingCityProviders[] = $provider;
                     }
                 }
             }
