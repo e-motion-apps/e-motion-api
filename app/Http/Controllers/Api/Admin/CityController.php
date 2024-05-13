@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CityRequest;
 use App\Http\Resources\CityResource;
+use App\Http\Resources\CityWithoutAssignedCoordinatesResource;
 use App\Http\Resources\CityWithoutAssignedCountryResource;
 use App\Http\Resources\CountryResource;
 use App\Http\Resources\ProviderResource;
@@ -35,12 +36,19 @@ class CityController extends Controller
         $countries = Country::all();
 
         $citiesWithoutAssignedCountry = CityWithoutAssignedCountry::all();
+        $citiesWithoutAssignedCoordinates = City::query()
+            ->whereNull("latitude")
+            ->orWhereNull("longitude")
+            ->get();
 
         return response()->json([
             "cities" => CityResource::collection($cities),
             "providers" => ProviderResource::collection($providers),
             "countries" => CountryResource::collection($countries),
             "citiesWithoutAssignedCountry" => CityWithoutAssignedCountryResource::collection($citiesWithoutAssignedCountry),
+            "citiesWithoutAssignedCountryCount" => $citiesWithoutAssignedCountry->count(),
+            "citiesWithoutAssignedCoordinates" => CityWithoutAssignedCoordinatesResource::collection($citiesWithoutAssignedCoordinates),
+            "citiesWithoutAssignedCoordinatesCount" => $citiesWithoutAssignedCoordinates->count(),
         ]);
     }
 
