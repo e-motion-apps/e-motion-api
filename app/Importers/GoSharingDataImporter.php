@@ -100,6 +100,7 @@ class GoSharingDataImporter extends DataImporter
                     $services = $city["services"];
 
                     $provider = $this->load($cityName, $countryName, $lat = "", $long = "", $services);
+
                     if ($provider !== "") {
                         $existingCityProviders[] = $provider;
                     }
