@@ -1,4 +1,4 @@
-# API
+# E-motion API
 ![logo.png](public/icons/logo.svg)
 
 Project developed to allow checking available options of urban mobility. 
