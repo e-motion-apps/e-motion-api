@@ -16,6 +16,7 @@ use App\Services\CityProviderService;
 use App\Services\DataImporterService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class CityProviderController extends Controller
 {
@@ -47,6 +48,13 @@ class CityProviderController extends Controller
 
     public function update(CityProviderService $service, CityProviderRequest $request, City $city): JsonResponse
     {
+        foreach ($request->providerNames as $providerName) {
+            if (Provider::query()->where("name", $providerName)->doesntExist()) {
+                return response()->json([
+                    "message" => __("Provider does not exist."),
+                ], Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+        }
         $service->updateProvider($request->providerNames, $city);
 
         return response()->json([

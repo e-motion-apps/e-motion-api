@@ -66,13 +66,13 @@ onClickOutside(dialogRef, () => closeModal())
               class="relative overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
             >
               <button class="absolute right-2 top-2 text-gray-400 hover:text-gray-600" @click="closeModal">
-                <XMarkIcon class="h-5 w-5" aria-hidden="true" />
+                <XMarkIcon class="size-5" aria-hidden="true" />
               </button>
               <div ref="dialogRef">
                 <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                   <div class="sm:flex sm:items-start">
-                    <div class="mx-auto flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                      <ExclamationTriangleIcon class="h-6 w-6 text-red-600" aria-hidden="true" />
+                    <div class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:size-10">
+                      <ExclamationTriangleIcon class="size-6 text-red-600" aria-hidden="true" />
                     </div>
                     <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                       <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">

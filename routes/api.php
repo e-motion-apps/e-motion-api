@@ -26,6 +26,8 @@ Route::name("api.")->group(function (): void {
     Route::middleware("guest")->group(function (): void {
         Route::post("/register", [AuthController::class, "store"])->name("register");
         Route::post("/login", [AuthController::class, "login"])->name("login");
+        Route::get("/login/{provider}", [AuthController::class, "redirectToProvider"])->name("login.provider");
+        Route::get("/login/{provider}/redirect", [AuthController::class, "handleProviderRedirect"])->name("login.provider.redirect");
     });
 
     Route::middleware("auth:sanctum")->group(function (): void {
@@ -36,8 +38,10 @@ Route::name("api.")->group(function (): void {
         Route::get("/favorite-cities", [FavoritesController::class, "index"]);
 
         Route::post("/opinions", [CityOpinionController::class, "store"]);
-        Route::patch("/opinions/{cityOpinion}", [CityOpinionController::class, "update"]);
-        Route::delete("/opinions/{cityOpinion}", [CityOpinionController::class, "destroy"]);
+        Route::patch("/opinions/{cityOpinion}", [CityOpinionController::class, "update"])
+            ->middleware("can:update,cityOpinion");
+        Route::delete("/opinions/{cityOpinion}", [CityOpinionController::class, "destroy"])
+            ->middleware("can:delete,cityOpinion");
 
         Route::middleware("ability:HasAdminRole")->group(function (): void {
             Route::get("/admin/importers", [ImportInfoController::class, "index"]);

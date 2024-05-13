@@ -92,7 +92,7 @@ onUnmounted(() => {
       <div v-if="isDesktop || shouldShowMap" class="h-full lg:w-1/2">
         <Map v-if="dataIsFetched" :key="filterStore.selectedProviderName" :cities="data.cities" class="z-10" />
         <div v-else class="flex h-full flex-col items-center justify-center bg-blumilk-25" aria-label="Loading..." role="status">
-          <svg class="h-24 w-24 animate-spin" viewBox="3 3 18 18">
+          <svg class="size-24 animate-spin" viewBox="3 3 18 18">
             <path
               class="fill-gray-200"
               d="M12 5C8.13401 5 5 8.13401 5 12C5 15.866 8.13401 19 12 19C15.866 19 19 15.866 19 12C19 8.13401 15.866 5 12 5ZM3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12Z"
@@ -110,7 +110,7 @@ onUnmounted(() => {
 
       <div v-if="shouldShowButton" class="flex justify-center">
         <button :class="buttonAnimation" class="hover:blumilk-600 fixed bottom-5 z-20 flex items-center justify-center rounded-full bg-blumilk-500 px-2 py-1.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" @click="switchMap">
-          <component :is="buttonIcon" class="h-6 w-6" />
+          <component :is="buttonIcon" class="size-6" />
         </button>
       </div>
     </div>

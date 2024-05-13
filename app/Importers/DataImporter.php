@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Importers;
 
 use App\Enums\ServicesEnum;
+use App\Enums\ChangeInFavoriteCityEnum;
+use App\Events\ChangeInFavoriteCityEvent;
 use App\Models\City;
 use App\Models\CityAlternativeName;
 use App\Models\CityProvider;
@@ -81,6 +83,9 @@ abstract class DataImporter
         foreach ($services as $service) {
             $service = Service::query()->where("type", $service)->first();
 
+          if (!CityProvider::query()->where("city_id", $cityId)->where("provider_name", $providerName)->exists()) {
+            event(new ChangeInFavoriteCityEvent($cityId, $providerName, ChangeInFavoriteCityEnum::Added));
+          }
             CityProvider::query()->updateOrCreate([
                 "provider_name" => $providerName,
                 "city_id" => $cityId,
@@ -98,7 +103,11 @@ abstract class DataImporter
             ->whereNot("created_by", "admin")
             ->get();
 
-        $cityProvidersToDelete->each(fn($cityProvider) => $cityProvider->delete());
+        foreach ($cityProvidersToDelete as $cityProvider) {
+            event(new ChangeInFavoriteCityEvent($cityProvider->city_id, $providerName, ChangeInFavoriteCityEnum::Removed));
+        }
+
+        $cityProvidersToDelete->each(fn(CityProvider $cityProvider) => $cityProvider->delete());
     }
 
     protected function createImportInfoDetails(string $code, string $providerName): void

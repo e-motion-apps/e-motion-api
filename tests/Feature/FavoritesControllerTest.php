@@ -38,7 +38,7 @@ class FavoritesControllerTest extends TestCase
         ]);
     }
 
-    public function testUnauthenitactedUserCannotAddCityToFavourites(): void
+    public function testUnauthenticatedUserCannotAddCityToFavorites(): void
     {
         $city = City::factory()->create();
 

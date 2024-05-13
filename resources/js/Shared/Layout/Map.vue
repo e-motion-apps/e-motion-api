@@ -132,5 +132,5 @@ function filterCities(cities, selectedCountry, selectedProviderName) {
 </script>
 
 <template>
-  <div id="mapContainer" ref="mapContainer" class="fixed h-full w-full lg:w-1/2" />
+  <div id="mapContainer" ref="mapContainer" class="fixed size-full lg:w-1/2" />
 </template>

@@ -93,7 +93,7 @@ const emptyRatingError = ref('')
     </p>
     <StarIcon v-for="index in maxRating"
               :key="index"
-              :class="{ 'fill-yellow-400': index <= props.opinion.rating }" class="h-4 w-4 text-yellow-400"
+              :class="{ 'fill-yellow-400': index <= props.opinion.rating }" class="size-4 text-yellow-400"
     />
   </div>
   <p class="mr-1 text-xs font-light text-blumilk-500">
@@ -104,12 +104,13 @@ const emptyRatingError = ref('')
     {{ opinion.content }}
   </div>
 
+
   <div v-if="user.id === props.opinion.user.id || isAdmin" class="mt-1 flex justify-end">
     <button v-if="user.id === props.opinion.user.id" class="flex px-1 hover:drop-shadow" @click="toggleUpdateOpinionDialog">
-      <PencilIcon class="h-5 w-5 text-blumilk-500 hover:drop-shadow sm:h-4 sm:w-4" />
+      <PencilIcon class="size-5 text-blumilk-500 hover:drop-shadow sm:size-4" />
     </button>
     <button class="flex px-1 hover:drop-shadow" @click="toggleDeleteOpinionDialog">
-      <TrashIcon class="ml-1 h-5 w-5 text-blumilk-500 hover:drop-shadow sm:h-4 sm:w-4" />
+      <TrashIcon class="ml-1 size-5 text-blumilk-500 hover:drop-shadow sm:size-4" />
     </button>
   </div>
 
@@ -118,7 +119,7 @@ const emptyRatingError = ref('')
       <div class="flex flex-col">
         <div class="flex justify-end">
           <button class="w-fit px-4 pt-4" @click.stop="toggleUpdateOpinionDialog">
-            <XMarkIcon class="h-6 w-6" />
+            <XMarkIcon class="size-6" />
           </button>
         </div>
 
@@ -131,7 +132,7 @@ const emptyRatingError = ref('')
             <StarIcon
               v-for="index in maxRating"
               :key="index"
-              class="h-6 w-6 cursor-pointer text-yellow-400"
+              class="size-6 cursor-pointer text-yellow-400"
               :class="{ 'fill-yellow-400': index <= updateOpinionForm.rating }"
               @click="setRating(index)"
             />
@@ -147,7 +148,7 @@ const emptyRatingError = ref('')
 
           <button :disabled="!updateOpinionForm.isDirty" :class="updateOpinionForm.isDirty ? 'bg-emerald-500 hover:bg-emerald-600 ' : 'bg-gray-400 hover:bg-gray-500'" class="mt-2 flex w-full items-center justify-center rounded-lg p-3 text-xs font-medium text-white sm:w-fit sm:px-4 sm:py-2">
             {{ __('Send') }}
-            <PaperAirplaneIcon class="ml-2 h-4 w-4" />
+            <PaperAirplaneIcon class="ml-2 size-4" />
           </button>
         </form>
       </div>
