@@ -139,7 +139,6 @@
     "Oops! Too many requests. Please try again later.": "Wysłano ostatnio zbyt wiele zapytań. Poczekaj i spróbuj ponownie później.",
     "Your session has expired. Please log in and try again.": "Ta strona wygasła. Zaloguj się ponownie.",
     "Oops. Something went wrong. Try again later.": "Oj! Coś poszło nie tak. Spróbuj ponownie później.",
-
     "Cities with no country assigned": "Miasta bez przypisanego kraju",
     "Cities with no coordinates assigned": "Miasta bez przypisanych współrzędnych",
     "Delete all cities with no country assigned": "Usuń wszystkie miasta bez przypisanego kraju",
@@ -163,14 +162,24 @@
     "Delete that opinion": "Usunąć opinię",
     "That opinion": "Ta opinia",
     "This operation cannot be undone.": "Ta operacja nie może zostać cofnięta.",
-
     "You have logged in successfully.": "Zalogowano pomyślnie.",
     "You have logged out successfully.": "Wylogowano pomyślnie.",
     "You have registered successfully.": "Zarejestrowano pomyślnie",
     "Login failed.": "Logowanie nie powiodło się.",
     "Please, rate that city": "Oceń miasto",
-
     "You can also login by:": "Możesz również zalogować się przez:",
+    "Change in favorite city": "Zmiana w ulubionym mieście",
+    "Hello!": "Witaj!",
+    "There has been a change in your favorite city.": "Nastąpiła zmiana w Twoim ulubionym mieście.",
+    "Thank you for using our application!": "Dziękujemy za korzystanie z naszej aplikacji!",
+    "has been": "zostało",
+    "added_to": "dodane do",
+    "removed_from": "usunięte z",
+    "Learn more": "Dowiedz się więcej",
     "Results found": "Znaleziono wyników",
+    "If you're having trouble clicking the": "Jeśli masz problemy z kliknięciem",
+    "button, copy and paste the URL below\n": "przycisku, skopiuj i wklej poniższy adres URL\n",
+    "into your web browser:": "do swojej przeglądarki internetowej:",
+    "All rights reserved.": "Wszelkie prawa zastrzeżone.",
     "Provider does not exist.": "Dostawca nie istnieje."
 }

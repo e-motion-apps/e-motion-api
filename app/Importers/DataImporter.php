@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Importers;
 
+use App\Enums\ChangeInFavoriteCityEnum;
+use App\Events\ChangeInFavoriteCityEvent;
 use App\Models\City;
 use App\Models\CityAlternativeName;
 use App\Models\CityProvider;
@@ -76,6 +78,9 @@ abstract class DataImporter
 
     protected function createProvider(int $cityId, string $providerName): void
     {
+        if (!CityProvider::query()->where("city_id", $cityId)->where("provider_name", $providerName)->exists()) {
+            event(new ChangeInFavoriteCityEvent($cityId, $providerName, ChangeInFavoriteCityEnum::Added));
+        }
         CityProvider::query()->updateOrCreate([
             "city_id" => $cityId,
             "provider_name" => $providerName,
@@ -91,7 +96,11 @@ abstract class DataImporter
             ->whereNot("created_by", "admin")
             ->get();
 
-        $cityProvidersToDelete->each(fn($cityProvider) => $cityProvider->delete());
+        foreach ($cityProvidersToDelete as $cityProvider) {
+            event(new ChangeInFavoriteCityEvent($cityProvider->city_id, $providerName, ChangeInFavoriteCityEnum::Removed));
+        }
+
+        $cityProvidersToDelete->each(fn(CityProvider $cityProvider) => $cityProvider->delete());
     }
 
     protected function createImportInfoDetails(string $code, string $providerName): void
