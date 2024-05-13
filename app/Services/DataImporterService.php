@@ -10,6 +10,7 @@ use App\Jobs\BinBinDataImporterJob;
 use App\Jobs\BirdDataImporterJob;
 use App\Jobs\BitMobilityDataImporterJob;
 use App\Jobs\BoltDataImporterJob;
+use App\Jobs\DocomoDataImporterJob;
 use App\Jobs\DottDataImporterJob;
 use App\Jobs\HopDataImporterJob;
 use App\Jobs\HoppDataImporterJob;
@@ -57,6 +58,7 @@ class DataImporterService
             new HoppDataImporterJob($this->importInfoId),
             new LinkDataImporterJob($this->importInfoId),
             new NeuronDataImporterJob($this->importInfoId),
+            new DocomoDataImporterJob($this->importInfoId),
             new QuickDataImporterJob($this->importInfoId),
             new RydeDataImporterJob($this->importInfoId),
             new SpinDataImporterJob($this->importInfoId),
