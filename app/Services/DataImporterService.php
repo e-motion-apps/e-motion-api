@@ -11,6 +11,7 @@ use App\Jobs\BirdDataImporterJob;
 use App\Jobs\BitMobilityDataImporterJob;
 use App\Jobs\BoltDataImporterJob;
 use App\Jobs\DottDataImporterJob;
+use App\Jobs\FelyxDataImporterJob;
 use App\Jobs\HopDataImporterJob;
 use App\Jobs\HoppDataImporterJob;
 use App\Jobs\HulajDataImporterJob;
@@ -52,6 +53,7 @@ class DataImporterService
             new BitMobilityDataImporterJob($this->importInfoId),
             new BoltDataImporterJob($this->importInfoId),
             new DottDataImporterJob($this->importInfoId),
+            new FelyxDataImporterJob($this->importInfoId),
             new HulajDataImporterJob($this->importInfoId),
             new LimeDataImporterJob($this->importInfoId),
             new HoppDataImporterJob($this->importInfoId),
