@@ -51,7 +51,7 @@ class LimeDataImporter extends DataImporter
             $cityName = trim($section->nodeValue);
             $countryName = trim($section->parentNode->parentNode->previousSibling->previousSibling->nodeValue);
 
-            $provider = $this->load($cityName, $countryName);
+            $provider = $this->load($countryName, $cityName);
 
             if ($provider !== "") {
                 $existingCityProviders[] = $provider;
@@ -60,7 +60,7 @@ class LimeDataImporter extends DataImporter
         $this->deleteMissingProviders(self::getProviderName(), $existingCityProviders);
     }
 
-    protected function load(string $cityName, string $countryName, string $lat = "", string $long = "", array $services = [ServicesEnum::Escooter]): string
+    protected function load(string $countryName, string $cityName, array $services = [ServicesEnum::Escooter], string $lat = "", string $long = ""): string
     {
         $city = City::query()->where("name", $cityName)->first();
         $alternativeCityName = CityAlternativeName::query()->where("name", $cityName)->first();

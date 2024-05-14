@@ -51,7 +51,7 @@ class WindDataImporter extends DataImporter
         $substring_start += strlen("YOUR SECRET SUPERPOWER?");
         $size = strpos($jsContent, "Get the app now", $substring_start) - $substring_start;
         $substring = substr($jsContent, $substring_start, $size);
-        $patternCity = "/\[\"(.*?)\"\]/";
+        $patternCity = "/\[\"(.*?)\"]/";
         $patternCountry = '/:"(.*?)",/';
         preg_match_all($patternCity, $substring, $matchesCities);
         $extractedCities = $matchesCities[1];
@@ -73,7 +73,7 @@ class WindDataImporter extends DataImporter
                 if ($countryName === "Korea") {
                     $countryName = "South Korea";
                 }
-                $provider = $this->load($city, ucfirst($countryName));
+                $provider = $this->load(ucfirst($countryName), $city);
 
                 if ($provider !== "") {
                     $existingCityProviders[] = $provider;

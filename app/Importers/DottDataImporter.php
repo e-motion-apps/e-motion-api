@@ -47,7 +47,7 @@ class DottDataImporter extends DataImporter
         foreach ($this->sections as $section) {
             $cityName = trim($section->nodeValue);
             $countryName = trim($section->parentNode->previousSibling->previousSibling->nodeValue);
-            $provider = $this->load($cityName, $countryName);
+            $provider = $this->load($countryName, $cityName);
 
             if ($provider !== "") {
                 $existingCityProviders[] = $provider;

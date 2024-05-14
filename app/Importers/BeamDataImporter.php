@@ -76,7 +76,7 @@ class BeamDataImporter extends DataImporter
                         $countryName = "South Korea";
                     }
 
-                    $provider = $this->load($cityName, $countryName, $lat = "", $long = "", $services);
+                    $provider = $this->load($countryName, $cityName, $services);
 
                     if ($provider) {
                         $existingCityProviders[] = $provider;

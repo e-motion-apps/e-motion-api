@@ -126,7 +126,7 @@ abstract class DataImporter
         );
     }
 
-    protected function load(string $cityName, string $countryName, string $lat = "", string $long = "", array $services = [ServicesEnum::Escooter]): string
+    protected function load(string $countryName, string $cityName, array $services = [ServicesEnum::Escooter], string $lat = "", string $long = ""): string
     {
         $country = Country::query()->where("name", $countryName)->orWhere("alternative_name", $countryName)->first();
 

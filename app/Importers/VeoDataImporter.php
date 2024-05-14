@@ -72,7 +72,7 @@ class VeoDataImporter extends DataImporter
                         $cityName = trim($cityName);
 
                         if ($cityName !== "") {
-                            $provider = $this->load($cityName, self::COUNTRY_NAME);
+                            $provider = $this->load(self::COUNTRY_NAME, $cityName);
 
                             if ($provider !== "") {
                                 $existingCityProviders[] = $provider;

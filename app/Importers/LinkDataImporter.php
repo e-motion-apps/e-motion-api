@@ -83,8 +83,8 @@ class LinkDataImporter extends DataImporter
 
                 if ($cityName === " ") {
                     continue;
-                }  
-                $provider = $this->load($cityName, $countryName);
+                }
+                $provider = $this->load($countryName, $cityName);
 
                 if ($provider !== "") {
                     $existingCityProviders[] = $provider;

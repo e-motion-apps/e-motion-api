@@ -56,7 +56,7 @@ class TierDataImporter extends DataImporter
                 foreach ($node->childNodes as $childNode) {
                     if (trim($childNode->nodeValue) !== "") {
                         $cityName = trim($childNode->nodeValue);
-                        $provider = $this->load($cityName, $this->countryName);
+                        $provider = $this->load($this->countryName,$cityName);
 
                         if ($provider !== "") {
                             $existingCityProviders[] = $provider;

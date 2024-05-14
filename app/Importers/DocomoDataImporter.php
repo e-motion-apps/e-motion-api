@@ -55,7 +55,7 @@ class DocomoDataImporter extends DataImporter
         }
 
         foreach ($cityNames as $cityName) {
-            $this->load($cityName, self::COUNTRY_NAME, $lat = "", $long = "", $this->services);
+            $this->load(self::COUNTRY_NAME, $cityName, $this->services);
         }
     }
 }

@@ -46,7 +46,7 @@ class BitMobilityDataImporter extends DataImporter
 
         foreach ($this->sections as $section) {
             $cityName = ucwords(strtolower($section->nodeValue));
-            $provider = $this->load($cityName, self::COUNTRY_NAME);
+            $provider = $this->load(self::COUNTRY_NAME, $cityName);
 
             if ($provider !== "") {
                 $existingCityProviders[] = $provider;

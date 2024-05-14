@@ -54,7 +54,7 @@ class BaqmeDataImporter extends DataImporter
                 continue;
             }
             $cityName = $cityArray[0];
-            $provider = $this->load($cityName, self::COUNTRY_NAME, $lat = "", $long = "", $this->services);
+            $provider = $this->load(self::COUNTRY_NAME, $cityName, $this->services);
 
             if ($provider) {
                 $existingCityProviders[] = $provider;

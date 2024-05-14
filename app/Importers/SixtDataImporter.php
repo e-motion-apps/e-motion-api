@@ -64,7 +64,7 @@ class SixtDataImporter extends DataImporter
             foreach ($section->childNodes as $city) {
                 if ($city->nodeName === "li") {
                     $cityName = trim(preg_replace('/\s+/', "", $city->nodeValue));
-                    $provider = $this->load($cityName, $countryName);
+                    $provider = $this->load($countryName, $cityName);
 
                     if ($provider !== "") {
                         $existingCityProviders[] = $provider;

@@ -55,7 +55,7 @@ class WheeMoveDataImporter extends DataImporter
         }
 
         foreach ($cityNames as $name) {
-            $provider = $this->load($name, self::COUNTRY_NAME);
+            $provider = $this->load(self::COUNTRY_NAME, $name);
 
             if ($provider !== "") {
                 $existingCityProviders[] = $provider;

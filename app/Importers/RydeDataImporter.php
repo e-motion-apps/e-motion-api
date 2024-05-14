@@ -59,7 +59,7 @@ class RydeDataImporter extends DataImporter
                             foreach ($div->childNodes as $city) {
                                 if ($city->nodeName === "h1") {
                                     $cityName = trim($city->nodeValue);
-                                    $provider = $this->load($cityName, $this->countryName);
+                                    $provider = $this->load($this->countryName, $cityName);
 
                                     if ($provider !== "") {
                                         $existingCityProviders[] = $provider;

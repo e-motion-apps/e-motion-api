@@ -56,7 +56,7 @@ class VoiDataImporter extends DataImporter
                         if ($city->nodeName === "li") {
                             $cityName = trim($city->nodeValue);
 
-                            $provider = $this->load($cityName, $this->countryName);
+                            $provider = $this->load($this->countryName, $cityName);
 
                             if ($provider !== "") {
                                 $existingCityProviders[] = $provider;

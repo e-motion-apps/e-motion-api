@@ -59,7 +59,7 @@ class BinBinDataImporter extends DataImporter
                 $cityName = $this->translate(trim($data[0]), "en");
             }
 
-            $provider = $this->load($cityName, $countryName);
+            $provider = $this->load($countryName, $cityName);
 
             if ($provider !== "") {
                 $existingCityProviders[] = $provider;

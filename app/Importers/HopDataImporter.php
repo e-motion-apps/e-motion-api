@@ -63,7 +63,7 @@ class HopDataImporter extends DataImporter
             $location["country"] = preg_replace('/\s+/', "", $location["country"]);
             $location["city"] = preg_replace('/\s+/', "", $location["city"]);
 
-            $provider = $this->load($location["city"], $location["country"]);
+            $provider = $this->load($location["country"], $location["city"]);
 
             if ($provider !== "") {
                 $existingCityProviders[] = $provider;

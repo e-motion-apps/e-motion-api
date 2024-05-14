@@ -75,7 +75,7 @@ class BerylDataImporter extends DataImporter
                 $arrayOfCityNames = explode(" ", $cityName);
 
                 foreach ($arrayOfCityNames as $cityName) {
-                    $provider = $this->load($cityName, self::COUNTRY_NAME, $lat = "", $long = "", $availableServices);
+                    $provider = $this->load(self::COUNTRY_NAME, $cityName, $availableServices);
 
                     if ($provider !== "") {
                         $existingCityProviders[] = $provider;
@@ -87,14 +87,14 @@ class BerylDataImporter extends DataImporter
                 $arrayOfCityNames = ["Cowes", "East Cowes", "Newport", "Ryde", "Sandown", "Shanklin"];
 
                 foreach ($arrayOfCityNames as $cityName) {
-                    $provider = $this->load($cityName, self::COUNTRY_NAME, $lat = "", $long = "", $availableServices);
+                    $provider = $this->load(self::COUNTRY_NAME, $cityName, $availableServices);
 
                     if ($provider !== "") {
                         $existingCityProviders[] = $provider;
                     }
                 }
             }
-            $provider = $this->load($cityName, self::COUNTRY_NAME, $lat = "", $long = "", $availableServices);
+            $provider = $this->load(self::COUNTRY_NAME, $cityName, $availableServices);
 
             if ($provider !== "") {
                 $existingCityProviders[] = $provider;

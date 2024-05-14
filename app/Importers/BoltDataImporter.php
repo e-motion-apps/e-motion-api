@@ -59,7 +59,7 @@ class BoltDataImporter extends DataImporter
                 $countryName = $this->fetchedCountriesDictionary[$fetched["country"]["countryCode"]]["name"] ?? "Poland";
                 $cityName = $fetched["name"] ?? $city["city"];
             }
-            $provider = $this->load($cityName, $countryName);
+            $provider = $this->load($countryName, $cityName);
 
             if ($provider !== "") {
                 $existingCityProviders[] = $provider;

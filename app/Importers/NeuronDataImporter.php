@@ -54,7 +54,7 @@ class NeuronDataImporter extends DataImporter
             foreach ($region["cities"] as $city) {
                 $cityName = $city["name"];
 
-                $provider = $this->load($cityName, $countryName);
+                $provider = $this->load($countryName, $cityName);
 
                 if ($provider !== "") {
                     $existingCityProviders[] = $provider;

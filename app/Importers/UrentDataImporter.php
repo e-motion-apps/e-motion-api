@@ -56,7 +56,7 @@ class UrentDataImporter extends DataImporter
             }
             $cityName = str_replace("-", " ", $cityName);
 
-            $provider = $this->load($cityName, self::COUNTRY_NAME);
+            $provider = $this->load(self::COUNTRY_NAME, $cityName);
 
             if ($provider !== "") {
                 $existingCityProviders[] = $provider;
