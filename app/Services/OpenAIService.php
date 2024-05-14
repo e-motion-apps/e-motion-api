@@ -24,7 +24,7 @@ class OpenAIService implements ShouldQueue
     public function __construct()
     {
         try {
-            $this->client = OpenAI::client(env("OPENAI_API_KEY"));
+            $this->client = OpenAI::client(config("openai.token"));
         } catch (Throwable $e) {
             throw new OpenAiException();
         }
