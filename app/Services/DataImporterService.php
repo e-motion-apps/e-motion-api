@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Jobs\BaqmeDataImporterJob;
 use App\Jobs\BeamDataImporterJob;
 use App\Jobs\BerylDataImporterJob;
 use App\Jobs\BinBinDataImporterJob;
@@ -67,6 +68,7 @@ class DataImporterService
             new WindDataImporterJob($this->importInfoId),
             new WheeMoveDataImporterJob($this->importInfoId),
             new HopDataImporterJob($this->importInfoId),
+            new BaqmeDataImporterJob($this->importInfoId),
             new ZwingsDataImporterJob($this->importInfoId),
             new SixtDataImporterJob($this->importInfoId),
         ])->finally(function (): void {
