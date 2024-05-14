@@ -89,7 +89,6 @@ php artisan queue:work
 ### Project is no longer maintaining frontend part, and will be moving to API only.
 If you want to run frontend, you can use following commands:
 
-Npm:
 Compiles and hot-reloads frontend for development:
 ```
 npm run dev
