@@ -16,29 +16,33 @@ API is consumed by applications in those repositories:
 
 ### Available providers
 
+1. Baqme
 1. Beam
-2. Beryl
-3. BinBin
-4. Bird
-5. BitMobility
-6. Bolt
-7. Dott
-8. Hop
-9. Hulaj
-10. Lime
-11. Link
-12. Neuron
-13. Quick
-14. Ryde
-15. Sixt
-16. Spin
-17. Tier
-18. Urent
-19. Veo
-20. Voi
-21. WheeMove
-22. Wind
-23. Zwings
+1. Beryl
+1. BinBin
+1. Bird
+1. BitMobility
+1. Bolt
+1. Docomo
+1. Dott
+1. Felyx
+1. GoSharing
+1. Hop
+1. Hulaj
+1. Lime
+1. Link
+1. Neuron
+1. Quick
+1. Ryde
+1. Sixt
+1. Spin
+1. Tier
+1. Urent
+1. Veo
+1. Voi
+1. WheeMove
+1. Wind
+1. Zwings
 
 ### Local development
 ```
