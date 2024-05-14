@@ -2,8 +2,8 @@
 import Nav from '@/Shared/Layout/Nav.vue'
 import Map from '@/Shared/Layout/Map.vue'
 import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
-import { computed, onUnmounted, ref } from 'vue'
-import { MapIcon, XMarkIcon, StarIcon, PaperAirplaneIcon } from '@heroicons/vue/24/outline'
+import { computed, onUnmounted, ref, reactive } from 'vue'
+import { MapIcon, XMarkIcon, StarIcon, PaperAirplaneIcon, ArrowDownIcon } from '@heroicons/vue/24/outline'
 import { useFilterStore } from '@/Shared/Stores/FilterStore'
 import FavoriteButton from '@/Shared/Components/FavoriteButton.vue'
 import ProviderIcons from '@/Shared/Components/ProviderIcons.vue'
@@ -14,16 +14,24 @@ import { useToast } from 'vue-toastification'
 import Pagination from '@/Shared/Components/Pagination.vue'
 import InfoPopup from '@/Shared/Components/InfoPopup.vue'
 import Opinion from '@/Shared/Components/Opinion.vue'
+import axios from 'axios'
+
 
 const toast = useToast()
 const page = usePage()
 const isAuth = computed(() => page.props.auth.isAuth)
+const regulationsOpen = ref(false)
+const rules = reactive({ pl: 'ładowanie informacji o zasadach, proszę czekać...', en: 'loading info about rules, please wait...' })
 
 const props = defineProps({
   city: Object,
   providers: Object,
   cityOpinions: Object,
 })
+fetchRegulations()
+
+const currentLocale = ref(computed(() => page.props.locale))
+const currentRules = ref(computed(()=>rules[currentLocale.value]))
 
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const isMobile = ref(breakpoints.smaller('lg'))
@@ -57,6 +65,22 @@ function setRating(starIndex) {
   opinionForm.rating = starIndex
 }
 
+function toggleRegulations() {
+  regulationsOpen.value = !regulationsOpen.value
+
+}
+
+function fetchRegulations() {
+  axios.get(`/api/rules/${props.city.country.name.toLowerCase()}/${props.city.name.toLowerCase()}`)
+    .then(response => {
+      rules.pl= response.data.rules_pl
+      rules.en = response.data.rules_en
+    })
+    .catch(() => {
+      toast.error(__('There was an error fetching rules.'))
+    })
+}
+
 const emptyRatingError = ref('')
 
 function createOpinion() {
@@ -75,6 +99,7 @@ function createOpinion() {
       },
     })
   }
+
 }
 
 </script>
@@ -106,7 +131,14 @@ function createOpinion() {
             {{ city.latitude }}, {{ city.longitude }}
           </h2>
           <ProviderIcons class="pt-4" :item="city" :providers="props.providers" />
-
+          <div class="regulations relative overflow-hidden rounded border-DEFAULT border-solid border-gray-200 px-3">
+            <div class="my-3 flex cursor-pointer items-center text-2xl font-bold text-gray-700" @click="toggleRegulations()">
+              {{ __('Rules') }} <ArrowDownIcon :class="regulationsOpen ? 'rotated' : ''" class="absolute right-3 inline-block size-6 transition-all" />
+            </div>
+            <div :class="regulationsOpen?'show':''" class="text-grey-400 overflow-scroll transition">
+              <pre class="text-gray-400" v-text="currentRules" />
+            </div>
+          </div>
           <form v-if="isAuth" class="mt-8 flex flex-col" @submit.prevent="createOpinion">
             <p class="mb-2 text-xs font-medium text-gray-700">
               {{ __('Add opinion') }}

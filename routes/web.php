@@ -15,6 +15,7 @@ use App\Http\Controllers\CityProviderController;
 use App\Http\Controllers\CityWithoutAssignedCountryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FavoritesController;
+use App\Http\Controllers\RulesController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware("guest")->group(function (): void {
@@ -46,10 +47,10 @@ Route::middleware("auth")->group(function (): void {
         Route::resource("/admin/dashboard", DashboardController::class);
         Route::resource("/city-alternative-name", CityAlternativeNameController::class);
         Route::patch("/update-city-providers/{city}", [CityProviderController::class, "update"]);
-
         Route::post("/run-importers", [CityProviderController::class, "runImporters"]);
         Route::delete("/delete-city-without-assigned-country/{city}", [CityWithoutAssignedCountryController::class, "destroy"]);
         Route::post("/delete-all-cities-without-assigned-country", [CityWithoutAssignedCountryController::class, "destroyAll"]);
+        Route::post("/import-rules", [RulesController::class, "importRules"]);
     });
 });
 

@@ -20,6 +20,11 @@ function runImporters() {
   router.post('/run-importers', [])
   toast.success(__('Importers started.'))
 }
+
+function runRules() {
+  router.post('/import-rules/', { force: false })
+  toast.success(__('Rules import started.'))
+}
 </script>
 
 <template>
@@ -27,9 +32,14 @@ function runImporters() {
   <div class="flex w-full md:justify-end">
     <div class="mt-16 flex size-full flex-col justify-between md:mt-0 md:w-2/3 lg:w-3/4 xl:w-5/6">
       <div class="m-4 flex flex-col lg:mx-8">
-        <button class="my-5 w-fit rounded bg-blumilk-500 px-5 py-3 text-sm font-medium text-white shadow-md hover:bg-blumilk-400 md:py-2" @click="runImporters">
-          {{ __('Run importers') }}
-        </button>
+        <div class="m-4">
+          <button class="my-5 mr-10 w-fit rounded bg-blumilk-500 px-5 py-3 text-sm font-medium text-white shadow-md hover:bg-blumilk-400 md:py-2" @click="runImporters">
+            {{ __('Run importers') }}
+          </button>
+          <button class="my-5 w-fit rounded bg-blumilk-500 px-5 py-3 text-sm font-medium text-white shadow-md hover:bg-blumilk-400 md:py-2" @click="runRules">
+            {{ __('Run rules import') }}
+          </button>
+        </div>
 
         <PaginationInfo v-if="importInfo.data.length" :meta="importInfo.meta" />
         <div v-if="importInfo.data.length" class="rounded-lg ring-gray-300 sm:ring-1">
