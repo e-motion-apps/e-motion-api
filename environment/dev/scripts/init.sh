@@ -16,6 +16,3 @@ fi
 
 php artisan migrate --seed
 php artisan storage:link
-
-echo "Running NPM stuff:"
-npm install
