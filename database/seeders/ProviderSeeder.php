@@ -13,6 +13,7 @@ use App\Importers\BitMobilityDataImporter;
 use App\Importers\BoltDataImporter;
 use App\Importers\DocomoDataImporter;
 use App\Importers\DottDataImporter;
+use App\Importers\GoSharingDataImporter;
 use App\Importers\HopDataImporter;
 use App\Importers\HoppDataImporter;
 use App\Importers\HulajDataImporter;
@@ -48,6 +49,7 @@ class ProviderSeeder extends Seeder
             ["name" => BoltDataImporter::getProviderName(), "color" => "#24f0a0", "url" => "https://bolt.eu/pl-pl/scooters/", "android_url" => "https://play.google.com/store/apps/details?id=ee.mtakso.client&hl=pl&gl=US", "ios_url" => "https://apps.apple.com/pl/app/bolt-przejazdy-hulajnogi/id675033630?l=pl"],
             ["name" => DocomoDataImporter::getProviderName(), "color" => "#faf9f6", "url" => "https://docomo-cycle.jp/?lang=en", "android_url" => "https://play.google.com/store/apps/details?id=jp.docomo_cycle.bikeshare", "ios_url" => "https://apps.apple.com/jp/app/id1475196715"],
             ["name" => DottDataImporter::getProviderName(), "color" => "#f5c604", "url" => "https://ridedott.com/", "android_url" => "https://play.google.com/store/apps/details?id=com.ridedott.rider&pli=1", "ios_url" => "https://apps.apple.com/us/app/dott-unlock-your-city/id1440301673"],
+            ["name" => GoSharingDataImporter::getProviderName(), "color" => "#81BB28", "url" => "https://nl.go-sharing.com/en/locations/", "android_url" => "https://play.google.com/store/apps/details?id=nl.gosharing.gourban.app&hl=pl&gl=US", "ios_url" => "https://apps.apple.com/pl/app/go-sharing/id1477465763?l=pl"],
             ["name" => HopDataImporter::getProviderName(), "color" => "#ea1821", "url" => "https://hop.bike/en/", "android_url" => "https://play.google.com/store/apps/details?id=com.hoplagit.rider&hl=pl&gl=US", "ios_url" => "https://apps.apple.com/pl/app/hop-enjoy-the-city/id1487640704?l=pl"],
             ["name" => HoppDataImporter::getProviderName(), "color" => "#1ce5be", "url" => "https://hopp.bike/", "android_url" => "https://play.google.com/store/apps/details?id=bike.hopp", "ios_url" => "https://apps.apple.com/us/app/hopp-scooters/id1471324642?ls=1"],
             ["name" => HulajDataImporter::getProviderName(), "color" => "#d6213f", "url" => "https://hulaj.eu/", "android_url" => "https://play.google.com/store/apps/details?id=eu.hulaj&hl=pl&gl=US"],

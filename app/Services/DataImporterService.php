@@ -13,6 +13,7 @@ use App\Jobs\BitMobilityDataImporterJob;
 use App\Jobs\BoltDataImporterJob;
 use App\Jobs\DocomoDataImporterJob;
 use App\Jobs\DottDataImporterJob;
+use App\Jobs\GoSharingDataImporterJob;
 use App\Jobs\HopDataImporterJob;
 use App\Jobs\HoppDataImporterJob;
 use App\Jobs\HulajDataImporterJob;
@@ -72,6 +73,7 @@ class DataImporterService
             new HopDataImporterJob($this->importInfoId),
             new BaqmeDataImporterJob($this->importInfoId),
             new ZwingsDataImporterJob($this->importInfoId),
+            new GoSharingDataImporterJob($this->importInfoId),
             new SixtDataImporterJob($this->importInfoId),
         ])->finally(function (): void {
             ImportInfo::query()->where("id", $this->importInfoId)->update([
