@@ -22,7 +22,6 @@ class BaqmeDataImporter extends DataImporter
             $html = $response->getBody()->getContents();
         } catch (GuzzleException) {
             $this->createImportInfoDetails("400", self::getProviderName());
-
             $this->stopExecution = true;
 
             return $this;
