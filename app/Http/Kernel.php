@@ -58,17 +58,6 @@ class Kernel extends HttpKernel
      * @var array<string, array<int, class-string|string>>
      */
     protected $middlewareGroups = [
-        "web" => [
-            EncryptCookies::class,
-            AddQueuedCookiesToResponse::class,
-            StartSession::class,
-            ShareErrorsFromSession::class,
-            SetLocale::class,
-            VerifyCsrfToken::class,
-            SubstituteBindings::class,
-            HandleInertiaRequests::class,
-        ],
-
         "api" => [
             ThrottleRequests::class . ":api",
             SubstituteBindings::class,
