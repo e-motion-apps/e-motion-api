@@ -43,6 +43,10 @@ class ExceptionHandler extends Handler
             return back()->withErrors($exception->errors());
         }
 
+        if ($exception instanceof OpenAiException) {
+            return response()->json(["error" => $exception->getMessage()], $exception->getCode());
+        }
+
         $response = parent::render($request, $exception);
         $statusCode = $response->status();
 

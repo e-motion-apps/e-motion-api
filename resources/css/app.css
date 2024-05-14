@@ -25,6 +25,25 @@
     .scrollbar::-webkit-scrollbar-thumb:hover {
         background: #d3d3d3;
     }
+
+    div.regulations>div:nth-child(2) {
+        max-height: 0vh;
+        margin-bottom: 0px;
+        transition: all 0.5s ease-in-out;
+    }
+
+    div.regulations>div:nth-child(2).show {
+        max-height: 50vh;
+        margin-bottom: 12px;
+    }
+
+    div.regulations>div>svg {
+        transform: rotate(0deg);
+    }
+
+    div.regulations>div>svg.rotated {
+        transform: rotate(-180deg);
+    }
     .provider-buttons {
         position: absolute;
         transition: all 0.15s ease-in-out;
@@ -77,5 +96,6 @@
     }
     .provider-buttons>a{
         transition: all 0.15s ease-in-out;
+
     }
   }
