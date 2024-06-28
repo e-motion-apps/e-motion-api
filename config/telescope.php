@@ -26,15 +26,13 @@ return [
         Authorize::class,
     ],
 
-    "only_paths" => [
-    ],
+    "only_paths" => [],
 
     "ignore_paths" => [
         "nova-api*",
     ],
 
-    "ignore_commands" => [
-    ],
+    "ignore_commands" => [],
 
     "watchers" => [
         Watchers\BatchWatcher::class => env("TELESCOPE_BATCH_WATCHER", true),

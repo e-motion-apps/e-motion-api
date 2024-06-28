@@ -24,6 +24,8 @@ Route::name("api.")->group(function (): void {
     Route::middleware("auth:api")->get("/user", fn(Request $request): JsonResponse => new JsonResponse($request->user()));
     Route::get("/providers", [CityProviderController::class, "index"]);
 
+    Route::get("/test-lang", fn() => __("Prices"));
+
     Route::middleware("guest")->group(function (): void {
         Route::post("/register", [AuthController::class, "store"])->name("register");
         Route::post("/login", [AuthController::class, "login"])->name("login");

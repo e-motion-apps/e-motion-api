@@ -56,7 +56,7 @@ class OpenAIService implements ShouldQueue
         Bus::batch($jobs)
             ->catch(fn() => ImportInfoDetail::query()->updateOrCreate([
                 "import_info_id" => $importInfo->id,
-                "provider_name" => "OpenAI",
+                "provider_name" => OpenAI::class,
                 "code" => 400,
             ]))
             ->finally(fn() => ImportInfo::query()->where("id", $importInfo->id)->update([

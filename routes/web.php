@@ -16,9 +16,22 @@ use App\Http\Controllers\CityWithoutAssignedCountryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FavoritesController;
 use App\Http\Controllers\RulesController;
+use App\Models\User;
+use App\Notifications\TestNotification;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware("guest")->group(function (): void {
+    Route::get("/test-notification", function (): void {
+        $user = User::query()->where("email", "admin@example.com")->first();
+        $user->notify(new TestNotification());
+    } );
+    Route::get("/test-view", function () {
+        $name = "test";
+        $title = "Login";
+
+        return view("index", ["name" => $name, "title" => $title]);
+    });
+
     Route::post("/login", [AuthController::class, "login"])->name("login");
     Route::post("/register", [AuthController::class, "store"])->name("register");
 

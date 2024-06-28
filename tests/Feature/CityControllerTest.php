@@ -9,6 +9,7 @@ use App\Models\Country;
 use App\Models\User;
 use Generator;
 use Inertia\Testing\AssertableInertia as Assert;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
@@ -46,9 +47,9 @@ class CityControllerTest extends TestCase
             "country_id" => $country->id,
         ];
 
-        $this->post(uri:"/admin/cities", data: $city);
+        $this->post(uri: "/admin/cities", data: $city);
 
-        $this->assertDatabaseHas(table:"cities", data: $city);
+        $this->assertDatabaseHas(table: "cities", data: $city);
     }
 
     public function testCityCannotBeCreatedBecauseFieldsAlreadyExist(): void
@@ -74,9 +75,7 @@ class CityControllerTest extends TestCase
         $this->assertDatabaseMissing(table: "cities", data: $city);
     }
 
-    /**
-     * @dataProvider invalidCityDataProvider
-     */
+    #[DataProvider("invalidCityDataProvider")]
     public function testCityCannotBeCreatedWithInvalidData(array $data, array $expectedErrors): void
     {
         $response = $this->post(uri: "/admin/cities", data: $data);
@@ -84,9 +83,7 @@ class CityControllerTest extends TestCase
         $response->assertSessionHasErrors($expectedErrors);
     }
 
-    /**
-     * @dataProvider invalidCityDataProvider
-     */
+    #[DataProvider("invalidCityDataProvider")]
     public function testCityCannotBeUpdatedWithInvalidData(array $data, array $expectedErrors): void
     {
         $city = City::factory()->create();
@@ -150,7 +147,7 @@ class CityControllerTest extends TestCase
 
         $this->patch(uri: "/admin/cities/{$city->id}", data: $data);
 
-        $this->assertDatabaseHas(table:"cities", data: $data);
+        $this->assertDatabaseHas(table: "cities", data: $data);
     }
 
     public function testCityCannotBeUpdatedBecauseNameAlreadyExistInOtherCity(): void
@@ -175,7 +172,7 @@ class CityControllerTest extends TestCase
     {
         $city = City::factory()->create();
 
-        $this->delete(uri:"/admin/cities/{$city->id}");
+        $this->delete(uri: "/admin/cities/{$city->id}");
 
         $this->assertDatabaseMissing(table: "cities", data: $city->toArray());
     }

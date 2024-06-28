@@ -9,13 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-/**
- * @property int $id
- * @property string $provider_name
- * @property int $city_id
- * @property string $created_by
- * @property int $service_id
- */
 class CityProvider extends Model
 {
     protected $fillable = [

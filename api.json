@@ -1,1 +1,2830 @@
-{"openapi":"3.1.0","info":{"title":"Escooters","version":"0.0.1"},"servers":[{"url":"http:\/\/escooters.blumilk.localhost\/api"}],"paths":{"\/register":{"post":{"operationId":"register","tags":["Auth"],"requestBody":{"content":{"application\/json":{"schema":{"type":"object","properties":{"name":{"type":"string"},"email":{"type":"string","format":"email"},"password":{"type":"string"}},"required":["name","email","password"]}}}},"responses":{"200":{"description":"","content":{"application\/json":{"schema":{"type":"string"}}}},"422":{"$ref":"#\/components\/responses\/ValidationException"},"403":{"$ref":"#\/components\/responses\/AuthorizationException"}}}},"\/login":{"post":{"operationId":"login","tags":["Auth"],"requestBody":{"content":{"application\/json":{"schema":{"type":"object","properties":{"email":{"type":"string","format":"email"},"password":{"type":"string"}},"required":["email","password"]}}}},"responses":{"200":{"description":"","content":{"application\/json":{"schema":{"anyOf":[{"type":"string"},{"type":"object","properties":{"abilities":{"type":"array","items":{"type":"string"}},"userId":{"type":"string"},"access_token":{"type":"string"}},"required":["abilities","userId","access_token"]}]}}}},"422":{"$ref":"#\/components\/responses\/ValidationException"},"403":{"$ref":"#\/components\/responses\/AuthorizationException"}}}},"\/login\/{provider}":{"get":{"operationId":"login.provider","tags":["Auth"],"parameters":[{"name":"provider","in":"path","required":true,"schema":{"type":"string"}}],"responses":{"200":{"description":"","content":{"application\/json":{"schema":{"type":"object","properties":{"redirect_url":{"type":"string"}},"required":["redirect_url"]}}}}}}},"\/login\/{provider}\/redirect":{"get":{"operationId":"login.provider.redirect","tags":["Auth"],"parameters":[{"name":"provider","in":"path","required":true,"schema":{"type":"string"}}],"responses":{"200":{"description":"","content":{"application\/json":{"schema":{"anyOf":[{"type":"string"},{"type":"object","properties":{"access_token":{"type":"string"},"userId":{"type":"string"}},"required":["access_token","userId"]}]}}}}}}},"\/logout":{"post":{"operationId":"logout","tags":["Auth"],"requestBody":{"content":{"application\/json":{"schema":{"type":"object"}}}},"responses":{"200":{"description":"","content":{"application\/json":{"schema":{"type":"object","properties":{"message":{"type":"string"}},"required":["message"]}}}}}}},"\/language\/{locale}":{"post":{"operationId":"changeLocale","tags":["ChangeLocale"],"parameters":[{"name":"locale","in":"path","required":true,"schema":{"type":"string"}}],"requestBody":{"content":{"application\/json":{"schema":{"type":"object"}}}},"responses":{"200":{"description":"","content":{"application\/json":{"schema":{"anyOf":[{"type":"string"},{"type":"object","properties":{"message":{"type":"string"}},"required":["message"]}]}}}}}}},"\/admin\/cities":{"get":{"operationId":"cities.index","tags":["City"],"responses":{"200":{"description":"","content":{"application\/json":{"schema":{"type":"object","properties":{"cities":{"type":"array","items":{"$ref":"#\/components\/schemas\/CityResource"}},"providers":{"type":"array","items":{"$ref":"#\/components\/schemas\/ProviderResource"}},"countries":{"type":"array","items":{"$ref":"#\/components\/schemas\/CountryResource"}},"citiesWithoutAssignedCountry":{"type":"array","items":{"$ref":"#\/components\/schemas\/CityWithoutAssignedCountryResource"}},"citiesWithoutAssignedCountryCount":{"type":"string"},"citiesWithoutAssignedCoordinates":{"type":"array","items":{"$ref":"#\/components\/schemas\/CityWithoutAssignedCoordinatesResource"}},"citiesWithoutAssignedCoordinatesCount":{"type":"string"}},"required":["cities","providers","countries","citiesWithoutAssignedCountry","citiesWithoutAssignedCountryCount","citiesWithoutAssignedCoordinates","citiesWithoutAssignedCoordinatesCount"]}}}}}},"post":{"operationId":"cities.store","tags":["City"],"requestBody":{"content":{"application\/json":{"schema":{"type":"object","properties":{"name":{"type":"string"},"latitude":{"type":"number"},"longitude":{"type":"number"},"country_id":{"type":"integer"}},"required":["name","latitude","longitude"]}}}},"responses":{"201":{"description":"","content":{"application\/json":{"schema":{"type":"object","properties":{"message":{"type":"string"}},"required":["message"]}}}},"422":{"$ref":"#\/components\/responses\/ValidationException"},"403":{"$ref":"#\/components\/responses\/AuthorizationException"}}}},"\/admin\/cities\/create":{"get":{"operationId":"cities.create","tags":["City"]}},"\/admin\/cities\/{city}":{"get":{"operationId":"cities.show","tags":["City"],"parameters":[{"name":"city","in":"path","required":true,"schema":{"type":"string"}}]},"put":{"operationId":"cities.update","tags":["City"],"parameters":[{"name":"city","in":"path","required":true,"description":"The city ID","schema":{"type":"integer"}}],"requestBody":{"content":{"application\/json":{"schema":{"type":"object","properties":{"name":{"type":"string"},"latitude":{"type":"number"},"longitude":{"type":"number"},"country_id":{"type":"integer"}},"required":["name","latitude","longitude"]}}}},"responses":{"200":{"description":"","content":{"application\/json":{"schema":{"type":"object","properties":{"message":{"type":"string"}},"required":["message"]}}}},"404":{"$ref":"#\/components\/responses\/ModelNotFoundException"},"422":{"$ref":"#\/components\/responses\/ValidationException"},"403":{"$ref":"#\/components\/responses\/AuthorizationException"}}},"delete":{"operationId":"cities.destroy","tags":["City"],"parameters":[{"name":"city","in":"path","required":true,"description":"The city ID","schema":{"type":"integer"}}],"requestBody":{"content":{"application\/json":{"schema":{"type":"object"}}}},"responses":{"200":{"description":"","content":{"application\/json":{"schema":{"type":"object","properties":{"message":{"type":"string"}},"required":["message"]}}}},"404":{"$ref":"#\/components\/responses\/ModelNotFoundException"}}}},"\/admin\/cities\/{city}\/edit":{"get":{"operationId":"cities.edit","tags":["City"],"parameters":[{"name":"city","in":"path","required":true,"schema":{"type":"string"}}]}},"\/city-alternative-name":{"get":{"operationId":"city-alternative-name.index","tags":["CityAlternativeName"]},"post":{"operationId":"city-alternative-name.store","tags":["CityAlternativeName"],"requestBody":{"content":{"application\/json":{"schema":{"type":"object","properties":{"name":{"type":"string"},"city_id":{"type":"integer"}},"required":["name"]}}}},"responses":{"201":{"description":"","content":{"application\/json":{"schema":{"type":"object","properties":{"message":{"type":"string"}},"required":["message"]}}}},"422":{"$ref":"#\/components\/responses\/ValidationException"},"403":{"$ref":"#\/components\/responses\/AuthorizationException"}}}},"\/city-alternative-name\/create":{"get":{"operationId":"city-alternative-name.create","tags":["CityAlternativeName"]}},"\/city-alternative-name\/{city_alternative_name}":{"get":{"operationId":"city-alternative-name.show","tags":["CityAlternativeName"],"parameters":[{"name":"city_alternative_name","in":"path","required":true,"schema":{"type":"string"}}]},"put":{"operationId":"city-alternative-name.update","tags":["CityAlternativeName"],"parameters":[{"name":"city_alternative_name","in":"path","required":true,"schema":{"type":"string"}}],"requestBody":{"content":{"application\/json":{"schema":{"type":"object"}}}}}},"\/city-alternative-name\/{city_alternative_name}\/edit":{"get":{"operationId":"city-alternative-name.edit","tags":["CityAlternativeName"],"parameters":[{"name":"city_alternative_name","in":"path","required":true,"schema":{"type":"string"}}]}},"\/city-alternative-name\/{cityAlternativeName}":{"delete":{"operationId":"city-alternative-name.destroy","tags":["CityAlternativeName"],"parameters":[{"name":"cityAlternativeName","in":"path","required":true,"description":"The city alternative name ID","schema":{"type":"integer"}}],"requestBody":{"content":{"application\/json":{"schema":{"type":"object"}}}},"responses":{"200":{"description":"","content":{"application\/json":{"schema":{"type":"object","properties":{"message":{"type":"string"}},"required":["message"]}}}},"404":{"$ref":"#\/components\/responses\/ModelNotFoundException"}}}},"\/opinions":{"post":{"operationId":"cityOpinion.store","tags":["CityOpinion"],"requestBody":{"content":{"application\/json":{"schema":{"type":"object","properties":{"rating":{"type":"number","minimum":1,"maximum":5},"content":{"type":"string"},"city_id":{"type":"number"}},"required":["rating","content","city_id"]}}}},"responses":{"200":{"description":"","content":{"application\/json":{"schema":{"type":"string"}}}},"422":{"$ref":"#\/components\/responses\/ValidationException"},"403":{"$ref":"#\/components\/responses\/AuthorizationException"}}}},"\/opinions\/{cityOpinion}":{"patch":{"operationId":"cityOpinion.update","tags":["CityOpinion"],"parameters":[{"name":"cityOpinion","in":"path","required":true,"description":"The city opinion ID","schema":{"type":"integer"}}],"requestBody":{"content":{"application\/json":{"schema":{"type":"object","properties":{"rating":{"type":"number","minimum":1,"maximum":5},"content":{"type":"string"},"city_id":{"type":"number"}},"required":["rating","content","city_id"]}}}},"responses":{"200":{"description":"","content":{"application\/json":{"schema":{"type":"object","properties":{"message":{"type":"string"}},"required":["message"]}}}},"404":{"$ref":"#\/components\/responses\/ModelNotFoundException"},"403":{"$ref":"#\/components\/responses\/AuthorizationException"},"422":{"$ref":"#\/components\/responses\/ValidationException"}}},"delete":{"operationId":"cityOpinion.destroy","tags":["CityOpinion"],"parameters":[{"name":"cityOpinion","in":"path","required":true,"description":"The city opinion ID","schema":{"type":"integer"}}],"requestBody":{"content":{"application\/json":{"schema":{"type":"object"}}}},"responses":{"200":{"description":"","content":{"application\/json":{"schema":{"type":"object","properties":{"message":{"type":"string"}},"required":["message"]}}}},"404":{"$ref":"#\/components\/responses\/ModelNotFoundException"},"403":{"$ref":"#\/components\/responses\/AuthorizationException"}}}},"\/{country}\/{city}":{"get":{"operationId":"cityPage.index","tags":["CityPage"],"parameters":[{"name":"country","in":"path","required":true,"description":"The country slug","schema":{"type":"string"}},{"name":"city","in":"path","required":true,"description":"The city slug","schema":{"type":"string"}}],"responses":{"200":{"description":"","content":{"application\/json":{"schema":{"type":"object","properties":{"city":{"$ref":"#\/components\/schemas\/CityResource"},"providers":{"type":"array","items":{"$ref":"#\/components\/schemas\/ProviderResource"}},"cityOpinions":{"type":"array","items":{"$ref":"#\/components\/schemas\/CityOpinionResource"}}},"required":["city","providers","cityOpinions"]}}}},"404":{"$ref":"#\/components\/responses\/ModelNotFoundException"}}}},"\/providers":{"get":{"operationId":"cityProvider.index","tags":["CityProvider"],"responses":{"200":{"description":"","content":{"application\/json":{"schema":{"type":"object","properties":{"cities":{"type":"array","items":{"$ref":"#\/components\/schemas\/CityResource"}},"providers":{"type":"array","items":{"$ref":"#\/components\/schemas\/ProviderResource"}},"countries":{"type":"array","items":{"$ref":"#\/components\/schemas\/CountryResource"}}},"required":["cities","providers","countries"]}}}}}}},"\/update-city-providers\/{city}":{"patch":{"operationId":"cityProvider.update","tags":["CityProvider"],"parameters":[{"name":"city","in":"path","required":true,"description":"The city ID","schema":{"type":"integer"}}],"requestBody":{"content":{"application\/json":{"schema":{"type":"object","properties":{"providerNames":{"type":"array","items":{"type":"string"}}}}}}},"responses":{"200":{"description":"","content":{"application\/json":{"schema":{"anyOf":[{"type":"object","properties":{"message":{"type":"string"}},"required":["message"]},{"type":"string"}]}}}},"404":{"$ref":"#\/components\/responses\/ModelNotFoundException"},"422":{"$ref":"#\/components\/responses\/ValidationException"},"403":{"$ref":"#\/components\/responses\/AuthorizationException"}}}},"\/run-importers":{"post":{"operationId":"cityProvider.runImporters","tags":["CityProvider"],"requestBody":{"content":{"application\/json":{"schema":{"type":"object"}}}},"responses":{"200":{"description":"","content":{"application\/json":{"schema":{"type":"object","properties":{"message":{"type":"string"}},"required":["message"]}}}}}}},"\/delete-city-without-assigned-country\/{city}":{"delete":{"operationId":"cityWithoutAssignedCountry.destroy","tags":["CityWithoutAssignedCountry"],"parameters":[{"name":"city","in":"path","required":true,"description":"The city ID","schema":{"type":"integer"}}],"requestBody":{"content":{"application\/json":{"schema":{"type":"object"}}}},"responses":{"200":{"description":"","content":{"application\/json":{"schema":{"type":"object","properties":{"message":{"type":"string"}},"required":["message"]}}}},"404":{"$ref":"#\/components\/responses\/ModelNotFoundException"}}}},"\/delete-all-cities-without-assigned-country":{"post":{"operationId":"cityWithoutAssignedCountry.destroyAll","tags":["CityWithoutAssignedCountry"],"requestBody":{"content":{"application\/json":{"schema":{"type":"object"}}}},"responses":{"200":{"description":"","content":{"application\/json":{"schema":{"type":"object","properties":{"message":{"type":"string"}},"required":["message"]}}}}}}},"\/admin\/countries":{"get":{"operationId":"countries.index","tags":["Country"],"responses":{"200":{"description":"","content":{"application\/json":{"schema":{"type":"object","properties":{"countries":{"type":"array","items":{"$ref":"#\/components\/schemas\/CountryResource"}}},"required":["countries"]}}}}}},"post":{"operationId":"countries.store","tags":["Country"],"requestBody":{"content":{"application\/json":{"schema":{"type":"object","properties":{"name":{"type":"string"},"alternative_name":{"type":["string","null"]},"latitude":{"type":"number"},"longitude":{"type":"number"},"iso":{"type":"string"}},"required":["name","latitude","longitude","iso"]}}}},"responses":{"201":{"description":"","content":{"application\/json":{"schema":{"type":"object","properties":{"message":{"type":"string"}},"required":["message"]}}}},"422":{"$ref":"#\/components\/responses\/ValidationException"},"403":{"$ref":"#\/components\/responses\/AuthorizationException"}}}},"\/admin\/countries\/create":{"get":{"operationId":"countries.create","tags":["Country"]}},"\/admin\/countries\/{country}":{"get":{"operationId":"countries.show","tags":["Country"],"parameters":[{"name":"country","in":"path","required":true,"schema":{"type":"string"}}]},"put":{"operationId":"countries.update","tags":["Country"],"parameters":[{"name":"country","in":"path","required":true,"description":"The country ID","schema":{"type":"integer"}}],"requestBody":{"content":{"application\/json":{"schema":{"type":"object","properties":{"name":{"type":"string"},"alternative_name":{"type":["string","null"]},"latitude":{"type":"number"},"longitude":{"type":"number"},"iso":{"type":"string"}},"required":["name","latitude","longitude","iso"]}}}},"responses":{"200":{"description":"","content":{"application\/json":{"schema":{"type":"object","properties":{"message":{"type":"string"}},"required":["message"]}}}},"404":{"$ref":"#\/components\/responses\/ModelNotFoundException"},"422":{"$ref":"#\/components\/responses\/ValidationException"},"403":{"$ref":"#\/components\/responses\/AuthorizationException"}}},"delete":{"operationId":"countries.destroy","tags":["Country"],"parameters":[{"name":"country","in":"path","required":true,"description":"The country ID","schema":{"type":"integer"}}],"requestBody":{"content":{"application\/json":{"schema":{"type":"object"}}}},"responses":{"200":{"description":"","content":{"application\/json":{"schema":{"type":"object","properties":{"message":{"type":"string"}},"required":["message"]}}}},"404":{"$ref":"#\/components\/responses\/ModelNotFoundException"}}}},"\/admin\/countries\/{country}\/edit":{"get":{"operationId":"countries.edit","tags":["Country"],"parameters":[{"name":"country","in":"path","required":true,"schema":{"type":"string"}}]}},"\/admin\/dashboard":{"get":{"operationId":"dashboard.index","tags":["Dashboard"],"responses":{"200":{"description":"","content":{"application\/json":{"schema":{"type":"object","properties":{"usersCount":{"type":"string"},"citiesWithProvidersCount":{"type":"string"},"countriesWithCitiesWithProvidersCount":{"type":"string"},"providersCount":{"type":"string"},"providerCitiesCount":{"type":"string"},"providers":{"type":"array","items":{"$ref":"#\/components\/schemas\/ProviderResource"}}},"required":["usersCount","citiesWithProvidersCount","countriesWithCitiesWithProvidersCount","providersCount","providerCitiesCount","providers"]}}}}}},"post":{"operationId":"dashboard.store","tags":["Dashboard"],"requestBody":{"content":{"application\/json":{"schema":{"type":"object"}}}}}},"\/admin\/dashboard\/create":{"get":{"operationId":"dashboard.create","tags":["Dashboard"]}},"\/admin\/dashboard\/{dashboard}":{"get":{"operationId":"dashboard.show","tags":["Dashboard"],"parameters":[{"name":"dashboard","in":"path","required":true,"schema":{"type":"string"}}]},"put":{"operationId":"dashboard.update","tags":["Dashboard"],"parameters":[{"name":"dashboard","in":"path","required":true,"schema":{"type":"string"}}],"requestBody":{"content":{"application\/json":{"schema":{"type":"object"}}}}},"delete":{"operationId":"dashboard.destroy","tags":["Dashboard"],"parameters":[{"name":"dashboard","in":"path","required":true,"schema":{"type":"string"}}],"requestBody":{"content":{"application\/json":{"schema":{"type":"object"}}}}}},"\/admin\/dashboard\/{dashboard}\/edit":{"get":{"operationId":"dashboard.edit","tags":["Dashboard"],"parameters":[{"name":"dashboard","in":"path","required":true,"schema":{"type":"string"}}]}},"\/favorites":{"post":{"operationId":"favorites.store","tags":["Favorites"],"requestBody":{"content":{"application\/json":{"schema":{"type":"object"}}}},"responses":{"200":{"description":"","content":{"application\/json":{"schema":{"anyOf":[{"type":"object","properties":{"message":{"type":"string","example":"City removed from favorites."}},"required":["message"]},{"type":"object","properties":{"message":{"type":"string","example":"City added to favorites."}},"required":["message"]},{"type":"string"}]}}}}}}},"\/favorites\/{cityId}":{"get":{"operationId":"favorites.check","tags":["Favorites"],"parameters":[{"name":"cityId","in":"path","required":true,"schema":{"type":"integer"}}],"responses":{"200":{"description":"","content":{"application\/json":{"schema":{"type":"boolean"}}}}}}},"\/favorite-cities":{"get":{"operationId":"favorites.index","tags":["Favorites"],"responses":{"200":{"description":"","content":{"application\/json":{"schema":{"type":"object","properties":{"cities":{"type":"string"},"providers":{"type":"array","items":{"$ref":"#\/components\/schemas\/ProviderResource"}}},"required":["cities","providers"]}}}}}}},"\/admin\/importers":{"get":{"operationId":"importInfo.index","tags":["ImportInfo"],"responses":{"200":{"description":"","content":{"application\/json":{"schema":{"type":"object","properties":{"importInfo":{"type":"array","items":{"$ref":"#\/components\/schemas\/ImportInfoResource"}},"codes":{"type":"string"},"providers":{"type":"string"}},"required":["importInfo","codes","providers"]}}}}}}},"\/admin\/providers":{"get":{"operationId":"providers.index","tags":["Provider"],"responses":{"200":{"description":"","content":{"application\/json":{"schema":{"type":"object","properties":{"providers":{"type":"array","items":{"$ref":"#\/components\/schemas\/ProviderResource"}}},"required":["providers"]}}}}}},"post":{"operationId":"providers.store","tags":["Provider"],"requestBody":{"content":{"application\/json":{"schema":{"type":"object","properties":{"name":{"type":"string"},"color":{"type":"string"},"url":{"type":["string","null"]},"android_url":{"type":["string","null"]},"ios_url":{"type":["string","null"]},"file":{"type":"string"}},"required":["name","color","file"]}}}},"responses":{"200":{"description":"","content":{"application\/json":{"schema":{"type":"string"}}}},"422":{"$ref":"#\/components\/responses\/ValidationException"},"403":{"$ref":"#\/components\/responses\/AuthorizationException"}}}},"\/admin\/providers\/create":{"get":{"operationId":"providers.create","tags":["Provider"]}},"\/admin\/providers\/{provider}":{"get":{"operationId":"providers.show","tags":["Provider"],"parameters":[{"name":"provider","in":"path","required":true,"schema":{"type":"string"}}]},"put":{"operationId":"providers.update","tags":["Provider"],"parameters":[{"name":"provider","in":"path","required":true,"description":"The provider name","schema":{"type":"string"}}],"requestBody":{"content":{"application\/json":{"schema":{"type":"object","properties":{"name":{"type":"string"},"color":{"type":"string"},"url":{"type":["string","null"]},"android_url":{"type":["string","null"]},"ios_url":{"type":["string","null"]},"file":{"type":"string"}},"required":["name","color","file"]}}}},"responses":{"200":{"description":"","content":{"application\/json":{"schema":{"type":"object","properties":{"message":{"type":"string"}},"required":["message"]}}}},"404":{"$ref":"#\/components\/responses\/ModelNotFoundException"},"422":{"$ref":"#\/components\/responses\/ValidationException"},"403":{"$ref":"#\/components\/responses\/AuthorizationException"}}},"delete":{"operationId":"providers.destroy","tags":["Provider"],"parameters":[{"name":"provider","in":"path","required":true,"description":"The provider name","schema":{"type":"string"}}],"requestBody":{"content":{"application\/json":{"schema":{"type":"object"}}}},"responses":{"200":{"description":"","content":{"application\/json":{"schema":{"type":"object","properties":{"message":{"type":"string"}},"required":["message"]}}}},"404":{"$ref":"#\/components\/responses\/ModelNotFoundException"}}}},"\/admin\/providers\/{provider}\/edit":{"get":{"operationId":"providers.edit","tags":["Provider"],"parameters":[{"name":"provider","in":"path","required":true,"schema":{"type":"string"}}]}},"\/images\/providers\/{filename}":{"get":{"operationId":"provider.showLogo","tags":["Provider"],"parameters":[{"name":"filename","in":"path","required":true,"schema":{"type":"string"}}],"responses":{"200":{"description":"","content":{"application\/json":{"schema":{"type":"object","properties":{"image":{"type":"string"},"mime_type":{"type":"string","example":"image\/png"}},"required":["image","mime_type"]}}}}}}}},"components":{"schemas":{"CityAlternativeName":{"type":"object","properties":{"id":{"type":"integer"},"name":{"type":"string"},"city_id":{"type":"integer"},"created_at":{"type":["string","null"],"format":"date-time"},"updated_at":{"type":["string","null"],"format":"date-time"}},"required":["id","name","city_id","created_at","updated_at"],"title":"CityAlternativeName"},"CityOpinion":{"type":"object","properties":{"id":{"type":"integer"},"content":{"type":"string"},"rating":{"type":"integer"},"city_id":{"type":"integer"},"user_id":{"type":"integer"},"created_at":{"type":["string","null"],"format":"date-time"},"updated_at":{"type":["string","null"],"format":"date-time"}},"required":["id","content","rating","city_id","user_id","created_at","updated_at"],"title":"CityOpinion"},"CityOpinionResource":{"type":"object","properties":{"id":{"type":"integer"},"rating":{"type":"integer"},"content":{"type":"string"},"updated_at":{"type":["string","null"],"format":"date-time"},"user":{"$ref":"#\/components\/schemas\/User"}},"required":["id","rating","content","updated_at","user"],"title":"CityOpinionResource"},"CityProvider":{"type":"object","properties":{"id":{"type":"integer"},"provider_name":{"type":"string"},"city_id":{"type":"integer"},"created_by":{"type":["string","null"]},"created_at":{"type":["string","null"],"format":"date-time"},"updated_at":{"type":["string","null"],"format":"date-time"},"service_id":{"type":["integer","null"]}},"required":["id","provider_name","city_id","created_by","created_at","updated_at","service_id"],"title":"CityProvider"},"CityResource":{"type":"object","properties":{"id":{"type":"integer"},"name":{"type":"string"},"slug":{"type":"string"},"latitude":{"type":["string","null"]},"longitude":{"type":["string","null"]},"city_alternative_names":{"type":"array","items":{"$ref":"#\/components\/schemas\/CityAlternativeName"}},"cityProviders":{"type":"array","items":{"$ref":"#\/components\/schemas\/CityProvider"}},"country":{"$ref":"#\/components\/schemas\/Country"},"cityOpinions":{"type":"array","items":{"$ref":"#\/components\/schemas\/CityOpinion"}}},"required":["id","name","slug","latitude","longitude","city_alternative_names","cityProviders","country","cityOpinions"],"title":"CityResource"},"CityWithoutAssignedCoordinatesResource":{"type":"object","properties":{"id":{"type":"string"},"city_name":{"type":"string"},"country_name":{"type":"string"},"latitude":{"type":"string"},"longitude":{"type":"string"}},"required":["id","city_name","country_name","latitude","longitude"],"title":"CityWithoutAssignedCoordinatesResource"},"CityWithoutAssignedCountryResource":{"type":"object","properties":{"id":{"type":"integer"},"city_name":{"type":"string"},"country_name":{"type":"string"}},"required":["id","city_name","country_name"],"title":"CityWithoutAssignedCountryResource"},"Country":{"type":"object","properties":{"id":{"type":"integer"},"name":{"type":"string"},"slug":{"type":"string"},"alternative_name":{"type":["string","null"]},"latitude":{"type":["string","null"]},"longitude":{"type":["string","null"]},"iso":{"type":"string"},"created_at":{"type":["string","null"],"format":"date-time"},"updated_at":{"type":["string","null"],"format":"date-time"}},"required":["id","name","slug","alternative_name","latitude","longitude","iso","created_at","updated_at"],"title":"Country"},"CountryResource":{"type":"object","properties":{"id":{"type":"integer"},"name":{"type":"string"},"slug":{"type":"string"},"alternative_name":{"type":["string","null"]},"latitude":{"type":["string","null"]},"longitude":{"type":["string","null"]},"iso":{"type":"string"}},"required":["id","name","slug","alternative_name","latitude","longitude","iso"],"title":"CountryResource"},"ImportInfoResource":{"type":"string","title":"ImportInfoResource"},"ProviderResource":{"type":"object","properties":{"name":{"type":"string"},"url":{"type":["string","null"]},"android_url":{"type":["string","null"]},"ios_url":{"type":["string","null"]},"color":{"type":"string"}},"required":["name","url","android_url","ios_url","color"],"title":"ProviderResource"},"User":{"type":"object","properties":{"id":{"type":"integer"},"name":{"type":"string"},"email":{"type":"string"},"email_verified_at":{"type":["string","null"],"format":"date-time"},"created_at":{"type":["string","null"],"format":"date-time"},"updated_at":{"type":["string","null"],"format":"date-time"}},"required":["id","name","email","email_verified_at","created_at","updated_at"],"title":"User"}},"responses":{"ValidationException":{"description":"Validation error","content":{"application\/json":{"schema":{"type":"object","properties":{"message":{"type":"string","description":"Errors overview."},"errors":{"type":"object","description":"A detailed description of each field that failed validation.","additionalProperties":{"type":"array","items":{"type":"string"}}}},"required":["message","errors"]}}}},"AuthorizationException":{"description":"Authorization error","content":{"application\/json":{"schema":{"type":"object","properties":{"message":{"type":"string","description":"Error overview."}},"required":["message"]}}}},"ModelNotFoundException":{"description":"Not found","content":{"application\/json":{"schema":{"type":"object","properties":{"message":{"type":"string","description":"Error overview."}},"required":["message"]}}}}}}}
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "Escooters",
+        "version": "0.0.1"
+    },
+    "servers": [
+        {
+            "url": "http:\/\/escooters.blumilk.localhost\/api"
+        }
+    ],
+    "paths": {
+        "\/register": {
+            "post": {
+                "operationId": "register",
+                "tags": [
+                    "Auth"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/login": {
+            "post": {
+                "operationId": "login",
+                "tags": [
+                    "Auth"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "email",
+                                    "password"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "properties": {
+                                                "abilities": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "userId": {
+                                                    "type": "string"
+                                                },
+                                                "access_token": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "abilities",
+                                                "userId",
+                                                "access_token"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/login\/{provider}": {
+            "get": {
+                "operationId": "login.provider",
+                "tags": [
+                    "Auth"
+                ],
+                "parameters": [
+                    {
+                        "name": "provider",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "redirect_url": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "redirect_url"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "\/login\/{provider}\/redirect": {
+            "get": {
+                "operationId": "login.provider.redirect",
+                "tags": [
+                    "Auth"
+                ],
+                "parameters": [
+                    {
+                        "name": "provider",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "properties": {
+                                                "access_token": {
+                                                    "type": "string"
+                                                },
+                                                "userId": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "access_token",
+                                                "userId"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "\/logout": {
+            "post": {
+                "operationId": "logout",
+                "tags": [
+                    "Auth"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "\/language\/{locale}": {
+            "post": {
+                "operationId": "changeLocale",
+                "tags": [
+                    "ChangeLocale"
+                ],
+                "parameters": [
+                    {
+                        "name": "locale",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "properties": {
+                                                "message": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "message"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "\/admin\/cities": {
+            "get": {
+                "operationId": "cities.index",
+                "tags": [
+                    "City"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cities": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#\/components\/schemas\/CityResource"
+                                            }
+                                        },
+                                        "providers": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#\/components\/schemas\/ProviderResource"
+                                            }
+                                        },
+                                        "countries": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#\/components\/schemas\/CountryResource"
+                                            }
+                                        },
+                                        "citiesWithoutAssignedCountry": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#\/components\/schemas\/CityWithoutAssignedCountryResource"
+                                            }
+                                        },
+                                        "citiesWithoutAssignedCountryCount": {
+                                            "type": "string"
+                                        },
+                                        "citiesWithoutAssignedCoordinates": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#\/components\/schemas\/CityWithoutAssignedCoordinatesResource"
+                                            }
+                                        },
+                                        "citiesWithoutAssignedCoordinatesCount": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "cities",
+                                        "providers",
+                                        "countries",
+                                        "citiesWithoutAssignedCountry",
+                                        "citiesWithoutAssignedCountryCount",
+                                        "citiesWithoutAssignedCoordinates",
+                                        "citiesWithoutAssignedCoordinatesCount"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "operationId": "cities.store",
+                "tags": [
+                    "City"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "latitude": {
+                                        "type": "number"
+                                    },
+                                    "longitude": {
+                                        "type": "number"
+                                    },
+                                    "country_id": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "latitude",
+                                    "longitude"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/admin\/cities\/create": {
+            "get": {
+                "operationId": "cities.create",
+                "tags": [
+                    "City"
+                ]
+            }
+        },
+        "\/admin\/cities\/{city}": {
+            "get": {
+                "operationId": "cities.show",
+                "tags": [
+                    "City"
+                ],
+                "parameters": [
+                    {
+                        "name": "city",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            },
+            "put": {
+                "operationId": "cities.update",
+                "tags": [
+                    "City"
+                ],
+                "parameters": [
+                    {
+                        "name": "city",
+                        "in": "path",
+                        "required": true,
+                        "description": "The city ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "latitude": {
+                                        "type": "number"
+                                    },
+                                    "longitude": {
+                                        "type": "number"
+                                    },
+                                    "country_id": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "latitude",
+                                    "longitude"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "cities.destroy",
+                "tags": [
+                    "City"
+                ],
+                "parameters": [
+                    {
+                        "name": "city",
+                        "in": "path",
+                        "required": true,
+                        "description": "The city ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    }
+                }
+            }
+        },
+        "\/admin\/cities\/{city}\/edit": {
+            "get": {
+                "operationId": "cities.edit",
+                "tags": [
+                    "City"
+                ],
+                "parameters": [
+                    {
+                        "name": "city",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
+        "\/city-alternative-name": {
+            "get": {
+                "operationId": "city-alternative-name.index",
+                "tags": [
+                    "CityAlternativeName"
+                ]
+            },
+            "post": {
+                "operationId": "city-alternative-name.store",
+                "tags": [
+                    "CityAlternativeName"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "city_id": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "required": [
+                                    "name"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/city-alternative-name\/create": {
+            "get": {
+                "operationId": "city-alternative-name.create",
+                "tags": [
+                    "CityAlternativeName"
+                ]
+            }
+        },
+        "\/city-alternative-name\/{city_alternative_name}": {
+            "get": {
+                "operationId": "city-alternative-name.show",
+                "tags": [
+                    "CityAlternativeName"
+                ],
+                "parameters": [
+                    {
+                        "name": "city_alternative_name",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            },
+            "put": {
+                "operationId": "city-alternative-name.update",
+                "tags": [
+                    "CityAlternativeName"
+                ],
+                "parameters": [
+                    {
+                        "name": "city_alternative_name",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "\/city-alternative-name\/{city_alternative_name}\/edit": {
+            "get": {
+                "operationId": "city-alternative-name.edit",
+                "tags": [
+                    "CityAlternativeName"
+                ],
+                "parameters": [
+                    {
+                        "name": "city_alternative_name",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
+        "\/city-alternative-name\/{cityAlternativeName}": {
+            "delete": {
+                "operationId": "city-alternative-name.destroy",
+                "tags": [
+                    "CityAlternativeName"
+                ],
+                "parameters": [
+                    {
+                        "name": "cityAlternativeName",
+                        "in": "path",
+                        "required": true,
+                        "description": "The city alternative name ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    }
+                }
+            }
+        },
+        "\/opinions": {
+            "post": {
+                "operationId": "cityOpinion.store",
+                "tags": [
+                    "CityOpinion"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "rating": {
+                                        "type": "number",
+                                        "minimum": 1,
+                                        "maximum": 5
+                                    },
+                                    "content": {
+                                        "type": "string"
+                                    },
+                                    "city_id": {
+                                        "type": "number"
+                                    }
+                                },
+                                "required": [
+                                    "rating",
+                                    "content",
+                                    "city_id"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/opinions\/{cityOpinion}": {
+            "patch": {
+                "operationId": "cityOpinion.update",
+                "tags": [
+                    "CityOpinion"
+                ],
+                "parameters": [
+                    {
+                        "name": "cityOpinion",
+                        "in": "path",
+                        "required": true,
+                        "description": "The city opinion ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "rating": {
+                                        "type": "number",
+                                        "minimum": 1,
+                                        "maximum": 5
+                                    },
+                                    "content": {
+                                        "type": "string"
+                                    },
+                                    "city_id": {
+                                        "type": "number"
+                                    }
+                                },
+                                "required": [
+                                    "rating",
+                                    "content",
+                                    "city_id"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "cityOpinion.destroy",
+                "tags": [
+                    "CityOpinion"
+                ],
+                "parameters": [
+                    {
+                        "name": "cityOpinion",
+                        "in": "path",
+                        "required": true,
+                        "description": "The city opinion ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/{country}\/{city}": {
+            "get": {
+                "operationId": "cityPage.index",
+                "tags": [
+                    "CityPage"
+                ],
+                "parameters": [
+                    {
+                        "name": "country",
+                        "in": "path",
+                        "required": true,
+                        "description": "The country slug",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "city",
+                        "in": "path",
+                        "required": true,
+                        "description": "The city slug",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "city": {
+                                            "$ref": "#\/components\/schemas\/CityResource"
+                                        },
+                                        "providers": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#\/components\/schemas\/ProviderResource"
+                                            }
+                                        },
+                                        "cityOpinions": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#\/components\/schemas\/CityOpinionResource"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "city",
+                                        "providers",
+                                        "cityOpinions"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    }
+                }
+            }
+        },
+        "\/providers": {
+            "get": {
+                "operationId": "cityProvider.index",
+                "tags": [
+                    "CityProvider"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cities": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#\/components\/schemas\/CityResource"
+                                            }
+                                        },
+                                        "providers": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#\/components\/schemas\/ProviderResource"
+                                            }
+                                        },
+                                        "countries": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#\/components\/schemas\/CountryResource"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "cities",
+                                        "providers",
+                                        "countries"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "\/update-city-providers\/{city}": {
+            "patch": {
+                "operationId": "cityProvider.update",
+                "tags": [
+                    "CityProvider"
+                ],
+                "parameters": [
+                    {
+                        "name": "city",
+                        "in": "path",
+                        "required": true,
+                        "description": "The city ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "providerNames": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "anyOf": [
+                                        {
+                                            "type": "object",
+                                            "properties": {
+                                                "message": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "message"
+                                            ]
+                                        },
+                                        {
+                                            "type": "string"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/run-importers": {
+            "post": {
+                "operationId": "cityProvider.runImporters",
+                "tags": [
+                    "CityProvider"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "\/delete-city-without-assigned-country\/{city}": {
+            "delete": {
+                "operationId": "cityWithoutAssignedCountry.destroy",
+                "tags": [
+                    "CityWithoutAssignedCountry"
+                ],
+                "parameters": [
+                    {
+                        "name": "city",
+                        "in": "path",
+                        "required": true,
+                        "description": "The city ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    }
+                }
+            }
+        },
+        "\/delete-all-cities-without-assigned-country": {
+            "post": {
+                "operationId": "cityWithoutAssignedCountry.destroyAll",
+                "tags": [
+                    "CityWithoutAssignedCountry"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "\/admin\/countries": {
+            "get": {
+                "operationId": "countries.index",
+                "tags": [
+                    "Country"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "countries": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#\/components\/schemas\/CountryResource"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "countries"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "operationId": "countries.store",
+                "tags": [
+                    "Country"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "alternative_name": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ]
+                                    },
+                                    "latitude": {
+                                        "type": "number"
+                                    },
+                                    "longitude": {
+                                        "type": "number"
+                                    },
+                                    "iso": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "latitude",
+                                    "longitude",
+                                    "iso"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/admin\/countries\/create": {
+            "get": {
+                "operationId": "countries.create",
+                "tags": [
+                    "Country"
+                ]
+            }
+        },
+        "\/admin\/countries\/{country}": {
+            "get": {
+                "operationId": "countries.show",
+                "tags": [
+                    "Country"
+                ],
+                "parameters": [
+                    {
+                        "name": "country",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            },
+            "put": {
+                "operationId": "countries.update",
+                "tags": [
+                    "Country"
+                ],
+                "parameters": [
+                    {
+                        "name": "country",
+                        "in": "path",
+                        "required": true,
+                        "description": "The country ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "alternative_name": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ]
+                                    },
+                                    "latitude": {
+                                        "type": "number"
+                                    },
+                                    "longitude": {
+                                        "type": "number"
+                                    },
+                                    "iso": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "latitude",
+                                    "longitude",
+                                    "iso"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "countries.destroy",
+                "tags": [
+                    "Country"
+                ],
+                "parameters": [
+                    {
+                        "name": "country",
+                        "in": "path",
+                        "required": true,
+                        "description": "The country ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    }
+                }
+            }
+        },
+        "\/admin\/countries\/{country}\/edit": {
+            "get": {
+                "operationId": "countries.edit",
+                "tags": [
+                    "Country"
+                ],
+                "parameters": [
+                    {
+                        "name": "country",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
+        "\/admin\/dashboard": {
+            "get": {
+                "operationId": "dashboard.index",
+                "tags": [
+                    "Dashboard"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "usersCount": {
+                                            "type": "string"
+                                        },
+                                        "citiesWithProvidersCount": {
+                                            "type": "string"
+                                        },
+                                        "countriesWithCitiesWithProvidersCount": {
+                                            "type": "string"
+                                        },
+                                        "providersCount": {
+                                            "type": "string"
+                                        },
+                                        "providerCitiesCount": {
+                                            "type": "string"
+                                        },
+                                        "providers": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#\/components\/schemas\/ProviderResource"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "usersCount",
+                                        "citiesWithProvidersCount",
+                                        "countriesWithCitiesWithProvidersCount",
+                                        "providersCount",
+                                        "providerCitiesCount",
+                                        "providers"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "operationId": "dashboard.store",
+                "tags": [
+                    "Dashboard"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "\/admin\/dashboard\/create": {
+            "get": {
+                "operationId": "dashboard.create",
+                "tags": [
+                    "Dashboard"
+                ]
+            }
+        },
+        "\/admin\/dashboard\/{dashboard}": {
+            "get": {
+                "operationId": "dashboard.show",
+                "tags": [
+                    "Dashboard"
+                ],
+                "parameters": [
+                    {
+                        "name": "dashboard",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            },
+            "put": {
+                "operationId": "dashboard.update",
+                "tags": [
+                    "Dashboard"
+                ],
+                "parameters": [
+                    {
+                        "name": "dashboard",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "dashboard.destroy",
+                "tags": [
+                    "Dashboard"
+                ],
+                "parameters": [
+                    {
+                        "name": "dashboard",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "\/admin\/dashboard\/{dashboard}\/edit": {
+            "get": {
+                "operationId": "dashboard.edit",
+                "tags": [
+                    "Dashboard"
+                ],
+                "parameters": [
+                    {
+                        "name": "dashboard",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
+        "\/favorites": {
+            "post": {
+                "operationId": "favorites.store",
+                "tags": [
+                    "Favorites"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "anyOf": [
+                                        {
+                                            "type": "object",
+                                            "properties": {
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "City removed from favorites."
+                                                }
+                                            },
+                                            "required": [
+                                                "message"
+                                            ]
+                                        },
+                                        {
+                                            "type": "object",
+                                            "properties": {
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "City added to favorites."
+                                                }
+                                            },
+                                            "required": [
+                                                "message"
+                                            ]
+                                        },
+                                        {
+                                            "type": "string"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "\/favorites\/{cityId}": {
+            "get": {
+                "operationId": "favorites.check",
+                "tags": [
+                    "Favorites"
+                ],
+                "parameters": [
+                    {
+                        "name": "cityId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "boolean"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "\/favorite-cities": {
+            "get": {
+                "operationId": "favorites.index",
+                "tags": [
+                    "Favorites"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cities": {
+                                            "type": "string"
+                                        },
+                                        "providers": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#\/components\/schemas\/ProviderResource"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "cities",
+                                        "providers"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "\/admin\/importers": {
+            "get": {
+                "operationId": "importInfo.index",
+                "tags": [
+                    "ImportInfo"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "importInfo": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#\/components\/schemas\/ImportInfoResource"
+                                            }
+                                        },
+                                        "codes": {
+                                            "type": "string"
+                                        },
+                                        "providers": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "importInfo",
+                                        "codes",
+                                        "providers"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "\/admin\/providers": {
+            "get": {
+                "operationId": "providers.index",
+                "tags": [
+                    "Provider"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "providers": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#\/components\/schemas\/ProviderResource"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "providers"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "operationId": "providers.store",
+                "tags": [
+                    "Provider"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "color": {
+                                        "type": "string"
+                                    },
+                                    "url": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ]
+                                    },
+                                    "android_url": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ]
+                                    },
+                                    "ios_url": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ]
+                                    },
+                                    "file": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "color",
+                                    "file"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/admin\/providers\/create": {
+            "get": {
+                "operationId": "providers.create",
+                "tags": [
+                    "Provider"
+                ]
+            }
+        },
+        "\/admin\/providers\/{provider}": {
+            "get": {
+                "operationId": "providers.show",
+                "tags": [
+                    "Provider"
+                ],
+                "parameters": [
+                    {
+                        "name": "provider",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            },
+            "put": {
+                "operationId": "providers.update",
+                "tags": [
+                    "Provider"
+                ],
+                "parameters": [
+                    {
+                        "name": "provider",
+                        "in": "path",
+                        "required": true,
+                        "description": "The provider name",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "color": {
+                                        "type": "string"
+                                    },
+                                    "url": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ]
+                                    },
+                                    "android_url": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ]
+                                    },
+                                    "ios_url": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ]
+                                    },
+                                    "file": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "color",
+                                    "file"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "providers.destroy",
+                "tags": [
+                    "Provider"
+                ],
+                "parameters": [
+                    {
+                        "name": "provider",
+                        "in": "path",
+                        "required": true,
+                        "description": "The provider name",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    }
+                }
+            }
+        },
+        "\/admin\/providers\/{provider}\/edit": {
+            "get": {
+                "operationId": "providers.edit",
+                "tags": [
+                    "Provider"
+                ],
+                "parameters": [
+                    {
+                        "name": "provider",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
+        "\/images\/providers\/{filename}": {
+            "get": {
+                "operationId": "provider.showLogo",
+                "tags": [
+                    "Provider"
+                ],
+                "parameters": [
+                    {
+                        "name": "filename",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "image": {
+                                            "type": "string"
+                                        },
+                                        "mime_type": {
+                                            "type": "string",
+                                            "example": "image\/png"
+                                        }
+                                    },
+                                    "required": [
+                                        "image",
+                                        "mime_type"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "\/import-rules": {
+            "post": {
+                "operationId": "rules.importRules",
+                "tags": [
+                    "Rules"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Rules import started"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "\/rules\/{country}\/{city}": {
+            "get": {
+                "operationId": "rules.getRules",
+                "tags": [
+                    "Rules"
+                ],
+                "parameters": [
+                    {
+                        "name": "country",
+                        "in": "path",
+                        "required": true,
+                        "description": "The country slug",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "city",
+                        "in": "path",
+                        "required": true,
+                        "description": "The city slug",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "country": {
+                                            "type": "string"
+                                        },
+                                        "city": {
+                                            "type": "string"
+                                        },
+                                        "rules_en": {
+                                            "type": "string"
+                                        },
+                                        "rules_pl": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "country",
+                                        "city",
+                                        "rules_en",
+                                        "rules_pl"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "CityAlternativeName": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "city_id": {
+                        "type": "integer"
+                    },
+                    "created_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "id",
+                    "name",
+                    "city_id",
+                    "created_at",
+                    "updated_at"
+                ],
+                "title": "CityAlternativeName"
+            },
+            "CityOpinion": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "content": {
+                        "type": "string"
+                    },
+                    "rating": {
+                        "type": "integer"
+                    },
+                    "city_id": {
+                        "type": "integer"
+                    },
+                    "user_id": {
+                        "type": "integer"
+                    },
+                    "created_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "id",
+                    "content",
+                    "rating",
+                    "city_id",
+                    "user_id",
+                    "created_at",
+                    "updated_at"
+                ],
+                "title": "CityOpinion"
+            },
+            "CityOpinionResource": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "rating": {
+                        "type": "integer"
+                    },
+                    "content": {
+                        "type": "string"
+                    },
+                    "updated_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "user": {
+                        "$ref": "#\/components\/schemas\/User"
+                    }
+                },
+                "required": [
+                    "id",
+                    "rating",
+                    "content",
+                    "updated_at",
+                    "user"
+                ],
+                "title": "CityOpinionResource"
+            },
+            "CityProvider": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "provider_name": {
+                        "type": "string"
+                    },
+                    "city_id": {
+                        "type": "integer"
+                    },
+                    "created_by": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "created_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "service_id": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ]
+                    }
+                },
+                "required": [
+                    "id",
+                    "provider_name",
+                    "city_id",
+                    "created_by",
+                    "created_at",
+                    "updated_at",
+                    "service_id"
+                ],
+                "title": "CityProvider"
+            },
+            "CityResource": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "latitude": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "longitude": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "city_alternative_names": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#\/components\/schemas\/CityAlternativeName"
+                        }
+                    },
+                    "cityProviders": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#\/components\/schemas\/CityProvider"
+                        }
+                    },
+                    "country": {
+                        "$ref": "#\/components\/schemas\/Country"
+                    },
+                    "cityOpinions": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#\/components\/schemas\/CityOpinion"
+                        }
+                    }
+                },
+                "required": [
+                    "id",
+                    "name",
+                    "slug",
+                    "latitude",
+                    "longitude",
+                    "city_alternative_names",
+                    "cityProviders",
+                    "country",
+                    "cityOpinions"
+                ],
+                "title": "CityResource"
+            },
+            "CityWithoutAssignedCoordinatesResource": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "city_name": {
+                        "type": "string"
+                    },
+                    "country_name": {
+                        "type": "string"
+                    },
+                    "latitude": {
+                        "type": "string"
+                    },
+                    "longitude": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "id",
+                    "city_name",
+                    "country_name",
+                    "latitude",
+                    "longitude"
+                ],
+                "title": "CityWithoutAssignedCoordinatesResource"
+            },
+            "CityWithoutAssignedCountryResource": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "city_name": {
+                        "type": "string"
+                    },
+                    "country_name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "id",
+                    "city_name",
+                    "country_name"
+                ],
+                "title": "CityWithoutAssignedCountryResource"
+            },
+            "Country": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "alternative_name": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "latitude": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "longitude": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "iso": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "id",
+                    "name",
+                    "slug",
+                    "alternative_name",
+                    "latitude",
+                    "longitude",
+                    "iso",
+                    "created_at",
+                    "updated_at"
+                ],
+                "title": "Country"
+            },
+            "CountryResource": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "alternative_name": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "latitude": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "longitude": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "iso": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "id",
+                    "name",
+                    "slug",
+                    "alternative_name",
+                    "latitude",
+                    "longitude",
+                    "iso"
+                ],
+                "title": "CountryResource"
+            },
+            "ImportInfoResource": {
+                "type": "string",
+                "title": "ImportInfoResource"
+            },
+            "ProviderResource": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "android_url": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "ios_url": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "color": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "name",
+                    "url",
+                    "android_url",
+                    "ios_url",
+                    "color"
+                ],
+                "title": "ProviderResource"
+            },
+            "User": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "email_verified_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "created_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "id",
+                    "name",
+                    "email",
+                    "email_verified_at",
+                    "created_at",
+                    "updated_at"
+                ],
+                "title": "User"
+            }
+        },
+        "responses": {
+            "ValidationException": {
+                "description": "Validation error",
+                "content": {
+                    "application\/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "description": "Errors overview."
+                                },
+                                "errors": {
+                                    "type": "object",
+                                    "description": "A detailed description of each field that failed validation.",
+                                    "additionalProperties": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "required": [
+                                "message",
+                                "errors"
+                            ]
+                        }
+                    }
+                }
+            },
+            "AuthorizationException": {
+                "description": "Authorization error",
+                "content": {
+                    "application\/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "description": "Error overview."
+                                }
+                            },
+                            "required": [
+                                "message"
+                            ]
+                        }
+                    }
+                }
+            },
+            "ModelNotFoundException": {
+                "description": "Not found",
+                "content": {
+                    "application\/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "description": "Error overview."
+                                }
+                            },
+                            "required": [
+                                "message"
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

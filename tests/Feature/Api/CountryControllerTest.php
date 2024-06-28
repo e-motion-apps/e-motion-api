@@ -7,6 +7,7 @@ namespace Tests\Feature\Api;
 use App\Models\Country;
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
@@ -71,9 +72,7 @@ class CountryControllerTest extends TestCase
             ->assertJsonValidationErrors(["name", "iso"]);
     }
 
-    /**
-     * @dataProvider invalidCountryDataProvider
-     */
+    #[DataProvider("invalidCountryDataProvider")]
     public function testCountryCannotBeCreatedWithInvalidData(array $data, array $expectedErrors): void
     {
         $response = $this->postJson("/api/admin/countries", $data);
@@ -81,9 +80,7 @@ class CountryControllerTest extends TestCase
             ->assertJsonValidationErrors($expectedErrors);
     }
 
-    /**
-     * @dataProvider invalidCountryDataProvider
-     */
+    #[DataProvider("invalidCountryDataProvider")]
     public function testCountryCannotBeUpdatedWithInvalidData(array $data, array $expectedErrors): void
     {
         $country = Country::factory()->create();

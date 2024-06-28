@@ -6,9 +6,6 @@ namespace App\Helpers;
 
 class I18n
 {
-    /**
-     * @throws JsonException
-     */
     public static function getTranslations(string $file): array
     {
         if (!file_exists($file)) {

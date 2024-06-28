@@ -28,9 +28,6 @@ class BirdDataImporter extends DataImporter
         return $this;
     }
 
-    /**
-     * @throws MapboxGeocodingServiceException
-     */
     public function transform(): void
     {
         if ($this->stopExecution) {

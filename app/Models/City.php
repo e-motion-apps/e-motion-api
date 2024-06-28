@@ -12,13 +12,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
-/**
- * @property int $id
- * @property string $name
- * @property string $latitude
- * @property string $longitude
- * @property int $country_id
- */
 class City extends Model
 {
     use HasFactory;

@@ -8,11 +8,6 @@ use App\QueryBuilders\SortQuery;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @property string $name
- * @property string $url
- * @property string $color
- */
 class Provider extends Model
 {
     public $incrementing = false;

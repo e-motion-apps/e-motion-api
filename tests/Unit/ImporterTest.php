@@ -70,9 +70,6 @@ class ImporterTest extends TestCase
         $this->assertFalse($result->hasStoppedExecution());
     }
 
-    /**
-     * @throws Exception
-     */
     public function testExtractWithFailedResponse(): void
     {
         $mockHandler = new MockHandler([

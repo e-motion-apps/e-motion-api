@@ -40,6 +40,7 @@ services:
             - ./environment/dev/app/php-fpm.conf:/usr/local/etc/php-fpm.d/zzz-overrides.conf:ro
             - ./environment/dev/app/supervisord.conf:/etc/supervisor/custom-supervisord.conf:ro
             - .:/application
+            - /home/jakub/blt:/home/jakub/blt
         ports:
             - ${DOCKER_APP_HOST_PORT:-3851}:80
         networks:

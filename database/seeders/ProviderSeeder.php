@@ -69,7 +69,7 @@ class ProviderSeeder extends Seeder
             ["name" => VeoDataImporter::getProviderName(), "color" => "#000000", "url" => "https://www.veoride.com/", "android_url" => "https://play.google.com/store/apps/details?id=com.pgt.veoride", "ios_url" => "https://apps.apple.com/us/app/veoride/id1279820696"],
             ["name" => WindDataImporter::getProviderName(), "color" => "#fffa00", "url" => "https://www.wind.co/", "android_url" => "https://play.google.com/store/apps/details?id=com.zen.zbike&referrer=utm_source%3Dofficialweb%26utm_medium%3Dother%26utm_term%3Dglobal", "ios_url" => "https://apps.apple.com/cn/app/yango-wind-e-scooter-sharing/id1247826304?utm_source=officialweb&utm_medium=other&time=1703025387273&utm_term=global"],
             ["name" => WheeMoveDataImporter::getProviderName(), "color" => "#31682d", "url" => "https://www.wheemove.com/", "android_url" => "https://play.google.com/store/apps/details?id=com.whee.android", "ios_url" => "https://apps.apple.com/us/app/whee-e-scooter-sharing/id1465111214?l=es&ls=1"],
-            ["name" => "OpenAI", "color" => "#ffffff", "url" => "https://openai.com"],
+            ["name" => \OpenAI::class, "color" => "#ffffff", "url" => "https://openai.com"],
         ];
 
         foreach ($providers as $provider) {

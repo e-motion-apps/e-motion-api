@@ -11,14 +11,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
-/**
- * @property int $id
- * @property string $name
- * @property string $alternative_name
- * @property string $latitude
- * @property string $longitude
- * @property string $iso
- */
 class Country extends Model
 {
     use HasFactory;

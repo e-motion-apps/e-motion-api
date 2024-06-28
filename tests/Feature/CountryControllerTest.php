@@ -8,6 +8,7 @@ use App\Models\Country;
 use App\Models\User;
 use Generator;
 use Inertia\Testing\AssertableInertia as Assert;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
@@ -43,9 +44,9 @@ class CountryControllerTest extends TestCase
             "iso" => "pl",
         ];
 
-        $this->post(uri:"/admin/countries", data: $country);
+        $this->post(uri: "/admin/countries", data: $country);
 
-        $this->assertDatabaseHas(table:"countries", data: $country);
+        $this->assertDatabaseHas(table: "countries", data: $country);
     }
 
     public function testCountryCannotBeCreatedBecauseFieldsAlreadyExist(): void
@@ -64,29 +65,25 @@ class CountryControllerTest extends TestCase
             "iso" => $country["iso"],
         ])->toArray();
 
-        $this->post(uri:"/admin/countries", data: $country);
+        $this->post(uri: "/admin/countries", data: $country);
 
         $this->assertDatabaseMissing(table: "countries", data: $country);
     }
 
-    /**
-     * @dataProvider invalidCountryDataProvider
-     */
+    #[DataProvider("invalidCountryDataProvider")]
     public function testCountryCannotBeCreatedWithInvalidData(array $data, array $expectedErrors): void
     {
-        $response = $this->post(uri:"/admin/countries", data: $data);
+        $response = $this->post(uri: "/admin/countries", data: $data);
 
         $response->assertSessionHasErrors($expectedErrors);
     }
 
-    /**
-     * @dataProvider invalidCountryDataProvider
-     */
+    #[DataProvider("invalidCountryDataProvider")]
     public function testCountryCannotBeUpdatedWithInvalidData(array $data, array $expectedErrors): void
     {
         $country = Country::factory()->create();
 
-        $response = $this->patch(uri:"/admin/countries/{$country->id}", data: $data);
+        $response = $this->patch(uri: "/admin/countries/{$country->id}", data: $data);
 
         $response->assertSessionHasErrors($expectedErrors);
     }
@@ -155,9 +152,9 @@ class CountryControllerTest extends TestCase
 
         $country = Country::factory()->create();
 
-        $this->patch(uri:"/admin/countries/{$country->id}", data: $data);
+        $this->patch(uri: "/admin/countries/{$country->id}", data: $data);
 
-        $this->assertDatabaseHas(table:"countries", data: $data);
+        $this->assertDatabaseHas(table: "countries", data: $data);
     }
 
     public function testCountryCannotBeUpdatedBecauseIsoAlreadyExistInOtherCountry(): void

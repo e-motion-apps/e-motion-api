@@ -17,9 +17,6 @@ class MapboxGeocodingService
         protected Client $client,
     ) {}
 
-    /**
-     * @throws MapboxGeocodingServiceException
-     */
     public function getCoordinatesFromApi(string $cityName, string $countryName): array
     {
         $token = config("mapbox.token");
@@ -36,9 +33,6 @@ class MapboxGeocodingService
         return [$coordinates[1] ?? null, $coordinates[0] ?? null];
     }
 
-    /**
-     * @throws MapboxGeocodingServiceException
-     */
     public function getPlaceFromApi(string $lat, string $long): array
     {
         $token = config("mapbox.token");

@@ -8,6 +8,7 @@ use App\Models\City;
 use App\Models\Country;
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
@@ -69,9 +70,7 @@ class CityControllerTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
-    /**
-     * @dataProvider invalidCityDataProvider
-     */
+    #[DataProvider("invalidCityDataProvider")]
     public function testCityCannotBeCreatedWithInvalidData(array $data, array $expectedErrors): void
     {
         $response = $this->postJson("/api/admin/cities", $data);
@@ -79,9 +78,7 @@ class CityControllerTest extends TestCase
         $response->assertJsonValidationErrors($expectedErrors);
     }
 
-    /**
-     * @dataProvider invalidCityDataProvider
-     */
+    #[DataProvider("invalidCityDataProvider")]
     public function testCityCannotBeUpdatedWithInvalidData(array $data, array $expectedErrors): void
     {
         $city = City::factory()->create();

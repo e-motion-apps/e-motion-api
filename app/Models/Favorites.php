@@ -8,11 +8,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-/**
- * @property int $city_id
- * @property int $user_id
- */
-
 class Favorites extends Model
 {
     use HasFactory;

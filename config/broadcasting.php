@@ -19,8 +19,7 @@ return [
                 "encrypted" => true,
                 "useTLS" => env("PUSHER_SCHEME", "https") === "https",
             ],
-            "client_options" => [
-            ],
+            "client_options" => [],
         ],
 
         "ably" => [

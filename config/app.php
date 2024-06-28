@@ -2,8 +2,12 @@
 
 declare(strict_types=1);
 
+use App\Providers\AppServiceProvider;
+use App\Providers\EventServiceProvider;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
+use Intervention\Image\ImageServiceProvider;
 
 return [
     "name" => env("APP_NAME", "Laravel"),
@@ -38,14 +42,13 @@ return [
     ],
 
     "providers" => ServiceProvider::defaultProviders()->merge([
-        App\Providers\AppServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
-        Intervention\Image\ImageServiceProvider::class,
+        AppServiceProvider::class,
+        EventServiceProvider::class,
+        RouteServiceProvider::class,
+        ImageServiceProvider::class,
     ])->toArray(),
 
-    "aliases" => Facade::defaultAliases()->merge([
-    ])->toArray(),
+    "aliases" => Facade::defaultAliases()->merge([])->toArray(),
 
     "provider_logo_size" => 10 * 1024,
     "provider_logo_width" => 150,
