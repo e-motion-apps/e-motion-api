@@ -8,11 +8,3 @@ Feature: Translation
             | pl     | Ceny     |
             | fr     | Baguette |
             | de     | Bier     |
-
-    Scenario: endpoint translation
-        Given a user is requesting "/api/test-lang"
-        Then response should be translated as:
-            | locale | phrase   |
-            | pl     | Ceny     |
-            | fr     | Baguette |
-            | de     | Bier     |

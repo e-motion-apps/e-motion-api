@@ -1,8 +1,8 @@
 Feature: notifications
 
     Background:
-        Given "Database\Seeders\RoleSeeder" seeder has been ran
-        Given "Database\Seeders\AdminSeeder" seeder has been ran
+        Given "Database\Seeders\RoleSeeder" seeder has been run
+        Given "Database\Seeders\AdminSeeder" seeder has been run
 
     Scenario:
         Given notifications are being faked
@@ -18,8 +18,8 @@ Feature: notifications
         Then a request is sent
         Then "TestNotification" notification was sent to user with "admin@example.com" value in "email" field
 
-        Scenario: assert not sent
+    Scenario: assert not sent
 
-            Given notifications are being faked
-            Then not one notification was sent
-            Then TestNotification was not sent to User with "admin@example.com" value in "email" field
+        Given notifications are being faked
+        Then not one notification was sent
+        Then TestNotification was not sent to User with "admin@example.com" value in "email" field

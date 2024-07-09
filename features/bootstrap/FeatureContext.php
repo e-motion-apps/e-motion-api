@@ -1,19 +1,23 @@
 <?php
 
 use Behat\Behat\Context\Context;
-use Behat\Gherkin\Node\PyStringNode;
-use Behat\Gherkin\Node\TableNode;
+use Blumilk\BLT\Bootstrapping\LaravelBootstrapper;
+use Blumilk\BLT\Features\Hooks\RefreshDatabaseBeforeScenario;
 use Blumilk\BLT\Features\Toolbox;
-
+use Blumilk\BLT\Features\Traits\Eloquent;
+use Blumilk\BLT\Features\Traits\Http;
+use Blumilk\BLT\Features\Traits\Optional\SpatiePermission;
 
 /**
  * Defines application features from the specific context.
  */
 class FeatureContext extends Toolbox implements Context
 {
-    use \Blumilk\BLT\Features\Traits\Optional\SpatiePermission;
-    use \Blumilk\BLT\Features\Hooks\RefreshDatabaseBeforeScenario;
-    use \Blumilk\BLT\Features\Traits\CodeBlocs;
+    use SpatiePermission;
+    use RefreshDatabaseBeforeScenario;
+
+use Http;
+use Eloquent;
 
     /**
      * Initializes context.
@@ -24,7 +28,7 @@ class FeatureContext extends Toolbox implements Context
      */
     public function __construct()
     {
-        $bootstrapper = new \Blumilk\BLT\Bootstrapping\LaravelBootstrapper();
+        $bootstrapper = new LaravelBootstrapper();
         $bootstrapper->boot();
     }
 }

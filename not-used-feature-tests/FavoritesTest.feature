@@ -2,11 +2,19 @@ Feature: Favorites
 
     Background: user is admin
         Given user is in session as admin
-        Given there is a model City in the database
+#        Given there is a User in the database:
+#            | name     | admin                    |
+#            | email    | userWithRole@example.com |
+#            | password | password                 |
+        Given user is authenticated in session as admin in name field
+#        Given there is "Spatie\Permission\Middleware\PermissionMiddleware" middleware disabled
+#        Given there is "Spatie\Permission\Middleware\RoleMiddleware" middleware disabled
+
+        Given there is a model City in the database:
             | name | TestCity |
             | id   | 123232   |
 #        TODO: add class recognition vvv
-        Given "Database\Seeders\ProviderSeeder" seeder has been ran
+        Given "Database\Seeders\ProviderSeeder" seeder has been run
 
     Scenario: City can be added to favourites
 
@@ -30,7 +38,7 @@ Feature: Favorites
 
         Given a user is requesting "/update-city-providers/123232" using PATCH method
         Given request body contains:
-            | key           | value    |
+            | key           | value        |
             | providerNames | [Baqme,Beam] |
         When a request is sent
         Given NoParamsNotification notification is sent to user with "userWithRole@example.com" value in "email" field

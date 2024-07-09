@@ -3,7 +3,7 @@ Feature: Signup test
     Scenario: User can signup with proper credentials
         Given a user is requesting "/register" using POST method
         Given request body contains:
-            | key        | value   |
+            | key      | value            |
             | name     | user             |
             | email    | user@example.com |
             | password | password         |
@@ -14,7 +14,7 @@ Feature: Signup test
     Scenario: User cannot be created with invalid password
         Given a user is requesting "/register" using POST method
         Given request body contains:
-            | key        | value   |
+            | key      | value            |
             | name     | user             |
             | email    | user@example.com |
             | password | 123              |

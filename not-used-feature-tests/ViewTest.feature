@@ -17,3 +17,10 @@ Feature: Test views
             | title | Login |
             | name  | test  |
 
+    Scenario: experimental exception
+        Given a user is requesting "/test-view"
+        Then a request is sent
+        Then view response contains:
+            | key   | value |
+            | title | Login |
+            | name  | test  |

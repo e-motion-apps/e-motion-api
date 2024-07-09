@@ -1,7 +1,7 @@
 Feature: Login test
 
     Background:
-        Given there is a model User in the database
+        Given there is a model User in the database:
             | name     | user             |
             | email    | user@example.com |
             | password | password         |
@@ -34,3 +34,7 @@ Feature: Login test
         And a session flashes errors:
             | key        | message                       | index |
             | loginError | Invalid password or username. | 0     |
+
+        Given request form params contains:
+            | key  | value   |
+            | City | Legnica |

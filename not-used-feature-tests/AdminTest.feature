@@ -2,14 +2,16 @@ Feature: Test if admin is working as intended
 
     Background:
 
-        Given there is a "Role" in the database without factory
+        Given there is a "Role" in the database:
             | name | admin |
-        Given there is a model User in the database
+        Given there is a model User in the database:
             | name     | admin             |
             | email    | admin@example.com |
             | password | password          |
-        Given User with "admin@example.com" value in "email" field has "admin" role
-
+#        Given User with "admin@example.com" value in "email" field has "admin" role
+        Given there is "Spatie\Permission\Middleware\PermissionMiddleware" middleware disabled
+        Given there is "Spatie\Permission\Middleware\RoleMiddleware" middleware disabled
+        Given there is "App\Http\Middleware\Authenticate" middleware disabled
 
 
     Scenario: Test admin can login with valid credentials

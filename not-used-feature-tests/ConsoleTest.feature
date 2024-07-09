@@ -1,21 +1,21 @@
 Feature: console
 
     Scenario: console
-        Given I run artisan command "list"
-        Then console output should contain "blt"
+        Given a command list is ran
+        Then console output should contain "db"
         Then console exit code is 0
 
     Scenario: blt
-        Given I run artisan command "blt:init"
+        Given a command "blt:init" is ran in console
         Then console output should contain "configured"
 
     Scenario: with options:
-        Given I run artisan command "make:notification" with:
+        Given a command "make:notification" is ran with:
             | argument | NoParamsNotification |
             | option   | force                |
             | option   | force                |
 
-        Given I run artisan command "make:notification" with:
+        Given a command "make:notification" is ran with:
             | argument | NoParamsNotification |
             | option   | force                |
 
