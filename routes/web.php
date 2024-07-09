@@ -20,6 +20,8 @@ use App\Models\User;
 use App\Notifications\TestNotification;
 use Illuminate\Support\Facades\Route;
 
+$router = app("router");
+$router->has("login") ? $router->getRoutes()->getByName("login")->uri : null;
 Route::middleware("guest")->group(function (): void {
     Route::get("/test-notification", function (): void {
         $user = User::query()->where("email", "admin@example.com")->first();
